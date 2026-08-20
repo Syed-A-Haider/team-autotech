@@ -1,26 +1,24 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/*  Adding tokens - adjusting values = replace one value not same value many times */
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Change these hexadecimal values to change colours! */
+:root {
+  --background: #0d0e10;
+  --surface: #18191c;
+  --foreground: #f2f1ee;
+  --muted: #9a9994;
+  --border: #2b2c30;
+  --accent: #f5511d;
+  --accent-hover: #ff6b3d;
 }

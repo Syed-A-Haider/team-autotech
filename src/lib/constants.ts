@@ -1,3 +1,12 @@
+// siteConfig - single source of truth for site name/description, saves retyping.
+// as const: Treat as read-only, preserve exact values --> immutable + strongly typed configuration
+export const siteConfig = {
+  name: 'Team Autotech',
+  description:
+    'Vehicle remapping, ECU tuning, security immobilisers, GPS trackers and auto electrical installations in Nelson, Lancashire.',
+  url: 'https://teamautotech.co.uk',
+} as const;
+
 // Business Contact Details
 // Used in Navbar, Footer, ContactLinks
 
