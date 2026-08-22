@@ -1,11 +1,15 @@
 // Shared types for service data across website
 
+import { LucideIcon } from 'lucide-react';
+
 export interface Service {
   slug: string;
   title: string;
   category: Category;
   shortDescription: string; // Used on ServiceCard
-  body: string; // placeholder or real content
+  body: string; // Placeholder or real content
+  icon: LucideIcon;
+  featured?: boolean; // Highlights this service on cards
 }
 
 // Category can be one of these

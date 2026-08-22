@@ -9,8 +9,26 @@ Reason for choosing an Array of Services:
 
 */
 import type { Service } from '@/types/service';
+import {
+  Gauge,
+  Filter,
+  Eraser,
+  Cpu,
+  KeyRound,
+  KeySquare,
+  Key,
+  ShieldCheck,
+  ShieldAlert,
+  MapPin,
+  Volume2,
+  Camera,
+  Radar,
+  Video,
+  Lock,
+} from 'lucide-react';
 
 // Not exported - Encapsulation = access via functions instead.
+// Adding new service, copy the same structure, pick a unique slug, pick a category that's already existing, rest is up to you
 const services: Service[] = [
   // Remap / Tuning
   {
@@ -19,6 +37,8 @@ const services: Service[] = [
     category: 'Remap / Tuning',
     shortDescription: 'Performance remapping for increased power and torque',
     body: 'Placeholder content.',
+    icon: Gauge,
+    featured: true,
   },
   {
     slug: 'dpf-egr-solutions',
@@ -26,6 +46,7 @@ const services: Service[] = [
     category: 'Remap / Tuning',
     shortDescription: 'Diagnostics and solutions for DPF and EGR issues.',
     body: 'Placeholder content.',
+    icon: Filter,
   },
   {
     slug: 'engine-management-error-code-delete',
@@ -33,6 +54,7 @@ const services: Service[] = [
     category: 'Remap / Tuning',
     shortDescription: 'Clearing persistent engine management fault codes.',
     body: 'Placeholder content.',
+    icon: Eraser,
   },
   {
     slug: 'tuning-freaks-bootmod',
@@ -40,6 +62,7 @@ const services: Service[] = [
     category: 'Remap / Tuning',
     shortDescription: 'Bootmod3 tuning solutions.',
     body: 'Placeholder content.',
+    icon: Cpu,
   },
 
   // Programming
@@ -49,6 +72,7 @@ const services: Service[] = [
     category: 'Programming',
     shortDescription: 'Key programming and module coding for BMW vehicles.',
     body: 'Placeholder content.',
+    icon: KeyRound,
   },
   {
     slug: 'mercedes-programming',
@@ -57,6 +81,7 @@ const services: Service[] = [
     shortDescription:
       'Key programming and module coding for Mercedes vehicles.',
     body: 'Placeholder content.',
+    icon: KeySquare,
   },
   {
     slug: 'vag-programming',
@@ -65,6 +90,7 @@ const services: Service[] = [
     shortDescription:
       'Key programming and module coding for Audi, Seat, Skoda, and VW.',
     body: 'Placeholder content.',
+    icon: Key,
   },
 
   // Auto Security — Immobilisers
@@ -74,6 +100,8 @@ const services: Service[] = [
     category: 'Auto Security',
     shortDescription: 'CAN bus immobiliser with no external fob or LED.',
     body: 'Placeholder content — real copy to come from Ghost Immobiliser II page.',
+    icon: ShieldCheck,
+    featured: true,
   },
   {
     slug: 'scorpion-x-series-immobiliser',
@@ -81,6 +109,7 @@ const services: Service[] = [
     category: 'Auto Security',
     shortDescription: 'Thatcham-approved immobiliser system.',
     body: 'Placeholder content — real copy to come from Scorpion X Series page.',
+    icon: ShieldAlert,
   },
   {
     slug: 'spectre-immobiliser',
@@ -88,6 +117,7 @@ const services: Service[] = [
     category: 'Auto Security',
     shortDescription: 'Advanced vehicle immobiliser system.',
     body: 'Placeholder content.',
+    icon: Lock,
   },
 
   // Auto Security — GPS Trackers
@@ -97,6 +127,7 @@ const services: Service[] = [
     category: 'Auto Security',
     shortDescription: 'Insurance-approved GPS tracking systems.',
     body: 'Placeholder content.',
+    icon: MapPin,
   },
 
   // Auto Electrical Services
@@ -106,6 +137,7 @@ const services: Service[] = [
     category: 'Auto Electrical Services',
     shortDescription: 'Professional car audio system installation.',
     body: 'Placeholder content.',
+    icon: Volume2,
   },
   {
     slug: 'dashcam-installation',
@@ -113,6 +145,7 @@ const services: Service[] = [
     category: 'Auto Electrical Services',
     shortDescription: 'Front and rear dashcam supply and installation.',
     body: 'Placeholder content.',
+    icon: Camera,
   },
   {
     slug: 'parking-sensor-installation',
@@ -120,6 +153,7 @@ const services: Service[] = [
     category: 'Auto Electrical Services',
     shortDescription: 'Front and rear parking sensor installation.',
     body: 'Placeholder content.',
+    icon: Radar,
   },
   {
     slug: 'reverse-camera-installation',
@@ -127,6 +161,7 @@ const services: Service[] = [
     category: 'Auto Electrical Services',
     shortDescription: 'Reverse camera supply and installation.',
     body: 'Placeholder content.',
+    icon: Video,
   },
 ];
 
