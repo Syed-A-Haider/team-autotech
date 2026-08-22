@@ -1,19 +1,25 @@
+import PageHero from '@/components/ui/PageHero';
+import SectionWrapper from '@/components/ui/SectionWrapper';
+import LinkButton from '@/components/ui/LinkButton';
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6">
-      <h1 className="text-foreground text-4xl font-bold tracking-tight">
-        Team Autotech
-      </h1>
-      <p className="text-muted">Root layout token check — T0.2</p>
-      <div className="border-border bg-surface rounded-lg border px-6 py-4">
+    <>
+      <PageHero
+        title="Team Autotech"
+        subtitle="T1.2 verification — PageHero + SectionWrapper"
+      />
+
+      <SectionWrapper className="flex flex-col items-center gap-4 py-12 text-center">
         <p className="text-foreground">
-          This card uses <span className="text-accent">bg-surface</span> and{' '}
-          <span className="text-accent">border-border</span>
+          This text sits inside{' '}
+          <span className="text-accent">SectionWrapper</span>, lined up under
+          the hero title above.
         </p>
-      </div>
-      <button className="bg-accent hover:bg-accent-hover rounded-full px-5 py-2.5 font-medium text-white transition-colors">
-        Accent button
-      </button>
-    </div>
+        <LinkButton href="/" variant="primary">
+          LinkButton check
+        </LinkButton>
+      </SectionWrapper>
+    </>
   );
 }

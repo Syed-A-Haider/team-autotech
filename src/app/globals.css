@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 /*  Adding tokens - adjusting values = replace one value not same value many times */
+/* --color- is a placeholder for many things in theme like bg-surface or text-surface */
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
