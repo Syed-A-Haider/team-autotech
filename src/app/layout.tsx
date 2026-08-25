@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/lib/constants';
+import { Footer } from '@/components/layout/Footer';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
 
@@ -20,11 +21,12 @@ export default function RootLayout({
   return (
     // Set font to Inter for full page
     <html lang="en" className={inter.variable}>
-      <body className="bg-background text-foreground antialiased">
-        <main>{children}</main>
+      <body className="bg-background text-foreground flex min-h-screen flex-col antialiased">
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );
 }
 
-// TODO: Add Navbar, Footer
+// TODO: Add Navbar

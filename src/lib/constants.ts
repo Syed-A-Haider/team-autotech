@@ -13,14 +13,24 @@ export const siteConfig = {
 export const PHONE_LANDLINE = '01282 787576';
 export const PHONE_MOBILE = '07515 007688';
 export const EMAIL = 'teamautotech@outlook.com';
-export const ADDRESS = 'Unit 4E Wenning St, Nelson, Lancashire BB9 OLE';
+export const ADDRESS = 'Unit 4E Wenning St, Nelson, Lancashire BB9 0LE';
 
 export const WHATSAPP_NUMBER = '447515007688';
-export const WHATSAPP_LINK = `https://api.whatsapp.com/send?phone=447515007688&text=Hi,%20How%20can%20we%20help?`;
-export const TEL_LINK = `tel:+44${PHONE_MOBILE.replace(/^0/, '').replace(/\s/g, '')}`;
+export const WHATSAPP_LINK = `https://api.whatsapp.com/send?phone=447515007688&text=Hi%2C%20How%20can%20we%20help%3F`;
+export const TEL_MOBILE_LINK = `tel:+44${PHONE_MOBILE.replace(/^0/, '').replace(/\s/g, '')}`;
+export const TEL_LANDLINE_LINK = `tel:+44${PHONE_LANDLINE.replace(/^0/, '').replace(/\s/g, '')}`;
+
 export const MAILTO_LINK = `mailto:${EMAIL}`;
 
 export const OPENING_HOURS = {
   weekdays: 'Monday - Friday: 10:00AM - 5:30PM',
   weekend: 'Saturday - Sunday: Closed',
 };
+
+export const SOCIAL_LINKS = {
+  facebook: 'https://facebook.com/teamautotechuk',
+  instagram: 'https://instagram.com/teamautotech',
+  youtube: 'https://www.youtube.com/channel/UCokP_BpT-Yw5ANsHOAOUSnQ',
+} as const;
+
+export const GOOGLE_PROFILE_LINK = 'https://share.google/h5RwgH5kJAwaGiQWk';
