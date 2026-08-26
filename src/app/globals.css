@@ -11,6 +11,8 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --font-sans: var(--font-inter);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-hover: var(--whatsapp-hover);
 }
 
 /* Change these hexadecimal values to change colours! */
@@ -22,4 +24,6 @@
   --border: #2b2c30;
   --accent: #f5511d;
   --accent-hover: #ff6b3d;
+  --whatsapp: #25d366;
+  --whatsapp-hover: #1ebe5d;
 }

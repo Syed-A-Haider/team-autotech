@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/lib/constants';
 import { Footer } from '@/components/layout/Footer';
+import WhatsAppWidget from '@/components/layout/WhatsAppWidget';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="bg-background text-foreground flex min-h-screen flex-col antialiased">
         <main className="flex-1">{children}</main>
+        <WhatsAppWidget />
         <Footer />
       </body>
     </html>
