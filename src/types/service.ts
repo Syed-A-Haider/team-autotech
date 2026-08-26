@@ -19,3 +19,6 @@ export type Category =
   | 'Programming'
   | 'Auto Security'
   | 'Auto Electrical Services';
+
+// Dictionary between service categories and services
+export type ServiceCategories = Record<string, Service[]>;

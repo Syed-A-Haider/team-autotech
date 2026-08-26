@@ -8,7 +8,7 @@ Reason for choosing an Array of Services:
     4. For limited services - will be < 100, O(n) lookup is irrelevant, same practical result as a hash
 
 */
-import type { Service } from '@/types/service';
+import type { Service, ServiceCategories } from '@/types/service';
 import {
   Gauge,
   Filter,
@@ -175,7 +175,7 @@ export function getServiceBySlug(slug: string): Service | undefined {
   return services.find((service) => service.slug === slug);
 }
 
-export function groupServicesByCategory(): Record<string, Service[]> {
+export function groupServicesByCategory(): ServiceCategories {
   return services.reduce(
     // Groups = accumulator, service is the current item
     (groups, service) => {
