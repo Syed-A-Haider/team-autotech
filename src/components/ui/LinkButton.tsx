@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface LinkButtonProps {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
   external?: boolean; // Opens in new tab - like WhatsApp
@@ -39,22 +40,37 @@ export default function LinkButton({
   fullWidth = false,
   className,
 }: LinkButtonProps) {
-  return (
-    <Link
-      href={href}
-      // rel prevents new tab from accessing window.opener (security best practice)
-      {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+  // All CSS Classes
+  const classes = clsx(
+    'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+    'focus-visible:ring-accent focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+    buttonVariantStyles[variant],
+    buttonSizeStyles[size],
+    fullWidth && 'w-full',
+    className,
+  );
 
-      // Add styles based on their set values in dictionaries.
-      className={clsx(
-        'inline-flex items-center justify-center rounded-md font-medium transition-colors',
-        'focus-visible:ring-accent focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-        buttonVariantStyles[variant],
-        buttonSizeStyles[size],
-        fullWidth && 'w-full',
-        className,
-      )}
-    >
+  // Use hyperlinks to determine if protocol link
+  const isProtocolLink = /^(tel:|mailto:|https?:)/i.test(href);
+
+  if (isProtocolLink) {
+    return (
+      // rel prevents new tab from accessing window.opener (security best practice)
+      <a
+        href={href}
+        {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+        className={classes}
+      >
+        {children}
+
+        {/* If external - add open in new tab, else don't */}
+        {external && <span className="sr-only"> (opens in a new tab)</span>}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className={classes}>
       {children}
     </Link>
   );

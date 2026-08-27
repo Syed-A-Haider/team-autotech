@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import LinkButton from '../ui/LinkButton';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
+import clsx from 'clsx';
 
 // Smaller then 'Service' - Client Component so props passed from Server Component must be serializable
 // Service.icon = function reference - cannot cross boundary
@@ -24,7 +25,7 @@ interface MobileMenuProps {
 const topLevelLinkClasses =
   'border-border text-foreground border-b py-3 text-base font-medium';
 
-// Only client piece in layout - owns own toggel state + panel it controls.
+// Only client piece in layout - owns own toggle state + panel it controls.
 // Navbar (server component) cannot hold
 export default function MobileMenu({ categories }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,9 +80,10 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
         aria-hidden={!isOpen}
         // Prevents focus/pointer events when closed --> can't tab onto hidden links
         inert={!isOpen}
-        className={`bg-background fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto transition-transform duration-200 ease-in-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={clsx(
+          'bg-background fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto transition-transform duration-200 ease-in-out',
+          isOpen ? 'translate-x-0' : 'translate-x-full',
+        )}
       >
         <nav aria-label="Mobile" className="flex flex-col px-4 py-6">
           {/* Home Button */}

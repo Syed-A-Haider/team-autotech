@@ -31,7 +31,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
       <div className="flex items-start justify-between">
         <Icon aria-hidden="true" className="text-accent h-8 w-8" />
         {featured && (
-          <span className="bg-accent rounded-full px-3 py-1 text-xs font-medium text-white">
+          <span className="bg-accent text-foreground rounded-full px-3 py-1 text-xs font-medium">
             Popular
           </span>
         )}

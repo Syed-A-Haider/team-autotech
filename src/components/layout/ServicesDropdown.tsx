@@ -1,19 +1,27 @@
 import Link from 'next/link';
 import type { ServiceCategories } from '@/types/service';
+import clsx from 'clsx';
 
 interface ServicesDropdownProps {
   categories: ServiceCategories;
 }
 
 // Mega-menu panel for Navbar's Services
-// Visibility is CSS-only - group-hover/gorup-focus-within on parent in Navbar.tsx
+// Visibility is CSS-only - group-hover/group-focus-within on parent in Navbar.tsx
 // Positioned against the nav's content row (see 'relative' on Navbar.tsx), so it spans
 // the full logo-to-CTA width instead of centering under the Services button
 export default function ServicesDropdown({
   categories,
 }: ServicesDropdownProps) {
+  const dropdownPanelClasses = clsx(
+    'invisible absolute inset-x-4 top-full translate-y-2 opacity-0',
+    'group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100',
+    'group-hover:visible group-hover:translate-y-0 group-hover:opacity-100',
+    'motion-safe:transition motion-safe:duration-150',
+  );
+
   return (
-    <div className="invisible absolute inset-x-4 top-full translate-y-2 opacity-0 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 motion-safe:transition motion-safe:duration-150">
+    <div className={dropdownPanelClasses}>
       <div className="border-border bg-surface grid grid-cols-4 gap-8 rounded-xl border p-8 shadow-xl">
         {/* Map each category to a title and list of services */}
         {Object.entries(categories).map(([category, services]) => (

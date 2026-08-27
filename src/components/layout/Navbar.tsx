@@ -5,7 +5,7 @@ import LinkButton from '../ui/LinkButton';
 import ServicesDropdown from './ServicesDropdown';
 import { siteConfig, TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
-import MobileMenu, { MobileMenuCategories } from './MobileMenu';
+import MobileMenu, { type MobileMenuCategories } from './MobileMenu';
 
 interface NavbarProps {
   categories: ServiceCategories;

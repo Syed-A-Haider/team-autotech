@@ -18,11 +18,12 @@ import {
 } from '@/lib/constants';
 
 import SectionWrapper from '@/components/ui/SectionWrapper';
+import { ReactNode } from 'react';
 
 interface ContactLineProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
   external?: boolean;
 }
 
@@ -50,7 +51,7 @@ const quickLinks = [
 interface SocialLink {
   label: string;
   href: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   variant?: 'accent' | 'outline';
 }
 
@@ -110,7 +111,7 @@ export function Footer() {
                   className={clsx(
                     'flex h-10 w-10 items-center justify-center rounded-full transition-colors sm:h-11 sm:w-11',
                     link.variant === 'accent'
-                      ? 'bg-accent hover:bg-accent-hover text-white'
+                      ? 'bg-accent hover:bg-accent-hover text-foreground'
                       : 'text-muted border-border hover:border-accent hover:text-accent border',
                   )}
                 >
