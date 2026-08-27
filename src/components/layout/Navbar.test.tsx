@@ -1,11 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Gauge } from 'lucide-react';
 import Navbar from './Navbar';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
+import userEvent from '@testing-library/user-event';
 
-// Use mock services to shhow
+// Use mock services to show
 const mockCategories: ServiceCategories = {
   'Remap / Tuning': [
     {
@@ -57,5 +58,22 @@ describe('Navbar', () => {
     expect(
       screen.getByRole('button', { name: 'Open menu' }),
     ).toBeInTheDocument();
+  });
+
+  it('Passes serializable category data through to MobileMenu', async () => {
+    const user = userEvent.setup();
+    render(<Navbar categories={mockCategories} />);
+
+    await user.click(screen.getByRole('button', { name: 'Open menu' }));
+
+    // Restrict query to mobile panel
+    const mobileNav = within(
+      screen.getByRole('navigation', { name: 'Mobile' }),
+    );
+
+    expect(mobileNav.getByText('Remap / Tuning')).toBeInTheDocument();
+    expect(
+      mobileNav.getByRole('link', { name: 'Stage 1 Tuning' }),
+    ).toHaveAttribute('href', '/services/stage-1-tuning');
   });
 });

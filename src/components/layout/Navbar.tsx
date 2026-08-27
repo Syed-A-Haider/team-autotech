@@ -1,18 +1,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronDown, Menu, Phone } from 'lucide-react';
+import { ChevronDown, Phone } from 'lucide-react';
 import LinkButton from '../ui/LinkButton';
 import ServicesDropdown from './ServicesDropdown';
 import { siteConfig, TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
+import MobileMenu, { MobileMenuCategories } from './MobileMenu';
 
 interface NavbarProps {
   categories: ServiceCategories;
 }
 
 export default function Navbar({ categories }: NavbarProps) {
+  // MobileMenu = Client Component
+  // Strip service to serializable fields to pass down
+  const mobileNavCategories: MobileMenuCategories = Object.fromEntries(
+    Object.entries(categories).map(([category, services]) => [
+      category,
+      services.map(({ slug, title }) => ({ slug, title })),
+    ]),
+  );
+
+  // TODO: RELOCATE BACKDROP BLUR
   return (
-    <header className="border-border bg-background/80 sticky top-0 z-30 border-b backdrop-blur-md">
+    <header className="border-border bg-background sticky top-0 z-30 border-b">
       {/* max-w-6xl matches SectionWrapper's max-width for page-content alignment */}
       {/* relative: positions ServicesDropdown against this full-width row, not just the Services button */}
       <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -64,14 +75,8 @@ export default function Navbar({ categories }: NavbarProps) {
           </LinkButton>
         </div>
 
-        {/* Static for now - MobileMenu adds open/close behaviour */}
-        <button
-          type="button"
-          aria-label="Open menu"
-          className="text-foreground flex h-10 w-10 items-center justify-center lg:hidden"
-        >
-          <Menu aria-hidden="true" size={24} />
-        </button>
+        {/* Mobile Hamburger trigger + full screen panel */}
+        <MobileMenu categories={mobileNavCategories} />
       </div>
     </header>
   );

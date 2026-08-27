@@ -87,15 +87,17 @@ export function Footer() {
     <footer className="border-border bg-surface border-t">
       <SectionWrapper>
         {/* Mobile-first: 2 columns by default, 4 from lg up */}
-        <div className="grid grid-cols-2 gap-10 py-12 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 py-8 sm:gap-8 sm:py-10 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <p className="text-foreground text-lg font-semibold">
               {siteConfig.name}
             </p>
-            <p className="text-muted mt-2 text-sm">{siteConfig.description}</p>
+            <p className="text-muted mt-2 hidden text-sm sm:block">
+              {siteConfig.description}
+            </p>
 
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-2 flex items-center gap-2 sm:mt-3 sm:gap-3">
               {socialLinks.map((link) => (
                 <a
                   key={link.label}
@@ -106,7 +108,7 @@ export function Footer() {
 
                   // Shared circle sizing/shape, only fill vs outline colours differ by variant
                   className={clsx(
-                    'flex h-11 w-11 items-center justify-center rounded-full transition-colors',
+                    'flex h-10 w-10 items-center justify-center rounded-full transition-colors sm:h-11 sm:w-11',
                     link.variant === 'accent'
                       ? 'bg-accent hover:bg-accent-hover text-white'
                       : 'text-muted border-border hover:border-accent hover:text-accent border',
@@ -123,7 +125,7 @@ export function Footer() {
             <h2 className="text-foreground text-sm font-semibold">
               Quick Links
             </h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-2 space-y-1.5 sm:mt-3 sm:space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -140,10 +142,10 @@ export function Footer() {
           {/* Contact Details */}
           <div>
             <h2 className="text-foreground text-sm font-semibold">Contact</h2>
-            <address className="text-muted mt-4 text-sm not-italic">
+            <address className="text-muted mt-2 text-sm not-italic sm:mt-3">
               {ADDRESS}
             </address>
-            <div className="mt-3 space-y-2">
+            <div className="mt-1.5 space-y-1.5 sm:mt-2 sm:space-y-2">
               <ContactLine
                 icon={<MapPin size={18} />}
                 href={GOOGLE_PROFILE_LINK}
@@ -160,13 +162,17 @@ export function Footer() {
               <ContactLine icon={<Mail size={18} />} href={MAILTO_LINK}>
                 {EMAIL}
               </ContactLine>
-              <ContactLine
-                icon={<MessageCircle size={18} />}
-                href={WHATSAPP_LINK}
-                external
-              >
-                WhatsApp Us
-              </ContactLine>
+
+              {/* Hide whatsapp text link on phones */}
+              <div className="hidden sm:block">
+                <ContactLine
+                  icon={<MessageCircle size={18} />}
+                  href={WHATSAPP_LINK}
+                  external
+                >
+                  WhatsApp Us
+                </ContactLine>
+              </div>
             </div>
           </div>
 
@@ -175,7 +181,7 @@ export function Footer() {
             <h2 className="text-foreground text-sm font-semibold">
               Opening Hours
             </h2>
-            <ul className="text-muted mt-4 space-y-1 text-sm">
+            <ul className="text-muted mt-2 space-y-1 text-sm sm:mt-3">
               <li>{OPENING_HOURS.weekdays}</li>
               <li>{OPENING_HOURS.weekend}</li>
             </ul>
@@ -183,7 +189,7 @@ export function Footer() {
         </div>
 
         {/* Copyright — full-width row below the grid, not inside it */}
-        <div className="border-border text-muted border-t py-6 text-center text-sm">
+        <div className="border-border text-muted border-t py-3 text-center text-sm sm:py-4">
           © {year} {siteConfig.name}. All rights reserved.
         </div>
       </SectionWrapper>
