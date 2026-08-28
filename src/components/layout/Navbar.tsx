@@ -30,7 +30,7 @@ export default function Navbar({ categories }: NavbarProps) {
         {/* Logo that links to homepage */}
         <Link href="/" className="flex h-10 w-40 shrink-0 items-center">
           <Image
-            src="/logo.jpg"
+            src="/images/logo.jpg"
             alt={`${siteConfig.name} logo`}
             width={160}
             height={40}
