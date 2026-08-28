@@ -38,7 +38,7 @@ const services: Service[] = [
     shortDescription: 'Performance remapping for increased power and torque',
     body: 'Placeholder content.',
     icon: Gauge,
-    featured: true,
+    popular: true,
   },
   {
     slug: 'dpf-egr-solutions',
@@ -101,7 +101,7 @@ const services: Service[] = [
     shortDescription: 'CAN bus immobiliser with no external fob or LED.',
     body: 'Placeholder content — real copy to come from Ghost Immobiliser II page.',
     icon: ShieldCheck,
-    featured: true,
+    popular: true,
   },
   {
     slug: 'scorpion-x-series-immobiliser',
@@ -165,6 +165,17 @@ const services: Service[] = [
   },
 ];
 
+// Ranked list for homepage "Popular Services" grid (T2.3)
+// Order is deliberate - Remap and Ghosts are kept apart
+const FEATURED_SERVICE_SLUGS = [
+  'stage-1-tuning',
+  'bmw-programming',
+  'dashcam-installation',
+  'scorpion-trackers',
+  'ghost-immobiliser-ii',
+  'dpf-egr-solutions',
+] as const;
+
 // Functions
 
 export function getAllServices(): Service[] {
@@ -187,5 +198,13 @@ export function groupServicesByCategory(): ServiceCategories {
 
     // Initial Value of groups = empty record
     {} as Record<string, Service[]>,
+  );
+}
+
+// .filter() converts from (Service | undefined)[] to Service[]
+// is Service tells Typescript
+export function getFeaturedServices(): Service[] {
+  return FEATURED_SERVICE_SLUGS.map((slug) => getServiceBySlug(slug)).filter(
+    (service): service is Service => service !== undefined,
   );
 }

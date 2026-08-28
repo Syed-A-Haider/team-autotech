@@ -49,7 +49,7 @@ export default function ServicesDropdown({
                       <span className="leading-snug">{service.title}</span>
 
                       {/* If featured - render a popular tag */}
-                      {service.featured && (
+                      {service.popular && (
                         <span className="bg-accent/15 text-accent ml-auto shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-medium">
                           Popular
                         </span>

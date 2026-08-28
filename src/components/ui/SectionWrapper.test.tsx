@@ -28,4 +28,11 @@ describe('SectionWrapper', () => {
     expect(container.firstChild).toHaveClass('custom-class');
     expect(container.firstChild).toHaveClass('max-w-6xl');
   });
+
+  it('Forwards an id to the rendered element', () => {
+    const { container } = render(
+      <SectionWrapper id="services">Content</SectionWrapper>,
+    );
+    expect(container.querySelector('#services')).toBeInTheDocument();
+  });
 });

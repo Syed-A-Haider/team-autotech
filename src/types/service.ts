@@ -9,7 +9,7 @@ export interface Service {
   shortDescription: string; // Used on ServiceCard
   body: string; // Placeholder or real content
   icon: LucideIcon;
-  featured?: boolean; // Highlights this service on cards
+  popular?: boolean; // Highlights this service on cards
 }
 
 // Category can be one of these

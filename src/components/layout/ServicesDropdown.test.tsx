@@ -14,7 +14,7 @@ const mockCategories: ServiceCategories = {
       shortDescription: 'Performance remapping',
       body: 'Placeholder',
       icon: Gauge,
-      featured: true,
+      popular: true,
     },
   ],
   'Auto Security': [
@@ -43,7 +43,7 @@ describe('ServicesDropdown', () => {
     ).toHaveAttribute('href', '/services/stage-1-tuning');
   });
 
-  it('Shows a Popular tag only on featured services', () => {
+  it('Shows a Popular tag only on popular services', () => {
     render(<ServicesDropdown categories={mockCategories} />);
     expect(
       screen.getByRole('link', { name: /Stage 1 Tuning/ }),

@@ -40,14 +40,14 @@ describe('ServiceCard', () => {
     );
   });
 
-  it('Does not show a "Popular" badge when not featured', () => {
+  it('Does not show a "Popular" badge when not popular', () => {
     render(<ServiceCard service={mockService} />);
     expect(screen.queryByText('Popular')).not.toBeInTheDocument();
   });
 
-  it('Shows a "Popular" badge when featured', () => {
+  it('Shows a "Popular" badge when popular', () => {
     // Render the mockservice, keeping all values the same except for featured
-    render(<ServiceCard service={{ ...mockService, featured: true }} />);
+    render(<ServiceCard service={{ ...mockService, popular: true }} />);
     expect(screen.getByText('Popular')).toBeInTheDocument();
   });
 });

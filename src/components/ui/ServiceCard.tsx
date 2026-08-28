@@ -15,14 +15,14 @@ export default function ServiceCard({ service }: ServiceCardProps) {
     shortDescription,
     // Renamed as Icon to work as JSX tag (capitalised)
     icon: Icon,
-    featured,
+    popular: featured,
   } = service;
 
   return (
     <Link
       href={`/services/${slug}`}
       className={clsx(
-        'bg-surface hover:border-accent-hover flex flex-col gap-4 rounded-lg border-2 p-6 transition-colors',
+        'bg-surface hover:border-accent-hover flex flex-col gap-4 rounded-lg border-2 p-4 transition-colors sm:p-6',
         // If featured, give accent
         featured ? 'border-accent' : 'border-border',
       )}

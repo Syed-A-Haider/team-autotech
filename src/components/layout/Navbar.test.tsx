@@ -16,7 +16,7 @@ const mockCategories: ServiceCategories = {
       shortDescription: 'Performance remapping',
       body: 'Placeholder',
       icon: Gauge,
-      featured: true,
+      popular: true,
     },
   ],
 };

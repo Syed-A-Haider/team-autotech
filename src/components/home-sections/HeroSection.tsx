@@ -9,7 +9,7 @@ export const HERO_SUBTITLE = 'Home of Auto Solutions';
 
 export default function HeroSection() {
   return (
-    <div className="relative h-125 overflow-hidden sm:h-150">
+    <div className="relative h-125 max-h-[85dvh] overflow-hidden sm:h-150">
       {/* Decorative background image - alt left empty */}
       <Image
         src="/images/hero-background.jpg"
