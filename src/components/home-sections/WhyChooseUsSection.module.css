@@ -1,0 +1,228 @@
+.row {
+  /* All the numbers that control size/shape live here.
+     Change a value once, both left and right sides update. */
+  --row-height: 280px;
+  --sibling-width: 96px;
+  --icon-size-rest: 3.25rem;
+  --icon-size-sibling: 1.75rem;
+  --icon-size-hover: 4.5rem;
+  --wedge-opacity: 0.14;
+  --wedge-inset-wide: 9.5rem;
+  --wedge-inset-narrow: 8rem;
+  --text-gap: 3rem;
+  --transition-fast: 300ms;
+  --transition-base: 400ms;
+  --transition-slow: 500ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 3rem 1.5rem;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.icon {
+  width: var(--icon-size-rest);
+  height: var(--icon-size-rest);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.title {
+  color: var(--foreground);
+  font-weight: 600;
+  font-size: 0.95rem;
+  max-width: 14rem;
+  margin: 0;
+}
+
+/* Hidden entirely below md - mobile stays the plain static grid */
+.description {
+  display: none;
+}
+
+.wedge {
+  display: none;
+}
+
+/* display:contents on mobile - the wrapper is invisible to layout,
+   title/description just stack normally inside .item's column flex */
+.textGroup {
+  display: contents;
+}
+
+@media (min-width: 768px) {
+  .row {
+    display: flex;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    height: var(--row-height);
+  }
+
+  .item {
+    flex: 1;
+    padding: 2.5rem 1.5rem;
+    overflow: hidden;
+    cursor: pointer;
+    outline: none;
+    transition:
+      flex var(--transition-slow) var(--ease-standard),
+      padding var(--transition-slow) ease,
+      background-color var(--transition-slow) ease;
+  }
+
+  .item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -4px;
+  }
+
+  /* When one card is active, every other card shrinks to a slim strip
+     but keeps a small icon + label visible - never goes fully blank */
+  .row:has(.item:hover) .item:not(:hover):not(:focus-visible),
+  .row:has(.item:focus-visible) .item:not(:hover):not(:focus-visible) {
+    flex: 0 0 var(--sibling-width);
+    padding: 2.5rem 0.5rem;
+
+    .icon {
+      width: var(--icon-size-sibling);
+      height: var(--icon-size-sibling);
+    }
+
+    .title {
+      font-size: 0.65rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80px;
+    }
+  }
+
+  /* The active card: grows, lays icon + text side by side */
+  .item:hover,
+  .item:focus-visible {
+    flex: 1 1 auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 2.5rem;
+    background: var(--background);
+
+    .icon {
+      width: var(--icon-size-hover);
+      height: var(--icon-size-hover);
+    }
+
+    .textGroup {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0 var(--text-gap);
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: 1.3rem;
+      max-width: 24rem;
+      white-space: normal;
+    }
+
+    .description {
+      opacity: 1;
+      max-height: 8rem;
+      max-width: 24rem;
+    }
+  }
+
+  .alignRight.item:hover,
+  .alignRight.item:focus-visible {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .icon {
+    position: relative;
+    z-index: 1;
+    transition:
+      width var(--transition-base) var(--ease-bounce),
+      height var(--transition-base) var(--ease-bounce);
+  }
+
+  /* Coloured shape behind the icon. inset(0 100% 0 0) means "fully
+     hidden" at rest - clearer than a zero-size fake polygon. */
+  .wedge {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transition:
+      opacity var(--transition-fast) ease,
+      clip-path var(--transition-base) var(--ease-standard);
+  }
+
+  .alignLeft.item:hover .wedge,
+  .alignLeft.item:focus-visible .wedge {
+    opacity: var(--wedge-opacity);
+    clip-path: polygon(
+      0 0,
+      var(--wedge-inset-wide) 0,
+      var(--wedge-inset-narrow) 100%,
+      0 100%
+    );
+  }
+
+  .alignRight.item:hover .wedge,
+  .alignRight.item:focus-visible .wedge {
+    opacity: var(--wedge-opacity);
+    clip-path: polygon(
+      100% 0,
+      calc(100% - var(--wedge-inset-wide)) 0,
+      calc(100% - var(--wedge-inset-narrow)) 100%,
+      100% 100%
+    );
+  }
+
+  .title {
+    transition: font-size var(--transition-fast) ease;
+  }
+
+  .description {
+    display: block;
+    color: var(--muted);
+    font-size: 1rem;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      opacity var(--transition-fast) ease 100ms,
+      max-height var(--transition-base) ease 100ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .icon,
+  .title,
+  .description,
+  .wedge {
+    transition-duration: 1ms !important;
+  }
+}

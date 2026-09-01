@@ -1,6 +1,10 @@
 import type { Review } from '@/types/review';
 
-// Curated form team Autotech's Google Business Profile
+export const GOOGLE_RATING = '4.8';
+// Update on milestones - 200+ etc
+export const GOOGLE_REVIEW_COUNT = 172;
+
+// Curated from team Autotech's Google Business Profile
 // Author names truncated to First name + Surname initial for privacy
 // Not exported - encapsulation = only accessible through functions
 const reviews: Review[] = [
