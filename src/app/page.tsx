@@ -12,11 +12,15 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <ServicesGrid services={featuredServices} />
-      <WhyChooseUsSection />
-      <ReviewsSection />
-      <FindUsSection />
-      <AboutSnippet />
+
+      {/* Single shared divider between every section - replaces each section owning its own border. This wrapper doesn't constrain width, so WhyChooseUsSection's full-bleed row stays full-bleed. */}
+      <div className="divide-border divide-y">
+        <ServicesGrid services={featuredServices} />
+        <WhyChooseUsSection />
+        <ReviewsSection />
+        <FindUsSection />
+        <AboutSnippet />
+      </div>
     </>
   );
 }

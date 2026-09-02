@@ -10,7 +10,7 @@ export const ABOUT_CTA_LABEL = 'Meet The Team';
 
 export default function AboutSnippet() {
   return (
-    <section className="border-border border-t">
+    <section>
       <SectionWrapper as="div" className="py-12 text-center sm:py-16">
         {/* Small angled accent bar - motorsport motif */}
         <div

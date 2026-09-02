@@ -16,6 +16,9 @@ export interface MobileMenuLink {
 }
 
 export type MobileMenuCategories = Record<string, MobileMenuLink[]>;
+// Exported so tests can assert on the toggle without duplicating this string
+export const MENU_TOGGLE_OPEN_LABEL = 'Open menu';
+export const MENU_TOGGLE_CLOSE_LABEL = 'Close menu';
 
 interface MobileMenuProps {
   categories: MobileMenuCategories;
@@ -61,7 +64,7 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
       {/* Open/Close Button */}
       <button
         type="button"
-        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        aria-label={isOpen ? MENU_TOGGLE_CLOSE_LABEL : MENU_TOGGLE_OPEN_LABEL}
         aria-expanded={isOpen}
         aria-controls="mobile-menu-panel"
         onClick={() => setIsOpen((prev) => !prev)}

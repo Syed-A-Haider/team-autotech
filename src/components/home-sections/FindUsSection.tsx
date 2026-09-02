@@ -9,10 +9,12 @@ import {
 import SectionWrapper from '../ui/SectionWrapper';
 import LinkButton from '../ui/LinkButton';
 import ContactLine from '../ui/ContactLine';
+import MapEmbed from './MapEmbed';
 
 export const FIND_US_SECTION_HEADING = 'Find Us';
 export const FIND_US_SECTION_INTRO =
   "Based in Nelson, Lancashire - here's how to find us.";
+export const FIND_US_DIRECTIONS_LABEL = 'Get Directions';
 
 export default function FindUsSection() {
   return (
@@ -60,17 +62,15 @@ export default function FindUsSection() {
             className="self-start"
           >
             <Navigation aria-hidden="true" size={16} className="mr-2" />
-            Get Directions
+            {FIND_US_DIRECTIONS_LABEL}
           </LinkButton>
         </div>
 
         {/* Embedded Map */}
         <div className="border-accent bg-surface overflow-hidden rounded-lg border-t-4">
-          <iframe
+          <MapEmbed
             src={MAPS_EMBED_SRC}
             title={`Map showing ${siteConfig.name}'s location`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
             className="h-72 w-full sm:h-80 lg:h-96"
           />
         </div>
