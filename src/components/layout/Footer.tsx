@@ -18,28 +18,8 @@ import {
 } from '@/lib/constants';
 
 import SectionWrapper from '@/components/ui/SectionWrapper';
+import ContactLine from '@/components/ui/ContactLine';
 import { ReactNode } from 'react';
-
-interface ContactLineProps {
-  icon: ReactNode;
-  href: string;
-  children: ReactNode;
-  external?: boolean;
-}
-
-function ContactLine({ icon, href, children, external }: ContactLineProps) {
-  // Only spreads target/rel when external is true — internal-feeling links (tel:/mailto:) stay plain
-  return (
-    <a
-      href={href}
-      {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
-      className="text-muted hover:text-accent flex items-center gap-2 text-sm transition-colors"
-    >
-      <span aria-hidden="true">{icon}</span>
-      {children}
-    </a>
-  );
-}
 
 const quickLinks = [
   { label: 'Remap and Tuning', href: '/services/stage-1-tuning' },

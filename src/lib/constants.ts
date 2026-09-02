@@ -34,3 +34,7 @@ export const SOCIAL_LINKS = {
 } as const;
 
 export const GOOGLE_PROFILE_LINK = 'https://share.google/h5RwgH5kJAwaGiQWk';
+
+// Note - address is currently at 4 Wenning Street, when it should be Unit 4 - 12 Wenning Street
+export const MAPS_EMBED_SRC = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&output=embed`;
+export const MAPS_DIRECTIONS_LINK = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(ADDRESS)}`;

@@ -1,3 +1,4 @@
+import FindUsSection from '@/components/home-sections/FindUsSection';
 import HeroSection from '@/components/home-sections/HeroSection';
 import ReviewsSection from '@/components/home-sections/ReviewsSection';
 import ServicesGrid from '@/components/home-sections/ServicesGrid';
@@ -13,6 +14,7 @@ export default function Home() {
       <ServicesGrid services={featuredServices} />
       <WhyChooseUsSection />
       <ReviewsSection />
+      <FindUsSection />
     </>
   );
 }
