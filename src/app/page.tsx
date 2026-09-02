@@ -1,3 +1,4 @@
+import AboutSnippet from '@/components/home-sections/AboutSnippet';
 import FindUsSection from '@/components/home-sections/FindUsSection';
 import HeroSection from '@/components/home-sections/HeroSection';
 import ReviewsSection from '@/components/home-sections/ReviewsSection';
@@ -15,6 +16,7 @@ export default function Home() {
       <WhyChooseUsSection />
       <ReviewsSection />
       <FindUsSection />
+      <AboutSnippet />
     </>
   );
 }
