@@ -4,5 +4,6 @@ export interface Review {
   author: string; // Pre-truncated display name
   rating: 1 | 2 | 3 | 4 | 5;
   text: string;
+  excerpt?: string; // Manually curated short version highlighting key praise
   photoUrl?: string; // Populated only if a reviewer gives explicit consent
 }

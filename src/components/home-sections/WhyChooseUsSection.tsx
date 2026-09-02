@@ -2,7 +2,11 @@ import { Award, ShieldCheck, BadgeCheck, type LucideIcon } from 'lucide-react';
 import { SiGoogle } from 'react-icons/si';
 import type { IconType } from 'react-icons';
 import SectionWrapper from '@/components/ui/SectionWrapper';
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from '@/lib/reviews';
+import {
+  GOOGLE_RATING,
+  GOOGLE_REVIEW_COUNT,
+  GOOGLE_REVIEW_COUNT_DISPLAY,
+} from '@/lib/reviews';
 import WhyChooseUsCard from './WhyChooseUsCard';
 import styles from './WhyChooseUsSection.module.css';
 
@@ -49,7 +53,7 @@ export const whyChooseUsItems: WhyChooseUsItem[] = [
     id: 'google-rating',
     icon: SiGoogle,
     title: `${GOOGLE_RATING}★ Google Rating`,
-    description: `Rated ${GOOGLE_RATING} stars from ${Math.floor(GOOGLE_REVIEW_COUNT / 10) * 10}+ customers on Google.`,
+    description: `Rated ${GOOGLE_RATING} stars from ${GOOGLE_REVIEW_COUNT_DISPLAY}+ customers on Google.`,
     iconAlign: 'right',
   },
 ];

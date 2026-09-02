@@ -19,7 +19,7 @@ interface LinkButtonProps {
 export const buttonVariantStyles: Record<ButtonVariant, string> = {
   primary: 'bg-accent text-foreground hover:bg-accent-hover',
   secondary:
-    'border border-border text-foreground hover:border-accent hover:text-accent',
+    'bg-surface border border-border text-muted hover:border-accent hover:text-accent',
   ghost: 'text-foreground hover:text-accent',
 };
 

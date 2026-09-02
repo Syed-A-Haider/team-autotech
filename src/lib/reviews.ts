@@ -3,6 +3,9 @@ import type { Review } from '@/types/review';
 export const GOOGLE_RATING = '4.8';
 // Update on milestones - 200+ etc
 export const GOOGLE_REVIEW_COUNT = 172;
+// Rounded down to nearest 10 for display copy
+export const GOOGLE_REVIEW_COUNT_DISPLAY =
+  Math.floor(GOOGLE_REVIEW_COUNT / 10) * 10;
 
 // Curated from team Autotech's Google Business Profile
 // Author names truncated to First name + Surname initial for privacy
@@ -13,6 +16,8 @@ const reviews: Review[] = [
     author: 'Nichola D.',
     rating: 5,
     text: "Absolutely fantastic service from start to finish. After getting a ridiculous quote from another garage and needing my car fixing quickly I approached Team AutoTech and I'm so glad I did. My car was fixed the same day and at a very reasonable price. Syd is such a helpful, friendly, knowledgeable, efficient and genuine person who goes out of his way to help you. I highly recommend Team AutoTech to anyone wanting auto mechanical or electrical work. Thank you Syd for getting my car back on the road quickly and for not ripping me off.",
+    excerpt:
+      'Absolutely fantastic service from start to finish. My car was fixed the same day and at a very reasonable price. I highly recommend Team AutoTech to anyone wanting auto mechanical or electrical work.',
   },
   {
     id: 'mohammed',
