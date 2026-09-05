@@ -26,7 +26,7 @@ const mockServices: Service[] = [
   {
     slug: 'dashcam-installation',
     title: 'Dashcam Installation',
-    category: 'Auto Electrical Services',
+    category: 'Auto Electrical',
     shortDescription: 'Professional dashcam supply and fitting.',
     body: 'Placeholder body content for Dashcam Installation.',
     icon: Camera,

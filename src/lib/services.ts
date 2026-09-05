@@ -134,7 +134,7 @@ const services: Service[] = [
   {
     slug: 'car-audio-installation',
     title: 'Car Audio Installation',
-    category: 'Auto Electrical Services',
+    category: 'Auto Electrical',
     shortDescription: 'Professional car audio system installation.',
     body: 'Placeholder content.',
     icon: Volume2,
@@ -142,7 +142,7 @@ const services: Service[] = [
   {
     slug: 'dashcam-installation',
     title: 'Dashcam Installation',
-    category: 'Auto Electrical Services',
+    category: 'Auto Electrical',
     shortDescription: 'Front and rear dashcam supply and installation.',
     body: 'Placeholder content.',
     icon: Camera,
@@ -150,7 +150,7 @@ const services: Service[] = [
   {
     slug: 'parking-sensor-installation',
     title: 'Parking Sensor Installation',
-    category: 'Auto Electrical Services',
+    category: 'Auto Electrical',
     shortDescription: 'Front and rear parking sensor installation.',
     body: 'Placeholder content.',
     icon: Radar,
@@ -158,7 +158,7 @@ const services: Service[] = [
   {
     slug: 'reverse-camera-installation',
     title: 'Reverse Camera Installation',
-    category: 'Auto Electrical Services',
+    category: 'Auto Electrical',
     shortDescription: 'Reverse camera supply and installation.',
     body: 'Placeholder content.',
     icon: Video,
