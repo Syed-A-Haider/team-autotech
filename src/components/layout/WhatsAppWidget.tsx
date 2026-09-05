@@ -9,9 +9,9 @@ export default function WhatsAppWidget() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"
-      className="bg-whatsapp hover:bg-whatsapp-hover fixed right-6 bottom-6 z-40 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-lg transition-transform hover:scale-110"
+      className="bg-whatsapp hover:bg-whatsapp-hover fixed right-6 bottom-6 z-40 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition-transform hover:scale-110"
     >
-      <FaWhatsapp aria-hidden="true" size={28} />
+      <FaWhatsapp aria-hidden="true" size={36} />
     </a>
   );
 }
