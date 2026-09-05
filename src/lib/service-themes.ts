@@ -2,7 +2,7 @@ import type { Category } from '@/types/service';
 
 // Per-category identity for the heroes
 // Single accent colour throughout
-interface CategoryTheme {
+export interface CategoryTheme {
   eyebrow: string;
   heroImage: string;
   overlayClassName: string;
@@ -15,7 +15,7 @@ const SCRIM =
 export const CATEGORY_THEMES = {
   'Remap / Tuning': {
     eyebrow: 'Performance Tuning',
-    heroImage: '/images/services/tuning.jpg',
+    heroImage: '/images/services/tuning.png',
     overlayClassName: SCRIM,
     motifClassName:
       'bg-[linear-gradient(115deg,transparent_40%,color-mix(in_srgb,var(--color-accent)_12%,transparent)_50%,transparent_60%)]',
