@@ -8,6 +8,7 @@ import {
 import { CATEGORY_THEMES } from '@/lib/service-themes';
 import { ServicePageTemplate } from '@/components/service-sections/ServicePageTemplate';
 import { ComingSoonPanel } from '@/components/service-sections/ComingSoonPanel';
+import { PageTransition } from '@/components/ui/PageTransition';
 
 export const dynamic = 'error';
 export const dynamicParams = false;
@@ -45,14 +46,16 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const relatedServices = getRelatedServices(service);
 
   return (
-    <ServicePageTemplate
-      service={service}
-      theme={theme}
-      relatedServices={relatedServices}
-    >
-      {service.status === 'live' ? null : ( // T3.4 will replace this with <ServiceSections sections={service.sections} />
-        <ComingSoonPanel service={service} />
-      )}
-    </ServicePageTemplate>
+    <PageTransition key={slug}>
+      <ServicePageTemplate
+        service={service}
+        theme={theme}
+        relatedServices={relatedServices}
+      >
+        {service.status === 'live' ? null : ( // T3.4 will replace this with <ServiceSections sections={service.sections} />
+          <ComingSoonPanel service={service} />
+        )}
+      </ServicePageTemplate>
+    </PageTransition>
   );
 }

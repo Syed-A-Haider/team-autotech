@@ -4,15 +4,15 @@ import HeroSection from '@/components/home-sections/HeroSection';
 import ReviewsSection from '@/components/home-sections/ReviewsSection';
 import ServicesGrid from '@/components/home-sections/ServicesGrid';
 import WhyChooseUsSection from '@/components/home-sections/WhyChooseUsSection';
+import { PageTransition } from '@/components/ui/PageTransition';
 import { getFeaturedServices } from '@/lib/services';
 
 export default function Home() {
   const featuredServices = getFeaturedServices();
 
   return (
-    <>
+    <PageTransition>
       <HeroSection />
-
       {/* Single shared divider between every section - replaces each section owning its own border. This wrapper doesn't constrain width, so WhyChooseUsSection's full-bleed row stays full-bleed. */}
       <div className="divide-border divide-y">
         <ServicesGrid services={featuredServices} />
@@ -21,6 +21,6 @@ export default function Home() {
         <FindUsSection />
         <AboutSnippet />
       </div>
-    </>
+    </PageTransition>
   );
 }
