@@ -70,7 +70,7 @@ export default function Navbar({ categories }: NavbarProps) {
 
           {/* Direct link to phone calls */}
           <LinkButton href={TEL_MOBILE_LINK} variant="primary" size="md">
-            <Phone aria-hidden="true" size={16} className="mr-2" />
+            <Phone aria-hidden="true" size={16} />
             Get a Quote: {PHONE_MOBILE}
           </LinkButton>
         </div>

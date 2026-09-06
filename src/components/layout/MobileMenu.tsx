@@ -136,7 +136,7 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
             size="md"
             className="mt-6"
           >
-            <Phone aria-hidden="true" size={16} className="mr-2" />
+            <Phone aria-hidden="true" size={16} />
             Get a Quote: {PHONE_MOBILE}
           </LinkButton>
         </nav>

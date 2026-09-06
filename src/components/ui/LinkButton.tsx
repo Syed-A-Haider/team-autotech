@@ -42,7 +42,7 @@ export default function LinkButton({
 }: LinkButtonProps) {
   // All CSS Classes
   const classes = clsx(
-    'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+    'inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors',
     'focus-visible:ring-accent focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
     buttonVariantStyles[variant],
     buttonSizeStyles[size],

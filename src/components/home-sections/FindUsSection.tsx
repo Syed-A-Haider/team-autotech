@@ -61,7 +61,7 @@ export default function FindUsSection() {
             external
             className="self-start"
           >
-            <Navigation aria-hidden="true" size={16} className="mr-2" />
+            <Navigation aria-hidden="true" size={16} />
             {FIND_US_DIRECTIONS_LABEL}
           </LinkButton>
         </div>

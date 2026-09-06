@@ -36,7 +36,7 @@ export default function HeroSection() {
           size="md"
           className="lg:hidden"
         >
-          <Phone aria-hidden="true" size={16} className="mr-2" />
+          <Phone aria-hidden="true" size={16} />
           Get a Quote: {PHONE_MOBILE}
         </LinkButton>
       </div>
