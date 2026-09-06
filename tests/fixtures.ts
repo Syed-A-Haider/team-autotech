@@ -1,12 +1,12 @@
 import { test as base } from '@playwright/test';
 import { HomePage } from './pages/HomePage';
+import { ServicePage } from './pages/ServicePage';
 
 interface Fixtures {
   homePage: HomePage;
+  servicePage: ServicePage;
 }
 
-// Wraps HomePage init + navigation so every test starts from a ready page,
-// no repeated goto()/beforeEach boilerplate per test.
 export const test = base.extend<Fixtures>({
   homePage: [
     async ({ page }, use) => {
@@ -16,6 +16,10 @@ export const test = base.extend<Fixtures>({
     },
     { auto: true },
   ],
+  // Non-auto: Each service test navigates to different slug
+  servicePage: async ({ page }, use) => {
+    await use(new ServicePage(page));
+  },
 });
 
 export { expect } from '@playwright/test';

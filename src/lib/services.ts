@@ -208,3 +208,10 @@ export function getFeaturedServices(): Service[] {
     (service): service is Service => service !== undefined,
   );
 }
+
+// Get all services in category
+export function getRelatedServices(service: Service, limit = 3): Service[] {
+  return services
+    .filter((s) => s.category === service.category && s.slug !== service.slug)
+    .slice(0, limit);
+}

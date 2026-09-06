@@ -4,6 +4,7 @@ export const routes = {
   home: '/',
   about: '/about',
   servicesPrefix: '/services/',
+  service: (slug: string) => `/services/${slug}`,
 } as const;
 
 export const pageTitle = 'Team AutoTech';
