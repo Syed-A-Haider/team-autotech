@@ -9,7 +9,7 @@ Static Next.js 16 (App Router) + React 19 (React Compiler) + TypeScript + Tailwi
 - `pnpm dev` / `pnpm build` / `pnpm lint`
 - `pnpm test:unit` (Vitest, jsdom). Single file: `pnpm test:unit src/lib/reviews.test.ts`, or add `-t "name"`.
 - `pnpm test:e2e` (Playwright, starts `pnpm dev` itself). Single: `pnpm test:e2e tests/smoke.spec.ts` or `--grep @smoke`.
-- No `typecheck` script yet. Use `pnpm exec tsc --noEmit`.
+- `pnpm typecheck` runs `tsc --noEmit`.
 - No format script. Prettier config exists (`.prettierrc`): `pnpm exec prettier --write <file>`.
 - Definition of done: lint, typecheck, test:unit, build, plus test:e2e when a page or route changes. `/verify` runs these.
 
