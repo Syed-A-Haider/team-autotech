@@ -35,6 +35,9 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - Extract long multi-state class strings into named constants.
 - Data-driven classes must be literal strings in a record. Tailwind cannot generate `bg-${x}`.
 - Decorative icons get `aria-hidden`. One `<h1>` per page. Use semantic elements, with an `as` prop escape hatch where needed.
+- Clickable non-link `<button>`s get `cursor-pointer` (Tailwind v4 keeps the default cursor). Use `group-hover` and `motion-safe:` for hover and transitions, so touch devices get no sticky hover and reduced-motion users get none.
+- Use an inset focus ring (`focus-visible:ring-inset`) inside an `overflow-hidden` ancestor. An offset ring is clipped.
+- Third-party embeds load only after a click (facade), from a privacy host (`youtube-nocookie.com`). Encode ids with `encodeURIComponent` before putting them in a URL.
 - Links: `LinkButton` renders a plain `<a>` for `tel:`, `mailto:` and `http(s):`, and `next/link` otherwise. Use a plain `<a>` for non-route links project-wide.
 
 ## Code style
@@ -50,3 +53,5 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - A `//` comment directly above a JSX spread attribute (`{...x}`) breaks the Next compiler. Put it outside the tag.
 - `backdrop-filter` or `filter` on an ancestor creates a containing block that traps `position: fixed` children. Fix the cause, do not portal around it.
 - Fix root causes, not symptoms, especially in CSS.
+- A non-component export (such as copy constants) from a `'use client'` file arrives as a client reference in a Server Component. Import those constants in tests only, never in a Server Component.
+- Move focus on mount with a module-level ref callback (`function focusOnMount(node) { node?.focus(); }`), not `useEffect`. It has a stable identity, avoids the set-state-in-effect lint, and behaves the same under the React Compiler and in Vitest.

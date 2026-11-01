@@ -39,6 +39,104 @@ const services: Service[] = [
     body: 'Placeholder content.',
     icon: Gauge,
     popular: true,
+    // TEMP (T3.5 testing): placeholder content so every block can be checked
+    // on a live page. T3.6 replaces it with Syd's approved copy.
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'About this service',
+        body: [
+          'Placeholder paragraph one. Real copy arrives in T3.6.',
+          'Placeholder paragraph two, long enough to check line length and wrapping across screen sizes.',
+        ],
+      },
+      {
+        type: 'specband',
+        specs: [
+          { label: 'Placeholder spec one', value: 'Value one' },
+          { label: 'Placeholder spec two', value: 'Value two' },
+          { label: 'Placeholder spec three', value: 'Value three' },
+          { label: 'Placeholder spec four', value: 'Value four' },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Grid features',
+        layout: 'grid',
+        features: [
+          {
+            icon: Gauge,
+            title: 'Feature one',
+            description: 'Placeholder text.',
+          },
+          { icon: Cpu, title: 'Feature two', description: 'Placeholder text.' },
+          { title: 'Feature without icon', description: 'Placeholder text.' },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Alternating features',
+        layout: 'alternating',
+        features: [
+          {
+            icon: Gauge,
+            title: 'Feature one',
+            description: 'Placeholder text.',
+          },
+          { icon: Cpu, title: 'Feature two', description: 'Placeholder text.' },
+          {
+            icon: ShieldCheck,
+            title: 'Feature three',
+            description: 'Placeholder text.',
+          },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'List features',
+        layout: 'list',
+        features: [
+          {
+            icon: Gauge,
+            title: 'Feature one',
+            description: 'Placeholder text.',
+          },
+          { icon: Cpu, title: 'Feature two', description: 'Placeholder text.' },
+        ],
+      },
+      {
+        type: 'video',
+        title: 'Video block',
+        videoId: 'M7lc1UVf-VE', // generic public test video
+        posterImage: '/images/services/tuning.png',
+        caption:
+          'Placeholder caption, long enough to check wrapping on narrow screens.',
+      },
+      {
+        type: 'steps',
+        title: 'How it works',
+        steps: [
+          { title: 'Step one', description: 'Placeholder text.' },
+          { title: 'Step two', description: 'Placeholder text.' },
+          { title: 'Step three', description: 'Placeholder text.' },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Frequently asked questions',
+        items: [
+          {
+            question: 'Placeholder question one?',
+            answer: 'Placeholder answer.',
+          },
+          {
+            question: 'Placeholder question two?',
+            answer: 'Placeholder answer.',
+          },
+        ],
+      },
+    ],
   },
   {
     slug: 'dpf-egr-solutions',

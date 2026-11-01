@@ -35,7 +35,7 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 
 - A page's body is its `sections` array. Content tickets (T3.6 to T3.9) are data edits only
 - `ServiceSections` owns the `SectionWrapper` and the optional `title` `h2` for every block. Blocks render only their inner content, so spacing and title style change in one place
-- A live service with no `sections` falls back to `ComingSoonPanel`. The `video` type renders nothing until T3.5
+- A live service with no `sections` falls back to `ComingSoonPanel`. The `video` type renders `VideoSection`: a local poster (`public/images/videos/<slug>.jpg`, 16:9, at least 1280x720, no baked-in play button) and a play button. `videoId` is the bare 11-character id, not a URL. The `title` names the player and the renderer shows it as the `h2`
 - `Feature` has no image field, so the `alternating` layout is text-only
 - If a page needs something no block can do, add a block or variant in a component ticket first. Do not hack the data
 - Section data may hold `LucideIcon` references because blocks are Server Components. Never pass section data into a Client Component

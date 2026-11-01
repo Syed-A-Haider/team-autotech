@@ -6,6 +6,7 @@ import { FeatureSection } from './FeatureSection';
 import { StepsSection } from './StepsSection';
 import { SpecBand } from './SpecBand';
 import { FaqSection } from './FaqSection';
+import { VideoSection } from './VideoSection';
 
 interface ServiceSectionsProps {
   sections: ServiceSection[];
@@ -25,8 +26,7 @@ function renderBlock(section: ServiceSection): ReactNode {
     case 'faq':
       return <FaqSection section={section} />;
     case 'video':
-      // T3.5 replaces this with <VideoSection />
-      return null;
+      return <VideoSection section={section} />;
     default: {
       const unhandled: never = section;
       return unhandled;
