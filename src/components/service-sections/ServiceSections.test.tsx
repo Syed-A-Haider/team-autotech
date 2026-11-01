@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ServiceSections } from './ServiceSections';
+import { PLAY_LABEL_PREFIX } from './VideoEmbed';
 import type { ServiceSection } from '@/types/service';
 
 const prose: ServiceSection = {
@@ -81,8 +82,15 @@ describe('ServiceSections', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  it('Renders nothing for a video section until T3.5', () => {
-    const { container } = render(<ServiceSections sections={[video]} />);
-    expect(container).toBeEmptyDOMElement();
+  it('Renders a video section with its shared title and play button', () => {
+    render(<ServiceSections sections={[video]} />);
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Video title' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', {
+        name: `${PLAY_LABEL_PREFIX}: Video title`,
+      }),
+    ).toBeInTheDocument();
   });
 });
