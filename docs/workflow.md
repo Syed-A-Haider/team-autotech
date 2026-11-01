@@ -50,6 +50,7 @@ In Stage 2, implement exactly what the saved spec says. If the code needs to dev
    - Use `waitUntil: 'load'`, not `networkidle` (a production build keeps prefetching). Scope locators to `main`, because the Navbar has its own `<summary>`. The sticky Navbar appearing mid-page in a full-page screenshot is an artefact.
    - For network checks, use `pnpm build` then `pnpm start`. Stop the server by its PID on port 3000. Never `taskkill node.exe`.
 5. Commit with `T#.# - Description`. Renames go in a separate commit from feature work. Stage explicit paths and leave out anything not in the ticket.
+6. Push the branch and open a PR against `main` using the format in "Pull request description" below. Never merge. The ticket is not done until the PR exists.
 
 ## Pull request description (ticket documentation)
 
