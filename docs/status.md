@@ -36,6 +36,7 @@ Last updated: 2026-11-02, after T3.5. Next ticket: T3.6.
 
 Technical:
 
+- TEMP: Stage 1 Tuning is `live` with placeholder sections of every block type, including a generic test video (`TEMP (T3.5 testing)` in `lib/services.ts`). It is indexable. T3.6 must replace it with Syd's approved copy, or revert it to coming-soon, before this reaches production
 - `MobileMenu` has no full focus trap. Judged unnecessary for now
 - Map skeleton has no fallback if the iframe is blocked by an ad blocker. Accepted
 - 360px width: minor card-text wrapping on `ServicesGrid`. Revisit at T6.2
