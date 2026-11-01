@@ -36,7 +36,7 @@ src/
     service-sections/   ServicePageTemplate, ServiceHero, ComingSoonPanel, ServiceCtaBand,
                         RelatedServices, then T3.4: ServiceSections, ProseSection,
                         FeatureSection, StepsSection, SpecBand, FaqSection,
-                        then T3.5: VideoSection, VideoEmbed (Client)
+                        VideoSection, VideoEmbed (Client)
   lib/        services.ts, service-themes.ts, reviews.ts, constants.ts
   types/      service.ts, review.ts
 public/images/services/   category hero images
@@ -45,7 +45,7 @@ tests/                    Playwright specs (Page Object Model + custom fixture)
 
 ## Client Components (everything else is Server)
 
-`MobileMenu`, `ReviewsCarousel`, `MapEmbed`, and `VideoEmbed` (planned, T3.5). Each holds only the interactive part. Content is passed in from a Server parent.
+`MobileMenu`, `ReviewsCarousel`, `MapEmbed`, and `VideoEmbed`. Each holds only the interactive part. Content is passed in from a Server parent.
 
 ## Prop flow
 

@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-11-01, after T3.4. Next ticket: T3.5.
+Last updated: 2026-11-02, after T3.5. Next ticket: T3.6.
 
 ## Done
 
@@ -9,11 +9,12 @@ Last updated: 2026-11-01, after T3.4. Next ticket: T3.5.
 - T2: homepage, all six sections assembled in `app/page.tsx`, Playwright homepage suite
 - T3.1 to T3.3: content model and category themes, service page shell, route and metadata. All 15 service pages exist, themed, and are coming-soon until given content. Built to the design in `architecture.md`; check the code for detail
 - T3.32 (add-on to T3.3): images added, spacing added between `LinkButton` icon and text, transition added on page navigation. Read the code before building on any of these
-- T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page. The `video` case renders `null` until T3.5.
+- T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page.
+- T3.5: `VideoSection` (Server) and `VideoEmbed` (Client), click-to-load YouTube facade on `youtube-nocookie.com`. No request to a third party until the visitor clicks play, and focus moves to the player. `ServiceSections` now renders the `video` case
 
 ## Next
 
-- T3.5: `VideoSection` and `VideoEmbed`. Replace the `video` case in `ServiceSections`
+- T3.6: Content: Stage 1 Tuning (data edit only). Confirm copy, section order and variants, and live vs coming-soon first
 
 ## Remaining
 
@@ -45,5 +46,6 @@ Technical:
 
 Waiting on Syd:
 
+- Ghost Immobiliser II video: the bare 11-character YouTube id, a 16:9 poster image, and final title and caption (needed before T3.7). The video is Syd's own and embedding is allowed
 - Logo file (unblocks favicon, confirms the real accent hex)
 - Google Business Profile owner access (launch task)
