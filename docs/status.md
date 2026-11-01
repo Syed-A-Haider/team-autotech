@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-10-31, after T3.32. Next ticket: T3.4.
+Last updated: 2026-11-01, after T3.4. Next ticket: T3.5.
 
 ## Done
 
@@ -9,16 +9,16 @@ Last updated: 2026-10-31, after T3.32. Next ticket: T3.4.
 - T2: homepage, all six sections assembled in `app/page.tsx`, Playwright homepage suite
 - T3.1 to T3.3: content model and category themes, service page shell, route and metadata. All 15 service pages exist, themed, and are coming-soon until given content. Built to the design in `architecture.md`; check the code for detail
 - T3.32 (add-on to T3.3): images added, spacing added between `LinkButton` icon and text, transition added on page navigation. Read the code before building on any of these
+- T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page. The `video` case renders `null` until T3.5. Brief `tickets/T3.4-section-renderer.md` still to delete after merge
 
 ## Next
 
-- T3.4: section renderer and blocks. Brief in `tickets/T3.4-section-renderer.md`
+- T3.5: `VideoSection` and `VideoEmbed`. Replace the `video` case in `ServiceSections`
 
 ## Remaining
 
 | Ticket  | Scope                                                                                               |
 | ------- | --------------------------------------------------------------------------------------------------- |
-| T3.5    | `VideoSection` (Server) and `VideoEmbed` (Client), click-to-load YouTube facade                     |
 | T3.6    | Content: Stage 1 Tuning (data edit only)                                                            |
 | T3.7    | Content: Ghost Immobiliser II (first use of video)                                                  |
 | T3.8    | Content: Scorpion X Series                                                                          |
@@ -40,6 +40,8 @@ Technical:
 - 360px width: minor card-text wrapping on `ServicesGrid`. Revisit at T6.2
 - Root layout title may still be a flat string, not the `title.template` pattern. Check `app/layout.tsx`
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
+- `WhyChooseUsSection.tsx` has an unused `GOOGLE_REVIEW_COUNT` import (lint warning)
+- `next dev` writes an agent-rules block into `CLAUDE.md`. Decide whether to commit it or ignore it
 - Footer "Services" link points at `/#services`. Revisit if a services index ever exists
 
 Waiting on Syd:
