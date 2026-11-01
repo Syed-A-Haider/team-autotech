@@ -8,16 +8,31 @@ Two-stage process for every ticket. Haider reviews and merges. Never merge, and 
 2. Read only the other docs the ticket touches (see `README.md`).
 3. Read the existing code the ticket touches. Reuse what exists before creating anything.
 
-## Stage 1: design review (no code)
+## Stage 1 — Design & Architecture Review (first response to a new ticket)
 
-Reply with:
+Do not write implementation code yet.
 
-1. **What it is.** One or two plain sentences: what it does and how it behaves on the site.
-2. **Architecture review.** A short table (Decision | Choice | Why) checked against `conventions.md`: file location and naming, Server vs Client, props shape, exports, accessibility, reusability, consistency with components already built.
-3. **Open questions.** Only genuine product or business calls that conventions cannot answer. Decide everything else and explain why. Plain numbered list.
-4. **Concise summary.** Plain-vocabulary explanation of the good practices being followed and why, written for someone learning.
+**Gather context first (silently, before responding):**
 
-Then stop and wait for answers. Write no implementation code until Haider approves.
+- Read the ticket's row and its phase's key decisions in `Project Plan`.
+- Read the ticket's section in the phase specs doc (e.g. `T3.md`) under docs/tickets if one exists.
+- Read the previous Completion Report for open items and gotchas that touch this ticket, plus the docs for any existing files it builds on (types, data, sibling components).
+- If something the ticket depends on is missing, or two docs disagree, say so under Open questions instead of guessing. Where docs conflict, `Project Plan` wins.
+
+Then respond with:
+
+1. **What it is** — one or two plain-language sentences: what this component/feature does and how it behaves on the site.
+2. **Spec check** — one or two lines: does a spec section already exist, what does it cover, and what is missing or out of date.
+3. **Architecture review** — check the task against Standing Conventions below: file location/naming, Server vs Client, props shape, exports, accessibility, reusability/scalability, consistency with components already built. Present as a short table (Decision | Choice | Why).
+4. **Open questions** — ask only where a genuine product/business call is needed that can't be inferred from convention or the docs (e.g. "should this be promoted," "what should the client see"). Don't ask about anything resolvable via Standing Conventions or the project docs — decide it and explain why. Plain numbered list, not interactive buttons — a written response with reasoning follows.
+5. **Draft spec** — the ticket's spec section in the phase specs format (Status, Purpose, Depends on, Files, Props / data shape, Behaviour, Accessibility, Tests, Out of scope, Decisions), as a single markdown code block ready to paste into the specs doc. Mark anything unresolved as an open question.
+6. **Concise summary** — short, plain-vocabulary explanation of which good practices are being followed and why, written for someone learning rather than an expert.
+
+Wait for confirmation/answers before implementing. Once the questions are answered, give the final spec once more, in full, with the answers folded in, so it can be saved before Stage 2.
+
+**Content tickets** (data edits only, no new components): skip the full review. Confirm the source copy, section order and variants, and live vs coming-soon status, then go straight to the data changes.
+
+In Stage 2, implement exactly what the saved spec says. If the code needs to deviate, say so explicitly and say why.
 
 ## Stage 2: implementation (only after approval)
 
