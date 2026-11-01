@@ -9,7 +9,7 @@ Last updated: 2026-11-01, after T3.4. Next ticket: T3.5.
 - T2: homepage, all six sections assembled in `app/page.tsx`, Playwright homepage suite
 - T3.1 to T3.3: content model and category themes, service page shell, route and metadata. All 15 service pages exist, themed, and are coming-soon until given content. Built to the design in `architecture.md`; check the code for detail
 - T3.32 (add-on to T3.3): images added, spacing added between `LinkButton` icon and text, transition added on page navigation. Read the code before building on any of these
-- T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page. The `video` case renders `null` until T3.5. Brief `tickets/T3.4-section-renderer.md` still to delete after merge
+- T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page. The `video` case renders `null` until T3.5.
 
 ## Next
 
