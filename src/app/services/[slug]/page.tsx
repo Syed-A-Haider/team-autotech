@@ -7,6 +7,7 @@ import {
 } from '@/lib/services';
 import { CATEGORY_THEMES } from '@/lib/service-themes';
 import { ServicePageTemplate } from '@/components/service-sections/ServicePageTemplate';
+import { ServiceSections } from '@/components/service-sections/ServiceSections';
 import { ComingSoonPanel } from '@/components/service-sections/ComingSoonPanel';
 import { PageTransition } from '@/components/ui/PageTransition';
 
@@ -44,6 +45,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   const theme = CATEGORY_THEMES[service.category];
   const relatedServices = getRelatedServices(service);
+  // A live service with no sections falls back rather than rendering blank
+  const hasContent = service.status === 'live' && !!service.sections?.length;
 
   return (
     <PageTransition key={slug}>
@@ -52,7 +55,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
         theme={theme}
         relatedServices={relatedServices}
       >
-        {service.status === 'live' ? null : ( // T3.4 will replace this with <ServiceSections sections={service.sections} />
+        {hasContent ? (
+          <ServiceSections sections={service.sections ?? []} />
+        ) : (
           <ComingSoonPanel service={service} />
         )}
       </ServicePageTemplate>
