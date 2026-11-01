@@ -41,7 +41,6 @@ Technical:
 - Root layout title may still be a flat string, not the `title.template` pattern. Check `app/layout.tsx`
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - `WhyChooseUsSection.tsx` has an unused `GOOGLE_REVIEW_COUNT` import (lint warning)
-- `next dev` writes an agent-rules block into `CLAUDE.md`. Decide whether to commit it or ignore it
 - Footer "Services" link points at `/#services`. Revisit if a services index ever exists
 
 Waiting on Syd:
