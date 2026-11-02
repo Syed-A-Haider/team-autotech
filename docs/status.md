@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-11-02, after T3.5. Next ticket: T3.6.
+Last updated: 2026-11-02, after T3.6. Next ticket: T3.7.
 
 ## Done
 
@@ -14,13 +14,12 @@ Last updated: 2026-11-02, after T3.5. Next ticket: T3.6.
 
 ## Next
 
-- T3.6: Content: Stage 1 Tuning (data edit only). Confirm copy, section order and variants, and live vs coming-soon first
+- T3.7: Content: Ghost Immobiliser II (first use of video). Source brief is `docs/content/ghost-immobiliser-ii.md`. Confirm section order and variants, and live vs coming-soon first. Needs Syd's video id and poster
 
 ## Remaining
 
 | Ticket  | Scope                                                                                               |
 | ------- | --------------------------------------------------------------------------------------------------- |
-| T3.6    | Content: Stage 1 Tuning (data edit only)                                                            |
 | T3.7    | Content: Ghost Immobiliser II (first use of video)                                                  |
 | T3.8    | Content: Scorpion X Series                                                                          |
 | T3.9    | Content: remaining 12, fill where copy exists, leave the rest coming-soon                           |
@@ -36,7 +35,7 @@ Last updated: 2026-11-02, after T3.5. Next ticket: T3.6.
 
 Technical:
 
-- TEMP: Stage 1 Tuning is `live` with placeholder sections of every block type, including a generic test video (`TEMP (T3.5 testing)` in `lib/services.ts`). It is indexable. T3.6 must replace it with Syd's approved copy, or revert it to coming-soon, before this reaches production
+- Stage 1 Tuning has its real copy staged in `lib/services.ts` but `status` is unset, so it is coming-soon and `noindex`. Set `status: 'live'` once Syd approves. Its copy is verbatim from the old site, including a trailing comma after "aftersales service," and "china"/"Tune" capitalisation. Ask Syd whether to tidy those
 - `MobileMenu` has no full focus trap. Judged unnecessary for now
 - Map skeleton has no fallback if the iframe is blocked by an ad blocker. Accepted
 - 360px width: minor card-text wrapping on `ServicesGrid`. Revisit at T6.2

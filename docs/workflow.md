@@ -45,7 +45,7 @@ In Stage 2, implement exactly what the saved spec says. If the code needs to dev
 2. Tests first: write them from the approved spec, run them, confirm they fail for the right reason, then implement. See `testing.md`. Create minimal stubs first so red tests fail on assertions, not on missing imports. Use a smaller model (Sonnet) for Stage 2.
 3. Give full code for every file. Colocate Vitest and RTL tests as `Component.test.tsx`.
 4. Run the gates in `testing.md` and fix failures. For visual changes, check screenshots at 375, 768 and 1280 px:
-   - No service has section data until the content tickets. Add temporary `sections` and `status: 'live'` to one service in `lib/services.ts`, marked `TEMP-VISUAL`. Revert with `git checkout src/lib/services.ts` and grep to confirm none is left.
+   - Content that is not yet live (coming-soon) is hidden. Commit the real data first, then add a temporary `status: 'live'` marked `TEMP-VISUAL` in `lib/services.ts`. Revert with `git checkout src/lib/services.ts` and grep to confirm none is left. Never run the checkout before committing, or it wipes the real edits.
    - Use a throwaway Playwright script outside the repo. Import from `@playwright/test` (not `playwright`) and run it with the repo as working directory, then delete the copy.
    - Use `waitUntil: 'load'`, not `networkidle` (a production build keeps prefetching). Scope locators to `main`, because the Navbar has its own `<summary>`. The sticky Navbar appearing mid-page in a full-page screenshot is an artefact.
    - For network checks, use `pnpm build` then `pnpm start`. Stop the server by its PID on port 3000. Never `taskkill node.exe`.

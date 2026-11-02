@@ -15,10 +15,11 @@ The code is the source of truth. If a doc and the code disagree, trust the code 
 | `testing.md`          | Writing tests or verifying UI                                           |
 | `project.md`          | Business context, stakeholder rules, confirmed product decisions        |
 | `tickets/`            | The brief for the ticket in progress                                    |
+| `content/`            | Source copy briefs from the old site, one per service (content tickets) |
 
 ## Not included on purpose
 
-- Scraped WordPress HTML pages: source copy for T3.6 to T3.8. Convert the relevant one to a short markdown brief when that ticket starts.
+- Scraped WordPress HTML pages. The ones for T3.6 to T3.8 are already converted to briefs in `content/`. Convert any other page to a short markdown brief when its ticket starts.
 - Vercel course notes: learning notes, no project facts.
 
 ## Keeping these current
