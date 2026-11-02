@@ -19,18 +19,20 @@ Last updated: 2026-11-02, after T3.6. Next ticket: T3.7.
 
 ## Remaining
 
-| Ticket  | Scope                                                                                               |
-| ------- | --------------------------------------------------------------------------------------------------- |
-| T3.7    | Content: Ghost Immobiliser II (first use of video)                                                  |
-| T3.8    | Content: Scorpion X Series                                                                          |
-| T3.9    | Content: remaining 12, fill where copy exists, leave the rest coming-soon                           |
-| T4.1    | About page and test                                                                                 |
-| T4.2    | `not-found.tsx` and test                                                                            |
-| T5.1    | `ui/ContactLinks.tsx` (tel, wa.me, mailto). Reconcile with `ContactLine` first, probably compose it |
-| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                            |
-| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                              |
-| T6.3    | Domain connection (A record and CNAME), deliberately last                                           |
-| Phase 5 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                            |
+| Ticket  | Scope                                                                                                                                                                                                    |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T3.7    | Content: Ghost Immobiliser II (first use of video)                                                                                                                                                       |
+| T3.8    | Content: Scorpion X Series                                                                                                                                                                               |
+| T3.9    | Content: remaining 12, fill where copy exists, leave the rest coming-soon                                                                                                                                |
+| T4.1    | About page and test                                                                                                                                                                                      |
+| T4.2    | `not-found.tsx` and test                                                                                                                                                                                 |
+| T5.1    | `ui/ContactLinks.tsx` (tel, wa.me, mailto). Reconcile with `ContactLine` first, probably compose it                                                                                                      |
+| T5.2    | Motion foundation (Stage 1 design review first): motion language, reveal wrapper (one small Client island), library decision (CSS first, a library needs approval), reduced-motion and performance rules |
+| T5.3    | Apply the motion and wow-factor effects across the homepage, shell and service section blocks. Rewrite the Motion rules in `design.md`                                                                   |
+| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                                                                                                                                 |
+| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                                                                                                   |
+| T6.3    | Domain connection (A record and CNAME), deliberately last                                                                                                                                                |
+| Phase 5 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                                                                                                 |
 
 ## Open items
 
