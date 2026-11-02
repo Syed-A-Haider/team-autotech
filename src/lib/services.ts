@@ -25,6 +25,9 @@ import {
   Radar,
   Video,
   Lock,
+  Zap,
+  Fuel,
+  Timer,
 } from 'lucide-react';
 
 // Not exported - Encapsulation = access via functions instead.
@@ -35,105 +38,70 @@ const services: Service[] = [
     slug: 'stage-1-tuning',
     title: 'Stage 1 Tuning',
     category: 'Remap / Tuning',
-    shortDescription: 'Performance remapping for increased power and torque',
+    shortDescription: 'Performance remapping for increased power and torque.',
     body: 'Placeholder content.',
     icon: Gauge,
     popular: true,
-    // TEMP (T3.5 testing): placeholder content so every block can be checked
-    // on a live page. T3.6 replaces it with Syd's approved copy.
-    status: 'live',
+    // Copy staged from the old site (docs/content/stage-1-tuning.md).
+    // status stays unset (coming soon) until Syd approves it.
     sections: [
       {
         type: 'prose',
-        title: 'About this service',
+        title: "Stage 1 Tuning: Unlock Your Vehicle's Full Potential",
         body: [
-          'Placeholder paragraph one. Real copy arrives in T3.6.',
-          'Placeholder paragraph two, long enough to check line length and wrapping across screen sizes.',
+          "Stage 1 tuning is one of the most popular and cost-effective ways to improve your vehicle's performance. Whether you're looking for more power, better throttle response, or an overall enhanced driving experience, Stage 1 tuning can provide a noticeable difference without the need for major mechanical changes.",
         ],
       },
       {
-        type: 'specband',
-        specs: [
-          { label: 'Placeholder spec one', value: 'Value one' },
-          { label: 'Placeholder spec two', value: 'Value two' },
-          { label: 'Placeholder spec three', value: 'Value three' },
-          { label: 'Placeholder spec four', value: 'Value four' },
+        type: 'prose',
+        title: 'What is Stage 1 Tuning?',
+        body: [
+          "Stage 1 tuning refers to performance modifications that can be made to your car's engine and ECU (Engine Control Unit) to increase horsepower, torque, and fuel efficiency. Unlike more extensive tuning options (Stage 2 or Stage 3), Stage 1 generally involves software modifications like remapping or chip tuning and sometimes light upgrades to air intake or exhaust systems. This makes it an ideal choice for those looking to gain more performance without going overboard.",
         ],
       },
       {
         type: 'feature',
-        title: 'Grid features',
+        title: 'Key Benefits of Stage 1 Tuning',
         layout: 'grid',
         features: [
           {
-            icon: Gauge,
-            title: 'Feature one',
-            description: 'Placeholder text.',
+            icon: Zap,
+            title: 'Increased Power',
+            description:
+              'The most significant advantage of Stage 1 tuning is the noticeable increase in horsepower and torque. Expect a boost of 10-20% depending on your vehicle.',
           },
-          { icon: Cpu, title: 'Feature two', description: 'Placeholder text.' },
-          { title: 'Feature without icon', description: 'Placeholder text.' },
-        ],
-      },
-      {
-        type: 'feature',
-        title: 'Alternating features',
-        layout: 'alternating',
-        features: [
           {
             icon: Gauge,
-            title: 'Feature one',
-            description: 'Placeholder text.',
+            title: 'Improved Throttle Response',
+            description:
+              'Stage 1 tuning can sharpen throttle response, giving you a more immediate and engaging driving experience.',
           },
-          { icon: Cpu, title: 'Feature two', description: 'Placeholder text.' },
           {
-            icon: ShieldCheck,
-            title: 'Feature three',
-            description: 'Placeholder text.',
+            icon: Fuel,
+            title: 'Better Fuel Efficiency',
+            description:
+              'While Stage 1 tuning is typically aimed at improving performance, the ECU remap can also optimize fuel usage, leading to better miles per gallon (MPG) in some cases.',
+          },
+          {
+            icon: Timer,
+            title: 'Quick and Easy',
+            description:
+              'Stage 1 tuning is often done through a simple ECU remap, which means no invasive mechanical work is required. The tuning can be completed in a short amount of time, often taking only an hour or two.',
           },
         ],
       },
       {
-        type: 'feature',
-        title: 'List features',
-        layout: 'list',
-        features: [
-          {
-            icon: Gauge,
-            title: 'Feature one',
-            description: 'Placeholder text.',
-          },
-          { icon: Cpu, title: 'Feature two', description: 'Placeholder text.' },
+        type: 'prose',
+        title: 'Why Choose Us for Stage 1 Tuning?',
+        body: [
+          "At Team Autotech, we specialize in providing tailored tuning solutions that deliver noticeable results. Our expert technicians use state-of-the-art tools and software to ensure that your vehicle is optimized for peak performance while maintaining reliability and drivability. We're passionate about cars and dedicated to helping you get the most out of yours.",
         ],
       },
       {
-        type: 'video',
-        title: 'Video block',
-        videoId: 'M7lc1UVf-VE', // generic public test video
-        posterImage: '/images/services/tuning.png',
-        caption:
-          'Placeholder caption, long enough to check wrapping on narrow screens.',
-      },
-      {
-        type: 'steps',
-        title: 'How it works',
-        steps: [
-          { title: 'Step one', description: 'Placeholder text.' },
-          { title: 'Step two', description: 'Placeholder text.' },
-          { title: 'Step three', description: 'Placeholder text.' },
-        ],
-      },
-      {
-        type: 'faq',
-        title: 'Frequently asked questions',
-        items: [
-          {
-            question: 'Placeholder question one?',
-            answer: 'Placeholder answer.',
-          },
-          {
-            question: 'Placeholder question two?',
-            answer: 'Placeholder answer.',
-          },
+        type: 'prose',
+        title: 'About us',
+        body: [
+          'We have many years of tuning experience and can tune 99% of modern vehicles. We have the genuine tools from Alientech not the cheap and dangerous clones from china. We can Tune through the port or on the bench. We keep all our hardware updated and have a brilliant aftersales service,',
         ],
       },
     ],
