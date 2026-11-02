@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Gauge } from 'lucide-react';
-import { FeatureSection } from './FeatureSection';
+import { FeatureSection, FEATURE_GRID_PLANS } from './FeatureSection';
 import type { Feature } from '@/types/service';
 
 const features: Feature[] = [
@@ -49,4 +49,38 @@ describe('FeatureSection', () => {
     );
     expect(screen.queryAllByRole('listitem')).toHaveLength(0);
   });
+
+  it.each([1, 2, 3, 4, 5, 6])(
+    'Plans full rows for %i features at every breakpoint',
+    (count) => {
+      const plan = FEATURE_GRID_PLANS[count];
+      for (const bp of [plan.sm, plan.lg]) {
+        expect(bp.spans).toHaveLength(count);
+        // Pack spans row by row. Every row must fill the columns exactly
+        let used = 0;
+        for (const span of bp.spans) {
+          used += span;
+          expect(used).toBeLessThanOrEqual(bp.cols);
+          if (used === bp.cols) used = 0;
+        }
+        expect(used).toBe(0);
+      }
+    },
+  );
+
+  it.each([1, 2, 3, 4, 5, 6])(
+    'Renders one list item per feature in grid with %i features',
+    (count) => {
+      const many: Feature[] = Array.from({ length: count }, (_, i) => ({
+        title: `Feature ${i + 1}`,
+        description: `Description ${i + 1}.`,
+      }));
+      render(
+        <FeatureSection
+          section={{ type: 'feature', layout: 'grid', features: many }}
+        />,
+      );
+      expect(screen.getAllByRole('listitem')).toHaveLength(count);
+    },
+  );
 });

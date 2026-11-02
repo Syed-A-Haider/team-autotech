@@ -93,4 +93,43 @@ describe('ServiceSections', () => {
       }),
     ).toBeInTheDocument();
   });
+
+  describe('section headings', () => {
+    const titledFaq: ServiceSection = { ...faq, title: 'Faq title' };
+    const secondProse: ServiceSection = {
+      type: 'prose',
+      title: 'Second title',
+      body: ['Second body text.'],
+    };
+
+    it('Numbers titled sections in order and hides the numbers from assistive tech', () => {
+      render(<ServiceSections sections={[prose, steps, titledFaq]} />);
+      expect(screen.getByText('01')).toHaveAttribute('aria-hidden', 'true');
+      expect(screen.getByText('02')).toHaveAttribute('aria-hidden', 'true');
+      expect(screen.queryByText('03')).not.toBeInTheDocument();
+    });
+
+    it('Renders no number for an untitled section', () => {
+      render(<ServiceSections sections={[steps]} />);
+      expect(screen.queryByText('01')).not.toBeInTheDocument();
+    });
+
+    it('Does not render the number as a heading', () => {
+      render(<ServiceSections sections={[prose]} />);
+      expect(screen.getAllByRole('heading')).toHaveLength(1);
+    });
+
+    it('Keeps each h2 before its content in DOM order', () => {
+      render(<ServiceSections sections={[prose, secondProse]} />);
+      const secondHeading = screen.getByRole('heading', {
+        level: 2,
+        name: 'Second title',
+      });
+      const secondBody = screen.getByText('Second body text.');
+      expect(
+        secondHeading.compareDocumentPosition(secondBody) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
+  });
 });

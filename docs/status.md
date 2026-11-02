@@ -11,6 +11,7 @@ Last updated: 2026-11-02, after T3.6. Next ticket: T3.7.
 - T3.32 (add-on to T3.3): images added, spacing added between `LinkButton` icon and text, transition added on page navigation. Read the code before building on any of these
 - T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page.
 - T3.5: `VideoSection` (Server) and `VideoEmbed` (Client), click-to-load YouTube facade on `youtube-nocookie.com`. No request to a third party until the visitor clicks play, and focus moves to the player. `ServiceSections` now renders the `video` case
+- T3.6: Content: Stage 1 Tuning (real corrected copy, live but awaiting Syd's approval). Review fix: service sections redesigned for a sportier feel. `SectionHeading` adds a faded number, a skewed stripe and a soft glow. Prose, steps, FAQ and list features split heading and content and alternate sides. Feature grids and spec bands never leave an orphan. Layout is derived from section type and position, so no data fields or types changed. See `design.md`
 
 ## Next
 
@@ -43,6 +44,8 @@ Technical:
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - `WhyChooseUsSection.tsx` has an unused `GOOGLE_REVIEW_COUNT` import (lint warning)
 - Footer "Services" link points at `/#services`. Revisit if a services index ever exists
+- `ServiceCtaBand` and `RelatedServices` still use a small left-aligned `h2`, so they look plain next to the new section headings. Optional follow-up: give them the same heading style or a stripe
+- Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
 
 Waiting on Syd:
 

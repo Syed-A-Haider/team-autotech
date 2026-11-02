@@ -1,15 +1,25 @@
+import clsx from 'clsx';
 import type { ServiceSection } from '@/types/service';
 
 interface ProseSectionProps {
   section: Extract<ServiceSection, { type: 'prose' }>;
 }
 
+// First paragraph is the lead, so a single paragraph reads as deliberate
+const LEAD_STYLES = 'text-foreground text-lg leading-relaxed sm:text-xl';
+const BODY_STYLES = 'text-muted leading-relaxed';
+
 // Plain text block. Title and spacing come from ServiceSections
 export function ProseSection({ section }: ProseSectionProps) {
   return (
-    <div className="text-muted max-w-prose space-y-4">
+    <div className="max-w-prose space-y-5">
       {section.body.map((paragraph, index) => (
-        <p key={index}>{paragraph}</p>
+        <p
+          key={index}
+          className={clsx(index === 0 ? LEAD_STYLES : BODY_STYLES)}
+        >
+          {paragraph}
+        </p>
       ))}
     </div>
   );
