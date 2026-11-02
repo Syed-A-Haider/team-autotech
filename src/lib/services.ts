@@ -48,16 +48,16 @@ const services: Service[] = [
     sections: [
       {
         type: 'prose',
-        title: "Stage 1 Tuning: Unlock Your Vehicle's Full Potential",
+        title: "Unlock Your Vehicle's Full Potential",
         body: [
-          "Stage 1 tuning is one of the most popular and cost-effective ways to improve your vehicle's performance. Whether you're looking for more power, better throttle response, or an overall enhanced driving experience, Stage 1 tuning can provide a noticeable difference without the need for major mechanical changes.",
+          'Stage 1 tuning is one of the most popular and cost-effective ways to get more from your vehicle. Whether you want more power, sharper throttle response or a more engaging drive, it can make a noticeable difference without any major mechanical changes.',
         ],
       },
       {
         type: 'prose',
         title: 'What is Stage 1 Tuning?',
         body: [
-          "Stage 1 tuning refers to performance modifications that can be made to your car's engine and ECU (Engine Control Unit) to increase horsepower, torque, and fuel efficiency. Unlike more extensive tuning options (Stage 2 or Stage 3), Stage 1 generally involves software modifications like remapping or chip tuning and sometimes light upgrades to air intake or exhaust systems. This makes it an ideal choice for those looking to gain more performance without going overboard.",
+          "Stage 1 tuning refers to performance modifications to your car's engine and ECU (Engine Control Unit) that increase horsepower and torque, and can improve fuel efficiency. Unlike the more extensive Stage 2 and Stage 3 options, Stage 1 generally involves software changes such as remapping or chip tuning, and sometimes light upgrades to the air intake or exhaust. That makes it an ideal choice if you want more performance without going overboard.",
         ],
       },
       {
@@ -69,25 +69,25 @@ const services: Service[] = [
             icon: Zap,
             title: 'Increased Power',
             description:
-              'The most significant advantage of Stage 1 tuning is the noticeable increase in horsepower and torque. Expect a boost of 10-20% depending on your vehicle.',
+              'The biggest advantage of Stage 1 tuning is a noticeable gain in horsepower and torque. Expect a boost of 10-20%, depending on your vehicle.',
           },
           {
             icon: Gauge,
             title: 'Improved Throttle Response',
             description:
-              'Stage 1 tuning can sharpen throttle response, giving you a more immediate and engaging driving experience.',
+              'Stage 1 tuning can sharpen your throttle response, for a more immediate and engaging drive.',
           },
           {
             icon: Fuel,
             title: 'Better Fuel Efficiency',
             description:
-              'While Stage 1 tuning is typically aimed at improving performance, the ECU remap can also optimize fuel usage, leading to better miles per gallon (MPG) in some cases.',
+              'Stage 1 tuning is aimed at performance, but the ECU remap can also optimise fuel usage, which can mean better miles per gallon (MPG) in some cases.',
           },
           {
             icon: Timer,
             title: 'Quick and Easy',
             description:
-              'Stage 1 tuning is often done through a simple ECU remap, which means no invasive mechanical work is required. The tuning can be completed in a short amount of time, often taking only an hour or two.',
+              'Stage 1 tuning is often just a simple ECU remap, so no invasive mechanical work is needed. It can be completed quickly, often in only an hour or two.',
           },
         ],
       },
@@ -95,14 +95,14 @@ const services: Service[] = [
         type: 'prose',
         title: 'Why Choose Us for Stage 1 Tuning?',
         body: [
-          "At Team Autotech, we specialize in providing tailored tuning solutions that deliver noticeable results. Our expert technicians use state-of-the-art tools and software to ensure that your vehicle is optimized for peak performance while maintaining reliability and drivability. We're passionate about cars and dedicated to helping you get the most out of yours.",
+          "At Team Autotech, we specialise in tailored tuning solutions that deliver noticeable results. Our expert technicians use state-of-the-art tools and software to make sure your vehicle is optimised for peak performance, while keeping it reliable and easy to drive. We're passionate about cars and dedicated to helping you get the most out of yours.",
         ],
       },
       {
         type: 'prose',
         title: 'About us',
         body: [
-          'We have many years of tuning experience and can tune 99% of modern vehicles. We have the genuine tools from Alientech not the cheap and dangerous clones from china. We can Tune through the port or on the bench. We keep all our hardware updated and have a brilliant aftersales service,',
+          'We have many years of tuning experience and can tune 99% of modern vehicles. We use genuine Alientech tools, not cheap and dangerous clones from China. We can tune through the OBD port or on the bench, we keep all our hardware up to date, and we offer a brilliant after-sales service.',
         ],
       },
     ],

@@ -35,7 +35,7 @@ Last updated: 2026-11-02, after T3.6. Next ticket: T3.7.
 
 Technical:
 
-- Stage 1 Tuning is `live` (indexable) with real but UNAPPROVED old-site copy, so the PR preview is testable. Copy lives in `lib/services.ts` (`sections`), sourced from `docs/content/stage-1-tuning.md`. Syd must approve it before T6.3 (domain connection). If he rejects it, delete `status` to revert to coming-soon. Its copy is verbatim from the old site, including a trailing comma after "aftersales service," and "china"/"Tune" capitalisation. Ask Syd whether to tidy those
+- Stage 1 Tuning is `live` (indexable) with real but UNAPPROVED old-site copy, so the PR preview is testable. Copy lives in `lib/services.ts` (`sections`), sourced from `docs/content/stage-1-tuning.md`. Syd must approve it before T6.3 (domain connection). If he rejects it, delete `status` to revert to coming-soon. The copy is corrected from the old site (British English, spelling, grammar, a sportier natural tone, same facts). Syd approves the corrected wording. One clarification was added: "through the OBD port" (source said "the port")
 - `MobileMenu` has no full focus trap. Judged unnecessary for now
 - Map skeleton has no fallback if the iframe is blocked by an ad blocker. Accepted
 - 360px width: minor card-text wrapping on `ServicesGrid`. Revisit at T6.2

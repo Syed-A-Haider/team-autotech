@@ -3,12 +3,13 @@
 slug: ghost-immobiliser-ii
 category: Auto Security (Immobilisers)
 source: http://teamautotech.co.uk/ghost-immobiliser-ii/
-status: live (existing WordPress copy, verbatim; confirm with Syd before publishing)
+status: live (old WordPress copy; correct it when writing the data, then confirm with Syd)
 hero-image: category default
 
-Copy below is verbatim from the WordPress page. Typos are untouched.
+Raw source: copy below is verbatim from the WordPress page, mistakes included. Correct it when writing the data (see `data-and-content.md`).
 
 ## Intro
+
 tagline: Most Advanced Immobiliser utilising the latest technology to fight Car Theft
 
 ## Prose: Use your factory buttons
@@ -27,6 +28,7 @@ poster: NOT SUPPLIED. The WordPress embed has no custom overlay image. Needs a l
 ## Not mapped (reference only)
 
 Product logo: Autowatch GHOST II logo
+
 - http://teamautotech.co.uk/wp-content/uploads/2021/05/Autowatch-GHOST-II-logo-JR.png (945px wide)
 
 ## Excluded

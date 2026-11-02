@@ -3,12 +3,13 @@
 slug: stage-1-tuning
 category: Remap / Tuning
 source: http://teamautotech.co.uk/stage-1-tuning/
-status: live (existing WordPress copy, verbatim; confirm with Syd before publishing)
+status: live (old WordPress copy, corrected in lib/services.ts; confirm with Syd before publishing)
 hero-image: category default
 
-Copy below is verbatim from the WordPress page. Typos and capitalisation are untouched.
+Raw source: copy below is verbatim from the WordPress page, mistakes included. It is reference only. The published copy in `lib/services.ts` is corrected (British English, spelling, grammar, tone).
 
 ## Intro
+
 tagline: Stage 1 Tuning: Unlock Your Vehicle's Full Potential
 
 Stage 1 tuning is one of the most popular and cost-effective ways to improve your vehicle's performance. Whether you're looking for more power, better throttle response, or an overall enhanced driving experience, Stage 1 tuning can provide a noticeable difference without the need for major mechanical changes.
@@ -35,11 +36,13 @@ We have many years of tuning experience and can tune 99% of modern vehicles. We 
 ## Not mapped (no block type yet, reference only)
 
 Page testimonials. The site-wide curated reviews live in lib/reviews.ts; add these there only if wanted.
+
 - Nial Crew, Colne: "Just had remap done great service by team auto tech would highly recommend and my car can feel the power difference soon as you set off"
 - rehan javed, Burnley: "Had a problem with my EGR valve on Q7. I was recommended to speak to Syd at team autotech he didn't disappoint he knows what he's talking about highly recommend even came in on his day off to finish the job turned around in 24 hours. Price was reasonable and customer service on point kept me updated."
 - Mik Hinett, Accrington: "Had issues due to a past it DPF, they sorted the DPF and remapped, and after a few visits all the knock on issues from the DPF were sorted too, car runs perfect now."
 
 Gallery images (old WordPress uploads, 2021/07 under http://teamautotech.co.uk/wp-content/uploads/):
+
 - s-l1600.jpg
 - 20799863_1255449014583761_6403219134856113057_n.jpg
 - bad-ecu-symptoms.jpg

@@ -3,12 +3,13 @@
 slug: scorpion-x-series-immobiliser
 category: Auto Security (Immobilisers)
 source: http://teamautotech.co.uk/scorpion-x-series-immobiliser/
-status: live (existing WordPress copy, verbatim; confirm with Syd before publishing)
+status: live (old WordPress copy; correct it when writing the data, then confirm with Syd)
 hero-image: category default
 
-Copy below is verbatim from the WordPress page. The page is very light on text; most of the content is in the images.
+Raw source: copy below is verbatim from the WordPress page, mistakes included. Correct it when writing the data (see `data-and-content.md`). The page is very light on text; most of the content is in the images.
 
 ## Intro
+
 tagline: Market-leading immobiliser
 
 Instant immobiliser that disarms via a custom pin code on the vehicles existing controls, preventing key cloning or key coding attacks.
@@ -18,6 +19,7 @@ Instant immobiliser that disarms via a custom pin code on the vehicles existing 
 The page shows a numbered image carousel with no written copy. The step text is baked into the images, so there is nothing to type into a Steps block yet. Options: Syd supplies one line per step, or the images are used as they are.
 
 Carousel images (2025/08 under http://teamautotech.co.uk/wp-content/uploads/; sized copies shown, drop the -1024x1024 suffix for the original):
+
 1. 1.-Ignition-Off-1024x1024.jpg (alt: "1. Ignition Off")
 2. 2.-Pin-1024x1024.jpg (alt: "2. Pin")
 3. 3.--1024x1024.jpg (alt: "3.", no title in source)
