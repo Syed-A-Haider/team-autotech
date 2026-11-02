@@ -43,7 +43,8 @@ const services: Service[] = [
     icon: Gauge,
     popular: true,
     // Copy staged from the old site (docs/content/stage-1-tuning.md).
-    // status stays unset (coming soon) until Syd approves it.
+    // Live so the PR preview can be tested. Copy is unapproved by Syd (see status.md).
+    status: 'live',
     sections: [
       {
         type: 'prose',

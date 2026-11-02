@@ -30,7 +30,7 @@ Two goals: a better site for the business, and portfolio experience for the deve
 
 ## Rules from the owner
 
-- Everything is as Syd wants it. Placeholder copy stays placeholder until he signs off
+- Everything is as Syd wants it. Placeholder copy stays placeholder until he signs off. Temporary exception (T3.6): Stage 1 Tuning is `live` with unapproved old-site copy so Haider can test the PR preview. Syd must approve it before the domain is connected (T6.3)
 - Do not invent business facts: services, prices, accreditations, hours, claims. Use `constants.ts` and Syd's source pages
 - Services and slugs live in `lib/services.ts`. Contact details live in `lib/constants.ts`
 

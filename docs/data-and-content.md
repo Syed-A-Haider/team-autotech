@@ -33,7 +33,7 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 
 ## Section content (T3.4 onward)
 
-- A page's body is its `sections` array. Content tickets (T3.6 to T3.9) are data edits only
+- A page's body is its `sections` array. Content tickets (T3.6 to T3.9) are data edits only. T3.6 is done
 - `ServiceSections` owns the `SectionWrapper` and the optional `title` `h2` for every block. Blocks render only their inner content, so spacing and title style change in one place
 - A live service with no `sections` falls back to `ComingSoonPanel`. The `video` type renders `VideoSection`: a local poster (`public/images/videos/<slug>.jpg`, 16:9, at least 1280x720, no baked-in play button) and a play button. `videoId` is the bare 11-character id, not a URL. The `title` names the player and the renderer shows it as the `h2`
 - `Feature` has no image field, so the `alternating` layout is text-only
@@ -41,6 +41,8 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 - Section data may hold `LucideIcon` references because blocks are Server Components. Never pass section data into a Client Component
 - No pricing anywhere. Prices vary by vehicle and spec, so CTAs are enquiry-only
 - Real copy comes from Syd's WordPress pages. Structure and placeholder content first, real copy after his review
+- Where copy lives: source briefs are `docs/content/<slug>.md` (verbatim from the old site, typos included). The rendered copy is the service's `sections` in `lib/services.ts`. Stage 1 Tuning is the worked example. Edit the data, never the brief, once a ticket is done
+- Unapproved copy: a service can be `live` before Syd signs off, so previews are testable. Each one must be listed in `status.md` open items until approved
 
 ## `lib/constants.ts`
 
