@@ -30,7 +30,7 @@ Then respond with:
 
 Planning tips:
 
-- Delegate the plan to the Plan agent on the strongest model (Fable). Give it verified facts (union fields, earlier decisions, tests that will have to change) so it does not re-derive them, then review its output before presenting it.
+- Delegate the plan to the Plan agent on a strong agent (Opus). Give it verified facts (union fields, earlier decisions, tests that will have to change) so it does not re-derive them, then review its output before presenting it.
 - Flag any existing test that asserts a placeholder (for example "renders nothing until T#.#"). It must change, and changing it needs approval in Stage 1.
 
 Wait for confirmation/answers before implementing. Once the questions are answered, give the final spec once more, in full, with the answers folded in, so it can be saved before Stage 2.

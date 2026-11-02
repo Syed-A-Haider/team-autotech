@@ -55,7 +55,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 ## Motion
 
-T3.32 added a transition on page navigation. Read how it is built before adding other animation. Keep new motion subtle. Service sections have no scroll or hover animation. Non-link cards get no hover effect. Planned: a dedicated motion phase (T5.2, T5.3) will add scroll reveals and richer effects across the site, and rewrites this section. Do not add ad hoc animation before then.
+T3.32 added a transition on page navigation. Read how it is built before adding other animation. Keep new motion subtle. Service sections have no scroll or hover animation. Non-link cards get no hover effect. Planned: a dedicated motion phase (T5.1, T5.2) will add scroll reveals and richer effects across the site, and rewrites this section. Do not add ad hoc animation before then.
 
 ## Responsive checks
 

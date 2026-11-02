@@ -78,7 +78,7 @@ Page structure is data, the same way page content is. Three axes of variation, a
 | Coming-soon SEO              | `robots: { index: false }` until content lands                      | A thin indexed page is worse for local SEO than no page                                                      |
 | Third-party embeds           | None on page load                                                   | Reviews and map are static. Video uses the facade                                                            |
 
-## Deferred (Phase 5)
+## Deferred (Phase 7)
 
 Shop, basket, Stripe checkout, Neon Postgres via Vercel Marketplace, Prisma. `AddToBasketButton` will be a Client Component importing `buttonVariantStyles` and `buttonSizeStyles` from `LinkButton`.
 
