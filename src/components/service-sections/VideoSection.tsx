@@ -10,7 +10,7 @@ interface VideoSectionProps {
 // names the play button and iframe.
 export function VideoSection({ section }: VideoSectionProps) {
   return (
-    <figure>
+    <figure className="mx-auto max-w-4xl">
       <VideoEmbed
         videoId={section.videoId}
         title={section.title}

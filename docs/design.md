@@ -41,7 +41,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 ## Service page sections
 
 - `ServiceSections` owns the heading (`SectionHeading`: faded number, skewed stripe, h2) and the layout. No data fields drive it
-- Split (heading beside content at `lg`, sides alternate): prose, steps, faq, feature `list`. Stacked (centred heading above): feature `grid` and `alternating`, specband, video. Untitled sections get no heading, number or glow
+- Split (heading beside content at `lg`, sides alternate): prose, steps, faq, feature `list`. Stacked (centred heading above): feature `grid` and `alternating`, specband, video (player centred under its heading, max `4xl`). Untitled sections get no heading, number or glow
 - Prose: the first paragraph is a lead (larger, `foreground`)
 - Feature grid never leaves an orphan for 1 to 6 items (plan in `FeatureSection`). `SpecBand` columns are chosen by count
 - Text on `bg-accent` uses `text-background`. `foreground` on accent is about 3.1:1 and fails AA

@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-11-02, after T3.6. Next ticket: T3.7.
+Last updated: 2026-11-03, after T3.7. Next ticket: T3.8.
 
 ## Done
 
@@ -12,10 +12,11 @@ Last updated: 2026-11-02, after T3.6. Next ticket: T3.7.
 - T3.4: `ServiceSections` renderer and five blocks (`ProseSection`, `FeatureSection`, `StepsSection`, `SpecBand`, `FaqSection`), wired into the service page.
 - T3.5: `VideoSection` (Server) and `VideoEmbed` (Client), click-to-load YouTube facade on `youtube-nocookie.com`. No request to a third party until the visitor clicks play, and focus moves to the player. `ServiceSections` now renders the `video` case
 - T3.6: Content: Stage 1 Tuning (real corrected copy, live but awaiting Syd's approval). Review fix: service sections redesigned for a sportier feel. `SectionHeading` adds a faded number, a skewed stripe and a soft glow. Prose, steps, FAQ and list features split heading and content and alternate sides. Feature grids and spec bands never leave an orphan. Layout is derived from section type and position, so no data fields or types changed. See `design.md`
+- T3.7: Content: Ghost Immobiliser II (live, unapproved). First real use of `video`: local placeholder poster, facade verified. `VideoSection` figure now centred. Tagline became `shortDescription`
 
 ## Next
 
-- T3.7: Content: Ghost Immobiliser II (first use of video). Source brief is `docs/content/ghost-immobiliser-ii.md`. Confirm section order and variants, and live vs coming-soon first. Needs Syd's video id and poster
+- T3.8: Content: Scorpion X Series. Source brief is `docs/content/scorpion-x-series-immobiliser.md`. Confirm section order and variants, and live vs coming-soon first
 
 ## Remaining
 
@@ -23,7 +24,6 @@ Phases still to come: 4 pages and shared pieces (T4.x), 5 motion and wow factor 
 
 | Ticket  | Scope                                                                                                                                                                                                    |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T3.7    | Content: Ghost Immobiliser II (first use of video)                                                                                                                                                       |
 | T3.8    | Content: Scorpion X Series                                                                                                                                                                               |
 | T3.9    | Content: remaining 12, fill where copy exists, leave the rest coming-soon                                                                                                                                |
 | T4.1    | About page and test                                                                                                                                                                                      |
@@ -51,9 +51,11 @@ Technical:
 - `ServiceCtaBand` and `RelatedServices` still use a small left-aligned `h2`, so they look plain next to the new section headings. Optional follow-up: give them the same heading style or a stripe
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
 
+- Ghost Immobiliser II is `live` (indexable) with UNAPPROVED corrected copy, a provisional video title ("See Ghost Immobiliser II in Action") and a placeholder poster (frame saved from the video, `public/images/videos/ghost-immobiliser-ii.jpg`). `shortDescription` now uses the old-site tagline instead of the unsourced "CAN bus... no external fob or LED" line. Syd must approve before T6.3. If rejected, delete `status` to revert. `Service.body` is never rendered (follow-up: remove the field)
+
 Waiting on Syd:
 
 - Approval of the Stage 1 Tuning copy (live in the T3.6 preview, unapproved)
-- Ghost Immobiliser II video: the bare 11-character YouTube id, a 16:9 poster image, and final title and caption (needed before T3.7). The video is Syd's own and embedding is allowed
+- Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
 - Logo file (unblocks favicon, confirms the real accent hex)
 - Google Business Profile owner access (launch task)
