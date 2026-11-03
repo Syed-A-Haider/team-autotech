@@ -105,6 +105,38 @@ const services: Service[] = [
           'We have many years of tuning experience and can tune 99% of modern vehicles. We use genuine Alientech tools, not cheap and dangerous clones from China. We can tune through the OBD port or on the bench, we keep all our hardware up to date, and we offer a brilliant after-sales service.',
         ],
       },
+      // Placeholder FAQs, drafted from the copy above. Unapproved by Syd (see status.md).
+      {
+        type: 'faq',
+        title: 'Frequently Asked Questions',
+        items: [
+          {
+            question: 'How much power will I gain?',
+            answer:
+              'It depends on your vehicle, but a boost of 10-20% in horsepower and torque is typical.',
+          },
+          {
+            question: 'How long does Stage 1 tuning take?',
+            answer:
+              'It is often just a simple ECU remap, so it can usually be completed in an hour or two.',
+          },
+          {
+            question: 'Will it affect reliability?',
+            answer:
+              'No. We tune for performance while keeping your vehicle reliable and easy to drive.',
+          },
+          {
+            question: 'Can you tune my vehicle?',
+            answer:
+              'We can tune 99% of modern vehicles. Get in touch with your make, model and year and we will confirm.',
+          },
+          {
+            question: 'What equipment do you use?',
+            answer:
+              'We use genuine Alientech tools, and we can tune through the OBD port or on the bench.',
+          },
+        ],
+      },
     ],
   },
   {
@@ -188,15 +220,114 @@ const services: Service[] = [
         // Placeholder: frame saved from the video itself. Syd's poster replaces it at the same path.
         posterImage: '/images/videos/ghost-immobiliser-ii.jpg',
       },
+      // Placeholder FAQs, unapproved by Syd (see status.md).
+      {
+        type: 'faq',
+        title: 'Frequently Asked Questions',
+        items: [
+          {
+            question: 'How does Ghost Immobiliser II work?',
+            answer:
+              "It integrates with your vehicle's own technology and communicates directly with it. You use the factory buttons to enter a PIN sequence of up to 20 button presses before the car will fully activate.",
+          },
+          {
+            question: 'Do I need to carry anything extra?',
+            answer:
+              'You use the buttons already built into your vehicle to enter your PIN sequence.',
+          },
+          {
+            question: 'Will it fit my vehicle?',
+            answer:
+              'Compatibility depends on your make, model and year. Get in touch with your vehicle details and we will confirm.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Prices vary by vehicle and spec. Call or message us for a free, no-obligation quote.',
+          },
+        ],
+      },
     ],
   },
   {
     slug: 'scorpion-x-series-immobiliser',
     title: 'Scorpion X Series Immobiliser',
     category: 'Auto Security',
-    shortDescription: 'Thatcham-approved immobiliser system.',
+    shortDescription:
+      'Market-leading immobiliser that stops key cloning and key coding attacks.',
     body: 'Placeholder content — real copy to come from Scorpion X Series page.',
     icon: ShieldAlert,
+    // Copy staged from the old site (docs/content/scorpion-x-series-immobiliser.md).
+    // Step text comes from the carousel images. Live so the PR preview can be tested.
+    // Copy is unapproved by Syd (see status.md).
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Instant Protection Against Key Cloning',
+        body: [
+          "The Scorpion X Series is an instant immobiliser that disarms with a custom PIN code entered on your vehicle's existing controls, stopping key cloning and key coding attacks.",
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Ignition Off',
+            description:
+              'Switch off the ignition and the immobiliser activates automatically.',
+          },
+          {
+            title: 'Enter Your Custom PIN',
+            description:
+              'Your car will only move once the immobiliser is disarmed with your custom PIN, entered on the steering wheel or dash.',
+          },
+          {
+            title: 'Prevent Theft',
+            description:
+              'The immobiliser protects your car from theft and key cloning attacks.',
+          },
+          {
+            title: 'Layered Security',
+            description:
+              'Pair the immobiliser with a tracker for added protection.',
+          },
+        ],
+      },
+      // Placeholder FAQs, unapproved by Syd (see status.md).
+      {
+        type: 'faq',
+        title: 'Frequently Asked Questions',
+        items: [
+          {
+            question: 'How do I disarm the immobiliser?',
+            answer:
+              "You enter your custom PIN using your vehicle's existing controls, on the steering wheel or dash. Your car will only move once the immobiliser is disarmed.",
+          },
+          {
+            question: 'Does it protect against key cloning?',
+            answer:
+              'Yes. It protects your car from theft, key cloning and key coding attacks.',
+          },
+          {
+            question: 'Can I use it with a tracker?',
+            answer:
+              'Yes. Pairing the immobiliser with a tracker adds an extra layer of protection.',
+          },
+          {
+            question: 'Will it fit my vehicle?',
+            answer:
+              'Compatibility depends on your make, model and year. Get in touch with your vehicle details and we will confirm.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Prices vary by vehicle and spec. Call or message us for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
   {
     slug: 'spectre-immobiliser',
