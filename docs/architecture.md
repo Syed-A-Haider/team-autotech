@@ -24,18 +24,19 @@ src/
     layout.tsx            root layout (Navbar, WhatsAppWidget, Footer, <main>)
     page.tsx              home
     globals.css           @theme design tokens
-    about/page.tsx
-    not-found.tsx
+    about/page.tsx             (T4.1, not built yet)
+    not-found.tsx              (T4.2, not built yet)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
   components/
     layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget
-    ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard
-    home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ CSS Module),
+    ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
+               PageTransition
+    home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ WhyChooseUsCard, CSS Module),
                         ReviewsSection, ReviewsCarousel (Client), FindUsSection,
                         MapEmbed (Client), AboutSnippet
-    service-sections/   ServicePageTemplate, ServiceHero, ComingSoonPanel, ServiceCtaBand,
-                        RelatedServices, then T3.4: ServiceSections, SectionHeading, ProseSection,
-                        FeatureSection, StepsSection, SpecBand, FaqSection,
+    service-sections/   ServicePageTemplate, ServiceHero, EnquiryBand, ComingSoonPanel,
+                        ServiceCtaBand, RelatedServices, ServiceSections, SectionHeading,
+                        ProseSection, FeatureSection, StepsSection, SpecBand, FaqSection,
                         VideoSection, VideoEmbed (Client)
   lib/        services.ts, service-themes.ts, reviews.ts, constants.ts
   types/      service.ts, review.ts
@@ -66,17 +67,18 @@ Page structure is data, the same way page content is. Three axes of variation, a
 2. Per-block layout variant: for example `FeatureSection` supports `grid`, `alternating`, `list`
 3. Category theme: hero image, eyebrow, overlay and motif, applied once at the shell
 
-| Decision                     | Choice                                                              | Why                                                                                                          |
-| ---------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Section layout and numbering | Derived in `ServiceSections` from section type and position         | No new data fields, so every service gets the rhythm free and the union stays unchanged                      |
-| Render the section union     | `switch` on `section.type` with a `never` default                   | TS narrows a switch and checks exhaustiveness. A `Record<type, Component>` map needs casts to stay type-safe |
-| Hero                         | `ServiceHero`, not an extended `PageHero`                           | Same precedent as `HeroSection`: do not bloat `PageHero` with image and overlay props                        |
-| Category theming             | `Record<Category, CategoryTheme>` of literal class strings          | Tailwind cannot build classes from data at runtime                                                           |
-| Coming-soon state            | `status?: 'live' \| 'coming-soon'`, undefined counts as coming-soon | A new service cannot ship an empty page by accident                                                          |
-| Icons in section data        | `LucideIcon` references allowed                                     | Safe only because every block is a Server Component                                                          |
-| Video                        | Click-to-load facade (poster, then iframe on click)                 | An always-on iframe loads about 0.5 MB of YouTube JS whether or not anyone watches                           |
-| Coming-soon SEO              | `robots: { index: false }` until content lands                      | A thin indexed page is worse for local SEO than no page                                                      |
-| Third-party embeds           | None on page load                                                   | Reviews and map are static. Video uses the facade                                                            |
+| Decision                     | Choice                                                                                                            | Why                                                                                                                 |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Section layout and numbering | Derived in `ServiceSections` from section type and position                                                       | No new data fields, so every service gets the rhythm free and the union stays unchanged                             |
+| Render the section union     | `switch` on `section.type` with a `never` default                                                                 | TS narrows a switch and checks exhaustiveness. A `Record<type, Component>` map needs casts to stay type-safe        |
+| Hero                         | `ServiceHero`, not an extended `PageHero`                                                                         | Same precedent as `HeroSection`: do not bloat `PageHero` with image and overlay props                               |
+| Category theming             | `Record<Category, CategoryTheme>` of literal class strings                                                        | Tailwind cannot build classes from data at runtime                                                                  |
+| Coming-soon state            | `status?: 'live' \| 'coming-soon'`, undefined counts as coming-soon                                               | A new service cannot ship an empty page by accident                                                                 |
+| Icons in section data        | `LucideIcon` references allowed                                                                                   | Safe only because every block is a Server Component                                                                 |
+| Video                        | Click-to-load facade (poster, then iframe on click)                                                               | An always-on iframe loads about 0.5 MB of YouTube JS whether or not anyone watches                                  |
+| Closing bands                | One shared `EnquiryBand` behind `ComingSoonPanel` and `ServiceCtaBand`, centred, with the `SectionHeading` stripe | Both ask for the same enquiry. One band keeps spacing and buttons in one place, and each wrapper only supplies copy |
+| Coming-soon SEO              | `robots: { index: false }` until content lands                                                                    | A thin indexed page is worse for local SEO than no page                                                             |
+| Third-party embeds           | None on page load                                                                                                 | Reviews and map are static. Video uses the facade                                                                   |
 
 ## Deferred (Phase 7)
 

@@ -2,10 +2,10 @@
 
 ## Split of responsibility
 
-| Layer        | Covers                                                                                                                                                                                       | Excludes                                                                                          |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Vitest + RTL | Component correctness: props, variants, hrefs, ARIA, which block renders for each `type`. Route functions (`generateMetadata`, `generateStaticParams`) as plain functions                    | Pure data files. `satisfies Record<Category, ...>` already proves completeness at compile time    |
-| Playwright   | Routing and structure. T3 has one data-driven spec: every slug from `getAllServices()` returns 200 with exactly one `h1`, unknown slug 404s, navbar to service page works, CTA links resolve | Anything content-shaped: no coming-soon copy, no per-page specs, no section assertions, no counts |
+| Layer        | Covers                                                                                                                                                                    | Excludes                                                                                          |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Vitest + RTL | Component correctness: props, variants, hrefs, ARIA, which block renders for each `type`. Route functions (`generateMetadata`, `generateStaticParams`) as plain functions | Pure data files. `satisfies Record<Category, ...>` already proves completeness at compile time    |
+| Playwright   | Routing and structure. T3 has one data-driven spec: every slug from `getAllServices()` returns 200 with exactly one `h1`, unknown slug 404s, navbar to service page works | Anything content-shaped: no coming-soon copy, no per-page specs, no section assertions, no counts |
 
 Rule: Playwright asserts what is true because of routing and structure. Vitest asserts what is true because of props. Neither asserts content, because content changes as pages fill.
 
@@ -19,7 +19,7 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 ## Gates (a ticket is not done until all pass)
 
 - `pnpm lint`
-- `pnpm typecheck` (add a script running `tsc --noEmit` if missing)
+- `pnpm typecheck` (`tsc --noEmit`)
 - `pnpm test:unit`
 - `pnpm build`
 - `pnpm test:e2e` when a page or route changes, and at the end of each phase
@@ -38,7 +38,7 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 ## Playwright rules
 
 - Specs live in `tests/`. Use the Page Object Model (PascalCase classes) and the custom fixture
-- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`
+- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`
 - Use plain string assertions, not regex (`toHaveTitle('Team Autotech')`)
 - Locators: `getByRole`, `getByText`, `getByLabel`. No XPath and no tight CSS selectors
 - Use web-first assertions (`toBeVisible`, `toHaveText`). No `waitForTimeout`
@@ -55,4 +55,4 @@ For any visual change:
 2. Look at the images. Check overflow, clipped or wrapped text, spacing, token colours, and that nothing overlaps the Navbar or WhatsAppWidget.
 3. Fix what you find, then re-check.
 
-A `pnpm shots <path>` script (Playwright, writes to a gitignored folder) is planned. Until it exists, write a throwaway script outside the repo.
+No screenshot script exists yet. Write a throwaway Playwright script outside the repo (details in `workflow.md`, Stage 2 step 4).
