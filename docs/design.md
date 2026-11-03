@@ -48,7 +48,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 ## Closing bands
 
-- `EnquiryBand` is the shared closing band: stripe heading (no number), radial glow, optional skewed `badge` chip, centred pitch, then Call (primary) and WhatsApp (secondary) `lg` buttons, stacked on mobile. It powers `ComingSoonPanel` (badge "Coming soon") and `ServiceCtaBand` (no badge)
+- `EnquiryBand` is the shared closing band: stripe heading (no number), radial glow, optional skewed `badge` chip (solid accent, large, `text-background`: the first thing seen in the band), centred pitch, then Call (primary) and WhatsApp (secondary) `lg` buttons, stacked on mobile. It powers `ComingSoonPanel` (badge "Coming soon") and `ServiceCtaBand` (no badge)
 - `RelatedServices` uses the same centred stripe heading, with no glow. All closing sections use `py-16 lg:py-24`
 - No motion on any of them until T5. The band never renders an `h1`, and it shows no opening hours or pricing
 

@@ -20,11 +20,11 @@ const BAND_GLOW_STYLES = clsx(
   'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
 );
 
-// Slanted chip, the text is skewed back upright
+// Slanted solid chip, the first thing seen in the band. The text is skewed back upright
 const BADGE_CHIP_STYLES =
-  'border-accent/40 bg-accent/10 inline-block -skew-x-12 border px-3 py-1';
+  'bg-accent inline-block -skew-x-12 px-5 py-2 sm:px-7 sm:py-2.5';
 const BADGE_TEXT_STYLES =
-  'text-accent inline-block skew-x-12 text-xs font-semibold tracking-widest uppercase';
+  'text-background inline-block skew-x-12 text-base font-extrabold tracking-widest uppercase sm:text-xl';
 
 const CTA_BUTTON_STYLES = 'w-full sm:w-auto';
 
@@ -37,7 +37,7 @@ export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
         <div className="mx-auto max-w-3xl text-center">
           <div aria-hidden="true" className={BAND_GLOW_STYLES} />
           {badge && (
-            <p className="mb-4">
+            <p className="mb-6">
               <span className={BADGE_CHIP_STYLES}>
                 <span className={BADGE_TEXT_STYLES}>{badge}</span>
               </span>
