@@ -50,6 +50,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 - Category hero images live in `public/images/services/` as `tuning.jpg`, `programming.jpg`, `security.jpg`, `electrical.jpg`
 - Specs: 1920x1080 or larger, landscape, already dark, no baked-in text, subject in the right third so the left stays quiet for the heading
+- No product or carousel images on service pages. An image-capable block needs its own component ticket first
 - Use `next/image`. With `fill`, the parent must be positioned
 - T3.32 added images to the site. Check how before adding more
 

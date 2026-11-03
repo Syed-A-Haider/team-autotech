@@ -194,9 +194,49 @@ const services: Service[] = [
     slug: 'scorpion-x-series-immobiliser',
     title: 'Scorpion X Series Immobiliser',
     category: 'Auto Security',
-    shortDescription: 'Thatcham-approved immobiliser system.',
+    shortDescription:
+      'Market-leading immobiliser that stops key cloning and key coding attacks.',
     body: 'Placeholder content — real copy to come from Scorpion X Series page.',
     icon: ShieldAlert,
+    // Copy staged from the old site (docs/content/scorpion-x-series-immobiliser.md).
+    // Step text comes from the carousel images. Live so the PR preview can be tested.
+    // Copy is unapproved by Syd (see status.md).
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Instant Protection Against Key Cloning',
+        body: [
+          "The Scorpion X Series is an instant immobiliser that disarms with a custom PIN code entered on your vehicle's existing controls, stopping key cloning and key coding attacks.",
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Ignition Off',
+            description:
+              'Switch off the ignition and the immobiliser activates automatically.',
+          },
+          {
+            title: 'Enter Your Custom PIN',
+            description:
+              'Your car will only move once the immobiliser is disarmed with your custom PIN, entered on the steering wheel or dash.',
+          },
+          {
+            title: 'Prevent Theft',
+            description:
+              'The immobiliser protects your car from theft and key cloning attacks.',
+          },
+          {
+            title: 'Layered Security',
+            description:
+              'Pair the immobiliser with a tracker for added protection.',
+          },
+        ],
+      },
+    ],
   },
   {
     slug: 'spectre-immobiliser',
