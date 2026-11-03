@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Filter, Cpu } from 'lucide-react';
-import { RelatedServices } from './RelatedServices';
+import { RelatedServices, RELATED_SERVICES_HEADING } from './RelatedServices';
 import type { Service } from '@/types/service';
 
 const mockRelatedServices: Service[] = [
@@ -38,5 +38,12 @@ describe('RelatedServices', () => {
   it('Renders nothing when there are no related services', () => {
     const { container } = render(<RelatedServices relatedServices={[]} />);
     expect(container).toBeEmptyDOMElement();
+  });
+
+  it('Renders the heading as an h2', () => {
+    render(<RelatedServices relatedServices={mockRelatedServices} />);
+    expect(
+      screen.getByRole('heading', { level: 2, name: RELATED_SERVICES_HEADING }),
+    ).toBeInTheDocument();
   });
 });
