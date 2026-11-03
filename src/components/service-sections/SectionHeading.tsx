@@ -4,7 +4,7 @@ type HeadingAlign = 'start' | 'end' | 'center';
 
 interface SectionHeadingProps {
   title: string;
-  number: number;
+  number?: number;
   align: HeadingAlign;
   className?: string;
 }
@@ -29,8 +29,13 @@ const STRIPE_ALIGN: Record<HeadingAlign, string> = {
 const NUMBER_STYLES =
   'text-accent/25 block text-6xl leading-none font-black tabular-nums lg:text-8xl';
 
-// Short slanted accent bar, the racing stripe
-const STRIPE_STYLES = 'mt-4 block h-1 w-12 -skew-x-12 bg-accent';
+// Short slanted accent bar, the racing stripe. first:mt-0 drops the gap when
+// there is no number above it
+const STRIPE_STYLES = 'mt-4 first:mt-0 block h-1 w-12 -skew-x-12 bg-accent';
+
+// Gradient, not blur or filter: a filter would trap fixed children
+export const GLOW_STYLES =
+  'pointer-events-none absolute -z-10 size-[36rem] rounded-full bg-radial from-accent/10 to-transparent to-70%';
 
 // Decorative number and stripe above the section h2
 export function SectionHeading({
@@ -41,9 +46,11 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className={clsx(ALIGN_STYLES[align], className)}>
-      <span aria-hidden="true" className={NUMBER_STYLES}>
-        {String(number).padStart(SECTION_NUMBER_DIGITS, '0')}
-      </span>
+      {number !== undefined && (
+        <span aria-hidden="true" className={NUMBER_STYLES}>
+          {String(number).padStart(SECTION_NUMBER_DIGITS, '0')}
+        </span>
+      )}
       <span
         aria-hidden="true"
         className={clsx(STRIPE_STYLES, STRIPE_ALIGN[align])}

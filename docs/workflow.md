@@ -4,7 +4,7 @@ Two-stage process for every ticket. Haider reviews and merges. Never merge, and 
 
 ## Before starting
 
-1. Read `status.md` and the ticket brief in `tickets/`.
+1. Read `status.md` and the ticket's brief in `docs/tickets/` (one short file per ticket, such as `T4.1.md`, added by Haider before the ticket starts). If the brief is missing, say so in Stage 1.
 2. Read only the other docs the ticket touches (see `README.md`).
 3. Read the existing code the ticket touches. Reuse what exists before creating anything.
 
@@ -15,7 +15,7 @@ Do not write implementation code yet.
 **Gather context first (silently, before responding):**
 
 - Read the ticket's row and the Remaining table in `status.md`.
-- Read the ticket's section in the phase specs doc (e.g. `T3.md`) under docs/tickets if one exists.
+- Read the ticket's brief in `docs/tickets/`. It is the source of intent: build the spec from it and flag anything it leaves open or that contradicts the code or docs.
 - Read `status.md` for open items and gotchas that touch this ticket, plus the docs for any existing files it builds on (types, data, sibling components).
 - If something the ticket depends on is missing, or two docs disagree, say so under Open questions instead of guessing. Where docs conflict, code wins, then `status.md`.
 
@@ -25,7 +25,7 @@ Then respond with:
 2. **Spec check** — one or two lines: does a spec section already exist, what does it cover, and what is missing or out of date.
 3. **Architecture review** — check the task against `conventions.md`: file location/naming, Server vs Client, props shape, exports, accessibility, reusability/scalability, consistency with components already built. Present as a short table (Decision | Choice | Why).
 4. **Open questions** — ask only where a genuine product/business call is needed that can't be inferred from convention or the docs (e.g. "should this be promoted," "what should the client see"). Don't ask about anything resolvable via `conventions.md` or the project docs — decide it and explain why. Plain numbered list, not interactive buttons — a written response with reasoning follows.
-5. **Draft spec** — the ticket's spec section in the phase specs format (Status, Purpose, Depends on, Files, Props / data shape, Behaviour, Accessibility, Tests, Out of scope, Decisions), as a single markdown code block ready to paste into the specs doc. Mark anything unresolved as an open question.
+5. **Draft spec** — the ticket's spec section in the phase specs format (Status, Purpose, Depends on, Files, Props / data shape, Behaviour, Accessibility, Tests, Out of scope, Decisions), as a single markdown code block ready to save into the ticket's brief in `docs/tickets/`. Mark anything unresolved as an open question.
 6. **Concise summary** — short, plain-vocabulary explanation of which good practices are being followed and why, written for someone learning rather than an expert.
 
 Planning tips:
@@ -44,7 +44,7 @@ In Stage 2, implement exactly what the saved spec says. If the code needs to dev
 1. Work in dependency order (build an internal dependency before the component that uses it).
 2. Tests first: write them from the approved spec, run them, confirm they fail for the right reason, then implement. See `testing.md`. Create minimal stubs first so red tests fail on assertions, not on missing imports. Use a smaller model (Sonnet) for Stage 2.
 3. Give full code for every file. Colocate Vitest and RTL tests as `Component.test.tsx`.
-4. Run the gates in `testing.md` and fix failures. For visual changes, check screenshots at 375, 768 and 1280 px:
+4. Run the gates in `testing.md` and fix failures. For visual changes, follow `testing.md` (Visual verification), plus:
    - Content that is not yet live (coming-soon) is hidden. Commit the real data first, then add a temporary `status: 'live'` marked `TEMP-VISUAL` in `lib/services.ts`. Revert with `git checkout src/lib/services.ts` and grep to confirm none is left. Never run the checkout before committing, or it wipes the real edits.
    - Use a throwaway Playwright script outside the repo. Import from `@playwright/test` (not `playwright`) and run it with the repo as working directory, then delete the copy.
    - Use `waitUntil: 'load'`, not `networkidle` (a production build keeps prefetching). Scope locators to `main`, because the Navbar has its own `<summary>`. The sticky Navbar appearing mid-page in a full-page screenshot is an artefact.
@@ -83,4 +83,4 @@ Concise plain prose, no tables. Cover:
 
 - Update `status.md`: move the ticket to Done, set the next ticket, adjust open items.
 - Add any new decision or gotcha to the doc it belongs to.
-- Delete the ticket brief from `tickets/`. If the spec file covers several tickets (`T3.md`), delete only this ticket's section.
+- Delete this ticket's brief from `docs/tickets/`. If a file covers several tickets, delete only this ticket's section. Git does not track an empty folder, so it disappears until Haider adds the next briefs.

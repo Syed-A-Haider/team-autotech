@@ -2,7 +2,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Gauge } from 'lucide-react';
-import { ServiceCtaBand } from './ServiceCtaBand';
+import { ServiceCtaBand, CTA_PITCH } from './ServiceCtaBand';
+import { COMING_SOON_BADGE } from './ComingSoonPanel';
 import type { Service } from '@/types/service';
 import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 
@@ -37,5 +38,15 @@ describe('ServiceCtaBand', () => {
       'href',
       WHATSAPP_LINK,
     );
+  });
+
+  it('Shows the pitch', () => {
+    render(<ServiceCtaBand service={mockService} />);
+    expect(screen.getByText(CTA_PITCH)).toBeInTheDocument();
+  });
+
+  it('Does not show the coming soon badge', () => {
+    render(<ServiceCtaBand service={mockService} />);
+    expect(screen.queryByText(COMING_SOON_BADGE)).not.toBeInTheDocument();
   });
 });

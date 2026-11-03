@@ -1,6 +1,9 @@
 import type { Service } from '@/types/service';
 import SectionWrapper from '../ui/SectionWrapper';
 import ServiceCard from '../ui/ServiceCard';
+import { SectionHeading } from './SectionHeading';
+
+export const RELATED_SERVICES_HEADING = 'You might also be interested in';
 
 interface RelatedServicesProps {
   relatedServices: Service[];
@@ -12,11 +15,13 @@ export function RelatedServices({ relatedServices }: RelatedServicesProps) {
 
   //  Render all related services as Card
   return (
-    <SectionWrapper as="section" className="py-16">
-      <h2 className="text-foreground text-2xl font-semibold">
-        You might also be interested in
-      </h2>
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <SectionWrapper as="section" className="py-16 lg:py-24">
+      <SectionHeading
+        title={RELATED_SERVICES_HEADING}
+        align="center"
+        className="mx-auto mb-12 max-w-3xl"
+      />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {relatedServices.map((service) => (
           <ServiceCard key={service.slug} service={service} />
         ))}

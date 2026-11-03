@@ -8,7 +8,7 @@ import { StepsSection } from './StepsSection';
 import { SpecBand } from './SpecBand';
 import { FaqSection } from './FaqSection';
 import { VideoSection } from './VideoSection';
-import { SectionHeading } from './SectionHeading';
+import { SectionHeading, GLOW_STYLES } from './SectionHeading';
 
 interface ServiceSectionsProps {
   sections: ServiceSection[];
@@ -58,10 +58,6 @@ const LAYOUT_STYLES: Record<SectionLayout, LayoutStyles> = {
     align: 'center',
   },
 };
-
-// Gradient, not blur or filter: a filter would trap fixed children
-const GLOW_STYLES =
-  'pointer-events-none absolute -z-10 size-[36rem] rounded-full bg-radial from-accent/10 to-transparent to-70%';
 
 // Heading beside the content when the block is text-led
 function isSplitSection(section: ServiceSection): boolean {
