@@ -15,7 +15,7 @@ export function FaqSection({ section }: FaqSectionProps) {
             {item.question}
             <ChevronDown
               aria-hidden="true"
-              className="text-accent h-5 w-5 shrink-0 transition-transform group-open:rotate-180"
+              className="text-accent h-5 w-5 shrink-0 group-open:rotate-180 motion-safe:transition-transform"
             />
           </summary>
           <p className="text-muted mt-4">{item.answer}</p>
