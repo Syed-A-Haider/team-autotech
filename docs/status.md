@@ -53,11 +53,12 @@ Technical:
 
 - Ghost Immobiliser II is `live` (indexable) with UNAPPROVED corrected copy, a provisional video title ("See Ghost Immobiliser II in Action") and a placeholder poster (frame saved from the video, `public/images/videos/ghost-immobiliser-ii.jpg`). `shortDescription` now uses the old-site tagline instead of the unsourced "CAN bus... no external fob or LED" line. Syd must approve before T6.3. If rejected, delete `status` to revert. `Service.body` is never rendered (follow-up: remove the field)
 - Scorpion X Series is `live` (indexable) with UNAPPROVED corrected copy. The step text was read from the old-site carousel images (confirmed visually); the images, the GBP 449 price and Scorpion's contact details are deliberately not used. The three feature tiles (Key Relay Defence, Personal Security, High Level Protection) have titles only, so there is no feature block. `shortDescription` uses sourced wording instead of the unsourced "Thatcham-approved" line. Syd must approve before T6.3. If rejected, delete `status` to revert
+- Placeholder FAQs on the three live pages (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series), drafted from each page's copy and generic enquiry answers. No source FAQs exist. Syd reviews and edits them in `lib/services.ts` (`faq` sections). Remove any he rejects
 
 Waiting on Syd:
 
 - Approval of the Stage 1 Tuning copy (live in the T3.6 preview, unapproved)
-- Approval of the Scorpion X Series copy (live in the T3.8 preview, unapproved)
+- Approval of the Scorpion X Series copy (live in the T3.8 preview, unapproved), and review of the placeholder FAQs on all three live pages
 - Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
 - Logo file (unblocks favicon, confirms the real accent hex)
 - Google Business Profile owner access (launch task)
