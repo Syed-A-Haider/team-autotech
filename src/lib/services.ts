@@ -165,10 +165,30 @@ const services: Service[] = [
     slug: 'ghost-immobiliser-ii',
     title: 'Ghost Immobiliser II',
     category: 'Auto Security',
-    shortDescription: 'CAN bus immobiliser with no external fob or LED.',
+    shortDescription:
+      'The most advanced immobiliser, using the latest technology to fight car theft.',
     body: 'Placeholder content — real copy to come from Ghost Immobiliser II page.',
     icon: ShieldCheck,
     popular: true,
+    // Copy staged from the old site (docs/content/ghost-immobiliser-ii.md).
+    // Live so the PR preview can be tested. Copy, video title and poster are unapproved by Syd (see status.md).
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Use Your Factory Buttons to Enter a PIN Before You Drive Away',
+        body: [
+          "Ghost Immobiliser II integrates with your vehicle's own technology and communicates directly with it. Using the factory buttons, you enter a PIN sequence of up to 20 button presses before the car will fully activate.",
+        ],
+      },
+      {
+        type: 'video',
+        title: 'See Ghost Immobiliser II in Action',
+        videoId: 'hT3xBns4wmw',
+        // Placeholder: frame saved from the video itself. Syd's poster replaces it at the same path.
+        posterImage: '/images/videos/ghost-immobiliser-ii.jpg',
+      },
+    ],
   },
   {
     slug: 'scorpion-x-series-immobiliser',
