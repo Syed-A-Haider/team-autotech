@@ -21,7 +21,7 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`.
 
 ## Next
 
-- T4.1: About page and test
+- T4.1: About page and test. Phase 4 briefs: Haider adds one short file per ticket to `docs/tickets/` (for example `T4.1.md`). Read it first; delete it at the end of the ticket
 
 ## Remaining
 

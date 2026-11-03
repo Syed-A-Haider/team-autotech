@@ -15,7 +15,7 @@ The code is the source of truth. If a doc and the code disagree, trust the code 
 | `testing.md`              | Writing tests or verifying UI                                                                                                                                  |
 | `t3-completion-report.md` | History and decisions behind T3, read when you need the why                                                                                                    |
 | `project.md`              | Business context, stakeholder rules, confirmed product decisions                                                                                               |
-| `tickets/`                | Only exists while a ticket brief is in progress. Absent between tickets                                                                                        |
+| `tickets/`                | One short brief per ticket (for example `T4.1.md`), added by Haider before the ticket starts. Delete each one when its ticket is done                          |
 | `content/`                | Source copy briefs from the old site, one per service, plus `_template.md` (new brief) and `_requests.md` (what to ask Syd, tracker for services with no copy) |
 
 ## Not included on purpose
