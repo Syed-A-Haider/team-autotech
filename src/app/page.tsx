@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <PageTransition>
       <HeroSection />
-      {/* Single shared divider between every section - replaces each section owning its own border. This wrapper doesn't constrain width, so WhyChooseUsSection's full-bleed row stays full-bleed. */}
+      {/* One shared divider between sections. No width limit here, so WhyChooseUsSection stays full-bleed. */}
       <div className="divide-border divide-y">
         <ServicesGrid services={featuredServices} />
         <WhyChooseUsSection />

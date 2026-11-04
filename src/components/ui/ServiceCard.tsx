@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import clsx from 'clsx';
 import type { Service } from '@/types/service';
+import { serviceHref } from '@/lib/routes';
 
 interface ServiceCardProps {
   service: Service;
@@ -20,14 +21,14 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
   return (
     <Link
-      href={`/services/${slug}`}
+      href={serviceHref(slug)}
       className={clsx(
         'bg-surface hover:border-accent-hover flex flex-col gap-4 rounded-lg border-2 p-4 transition-colors sm:p-6',
         // If featured, give accent
         featured ? 'border-accent' : 'border-border',
       )}
     >
-      {/* Icon + Popular tag if featured */}
+      {/* Icon + Popular tag */}
       <div className="flex items-start justify-between">
         <Icon aria-hidden="true" className="text-accent h-8 w-8" />
         {featured && (

@@ -1,5 +1,5 @@
 // siteConfig - single source of truth for site name/description, saves retyping.
-// as const: Treat as read-only, preserve exact values --> immutable + strongly typed configuration
+// as const: read-only, exact literal types
 export const siteConfig = {
   name: 'Team Autotech',
   description:

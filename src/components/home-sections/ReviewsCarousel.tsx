@@ -31,6 +31,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
         <div
           aria-live="polite"
           className="flex transition-transform duration-300 ease-in-out"
+          // Inline: the offset is computed at runtime, a Tailwind class cannot express it
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {slides.map((slide, index) => (

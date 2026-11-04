@@ -1,5 +1,6 @@
 import { test, expect } from './fixtures';
 import { getAllServices } from '@/lib/services';
+import { unknownServiceSlug } from './config/testData';
 
 test.describe('Service pages', () => {
   for (const service of getAllServices()) {
@@ -18,7 +19,7 @@ test.describe('Service pages', () => {
     'Unknown slug returns 404',
     { tag: '@smoke' },
     async ({ servicePage }) => {
-      const response = await servicePage.goto('not-a-real-service');
+      const response = await servicePage.goto(unknownServiceSlug);
       expect(response?.status()).toBe(404);
     },
   );

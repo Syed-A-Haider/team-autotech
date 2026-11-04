@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ServiceCategories } from '@/types/service';
 import clsx from 'clsx';
+import { serviceHref } from '@/lib/routes';
 
 interface ServicesDropdownProps {
   categories: ServiceCategories;
@@ -35,7 +36,7 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
                   <li key={service.slug}>
                     {/* Each service will point to specific url (determined by their slug) */}
                     <Link
-                      href={`/services/${service.slug}`}
+                      href={serviceHref(service.slug)}
                       className="text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm transition-colors duration-150"
                     >
                       {/* Structure of each line = Icon followed by name, followed by conditional popular tag */}

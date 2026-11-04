@@ -16,7 +16,7 @@ export interface Service {
 }
 
 // Category can be one of these
-// When adding a new category, add it's title here.
+// When adding a new category, add its title here.
 export type Category =
   'Remap / Tuning' | 'Programming' | 'Auto Security' | 'Auto Electrical';
 
@@ -48,7 +48,7 @@ export interface FaqItem {
 }
 
 // Discriminated Union - each service page composed from lots of these blocks
-// Rather then declaring shapes - define type
+// Rather than declaring shapes - define type
 export type ServiceSection =
   | { type: 'prose'; title?: string; body: string[] }
   | {

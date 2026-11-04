@@ -12,14 +12,12 @@ interface Fixtures {
 }
 
 export const test = base.extend<Fixtures>({
-  homePage: [
-    async ({ page }, use) => {
-      const homePage = new HomePage(page);
-      await homePage.goto();
-      await use(homePage);
-    },
-    { auto: true },
-  ],
+  // Navigates to '/' on first use, so only tests that ask for it load the homepage
+  homePage: async ({ page }, use) => {
+    const homePage = new HomePage(page);
+    await homePage.goto();
+    await use(homePage);
+  },
   // Non-auto: Each service test navigates to different slug
   servicePage: async ({ page }, use) => {
     await use(new ServicePage(page));

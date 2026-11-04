@@ -1,9 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Footer } from './Footer';
-
-const OPENING_HOURS_WEEKDAYS = 'Monday - Friday: 10:00AM - 5:30PM';
-const OPENING_HOURS_WEEKEND = 'Saturday - Sunday: Closed';
+import {
+  ADDRESS,
+  EMAIL,
+  GOOGLE_PROFILE_LINK,
+  MAILTO_LINK,
+  OPENING_HOURS,
+  SOCIAL_LINKS,
+  TEL_LANDLINE_LINK,
+  TEL_MOBILE_LINK,
+  WHATSAPP_LINK,
+  siteConfig,
+} from '@/lib/constants';
 
 describe('Footer', () => {
   it('renders a contentinfo landmark', () => {
@@ -13,7 +22,7 @@ describe('Footer', () => {
 
   it('renders the business name', () => {
     render(<Footer />);
-    expect(screen.getByText('Team Autotech')).toBeInTheDocument();
+    expect(screen.getByText(siteConfig.name)).toBeInTheDocument();
   });
 
   it('renders a footer navigation landmark with Home and About links', () => {
@@ -33,15 +42,14 @@ describe('Footer', () => {
 
   it('renders the address text', () => {
     render(<Footer />);
-    expect(screen.getByText(/Unit 4E Wenning St/)).toBeInTheDocument();
-    expect(screen.getByText(/BB9 0LE/)).toBeInTheDocument();
+    expect(screen.getByText(ADDRESS)).toBeInTheDocument();
   });
 
   it('renders the landline as a correct tel: link', () => {
     render(<Footer />);
     expect(screen.getByRole('link', { name: /Landline/ })).toHaveAttribute(
       'href',
-      'tel:+441282787576',
+      TEL_LANDLINE_LINK,
     );
   });
 
@@ -49,24 +57,22 @@ describe('Footer', () => {
     render(<Footer />);
     expect(screen.getByRole('link', { name: /Mobile/ })).toHaveAttribute(
       'href',
-      'tel:+447515007688',
+      TEL_MOBILE_LINK,
     );
   });
 
   it('renders a correct mailto: link', () => {
     render(<Footer />);
-    expect(
-      screen.getByRole('link', { name: /teamautotech@outlook.com/ }),
-    ).toHaveAttribute('href', 'mailto:teamautotech@outlook.com');
+    expect(screen.getByRole('link', { name: EMAIL })).toHaveAttribute(
+      'href',
+      MAILTO_LINK,
+    );
   });
 
   it('renders the WhatsApp text link (ContactLine) with correct href and safe external attributes', () => {
     render(<Footer />);
     const link = screen.getByRole('link', { name: 'WhatsApp Us' });
-    expect(link).toHaveAttribute(
-      'href',
-      'https://api.whatsapp.com/send?phone=447515007688&text=Hi%2C%20How%20can%20we%20help%3F',
-    );
+    expect(link).toHaveAttribute('href', WHATSAPP_LINK);
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
@@ -74,10 +80,7 @@ describe('Footer', () => {
   it('renders the Google profile link with correct href and safe external attributes', () => {
     render(<Footer />);
     const link = screen.getByRole('link', { name: 'Find Us on Google' });
-    expect(link).toHaveAttribute(
-      'href',
-      'https://share.google/h5RwgH5kJAwaGiQWk',
-    );
+    expect(link).toHaveAttribute('href', GOOGLE_PROFILE_LINK);
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
@@ -85,10 +88,7 @@ describe('Footer', () => {
   it('renders a distinct, emphasized WhatsApp icon in the social row', () => {
     render(<Footer />);
     const link = screen.getByRole('link', { name: 'Chat on WhatsApp' });
-    expect(link).toHaveAttribute(
-      'href',
-      'https://api.whatsapp.com/send?phone=447515007688&text=Hi%2C%20How%20can%20we%20help%3F',
-    );
+    expect(link).toHaveAttribute('href', WHATSAPP_LINK);
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
@@ -97,22 +97,22 @@ describe('Footer', () => {
     render(<Footer />);
     expect(screen.getByRole('link', { name: 'Facebook' })).toHaveAttribute(
       'href',
-      'https://facebook.com/teamautotechuk',
+      SOCIAL_LINKS.facebook,
     );
     expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
       'href',
-      'https://instagram.com/teamautotech',
+      SOCIAL_LINKS.instagram,
     );
     expect(screen.getByRole('link', { name: 'Youtube' })).toHaveAttribute(
       'href',
-      'https://www.youtube.com/channel/UCokP_BpT-Yw5ANsHOAOUSnQ',
+      SOCIAL_LINKS.youtube,
     );
   });
 
   it('renders opening hours', () => {
     render(<Footer />);
-    expect(screen.getByText(OPENING_HOURS_WEEKDAYS)).toBeInTheDocument();
-    expect(screen.getByText(OPENING_HOURS_WEEKEND)).toBeInTheDocument();
+    expect(screen.getByText(OPENING_HOURS.weekdays)).toBeInTheDocument();
+    expect(screen.getByText(OPENING_HOURS.weekend)).toBeInTheDocument();
   });
 
   it('renders the current year in the copyright line', () => {
