@@ -32,7 +32,8 @@ const NUMBER_STYLES =
 
 // Short slanted accent bar, the racing stripe. first:mt-0 drops the gap when
 // there is no number above it
-const STRIPE_STYLES = 'mt-4 first:mt-0 block h-1 w-12 -skew-x-12 bg-accent';
+export const STRIPE_STYLES =
+  'mt-4 first:mt-0 block h-1 w-12 -skew-x-12 bg-accent';
 
 // Gradient, not blur or filter: a filter would trap fixed children
 export const GLOW_STYLES =

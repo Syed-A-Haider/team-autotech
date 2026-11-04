@@ -2,11 +2,13 @@ import { test as base } from '@playwright/test';
 import { HomePage } from './pages/HomePage';
 import { ServicePage } from './pages/ServicePage';
 import { AboutPage } from './pages/AboutPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 interface Fixtures {
   homePage: HomePage;
   servicePage: ServicePage;
   aboutPage: AboutPage;
+  notFoundPage: NotFoundPage;
 }
 
 export const test = base.extend<Fixtures>({
@@ -25,6 +27,10 @@ export const test = base.extend<Fixtures>({
   // Non-auto: Only the About tests need it
   aboutPage: async ({ page }, use) => {
     await use(new AboutPage(page));
+  },
+  // Non-auto: Only the not-found tests need it
+  notFoundPage: async ({ page }, use) => {
+    await use(new NotFoundPage(page));
   },
 });
 
