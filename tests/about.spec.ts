@@ -1,6 +1,7 @@
 import { test, expect } from './fixtures';
 import { pageTitle, routes, viewports } from './config/testData';
 import { ABOUT_META_TITLE } from '@/app/about/page';
+import { getAllServices } from '@/lib/services';
 
 test.describe('About page', { tag: '@about' }, () => {
   test(
@@ -52,6 +53,22 @@ test.describe('About page', { tag: '@about' }, () => {
 
       // Assert
       await expect(page).toHaveURL(routes.about);
+    },
+  );
+
+  test(
+    'Service link on About lands on its service page',
+    { tag: '@navigation' },
+    async ({ page, aboutPage }) => {
+      // Arrange
+      const [service] = getAllServices();
+      await aboutPage.goto();
+
+      // Act
+      await aboutPage.serviceLink(service.title).click();
+
+      // Assert
+      await expect(page).toHaveURL(routes.service(service.slug));
     },
   );
 });

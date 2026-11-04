@@ -9,8 +9,11 @@ import AboutPage, {
   ABOUT_INTRO_HEADING,
   ABOUT_INTRO_BODY,
   ABOUT_SERVICES_HEADING,
-  ABOUT_SERVICES_CTA_LABEL,
   ABOUT_VISIT_HEADING,
+  ABOUT_EXPERIENCE_STAT,
+  ABOUT_EXPERIENCE_LABEL,
+  ABOUT_HIGHLIGHTS,
+  ABOUT_DIRECTIONS_LABEL,
   ABOUT_ENQUIRY_HEADING,
 } from './page';
 import { getAllServices, groupServicesByCategory } from '@/lib/services';
@@ -18,8 +21,6 @@ import {
   ADDRESS,
   OPENING_HOURS,
   TEL_MOBILE_LINK,
-  TEL_LANDLINE_LINK,
-  MAILTO_LINK,
   MAPS_DIRECTIONS_LINK,
   WHATSAPP_LINK,
 } from '@/lib/constants';
@@ -69,43 +70,54 @@ describe('AboutPage', () => {
     expect(h3s.map((h3) => h3.textContent)).toEqual(categories);
   });
 
-  it('Lists every service title as plain text', () => {
+  it('Links every service title to its service page', () => {
     render(<AboutPage />);
     getAllServices().forEach((service) => {
-      expect(screen.getByText(service.title)).toBeInTheDocument();
-      expect(
-        screen.queryByRole('link', { name: service.title }),
-      ).not.toBeInTheDocument();
+      expect(screen.getByRole('link', { name: service.title })).toHaveAttribute(
+        'href',
+        `/services/${service.slug}`,
+      );
     });
   });
 
-  it('Links the services CTA to the homepage services section', () => {
+  it('Links to exactly one service page per service', () => {
     render(<AboutPage />);
-    expect(
-      screen.getByRole('link', { name: ABOUT_SERVICES_CTA_LABEL }),
-    ).toHaveAttribute('href', '/#services');
+    const serviceHrefs = allLinkHrefs().filter((href) =>
+      href.startsWith('/services/'),
+    );
+    expect(serviceHrefs).toHaveLength(getAllServices().length);
   });
 
-  it('Links to no individual service page', () => {
+  it('Shows the experience stat, label and highlights', () => {
     render(<AboutPage />);
-    allLinkHrefs().forEach((href) => {
-      expect(href.startsWith('/services/')).toBe(false);
+    expect(screen.getByText(ABOUT_EXPERIENCE_STAT)).toBeInTheDocument();
+    expect(screen.getByText(ABOUT_EXPERIENCE_LABEL)).toBeInTheDocument();
+    ABOUT_HIGHLIGHTS.forEach((highlight) => {
+      expect(screen.getByText(highlight)).toBeInTheDocument();
     });
   });
 
-  it('Links to the phone numbers, email, directions and WhatsApp', () => {
+  it('Renders no section numbers', () => {
+    const { container } = render(<AboutPage />);
+    const numbered = Array.from(container.querySelectorAll('*')).filter(
+      (element) => /^\d{2}$/.test(element.textContent ?? ''),
+    );
+    expect(numbered).toHaveLength(0);
+  });
+
+  it('Links to directions, the mobile number and WhatsApp', () => {
     render(<AboutPage />);
     const hrefs = allLinkHrefs();
-    expect(hrefs).toContain(TEL_MOBILE_LINK);
-    expect(hrefs).toContain(TEL_LANDLINE_LINK);
-    expect(hrefs).toContain(MAILTO_LINK);
     expect(hrefs).toContain(MAPS_DIRECTIONS_LINK);
+    expect(hrefs).toContain(TEL_MOBILE_LINK);
     expect(hrefs).toContain(WHATSAPP_LINK);
   });
 
   it('Opens the directions link safely in a new tab', () => {
     render(<AboutPage />);
-    const directions = screen.getByRole('link', { name: ADDRESS });
+    const directions = screen.getByRole('link', {
+      name: new RegExp(`^${ABOUT_DIRECTIONS_LABEL}`),
+    });
     expect(directions).toHaveAttribute('href', MAPS_DIRECTIONS_LINK);
     expect(directions).toHaveAttribute('target', '_blank');
     expect(directions).toHaveAttribute('rel', 'noopener noreferrer');
