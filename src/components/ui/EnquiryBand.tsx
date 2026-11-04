@@ -1,12 +1,7 @@
 import clsx from 'clsx';
-import { Phone, MessageCircle } from 'lucide-react';
-import LinkButton from './LinkButton';
 import SectionWrapper from './SectionWrapper';
 import { SectionHeading, GLOW_STYLES } from './SectionHeading';
-import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
-
-export const CALL_LABEL = 'Call us';
-export const WHATSAPP_LABEL = 'WhatsApp';
+import { ContactLinks } from './ContactLinks';
 
 interface EnquiryBandProps {
   title: string;
@@ -26,9 +21,10 @@ const BADGE_CHIP_STYLES =
 const BADGE_TEXT_STYLES =
   'text-background inline-block skew-x-12 text-base font-extrabold tracking-widest uppercase sm:text-xl';
 
-const CTA_BUTTON_STYLES = 'w-full sm:w-auto';
+// Stacked full-width on mobile, one centred row from sm
+const CONTACT_LINKS_STYLES = 'mt-8 flex-col sm:flex-row sm:justify-center';
 
-// Shared closing band: stripe heading, pitch and the two contact buttons.
+// Shared closing band: stripe heading, pitch and the contact buttons.
 // Powers both ComingSoonPanel and ServiceCtaBand
 export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
   return (
@@ -47,27 +43,7 @@ export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
           <p className="text-muted mx-auto mt-4 max-w-prose text-lg text-pretty">
             {pitch}
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <LinkButton
-              href={TEL_MOBILE_LINK}
-              variant="primary"
-              size="lg"
-              className={CTA_BUTTON_STYLES}
-            >
-              <Phone aria-hidden="true" className="h-5 w-5" />
-              {CALL_LABEL}
-            </LinkButton>
-            <LinkButton
-              href={WHATSAPP_LINK}
-              variant="secondary"
-              size="lg"
-              external
-              className={CTA_BUTTON_STYLES}
-            >
-              <MessageCircle aria-hidden="true" className="h-5 w-5" />
-              {WHATSAPP_LABEL}
-            </LinkButton>
-          </div>
+          <ContactLinks className={CONTACT_LINKS_STYLES} />
         </div>
       </SectionWrapper>
     </section>
