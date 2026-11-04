@@ -8,7 +8,7 @@ interface WhyChooseUsCardProps {
 
 // One badge in the strip. Shows icon + title normally.
 // On hover/focus it grows and reveals the description text.
-export default function WhyChooseUsCard({ item }: WhyChooseUsCardProps) {
+export function WhyChooseUsCard({ item }: WhyChooseUsCardProps) {
   const { icon: Icon, title, description, iconAlign } = item;
 
   return (

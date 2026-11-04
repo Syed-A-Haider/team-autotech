@@ -1,5 +1,5 @@
-import ServiceCard from '../ui/ServiceCard';
-import SectionWrapper from '../ui/SectionWrapper';
+import { ServiceCard } from '../ui/ServiceCard';
+import { SectionWrapper } from '../ui/SectionWrapper';
 import type { Service } from '@/types/service';
 
 interface ServiceGridProps {
@@ -9,7 +9,7 @@ interface ServiceGridProps {
 // Exported to be used in test files
 export const SERVICES_GRID_HEADING = 'Our Most Popular Services';
 
-export default function ServicesGrid({ services }: ServiceGridProps) {
+export function ServicesGrid({ services }: ServiceGridProps) {
   return (
     <SectionWrapper
       id="services"

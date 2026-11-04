@@ -6,7 +6,7 @@ interface ServiceCardProps {
   service: Service;
 }
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+export function ServiceCard({ service }: ServiceCardProps) {
   // Deserialise all future props
   const {
     slug,

@@ -9,7 +9,7 @@ interface ReviewsCarouselProps {
   children: ReactNode[];
 }
 
-export default function ReviewsCarousel({ children }: ReviewsCarouselProps) {
+export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const slides = Children.toArray(children);
   const count = slides.length;

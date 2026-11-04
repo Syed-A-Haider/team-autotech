@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Phone } from 'lucide-react';
-import ContactLine from './ContactLine';
+import { ContactLine } from './ContactLine';
 
 describe('ContactLine', () => {
   it('Renders the link text and href', () => {

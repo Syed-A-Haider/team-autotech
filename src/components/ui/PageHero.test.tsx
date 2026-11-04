@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import PageHero from './PageHero';
+import { PageHero } from './PageHero';
 
 describe('PageHero', () => {
   it('Renders the title as a level 1 heading', () => {

@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Gauge } from 'lucide-react';
-import Navbar from './Navbar';
+import { Navbar } from './Navbar';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
 import userEvent from '@testing-library/user-event';

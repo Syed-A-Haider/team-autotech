@@ -1,9 +1,9 @@
 import { Award, ShieldCheck, BadgeCheck, type LucideIcon } from 'lucide-react';
 import { SiGoogle } from 'react-icons/si';
 import type { IconType } from 'react-icons';
-import SectionWrapper from '@/components/ui/SectionWrapper';
+import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT_DISPLAY } from '@/lib/reviews';
-import WhyChooseUsCard from './WhyChooseUsCard';
+import { WhyChooseUsCard } from './WhyChooseUsCard';
 import styles from './WhyChooseUsSection.module.css';
 
 // Exported so WhyChooseUsCard can use the same shape
@@ -54,7 +54,7 @@ export const whyChooseUsItems: WhyChooseUsItem[] = [
   },
 ];
 
-export default function WhyChooseUsSection() {
+export function WhyChooseUsSection() {
   return (
     <section>
       <SectionWrapper as="div" className="pt-10 pb-8 sm:pt-14 sm:pb-10">

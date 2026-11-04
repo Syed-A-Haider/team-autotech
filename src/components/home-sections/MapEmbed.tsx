@@ -10,7 +10,7 @@ interface MapEmbedProps {
 }
 
 // Client Component: needs iframe's onLoad event to know when to hide skeleton
-export default function MapEmbed({ src, title, className }: MapEmbedProps) {
+export function MapEmbed({ src, title, className }: MapEmbedProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (

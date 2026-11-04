@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import AboutSnippet, {
+import {
+  AboutSnippet,
   ABOUT_EYEBROW,
   ABOUT_HEADLINE,
   ABOUT_BLURB,

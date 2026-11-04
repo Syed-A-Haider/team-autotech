@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
-import ReviewsCarousel from './ReviewsCarousel';
+import { ReviewsCarousel } from './ReviewsCarousel';
 
 function renderCarousel() {
   return render(

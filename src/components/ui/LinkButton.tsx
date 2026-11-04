@@ -31,7 +31,7 @@ export const buttonSizeStyles: Record<ButtonSize, string> = {
 };
 
 // Defines a button which will be a navigation link to other pages
-export default function LinkButton({
+export function LinkButton({
   href,
   children,
   variant = 'primary',

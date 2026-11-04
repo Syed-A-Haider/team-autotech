@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
-import SectionWrapper from './SectionWrapper';
+import { SectionWrapper } from './SectionWrapper';
 import { SectionHeading, GLOW_STYLES } from './SectionHeading';
 
 export type SectionLayout = 'split' | 'split-reverse' | 'stacked';

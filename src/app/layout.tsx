@@ -3,9 +3,9 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/lib/constants';
 import { Footer } from '@/components/layout/Footer';
-import WhatsAppWidget from '@/components/layout/WhatsAppWidget';
+import { WhatsAppWidget } from '@/components/layout/WhatsAppWidget';
 import { groupServicesByCategory } from '@/lib/services';
-import Navbar from '@/components/layout/Navbar';
+import { Navbar } from '@/components/layout/Navbar';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
 

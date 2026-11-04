@@ -10,9 +10,7 @@ interface ServicesDropdownProps {
 // Visibility is CSS-only - group-hover/group-focus-within on parent in Navbar.tsx
 // Positioned against the nav's content row (see 'relative' on Navbar.tsx), so it spans
 // the full logo-to-CTA width instead of centering under the Services button
-export default function ServicesDropdown({
-  categories,
-}: ServicesDropdownProps) {
+export function ServicesDropdown({ categories }: ServicesDropdownProps) {
   const dropdownPanelClasses = clsx(
     'invisible absolute inset-x-4 top-full translate-y-2 opacity-0',
     'group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100',

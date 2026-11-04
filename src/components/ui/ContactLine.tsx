@@ -8,7 +8,7 @@ export interface ContactLineProps {
   external?: boolean;
 }
 
-export default function ContactLine({
+export function ContactLine({
   icon,
   href,
   children,

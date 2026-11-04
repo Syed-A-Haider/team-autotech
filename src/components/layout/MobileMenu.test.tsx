@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
-import MobileMenu, { type MobileMenuCategories } from './MobileMenu';
+import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
 
 const mockCategories: MobileMenuCategories = {
   'Remap / Tuning': [{ slug: 'stage-1-tuning', title: 'Stage 1 Tuning' }],

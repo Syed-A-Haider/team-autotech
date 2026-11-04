@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
-import LinkButton from '../ui/LinkButton';
+import { LinkButton } from '../ui/LinkButton';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 import clsx from 'clsx';
 
@@ -30,7 +30,7 @@ const topLevelLinkClasses =
 
 // Only client piece in layout - owns own toggle state + panel it controls.
 // Navbar (server component) cannot hold
-export default function MobileMenu({ categories }: MobileMenuProps) {
+export function MobileMenu({ categories }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Lock background scroll while panel is open

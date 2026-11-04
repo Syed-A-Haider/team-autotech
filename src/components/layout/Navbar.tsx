@@ -1,17 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown, Phone } from 'lucide-react';
-import LinkButton from '../ui/LinkButton';
-import ServicesDropdown from './ServicesDropdown';
+import { LinkButton } from '../ui/LinkButton';
+import { ServicesDropdown } from './ServicesDropdown';
 import { siteConfig, TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
-import MobileMenu, { type MobileMenuCategories } from './MobileMenu';
+import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
 
 interface NavbarProps {
   categories: ServiceCategories;
 }
 
-export default function Navbar({ categories }: NavbarProps) {
+export function Navbar({ categories }: NavbarProps) {
   // MobileMenu = Client Component
   // Strip service to serializable fields to pass down
   const mobileNavCategories: MobileMenuCategories = Object.fromEntries(

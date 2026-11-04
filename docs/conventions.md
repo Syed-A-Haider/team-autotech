@@ -21,7 +21,7 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - Export only when a second consumer exists. Do not export speculatively.
 - No dedicated icon prop. Pass icons as children (YAGNI).
 - Use `import type { ReactNode } from 'react'`, not the global `React.ReactNode`.
-- Components use named exports (`export function Name`). Pages, layouts and other route files keep `export default`, which Next requires. The T1 and T2 components still use `export default` and have not been converted.
+- Components use named exports (`export function Name`). Pages, layouts and other route files keep `export default`, which Next requires. Every component under `src/components` uses a named export.
 
 ## Data
 

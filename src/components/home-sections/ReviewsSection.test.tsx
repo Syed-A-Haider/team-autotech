@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import ReviewsSection, {
+import {
+  ReviewsSection,
   REVIEWS_SECTION_HEADING,
   REVIEWS_SECTION_SUBHEADING,
 } from './ReviewsSection';

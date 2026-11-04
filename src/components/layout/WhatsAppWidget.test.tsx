@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import WhatsAppWidget from './WhatsAppWidget';
+import { WhatsAppWidget } from './WhatsAppWidget';
 import { WHATSAPP_LINK } from '@/lib/constants';
 
 describe('WhatsAppWidget', () => {

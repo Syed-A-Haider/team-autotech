@@ -6,17 +6,17 @@ import {
   MAPS_DIRECTIONS_LINK,
   siteConfig,
 } from '@/lib/constants';
-import SectionWrapper from '../ui/SectionWrapper';
-import LinkButton from '../ui/LinkButton';
-import ContactLine from '../ui/ContactLine';
-import MapEmbed from './MapEmbed';
+import { SectionWrapper } from '../ui/SectionWrapper';
+import { LinkButton } from '../ui/LinkButton';
+import { ContactLine } from '../ui/ContactLine';
+import { MapEmbed } from './MapEmbed';
 
 export const FIND_US_SECTION_HEADING = 'Find Us';
 export const FIND_US_SECTION_INTRO =
   "Based in Nelson, Lancashire - here's how to find us.";
 export const FIND_US_DIRECTIONS_LABEL = 'Get Directions';
 
-export default function FindUsSection() {
+export function FindUsSection() {
   return (
     <SectionWrapper className="py-12 sm:py-16">
       <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">

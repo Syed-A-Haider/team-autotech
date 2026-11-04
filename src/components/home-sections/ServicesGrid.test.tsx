@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Wrench, ShieldCheck, Camera } from 'lucide-react';
-import ServicesGrid, { SERVICES_GRID_HEADING } from './ServicesGrid';
+import { ServicesGrid, SERVICES_GRID_HEADING } from './ServicesGrid';
 import type { Service } from '@/types/service';
 
 const mockServices: Service[] = [

@@ -1,9 +1,9 @@
-import AboutSnippet from '@/components/home-sections/AboutSnippet';
-import FindUsSection from '@/components/home-sections/FindUsSection';
-import HeroSection from '@/components/home-sections/HeroSection';
-import ReviewsSection from '@/components/home-sections/ReviewsSection';
-import ServicesGrid from '@/components/home-sections/ServicesGrid';
-import WhyChooseUsSection from '@/components/home-sections/WhyChooseUsSection';
+import { AboutSnippet } from '@/components/home-sections/AboutSnippet';
+import { FindUsSection } from '@/components/home-sections/FindUsSection';
+import { HeroSection } from '@/components/home-sections/HeroSection';
+import { ReviewsSection } from '@/components/home-sections/ReviewsSection';
+import { ServicesGrid } from '@/components/home-sections/ServicesGrid';
+import { WhyChooseUsSection } from '@/components/home-sections/WhyChooseUsSection';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { getFeaturedServices } from '@/lib/services';
 
