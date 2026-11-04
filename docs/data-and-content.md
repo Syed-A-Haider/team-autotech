@@ -34,7 +34,7 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 
 ## Section content (T3.4 onward)
 
-- A page's body is its `sections` array. Content tickets are data edits only. Three services are live (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series); the other 12 have no source copy. Future per-service content tickets start at T3.11
+- A page's body is its `sections` array. Content tickets are data edits only. Three services are live (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series); the other 12 have no source copy. Future per-service content tickets are numbered in order in a later phase, opened by Haider (T3 is closed, so there is no T3.11)
 - `ServiceSections` owns the `SectionWrapper` and the optional `title` `h2` for every block. Blocks render only their inner content, so spacing and title style change in one place
 - A live service with no `sections` falls back to `ComingSoonPanel`. The `video` type renders `VideoSection`: a local poster (`public/images/videos/<slug>.jpg`, 16:9, at least 1280x720, no baked-in play button) and a play button. `videoId` is the bare 11-character id, not a URL. The `title` names the player and the renderer shows it as the `h2`. A missing poster file renders a broken box and the build does not catch it, so check the file exists. Ghost Immobiliser II is the worked example
 - `Feature` has no image field, so the `alternating` layout is text-only

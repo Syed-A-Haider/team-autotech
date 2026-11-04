@@ -17,10 +17,7 @@ Static Next.js 16 (App Router) + React 19 (React Compiler) + TypeScript + Tailwi
 
 - Vitest resolves `@/*` via native `resolve.tsconfigPaths`. Do not add `vite-tsconfig-paths`.
 - Vitest has no `globals: true`. `vitest.setup.ts` handles cleanup and jest-dom. Playwright specs in `tests/` are excluded from Vitest.
-- Functions and `LucideIcon` cannot cross the Server to Client boundary. Pass a trimmed serialisable shape (see `Navbar` to `MobileMenu`).
-- A `//` comment directly above a JSX spread attribute breaks the Next compiler.
-- `backdrop-filter`/`filter` on an ancestor traps `position: fixed` children.
-- `next/image` with `fill` needs a positioned parent.
+- The Server to Client boundary, `next/image` `fill`, JSX spread comments and `backdrop-filter` gotchas are in the Gotchas section of `docs/conventions.md` (imported below).
 
 ## Workflow
 

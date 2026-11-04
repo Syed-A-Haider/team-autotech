@@ -15,8 +15,9 @@ Read `docs/workflow.md` ("Pull request description" and "End of ticket") and `do
    - Update the "Last updated" line (today's date, after this ticket).
    - Adjust Open items only for things this ticket actually changed or discovered.
 3. **File decisions.** If the ticket introduced a decision or gotcha, add it to the doc it belongs to (`conventions.md`, `architecture.md`, `testing.md`, `data-and-content.md`, `design.md`). Keep each doc under about 150 lines. If nothing new came up, add nothing.
-4. **Delete the ticket brief** from `docs/tickets/` (the file for this ticket only).
-5. **Commit** the doc changes as `T#.# - Update status and docs`. Do not mix them with feature code.
-6. **Draft the PR description** in the format from `workflow.md`: concise plain prose, no tables, covering what changed, key decisions with brief reasoning, files touched, testing summary, open items, and follow-ups. Print it for review.
+4. **Completion report.** Append this ticket to the phase's running report, `docs/t#-completion-report.md` (timeline row, test counts, decisions, follow-ups). Create it at the end of a phase's first ticket if it does not exist yet.
+5. **Delete the ticket brief** from `docs/tickets/` (the file for this ticket only).
+6. **Commit** the doc changes as `T#.# - Update status and docs`. Do not mix them with feature code.
+7. **Draft the PR description** in the format from `workflow.md`: concise plain prose, no tables, covering what changed, key decisions with brief reasoning, files touched, testing summary, open items, and follow-ups. Print it for review.
 
 Do not push, open a PR, or merge unless the user asks. Never merge and never push to `main`; Haider reviews and merges.
