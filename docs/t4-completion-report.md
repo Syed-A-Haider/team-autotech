@@ -4,9 +4,9 @@ Phase T4: pages and shared pieces. A running document: each ticket appends its e
 
 ## Summary
 
-_Refreshed at the end of T4. Scope: the About page (T4.1), a branded 404 (T4.2), the shared `ContactLinks` (T4.3) and a repository sweep (T4.4)._
+_Refreshed at the end of T4. Scope: the About page (T4.1), a branded 404 (T4.2), the shared `ContactLinks` (T4.3), a repository sweep (T4.4) and the Next.js security upgrade (T4.5)._
 
-T4 is done. T4.1 added a static, deliberately unnumbered About page with clickable services, a shared `ui/SectionShell` for the service pages, and the root title template. T4.2 added the branded 404 and removed the lint warning for the unused review count import. T4.3 added `ui/ContactLinks` (Call and WhatsApp buttons, hrefs from `constants.ts`), which the shared `EnquiryBand` now renders for all three closing bands. T4.4 was a hygiene sweep with no behaviour change: stale comment, test and doc fixes, and a record of the rules decided along the way.
+T4 is done. T4.1 added a static, deliberately unnumbered About page with clickable services, a shared `ui/SectionShell` for the service pages, and the root title template. T4.2 added the branded 404 and removed the lint warning for the unused review count import. T4.3 added `ui/ContactLinks` (Call and WhatsApp buttons, hrefs from `constants.ts`), which the shared `EnquiryBand` now renders for all three closing bands. T4.4 was a hygiene sweep with no behaviour change: stale comment, test and doc fixes, and a record of the rules decided along the way. T4.5 upgraded `next` and `eslint-config-next` from 16.3.0 to 16.4.5, cleared all 17 audit advisories, and proved nothing changed with a before/after snapshot of the built site. It also moved the Next.js agent rules to `AGENTS.md` and added the `dependency-upgrades.md` runbook.
 
 ## Timeline
 
@@ -16,18 +16,20 @@ T4 is done. T4.1 added a static, deliberately unnumbered About page with clickab
 | T4.2   | this PR | TBC    | Branded `not-found.tsx` (faded 404, stripe, h1, one button). `STRIPE_STYLES` exported. New `not-found.spec.ts`. No `/services` index or redirect, by decision. Unused `GOOGLE_REVIEW_COUNT` import removed                                                                                         |
 | T4.3   | this PR | TBC    | `ui/ContactLinks` (Call and WhatsApp, no email), rendered by `EnquiryBand`. Number visible from `sm` up. `CALL_LABEL` and `WHATSAPP_LABEL` moved into it. One `EnquiryBand.test.tsx` edit, approved                                                                                                |
 | T4.4   | this PR | TBC    | Repository sweep, no behaviour change. Removed a stale `Navbar` TODO, merged `smoke.spec.ts` into `homepage.spec.ts`, replaced the boilerplate README, trimmed duplicate Gotchas from `CLAUDE.md`, recorded rule notes. The Next.js upgrade is the next ticket                                     |
+| T4.5   | this PR | TBC    | Next.js security upgrade: `next` and `eslint-config-next` 16.3.0 to 16.4.5, `nanoid` and `source-map-js` lockfile refresh, audit 17 to 0. No code or test change. Agent rules moved from `CLAUDE.md` to `AGENTS.md`. New `dependency-upgrades.md` runbook                                          |
 
 ## Current state
 
 Baseline at the start of T4 (after T3.10): 15 services (3 live, 12 coming-soon), routes `/` and `/services/[slug]` only, 195 Vitest tests in 37 files, 27 Playwright tests.
 
-| After ticket     | Routes                         | Vitest         | Playwright | Notes                                                                                                                                              |
-| ---------------- | ------------------------------ | -------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T3.10 (baseline) | `/`, `/services/[slug]`        | 195            | 27         |                                                                                                                                                    |
-| T4.1             | adds `/about` (static, ○)      | 216 (39 files) | 32         | +6 `SectionShell`, +13 About page, +1 `AboutSnippet`, +1 `SectionHeading` (`stripe` prop), +5 Playwright (`@about`)                                |
-| T4.2             | adds `/_not-found` (static, ○) | 222 (40 files) | 37         | +6 `NotFound`, +5 Playwright (`@notfound`)                                                                                                         |
-| T4.3             | no change                      | 229 (41 files) | 37         | +7 `ContactLinks`. No new route or Playwright spec                                                                                                 |
-| T4.4             | no change                      | 231 (42 files) | 36         | -1 Playwright: the duplicate title test in `smoke.spec.ts` was dropped when the file was merged. +2 Vitest: `serviceHref`, `ContactLine` className |
+| After ticket     | Routes                         | Vitest         | Playwright | Notes                                                                                                                                                      |
+| ---------------- | ------------------------------ | -------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T3.10 (baseline) | `/`, `/services/[slug]`        | 195            | 27         |                                                                                                                                                            |
+| T4.1             | adds `/about` (static, ○)      | 216 (39 files) | 32         | +6 `SectionShell`, +13 About page, +1 `AboutSnippet`, +1 `SectionHeading` (`stripe` prop), +5 Playwright (`@about`)                                        |
+| T4.2             | adds `/_not-found` (static, ○) | 222 (40 files) | 37         | +6 `NotFound`, +5 Playwright (`@notfound`)                                                                                                                 |
+| T4.3             | no change                      | 229 (41 files) | 37         | +7 `ContactLinks`. No new route or Playwright spec                                                                                                         |
+| T4.4             | no change                      | 231 (42 files) | 36         | -1 Playwright: the duplicate title test in `smoke.spec.ts` was dropped when the file was merged. +2 Vitest: `serviceHref`, `ContactLine` className         |
+| T4.5             | no change                      | 231 (42 files) | 36         | No test added, edited or removed. Verified on both a production build and `pnpm dev`. Red and green evidence is `pnpm audit --prod`: 17 advisories, then 0 |
 
 ## Major decisions
 
@@ -59,6 +61,12 @@ Baseline at the start of T4 (after T3.10): 15 services (3 live, 12 coming-soon),
 | The Next.js upgrade is kept out of the sweep and is the next ticket                                                             | `next` 16.3.0 has 5 critical advisories, and dependency changes get their own ticket                                                                                                                                   | T4.4, decided by Haider         |
 | The hero images (about 20 MB) and the `@types/node` version are left as is                                                      | The site needs few images, and the Node types change is not required                                                                                                                                                   | T4.4, decided by Haider         |
 | Each phase keeps a running completion report. Content tickets are numbered in order in a later phase, not T3.11                 | T5 gets its own report. T3 is closed                                                                                                                                                                                   | T4.4, decided by Haider         |
+| Upgrade to `next` 16.4.5 exactly, not 16.4.1                                                                                    | 16.4.1 is the first release the audit shows clean, but 16.4.5 also fixes seven moderate advisories (one in Image Optimization) that `pnpm audit` did not list yet. Exact pins stay                                     | T4.5                            |
+| Lockfile refresh of `nanoid` and `source-map-js`, no `overrides`                                                                | The bump alone left two high advisories on transitive packages. `pnpm update` moves them inside the ranges `postcss` declares, so no lasting config entry was needed                                                   | T4.5, approved by Haider        |
+| Next.js agent rules live in `AGENTS.md`, `CLAUDE.md` imports it with `@AGENTS.md`                                               | From 16.4 `next dev` writes only `AGENTS.md`, so a copy in `CLAUDE.md` would go stale. `next dev` keeps `AGENTS.md` current and a second run changes nothing, so nobody maintains it                                   | T4.5, approved by Haider        |
+| React and react-dom stay at 19.2.8                                                                                              | The deployed app uses the React that Next bundles, so the installed package only feeds Vitest and RTL. Changing it changes the test environment and is its own ticket                                                  | T4.5                            |
+| No new tests. Proof is a before/after snapshot plus the unchanged suites                                                        | A version bump has no new behaviour to test first. The audit going from 17 to 0 is the red and green. The snapshot is a throwaway outside the repo, because Playwright specs here do not assert content                | T4.5                            |
+| `docs/dependency-upgrades.md` added: runbook, rollback and the T4.5 record                                                      | The next upgrade should repeat the same safety net without re-deriving it                                                                                                                                              | T4.5, requested by Haider       |
 
 ## Open items
 
@@ -72,6 +80,7 @@ Technical:
 - `SectionShell` has one consumer (`ServiceSections`). Style strings (stripe panel, link rows) are copied between About, `FeatureSection` and `ServicesDropdown`. Share them if a third consumer appears.
 - Copy changed at review: Find Us heading and intro, new facts panel strings. All placeholder, with Syd.
 - The Playwright About tests were written after the page, so they were not seen failing first. The Vitest tests were red first.
+- T4.5: Haider checks the Vercel preview (see the checklist in `dependency-upgrades.md`), then merges. Nothing else is waiting on this ticket.
 
 ## Follow-ups noticed and not touched
 
@@ -87,16 +96,23 @@ Technical:
 - About has no contact block of its own, but its closing `EnquiryBand` now renders `ContactLinks`, so it is a consumer (T4.3).
 - The WhatsApp widget overlaps the facts panel edge in the 375 and 768 px full-page screenshots. Probably a screenshot artefact. Glance at it in a real browser (T4.1).
 - Fixed in docs at T4.1: `status.md` and `project.md` claimed the Footer links to `/#services`. It does not, and `/#services` is the 6-card Popular grid.
+- `MapEmbed` loads the Google Maps iframe without a click (`loading="lazy"`, `src` set at once), so the homepage contacts four Google hosts on load. `conventions.md` says third-party embeds load after a click. Pre-existing, found by the T4.5 snapshot, not touched (T4.5).
+- pnpm warns that `eslint` 9.39.5 is deprecated, and `react` and `react-dom` are 19.2.8 while 19.3.x exists. Both are out of scope for a security bump and need their own tickets (T4.5).
+- 36 audit findings remain in dev-only tooling (`undici`, `vite`, `brace-expansion`, `@vitest/mocker`, `zod`, `minimatch`, `js-yaml`), down from 53 before T4.5, with none new. They are not shipped. Clearing them means upgrading the test toolchain, so it needs its own ticket (T4.5).
 
 ## Gotchas recorded in the docs during T4
 
 - There is no `/services` page, by decision (T4.2). `#services` on the homepage is the 6-card Popular grid.
 - Next adds `noindex` to a 404 itself, and a root `not-found.tsx` serves both unmatched URLs and `notFound()` calls. `dynamicParams = false` on the service route was already set.
 - The `layout.tsx` title template only applies to child segments, so the home page keeps the plain default.
+- From Next 16.4, `next dev` writes its agent rules to `AGENTS.md`, not `CLAUDE.md`. Do not edit `AGENTS.md` by hand (T4.5).
+- From Next 16.4, generated CSS Module class names are shorter (`WhyChooseUsSection-module__gUzrRG__row` is now `gUzrRG_row`). Never assert on them. The font files are renamed but byte-identical (T4.5).
+- `pnpm audit` lags behind Next's release notes. Choose the target version from the GitHub release notes (T4.5, see `dependency-upgrades.md`).
 
 ## Not verified
 
 - T4.1: the `ServiceSections` HTML was not diffed before and after the `SectionShell` refactor. The unmodified existing tests pass, and the build and the visual check at 375, 768 and 1280 px showed no overflow.
 - T4.2: the Playwright specs were written before the page but were not run against the stub, so only the Vitest tests were seen failing first. Whether `/#services` is hidden under the sticky Navbar was not checked.
 - T4.3: the band's three channels were checked at 375, 768 and 1280 px on a production build (screenshots in the PR). The 640 to 767 px range was not captured, but the number shows from `sm` (640) and the two buttons fit one row there.
+- T4.5: the Vercel preview was not checked (Haider does that), nor was a fresh Claude Code session loading `AGENTS.md` through the `@AGENTS.md` import. Only Chromium was used. The snapshot scripts were throwaway and are not in the repo. After a video click the YouTube player also requests `www.google.com`, which is the player's own traffic.
 - Vercel preview, performance and accessibility audits.
