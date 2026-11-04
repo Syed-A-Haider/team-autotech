@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-11-04, after T4.3. Next ticket: T5.1.
+Last updated: 2026-11-04, after T4.4. Next ticket: the Next.js security upgrade (id to be assigned by Haider), then T5.1.
 
 T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`.
 
@@ -23,22 +23,25 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is com
 - T4.2: Branded 404 (`app/not-found.tsx`): faded "404", stripe, one h1, one line and a "Back to home" button, inside the site shell. Static (`/_not-found`), HTTP 404, `noindex` and the templated title confirmed on a production build. No `/services` index and no redirect, by decision. `STRIPE_STYLES` is now exported from `SectionHeading`. New `not-found.spec.ts` (`@notfound`). Fixed the `GOOGLE_REVIEW_COUNT` lint warning (unused import removed, the constant stays). 222 Vitest, 37 Playwright. See `t4-completion-report.md`
 - T4.3: `ui/ContactLinks` (Server): Call (primary) and WhatsApp (secondary) `lg` buttons from the `constants.ts` hrefs, composing `LinkButton`. `EnquiryBand` now renders it, so `ComingSoonPanel`, `ServiceCtaBand` and the About closing band share it. Call shows the mobile number from `sm` up and hides it on phones. No email button, by decision. `CALL_LABEL` and `WHATSAPP_LABEL` moved from `EnquiryBand` to `ContactLinks`. Hero, MobileMenu, ServiceHero, Navbar CTA, `WhatsAppWidget`, Footer and Find Us left alone (one-button CTAs or text rows). 229 Vitest, 37 Playwright. See `t4-completion-report.md`
 
+- T4.4: Repository sweep, no behaviour change. Removed a stale `Navbar` TODO, merged `smoke.spec.ts` into `homepage.spec.ts`, replaced the boilerplate `README.md`, and trimmed duplicate Gotchas from `CLAUDE.md` (they live in `docs/conventions.md`). Rule notes added: named exports for new components, `toHaveClass` allowed for `className` pass-through, z-index wording, and the `motion-safe:` gap parked for T5.1. Each phase now keeps a running completion report. 229 Vitest, 36 Playwright. See `t4-completion-report.md`
+
 ## Next
 
+- Next.js security upgrade, in its own ticket (id to be assigned by Haider). `next` 16.3.0 has open advisories, see Open items
 - T5.1: motion foundation, Stage 1 design review first (see Remaining)
 
 ## Remaining
 
 Phases still to come: 5 motion and wow factor (T5.x), 6 audits and launch (T6.x), 7 deferred shop (no tickets yet).
 
-| Ticket  | Scope                                                                                                                                                                                                    |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T5.1    | Motion foundation (Stage 1 design review first): motion language, reveal wrapper (one small Client island), library decision (CSS first, a library needs approval), reduced-motion and performance rules |
-| T5.2    | Apply the motion and wow-factor effects across the homepage, shell and service section blocks. Rewrite the Motion rules in `design.md`                                                                   |
-| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                                                                                                                                 |
-| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                                                                                                   |
-| T6.3    | Domain connection (A record and CNAME), deliberately last                                                                                                                                                |
-| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                                                                                                 |
+| Ticket  | Scope                                                                                                                                                                                                                                                                                                                                  |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T5.1    | Motion foundation (Stage 1 design review first): motion language, reveal wrapper (one small Client island), library decision (CSS first, a library needs approval), reduced-motion and performance rules. Also fix the 15 `transition-*` uses without `motion-safe:` (list in `design.md`, Motion) and start `t5-completion-report.md` |
+| T5.2    | Apply the motion and wow-factor effects across the homepage, shell and service section blocks. Rewrite the Motion rules in `design.md`                                                                                                                                                                                                 |
+| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                                                                                                                                                                                                                                                               |
+| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                                                                                                                                                                                                                                 |
+| T6.3    | Domain connection (A record and CNAME), deliberately last                                                                                                                                                                                                                                                                              |
+| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                                                                                                                                                                                                                               |
 
 ## Open items
 
@@ -57,6 +60,8 @@ Technical:
 - WhatsApp prefill reads "Hi, How can we help?" (`WHATSAPP_LINK`). That is the customer's message, so it sounds like the business speaking. Unconfirmed with Syd, not changed in T4.3. Reword it in `constants.ts` once he agrees
 - Follow-ups from T3.10: `ServiceCard` has no `focus-visible` style, and `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval)
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
+- `next` 16.3.0 has open security advisories (`pnpm audit --prod` on 2026-11-04: 5 critical, 6 high, 5 moderate, 1 low). Two of the criticals and a high-severity SSRF are in Image Optimization, which the site uses through `next/image`. The fixes are in 16.3.3 to 16.4.1, so take the latest 16.x. Upgrade in its own ticket (next), with `eslint-config-next`, which is pinned to the same version. Not done in the T4.4 sweep, because dependency changes get their own ticket
+- Follow-ups from the T4.4 sweep, by decision: the `LinkButton` variant and size tests still assert CSS classes and need a rewrite against exported constants or attributes (see `testing.md`). The T1 and T2 components still use `export default` and have not been converted to named exports (see `conventions.md`). 15 `transition-*` uses lack `motion-safe:`, parked for T5.1 (see `design.md`, Motion)
 
 - Ghost Immobiliser II is `live` (indexable) with UNAPPROVED corrected copy, a provisional video title ("See Ghost Immobiliser II in Action") and a placeholder poster (frame saved from the video, `public/images/videos/ghost-immobiliser-ii.jpg`). `shortDescription` now uses the old-site tagline instead of the unsourced "CAN bus... no external fob or LED" line. Syd must approve before T6.3. If rejected, delete `status` to revert. `Service.body` is never rendered (follow-up: remove the field)
 - Scorpion X Series is `live` (indexable) with UNAPPROVED corrected copy. The step text was read from the old-site carousel images (confirmed visually); the images, the GBP 449 price and Scorpion's contact details are deliberately not used. The three feature tiles (Key Relay Defence, Personal Security, High Level Protection) have titles only, so there is no feature block. `shortDescription` uses sourced wording instead of the unsourced "Thatcham-approved" line. Syd must approve before T6.3. If rejected, delete `status` to revert
@@ -70,5 +75,5 @@ Waiting on Syd:
 - Approval of the Stage 1 Tuning copy (live in the T3.6 preview, unapproved)
 - Approval of the Scorpion X Series copy (live in the T3.8 preview, unapproved), and review of the placeholder FAQs on all three live pages
 - Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
-- Logo file (unblocks favicon, confirms the real accent hex)
+- Final logo file. `public/images/logo.jpg` is a placeholder: it has a black bar behind it that must be removed. The final logo unblocks the favicon and confirms the real accent hex
 - Google Business Profile owner access (launch task)
