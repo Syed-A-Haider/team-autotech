@@ -11,7 +11,7 @@ Static Next.js App Router site on Vercel. Written from the project plan; check t
 | `/services/[slug]` | Static, `generateStaticParams` | All 15 service pages                                                                                                                                   |
 | Unmatched URLs     | Static                         | `app/not-found.tsx`, built as `/_not-found`. HTTP 404, `noindex` added by Next. Unknown slugs are stopped by `dynamicParams = false` and land here too |
 
-- No API routes and no dynamic rendering anywhere.
+- No API routes and no dynamic rendering anywhere. `export const dynamic = 'error'` on `about` and `services/[slug]` makes the build fail if a page ever turns dynamic.
 - Categories are data, not folders. They drive the nav and the page theme, not the URL.
 - No `/services` index (by decision) and no breadcrumbs. The Navbar mega-menu and the homepage Popular grid cover navigation. `/services` is a normal 404.
 - Contact is `tel:`, WhatsApp and `mailto:` links only. No form, no backend.
@@ -38,10 +38,11 @@ src/
                         ServiceCtaBand, RelatedServices, ServiceSections,
                         ProseSection, FeatureSection, StepsSection, SpecBand, FaqSection,
                         VideoSection, VideoEmbed (Client)
-  lib/        services.ts, service-themes.ts, reviews.ts, constants.ts
+  lib/        services.ts, service-themes.ts, reviews.ts, constants.ts, routes.ts (serviceHref)
   types/      service.ts, review.ts
-public/images/services/   category hero images
-tests/                    Playwright specs (Page Object Model + custom fixture)
+public/images/            logo.jpg (placeholder), hero-background.jpg, services/ (category heroes), videos/ (posters)
+public/reviews/           review photos
+tests/                    Playwright specs (Page Object Model + custom fixture); config/testData.ts, fixtures.ts, pages/
 ```
 
 ## Client Components (everything else is Server)

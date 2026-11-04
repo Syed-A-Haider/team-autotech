@@ -24,7 +24,7 @@ Defined in `src/app/globals.css` with `@theme inline`. Read the file for values.
 
 Utilities generated from them include `bg-surface`, `text-foreground`, `text-muted`, `border-border`, `bg-accent`, `hover:bg-accent-hover`.
 
-The accent hex is provisional until Syd supplies the logo. Changing it is a one-line token edit.
+The accent hex is provisional until Syd supplies the final logo (the current `public/images/logo.jpg` is a placeholder). Changing it is a one-line token edit.
 
 ## Z-index scale
 

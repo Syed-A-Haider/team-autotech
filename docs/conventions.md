@@ -25,7 +25,7 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 
 ## Data
 
-- Components never import a data file directly. Pages fetch through the `lib/` getters and pass typed props.
+- Components never import the raw services or reviews arrays. Pages fetch through the `lib/` getters and pass typed props. Constants and pure helpers from `lib/` are fine.
 - Copy lives in named constants exported from the component file. Tests import those constants.
 - Constants use the "derive once, export flat" pattern: flat named exports, derived values computed once.
 

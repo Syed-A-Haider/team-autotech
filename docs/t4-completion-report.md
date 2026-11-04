@@ -21,13 +21,13 @@ T4 is done. T4.1 added a static, deliberately unnumbered About page with clickab
 
 Baseline at the start of T4 (after T3.10): 15 services (3 live, 12 coming-soon), routes `/` and `/services/[slug]` only, 195 Vitest tests in 37 files, 27 Playwright tests.
 
-| After ticket     | Routes                         | Vitest         | Playwright | Notes                                                                                                               |
-| ---------------- | ------------------------------ | -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------- |
-| T3.10 (baseline) | `/`, `/services/[slug]`        | 195            | 27         |                                                                                                                     |
-| T4.1             | adds `/about` (static, ○)      | 216 (39 files) | 32         | +6 `SectionShell`, +13 About page, +1 `AboutSnippet`, +1 `SectionHeading` (`stripe` prop), +5 Playwright (`@about`) |
-| T4.2             | adds `/_not-found` (static, ○) | 222 (40 files) | 37         | +6 `NotFound`, +5 Playwright (`@notfound`)                                                                          |
-| T4.3             | no change                      | 229 (41 files) | 37         | +7 `ContactLinks`. No new route or Playwright spec                                                                  |
-| T4.4             | no change                      | 229 (41 files) | 36         | -1 Playwright: the duplicate title test in `smoke.spec.ts` was dropped when the file was merged                     |
+| After ticket     | Routes                         | Vitest         | Playwright | Notes                                                                                                                                              |
+| ---------------- | ------------------------------ | -------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T3.10 (baseline) | `/`, `/services/[slug]`        | 195            | 27         |                                                                                                                                                    |
+| T4.1             | adds `/about` (static, ○)      | 216 (39 files) | 32         | +6 `SectionShell`, +13 About page, +1 `AboutSnippet`, +1 `SectionHeading` (`stripe` prop), +5 Playwright (`@about`)                                |
+| T4.2             | adds `/_not-found` (static, ○) | 222 (40 files) | 37         | +6 `NotFound`, +5 Playwright (`@notfound`)                                                                                                         |
+| T4.3             | no change                      | 229 (41 files) | 37         | +7 `ContactLinks`. No new route or Playwright spec                                                                                                 |
+| T4.4             | no change                      | 231 (42 files) | 36         | -1 Playwright: the duplicate title test in `smoke.spec.ts` was dropped when the file was merged. +2 Vitest: `serviceHref`, `ContactLine` className |
 
 ## Major decisions
 

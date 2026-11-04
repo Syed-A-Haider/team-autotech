@@ -1,6 +1,6 @@
 # Data and content
 
-Components never import these files directly. Pages call the getters and pass typed props.
+Components never import the raw services or reviews arrays. Pages call the getters and pass typed props. Constants and pure helpers from `lib/` (for example `GOOGLE_REVIEW_COUNT_DISPLAY`, `getReviewInitials`) are fine to import.
 
 For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 
