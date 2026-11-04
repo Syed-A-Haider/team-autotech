@@ -21,7 +21,6 @@ export default function Navbar({ categories }: NavbarProps) {
     ]),
   );
 
-  // TODO: RELOCATE BACKDROP BLUR
   return (
     <header className="border-border bg-background sticky top-0 z-30 border-b">
       {/* max-w-6xl matches SectionWrapper's max-width for page-content alignment */}
