@@ -58,6 +58,7 @@ Flat named exports:
 - `WHATSAPP_NUMBER`, `WHATSAPP_LINK`
 - `TEL_MOBILE_LINK`, `TEL_LANDLINE_LINK`, `MAILTO_LINK`
 - `OPENING_HOURS`, `SOCIAL_LINKS`, `GOOGLE_PROFILE_LINK`
+- `YEARS_EXPERIENCE` (15, "15+ years" approved by Syd). Used by `AboutSnippet` and the About page. `WhyChooseUsSection` still hardcodes it (follow-up)
 - `MAPS_EMBED_SRC`, `MAPS_DIRECTIONS_LINK`, both derived from `ADDRESS`
 
 Never retype contact details elsewhere. Import them.

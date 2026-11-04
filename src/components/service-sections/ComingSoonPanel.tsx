@@ -1,6 +1,6 @@
 // components/service-sections/ComingSoonPanel.tsx
 import type { Service } from '@/types/service';
-import { EnquiryBand } from './EnquiryBand';
+import { EnquiryBand } from '../ui/EnquiryBand';
 
 export const COMING_SOON_BADGE = 'Coming soon';
 export const COMING_SOON_HEADING_PREFIX = 'Ask us about';

@@ -1,12 +1,12 @@
 import LinkButton from '../ui/LinkButton';
 import SectionWrapper from '../ui/SectionWrapper';
+import { YEARS_EXPERIENCE } from '@/lib/constants';
 
 // Exported for tests to assert on
 export const ABOUT_EYEBROW = 'About Team Autotech';
 export const ABOUT_HEADLINE = 'Not Just Tuned. Track-Tested.';
-export const ABOUT_BLURB =
-  "We're a family-run workshop in Nelson, Lancashire, built on more than 15 years of remapping, tuning and vehicle security work. We use genuine manufacturer-grade tools - not the cheap clones - because your car deserves it done right the first time.";
-export const ABOUT_CTA_LABEL = 'Meet The Team';
+export const ABOUT_BLURB = `We're a family-run workshop in Nelson, Lancashire, built on more than ${YEARS_EXPERIENCE} years of remapping, tuning and vehicle security work. We use genuine manufacturer-grade tools - not the cheap clones - because your car deserves it done right the first time.`;
+export const ABOUT_CTA_LABEL = 'More About Us';
 
 export default function AboutSnippet() {
   return (

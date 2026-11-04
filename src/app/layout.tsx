@@ -9,9 +9,11 @@ import Navbar from '@/components/layout/Navbar';
 
 const inter = Inter({ variable: '--font-inter', subsets: ['latin'] });
 
+const SITE_TITLE = 'Team AutoTech';
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: 'Team AutoTech',
+  title: { default: SITE_TITLE, template: `%s | ${SITE_TITLE}` },
   description: siteConfig.description,
 };
 

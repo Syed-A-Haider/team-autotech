@@ -1,7 +1,7 @@
 import type { Service } from '@/types/service';
 import SectionWrapper from '../ui/SectionWrapper';
 import ServiceCard from '../ui/ServiceCard';
-import { SectionHeading } from './SectionHeading';
+import { SectionHeading } from '../ui/SectionHeading';
 
 export const RELATED_SERVICES_HEADING = 'You might also be interested in';
 

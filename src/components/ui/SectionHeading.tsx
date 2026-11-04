@@ -6,6 +6,7 @@ interface SectionHeadingProps {
   title: string;
   number?: number;
   align: HeadingAlign;
+  stripe?: boolean;
   className?: string;
 }
 
@@ -37,11 +38,13 @@ const STRIPE_STYLES = 'mt-4 first:mt-0 block h-1 w-12 -skew-x-12 bg-accent';
 export const GLOW_STYLES =
   'pointer-events-none absolute -z-10 size-[36rem] rounded-full bg-radial from-accent/10 to-transparent to-70%';
 
-// Decorative number and stripe above the section h2
+// Decorative number and stripe above the section h2. stripe={false} drops the
+// stripe when a parent panel already has one
 export function SectionHeading({
   title,
   number,
   align,
+  stripe = true,
   className,
 }: SectionHeadingProps) {
   return (
@@ -51,11 +54,18 @@ export function SectionHeading({
           {String(number).padStart(SECTION_NUMBER_DIGITS, '0')}
         </span>
       )}
-      <span
-        aria-hidden="true"
-        className={clsx(STRIPE_STYLES, STRIPE_ALIGN[align])}
-      />
-      <h2 className="text-foreground mt-4 text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+      {stripe && (
+        <span
+          aria-hidden="true"
+          className={clsx(STRIPE_STYLES, STRIPE_ALIGN[align])}
+        />
+      )}
+      <h2
+        className={clsx(
+          'text-foreground text-3xl font-bold tracking-tight text-balance sm:text-4xl',
+          stripe && 'mt-4',
+        )}
+      >
         {title}
       </h2>
     </div>

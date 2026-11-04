@@ -1,27 +1,15 @@
-import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import type { ServiceSection } from '@/types/service';
-import SectionWrapper from '../ui/SectionWrapper';
+import { SectionShell, type SectionLayout } from '../ui/SectionShell';
 import { ProseSection } from './ProseSection';
 import { FeatureSection } from './FeatureSection';
 import { StepsSection } from './StepsSection';
 import { SpecBand } from './SpecBand';
 import { FaqSection } from './FaqSection';
 import { VideoSection } from './VideoSection';
-import { SectionHeading, GLOW_STYLES } from './SectionHeading';
 
 interface ServiceSectionsProps {
   sections: ServiceSection[];
-}
-
-type SectionLayout = 'split' | 'split-reverse' | 'stacked';
-
-interface LayoutStyles {
-  grid: string;
-  header: string;
-  body: string;
-  glow: string;
-  align: 'start' | 'end' | 'center';
 }
 
 interface PlannedSection {
@@ -29,35 +17,6 @@ interface PlannedSection {
   number?: number;
   layout: SectionLayout;
 }
-
-// Literal class strings per layout - Tailwind cannot build these from data.
-// The mirrored layout only flips order in CSS, so the h2 stays first in the DOM
-const SPLIT_GRID = 'lg:grid lg:grid-cols-5 lg:gap-16';
-const SPLIT_BODY = 'lg:col-span-3';
-
-const LAYOUT_STYLES: Record<SectionLayout, LayoutStyles> = {
-  split: {
-    grid: SPLIT_GRID,
-    header: 'mb-8 lg:col-span-2 lg:mb-0',
-    body: SPLIT_BODY,
-    glow: '-top-48 -left-48',
-    align: 'start',
-  },
-  'split-reverse': {
-    grid: SPLIT_GRID,
-    header: 'mb-8 lg:order-last lg:col-span-2 lg:mb-0',
-    body: SPLIT_BODY,
-    glow: '-top-48 -right-48',
-    align: 'end',
-  },
-  stacked: {
-    grid: '',
-    header: 'mx-auto mb-12 max-w-3xl',
-    body: '',
-    glow: '-top-64 left-1/2 -translate-x-1/2',
-    align: 'center',
-  },
-};
 
 // Heading beside the content when the block is text-led
 function isSplitSection(section: ServiceSection): boolean {
@@ -120,41 +79,15 @@ export function ServiceSections({ sections }: ServiceSectionsProps) {
         const block = renderBlock(section);
         if (!block) return null;
 
-        const styles = LAYOUT_STYLES[layout];
-        const { title } = section;
-        const hasHeading = Boolean(title) && number !== undefined;
-
         return (
-          <section
+          <SectionShell
             key={`${section.type}-${index}`}
-            className="relative isolate overflow-hidden"
+            title={section.title}
+            number={number}
+            layout={layout}
           >
-            <SectionWrapper
-              as="div"
-              className={clsx(
-                'relative py-16 lg:py-24',
-                hasHeading && styles.grid,
-              )}
-            >
-              {hasHeading && (
-                <div
-                  aria-hidden="true"
-                  className={clsx(GLOW_STYLES, styles.glow)}
-                />
-              )}
-              {title && number !== undefined && (
-                <SectionHeading
-                  title={title}
-                  number={number}
-                  align={styles.align}
-                  className={styles.header}
-                />
-              )}
-              <div className={hasHeading ? styles.body : undefined}>
-                {block}
-              </div>
-            </SectionWrapper>
-          </section>
+            {block}
+          </SectionShell>
         );
       })}
     </>

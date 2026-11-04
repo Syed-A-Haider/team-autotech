@@ -38,7 +38,7 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 ## Playwright rules
 
 - Specs live in `tests/`. Use the Page Object Model (PascalCase classes) and the custom fixture
-- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`
+- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`
 - Use plain string assertions, not regex (`toHaveTitle('Team Autotech')`)
 - Locators: `getByRole`, `getByText`, `getByLabel`. No XPath and no tight CSS selectors
 - Use web-first assertions (`toBeVisible`, `toHaveText`). No `waitForTimeout`

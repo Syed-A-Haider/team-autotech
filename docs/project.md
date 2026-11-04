@@ -23,7 +23,7 @@ Two goals: a better site for the business, and portfolio experience for the deve
 | Shop               | Deferred, out of scope for the current build                                                                                                                            |
 | Motion and wow     | Phase 5 (T5.1, T5.2), once core pages and routing are done, before T6.1. Not added per content ticket, so those stay data-only and the motion language stays consistent |
 | Service pages      | Single accent. Identity through the hero. No pricing, enquiry-only CTAs                                                                                                 |
-| `/services` index  | Not built. Mega-menu covers it. Footer "Services" points at `/#services`                                                                                                |
+| `/services` index  | Not built and not planned. Mega-menu covers it. `/#services` is the homepage Popular grid (6 cards), not a full list. Nothing in the Footer links to it                 |
 | Coming-soon pages  | `noindex` until real content lands                                                                                                                                      |
 | Third-party embeds | None on page load. YouTube uses a click-to-load facade                                                                                                                  |
 | Domain             | A record and CNAME, not a transfer. Syd has registrar access                                                                                                            |
