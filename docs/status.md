@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-11-04, after T4.1. Next ticket: T4.2.
+Last updated: 2026-11-04, after T4.2. Next ticket: T4.3.
 
 T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is in progress, tracked in `docs/t4-completion-report.md`.
 
@@ -20,9 +20,11 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is in 
 - T3.10: Closing sections restyle. New shared `EnquiryBand` (stripe heading, glow, optional skewed badge, centred Call and WhatsApp buttons) powers `ComingSoonPanel` and `ServiceCtaBand`. `RelatedServices` uses the same stripe heading. `SectionHeading` `number` is optional and `GLOW_STYLES` is exported from it. No motion, no new copy facts. Added `docs/t3-completion-report.md` and a docs cleanup. See `design.md`
 - T4.1: About page at `/about` (static, text-only, placeholder copy). Deliberately not numbered: un-numbered stripe headings, a facts panel, four category cards with every service linked, and a Find Us panel with address, hours and Get Directions (phone and email stay in the Footer and closing band). New `ui/SectionShell` (used by `ServiceSections`); `SectionHeading` and `EnquiryBand` moved from `service-sections/` to `ui/`. Root `title.template` added (`%s | Team AutoTech`, so every service title gains the suffix). `YEARS_EXPERIENCE` constant (15, approved). Homepage snippet CTA now reads "More About Us". 216 Vitest, 32 Playwright. See `t4-completion-report.md`
 
+- T4.2: Branded 404 (`app/not-found.tsx`): faded "404", stripe, one h1, one line and a "Back to home" button, inside the site shell. Static (`/_not-found`), HTTP 404, `noindex` and the templated title confirmed on a production build. No `/services` index and no redirect, by decision. `STRIPE_STYLES` is now exported from `SectionHeading`. New `not-found.spec.ts` (`@notfound`). Fixed the `GOOGLE_REVIEW_COUNT` lint warning (unused import removed, the constant stays). 222 Vitest, 37 Playwright. See `t4-completion-report.md`
+
 ## Next
 
-- T4.2: Branded 404. Briefs for T4.2 and T4.3 are in `docs/tickets/`. Read the brief first; delete it at the end of the ticket
+- T4.3: `ui/ContactLinks`. The brief is in `docs/tickets/T4.3.md`. Read it first; delete it at the end of the ticket
 
 ## Remaining
 
@@ -30,7 +32,6 @@ Phases still to come: 4 pages and shared pieces (T4.x), 5 motion and wow factor 
 
 | Ticket  | Scope                                                                                                                                                                                                    |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T4.2    | `not-found.tsx` and test                                                                                                                                                                                 |
 | T4.3    | `ui/ContactLinks.tsx` (tel, wa.me, mailto). Reconcile with `ContactLine` first, probably compose it                                                                                                      |
 | T5.1    | Motion foundation (Stage 1 design review first): motion language, reveal wrapper (one small Client island), library decision (CSS first, a library needs approval), reduced-motion and performance rules |
 | T5.2    | Apply the motion and wow-factor effects across the homepage, shell and service section blocks. Rewrite the Motion rules in `design.md`                                                                   |
@@ -49,8 +50,9 @@ Technical:
 - 360px width: minor card-text wrapping on `ServicesGrid`. Revisit at T6.2
 - Brand casing differs: "Team AutoTech" (layout title, tests) vs "Team Autotech" (`siteConfig`, Footer, logo alt, About h1). Unify later
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
-- `WhyChooseUsSection.tsx` has an unused `GOOGLE_REVIEW_COUNT` import (lint warning)
-- There is no services index and none is planned. `/#services` is the homepage Popular grid (6 cards). Nothing links to it from the Footer. The About page links every service directly, so it does not use it
+- There is no `/services` page, by decision (T4.2). Services are reached from the Navbar, the homepage Popular grid (`#services`, 6 cards) and the About page. The Footer links Home, About and two services only. `/services` is a normal 404, with no redirect
+- T6: old WordPress URLs (shop, basket, checkout, my-account, old product slugs) will 404 after the domain switch. Decide a redirect map in T6, before T6.3
+- `/#services` on the homepage may sit tight under the sticky Navbar (`h-16`) when jumped to. Not checked, look at it in T6.2
 - About page copy is placeholder (generated from site facts, "15+ years" approved). Syd replaces and approves it before T6.3. The homepage `AboutSnippet` still says "family-run" (unapproved), `WhyChooseUsSection` hardcodes "15 years" and has unsourced claims ("Authorised Ghost Immobiliser II Installer", "backed by our guarantee")
 - Follow-ups from T3.10: `ServiceCard` has no `focus-visible` style, and `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval)
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
