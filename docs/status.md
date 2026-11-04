@@ -18,7 +18,7 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is in 
 - T3.8: Content: Scorpion X Series (live, unapproved). Text-only: prose plus a four-step "How It Works" block, with the step text read from the old-site carousel images. No code or type changes
 - T3.9: Closed as a docs ticket. All 12 remaining old-site pages are empty, so no copy was written. They stay coming-soon (official services, no website description yet). Nine unsourced `shortDescription` one-liners were neutralised. Added `docs/content/_template.md` and `_requests.md`
 - T3.10: Closing sections restyle. New shared `EnquiryBand` (stripe heading, glow, optional skewed badge, centred Call and WhatsApp buttons) powers `ComingSoonPanel` and `ServiceCtaBand`. `RelatedServices` uses the same stripe heading. `SectionHeading` `number` is optional and `GLOW_STYLES` is exported from it. No motion, no new copy facts. Added `docs/t3-completion-report.md` and a docs cleanup. See `design.md`
-- T4.1: About page at `/about` (static, text-only, placeholder copy). Built on a new `ui/SectionShell` (glow, `SectionHeading`, split, split-reverse or stacked layout) that `ServiceSections` now uses too. `SectionHeading` and `EnquiryBand` moved from `service-sections/` to `ui/`. Root `title.template` added (`%s | Team AutoTech`, so every service title gains the suffix). `YEARS_EXPERIENCE` constant (15, approved). Homepage snippet CTA now reads "More About Us". 214 Vitest, 31 Playwright. See `t4-completion-report.md`
+- T4.1: About page at `/about` (static, text-only, placeholder copy). Deliberately not numbered: un-numbered stripe headings, a facts panel, four category cards with every service linked, and a Find Us panel with address, hours and Get Directions (phone and email stay in the Footer and closing band). New `ui/SectionShell` (used by `ServiceSections`); `SectionHeading` and `EnquiryBand` moved from `service-sections/` to `ui/`. Root `title.template` added (`%s | Team AutoTech`, so every service title gains the suffix). `YEARS_EXPERIENCE` constant (15, approved). Homepage snippet CTA now reads "More About Us". 215 Vitest, 32 Playwright. See `t4-completion-report.md`
 
 ## Next
 
@@ -50,9 +50,8 @@ Technical:
 - Brand casing differs: "Team AutoTech" (layout title, tests) vs "Team Autotech" (`siteConfig`, Footer, logo alt, About h1). Unify later
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - `WhyChooseUsSection.tsx` has an unused `GOOGLE_REVIEW_COUNT` import (lint warning)
-- There is no services index and none is planned. `/#services` is the homepage Popular grid (6 cards). The About page links to it; the Footer does not
+- There is no services index and none is planned. `/#services` is the homepage Popular grid (6 cards). Nothing links to it from the Footer. The About page links every service directly, so it does not use it
 - About page copy is placeholder (generated from site facts, "15+ years" approved). Syd replaces and approves it before T6.3. The homepage `AboutSnippet` still says "family-run" (unapproved), `WhyChooseUsSection` hardcodes "15 years" and has unsourced claims ("Authorised Ghost Immobiliser II Installer", "backed by our guarantee")
-- About section 03: the intro line sits in the body column, away from its right-hand heading. Revisit with real copy
 - Follow-ups from T3.10: `ServiceCard` has no `focus-visible` style, and `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval)
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
 

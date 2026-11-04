@@ -39,12 +39,18 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 ## Service page sections
 
-- `ServiceSections` picks the layout per section. `ui/SectionShell` renders it (glow, `SectionHeading`: faded number, skewed stripe, h2, then the body in a `split`, `split-reverse` or `stacked` layout). The About page uses the same shell. No data fields drive it
+- `ServiceSections` picks the layout per section. `ui/SectionShell` renders it (glow, `SectionHeading`: faded number, skewed stripe, h2, then the body in a `split`, `split-reverse` or `stacked` layout). No data fields drive it
 - Split (heading beside content at `lg`, sides alternate): prose, steps, faq, feature `list`. Stacked (centred heading above): feature `grid` and `alternating`, specband, video (player centred under its heading, max `4xl`). Untitled sections get no heading, number or glow
 - Prose: the first paragraph is a lead (larger, `foreground`)
 - Feature grid never leaves an orphan for 1 to 6 items (plan in `FeatureSection`). `SpecBand` columns are chosen by count
 - Text on `bg-accent` uses `text-background`. `foreground` on accent is about 3.1:1 and fails AA
 - `SectionHeading`, `SectionShell` and `EnquiryBand` live in `ui/` (moved from `service-sections/` at T4.1, when About became a second consumer). `GLOW_STYLES` lives in `SectionHeading` and is shared. It is a gradient, never a filter
+
+## About page
+
+- Deliberately not the numbered service-page look: no faded numbers, glows or alternating split. Un-numbered `SectionHeading` stripe headings inside `SectionWrapper` (the `RelatedServices` pattern), surface panels with the racing stripe, `py-16 lg:py-24`
+- Who We Are: text beside a facts panel (`YEARS_EXPERIENCE` stat plus three highlights from approved copy). What We Do: four category cards, every service a link (icon plus title, the `ServicesDropdown` row style, no coming-soon marker). Find Us: address as text, hours, and a Get Directions button. Phone and email live in the Footer and closing band only
+- `SectionShell` is now used only by `ServiceSections`. It stays in `ui/`
 
 ## Closing bands
 
