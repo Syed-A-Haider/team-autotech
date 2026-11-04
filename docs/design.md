@@ -39,12 +39,12 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 ## Service page sections
 
-- `ServiceSections` owns the heading (`SectionHeading`: faded number, skewed stripe, h2) and the layout. No data fields drive it
+- `ServiceSections` picks the layout per section. `ui/SectionShell` renders it (glow, `SectionHeading`: faded number, skewed stripe, h2, then the body in a `split`, `split-reverse` or `stacked` layout). The About page uses the same shell. No data fields drive it
 - Split (heading beside content at `lg`, sides alternate): prose, steps, faq, feature `list`. Stacked (centred heading above): feature `grid` and `alternating`, specband, video (player centred under its heading, max `4xl`). Untitled sections get no heading, number or glow
 - Prose: the first paragraph is a lead (larger, `foreground`)
 - Feature grid never leaves an orphan for 1 to 6 items (plan in `FeatureSection`). `SpecBand` columns are chosen by count
 - Text on `bg-accent` uses `text-background`. `foreground` on accent is about 3.1:1 and fails AA
-- `GLOW_STYLES` lives in `SectionHeading` and is shared. It is a gradient, never a filter
+- `SectionHeading`, `SectionShell` and `EnquiryBand` live in `ui/` (moved from `service-sections/` at T4.1, when About became a second consumer). `GLOW_STYLES` lives in `SectionHeading` and is shared. It is a gradient, never a filter
 
 ## Closing bands
 

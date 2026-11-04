@@ -24,18 +24,18 @@ src/
     layout.tsx            root layout (Navbar, WhatsAppWidget, Footer, <main>)
     page.tsx              home
     globals.css           @theme design tokens
-    about/page.tsx             (T4.1, not built yet)
+    about/page.tsx             static About page, copy in exported constants (T4.1)
     not-found.tsx              (T4.2, not built yet)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
   components/
     layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget
     ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
-               PageTransition
+               PageTransition, SectionHeading, SectionShell, EnquiryBand
     home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ WhyChooseUsCard, CSS Module),
                         ReviewsSection, ReviewsCarousel (Client), FindUsSection,
                         MapEmbed (Client), AboutSnippet
-    service-sections/   ServicePageTemplate, ServiceHero, EnquiryBand, ComingSoonPanel,
-                        ServiceCtaBand, RelatedServices, ServiceSections, SectionHeading,
+    service-sections/   ServicePageTemplate, ServiceHero, ComingSoonPanel,
+                        ServiceCtaBand, RelatedServices, ServiceSections,
                         ProseSection, FeatureSection, StepsSection, SpecBand, FaqSection,
                         VideoSection, VideoEmbed (Client)
   lib/        services.ts, service-themes.ts, reviews.ts, constants.ts

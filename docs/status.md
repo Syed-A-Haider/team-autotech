@@ -1,8 +1,8 @@
 # Status
 
-Last updated: 2026-11-03, after T3.10. Next ticket: T4.1.
+Last updated: 2026-11-04, after T4.1. Next ticket: T4.2.
 
-T3 is complete. History and decisions: `docs/t3-completion-report.md`.
+T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is in progress, tracked in `docs/t4-completion-report.md`.
 
 ## Done
 
@@ -18,10 +18,11 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`.
 - T3.8: Content: Scorpion X Series (live, unapproved). Text-only: prose plus a four-step "How It Works" block, with the step text read from the old-site carousel images. No code or type changes
 - T3.9: Closed as a docs ticket. All 12 remaining old-site pages are empty, so no copy was written. They stay coming-soon (official services, no website description yet). Nine unsourced `shortDescription` one-liners were neutralised. Added `docs/content/_template.md` and `_requests.md`
 - T3.10: Closing sections restyle. New shared `EnquiryBand` (stripe heading, glow, optional skewed badge, centred Call and WhatsApp buttons) powers `ComingSoonPanel` and `ServiceCtaBand`. `RelatedServices` uses the same stripe heading. `SectionHeading` `number` is optional and `GLOW_STYLES` is exported from it. No motion, no new copy facts. Added `docs/t3-completion-report.md` and a docs cleanup. See `design.md`
+- T4.1: About page at `/about` (static, text-only, placeholder copy). Built on a new `ui/SectionShell` (glow, `SectionHeading`, split, split-reverse or stacked layout) that `ServiceSections` now uses too. `SectionHeading` and `EnquiryBand` moved from `service-sections/` to `ui/`. Root `title.template` added (`%s | Team AutoTech`, so every service title gains the suffix). `YEARS_EXPERIENCE` constant (15, approved). Homepage snippet CTA now reads "More About Us". 214 Vitest, 31 Playwright. See `t4-completion-report.md`
 
 ## Next
 
-- T4.1: About page and test. Phase 4 briefs: Haider adds one short file per ticket to `docs/tickets/` (for example `T4.1.md`). Read it first; delete it at the end of the ticket
+- T4.2: Branded 404. Briefs for T4.2 and T4.3 are in `docs/tickets/`. Read the brief first; delete it at the end of the ticket
 
 ## Remaining
 
@@ -29,7 +30,6 @@ Phases still to come: 4 pages and shared pieces (T4.x), 5 motion and wow factor 
 
 | Ticket  | Scope                                                                                                                                                                                                    |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T4.1    | About page and test                                                                                                                                                                                      |
 | T4.2    | `not-found.tsx` and test                                                                                                                                                                                 |
 | T4.3    | `ui/ContactLinks.tsx` (tel, wa.me, mailto). Reconcile with `ContactLine` first, probably compose it                                                                                                      |
 | T5.1    | Motion foundation (Stage 1 design review first): motion language, reveal wrapper (one small Client island), library decision (CSS first, a library needs approval), reduced-motion and performance rules |
@@ -47,10 +47,12 @@ Technical:
 - `MobileMenu` has no full focus trap. Judged unnecessary for now
 - Map skeleton has no fallback if the iframe is blocked by an ad blocker. Accepted
 - 360px width: minor card-text wrapping on `ServicesGrid`. Revisit at T6.2
-- Root layout title may still be a flat string, not the `title.template` pattern. Check `app/layout.tsx`
+- Brand casing differs: "Team AutoTech" (layout title, tests) vs "Team Autotech" (`siteConfig`, Footer, logo alt, About h1). Unify later
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - `WhyChooseUsSection.tsx` has an unused `GOOGLE_REVIEW_COUNT` import (lint warning)
-- Footer "Services" link points at `/#services`. Revisit if a services index ever exists
+- There is no services index and none is planned. `/#services` is the homepage Popular grid (6 cards). The About page links to it; the Footer does not
+- About page copy is placeholder (generated from site facts, "15+ years" approved). Syd replaces and approves it before T6.3. The homepage `AboutSnippet` still says "family-run" (unapproved), `WhyChooseUsSection` hardcodes "15 years" and has unsourced claims ("Authorised Ghost Immobiliser II Installer", "backed by our guarantee")
+- About section 03: the intro line sits in the body column, away from its right-hand heading. Revisit with real copy
 - Follow-ups from T3.10: `ServiceCard` has no `focus-visible` style, and `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval)
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
 
@@ -62,6 +64,7 @@ Technical:
 Waiting on Syd:
 
 - Copy for the 12 coming-soon services (see `_requests.md`), and confirmation of their one-line descriptions
+- About page copy (placeholder, T4.1) and facts such as team, history and accreditations if he wants them shown
 - Approval of the Stage 1 Tuning copy (live in the T3.6 preview, unapproved)
 - Approval of the Scorpion X Series copy (live in the T3.8 preview, unapproved), and review of the placeholder FAQs on all three live pages
 - Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
