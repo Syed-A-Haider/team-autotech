@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Phone, MessageCircle } from 'lucide-react';
-import LinkButton from '../ui/LinkButton';
-import SectionWrapper from '../ui/SectionWrapper';
+import LinkButton from './LinkButton';
+import SectionWrapper from './SectionWrapper';
 import { SectionHeading, GLOW_STYLES } from './SectionHeading';
 import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 

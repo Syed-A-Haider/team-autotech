@@ -8,7 +8,7 @@ import { StepsSection } from './StepsSection';
 import { SpecBand } from './SpecBand';
 import { FaqSection } from './FaqSection';
 import { VideoSection } from './VideoSection';
-import { SectionHeading, GLOW_STYLES } from './SectionHeading';
+import { SectionHeading, GLOW_STYLES } from '../ui/SectionHeading';
 
 interface ServiceSectionsProps {
   sections: ServiceSection[];

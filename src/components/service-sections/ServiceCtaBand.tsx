@@ -1,6 +1,6 @@
 // components/service-sections/ServiceCtaBand.tsx
 import type { Service } from '@/types/service';
-import { EnquiryBand } from './EnquiryBand';
+import { EnquiryBand } from '../ui/EnquiryBand';
 
 export const CTA_HEADING_PREFIX = 'Interested in';
 export const CTA_PITCH =
