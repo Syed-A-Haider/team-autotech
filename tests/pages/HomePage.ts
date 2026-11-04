@@ -9,7 +9,7 @@ import {
   ABOUT_CTA_LABEL,
 } from '@/components/home-sections/AboutSnippet';
 import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
-import { routes } from '../config/testData';
+import { navLabels, routes } from '../config/testData';
 
 export class HomePage {
   readonly page: Page;
@@ -17,6 +17,7 @@ export class HomePage {
   readonly h1: Locator;
   readonly firstServiceLink: Locator;
   readonly aboutCtaLink: Locator;
+  readonly navAboutLink: Locator;
   readonly directionsLink: Locator;
   readonly menuToggleButton: Locator;
 
@@ -36,6 +37,9 @@ export class HomePage {
     this.aboutCtaLink = this.main.getByRole('link', {
       name: ABOUT_CTA_LABEL,
     });
+    this.navAboutLink = page
+      .getByRole('navigation', { name: navLabels.main })
+      .getByRole('link', { name: navLabels.about });
     this.directionsLink = page.getByRole('link', {
       name: FIND_US_DIRECTIONS_LABEL,
     });

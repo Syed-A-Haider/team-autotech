@@ -6,6 +6,7 @@ import AboutSnippet, {
   ABOUT_BLURB,
   ABOUT_CTA_LABEL,
 } from './AboutSnippet';
+import { YEARS_EXPERIENCE } from '@/lib/constants';
 
 describe('AboutSnippet', () => {
   it('Renders the eyebrow label', () => {
@@ -23,6 +24,13 @@ describe('AboutSnippet', () => {
   it('Renders the blurb text', () => {
     render(<AboutSnippet />);
     expect(screen.getByText(ABOUT_BLURB)).toBeInTheDocument();
+  });
+
+  it('Quotes the shared years of experience', () => {
+    render(<AboutSnippet />);
+    expect(screen.getByText(ABOUT_BLURB)).toHaveTextContent(
+      `more than ${YEARS_EXPERIENCE} years`,
+    );
   });
 
   it('Renders a link to the About page', () => {

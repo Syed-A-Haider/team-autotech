@@ -9,6 +9,9 @@ export const routes = {
 
 export const pageTitle = 'Team AutoTech';
 
+// aria-labels and link text of the desktop Main nav
+export const navLabels = { main: 'Main', about: 'About' } as const;
+
 export const viewports = {
   mobile: { width: 375, height: 812 },
   desktop: { width: 1280, height: 800 },
