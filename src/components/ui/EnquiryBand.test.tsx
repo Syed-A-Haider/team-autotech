@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { EnquiryBand, CALL_LABEL, WHATSAPP_LABEL } from './EnquiryBand';
+import { EnquiryBand } from './EnquiryBand';
+import { CALL_LABEL, WHATSAPP_LABEL } from './ContactLinks';
 import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 
 const TITLE = 'Interested in Remapping?';
@@ -22,10 +23,11 @@ describe('EnquiryBand', () => {
 
   it('Renders a call link with the correct href', () => {
     render(<EnquiryBand title={TITLE} pitch={PITCH} />);
-    expect(screen.getByRole('link', { name: CALL_LABEL })).toHaveAttribute(
-      'href',
-      TEL_MOBILE_LINK,
-    );
+    expect(
+      screen.getByRole('link', {
+        name: new RegExp(CALL_LABEL),
+      }),
+    ).toHaveAttribute('href', TEL_MOBILE_LINK);
   });
 
   it('Renders a WhatsApp link that opens in a new tab', () => {
