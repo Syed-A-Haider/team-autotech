@@ -2,10 +2,10 @@
 
 ## Split of responsibility
 
-| Layer        | Covers                                                                                                                                                                    | Excludes                                                                                          |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Vitest + RTL | Component correctness: props, variants, hrefs, ARIA, which block renders for each `type`. Route functions (`generateMetadata`, `generateStaticParams`) as plain functions | Pure data files. `satisfies Record<Category, ...>` already proves completeness at compile time    |
-| Playwright   | Routing and structure. T3 has one data-driven spec: every slug from `getAllServices()` returns 200 with exactly one `h1`, unknown slug 404s, navbar to service page works | Anything content-shaped: no coming-soon copy, no per-page specs, no section assertions, no counts |
+| Layer        | Covers                                                                                                                                                                                                                                          | Excludes                                                                                          |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Vitest + RTL | Component correctness: props, variants, hrefs, ARIA, which block renders for each `type`. Route functions (`generateMetadata`, `generateStaticParams`) as plain functions                                                                       | Pure data files. `satisfies Record<Category, ...>` already proves completeness at compile time    |
+| Playwright   | Routing and structure. `services-data.spec.ts` is data-driven: every slug from `getAllServices()` returns 200 with exactly one `h1`, unknown slug 404s, navbar to service page works. `about.spec.ts` and `not-found.spec.ts` cover those pages | Anything content-shaped: no coming-soon copy, no per-page specs, no section assertions, no counts |
 
 Rule: Playwright asserts what is true because of routing and structure. Vitest asserts what is true because of props. Neither asserts content, because content changes as pages fill.
 
@@ -38,7 +38,8 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 ## Playwright rules
 
 - Specs live in `tests/`. Use the Page Object Model (PascalCase classes) and the custom fixture
-- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`
+- One spec file per page or feature, named for it (`about.spec.ts`, `not-found.spec.ts`), not grouped by the phase that built it
+- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`, `@notfound`
 - Use plain string assertions, not regex (`toHaveTitle('Team Autotech')`)
 - Locators: `getByRole`, `getByText`, `getByLabel`. No XPath and no tight CSS selectors
 - Use web-first assertions (`toBeVisible`, `toHaveText`). No `waitForTimeout`

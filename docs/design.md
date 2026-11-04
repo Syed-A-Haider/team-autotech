@@ -52,6 +52,11 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 - Who We Are: text beside a facts panel (`YEARS_EXPERIENCE` stat plus three highlights from approved copy). What We Do: four category cards, every service a link (icon plus title, the `ServicesDropdown` row style, no coming-soon marker). Find Us: address as text, hours, and a Get Directions button (its heading uses `stripe={false}` because the panel has its own stripe). Phone and email live in the Footer and closing band only
 - `SectionShell` is now used only by `ServiceSections`. It stays in `ui/`
 
+## 404 page
+
+- `app/not-found.tsx`: a centred column in `SectionWrapper` (`max-w-2xl`, `py-24` on mobile, `py-16 lg:py-24` from `sm`, with looser gaps on mobile so it is not squashed above the footer). A large faded "404" (the race-number look, `text-accent/25`, `aria-hidden`), the racing stripe (`STRIPE_STYLES`, exported from `SectionHeading`), the single `h1`, one muted line and one "Back to home" `LinkButton` (`lg`). No glow, badge, icons, contact block or service links
+- Plain tone, no jokes. It renders inside the root `<main>`, so it adds none
+
 ## Closing bands
 
 - `EnquiryBand` is the shared closing band: stripe heading (no number), radial glow, optional skewed `badge` chip (solid accent, large, `text-background`: the first thing seen in the band), centred pitch, then Call (primary) and WhatsApp (secondary) `lg` buttons, stacked on mobile. It powers `ComingSoonPanel` (badge "Coming soon") and `ServiceCtaBand` (no badge)

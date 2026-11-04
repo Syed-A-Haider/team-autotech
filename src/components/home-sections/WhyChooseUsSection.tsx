@@ -2,11 +2,7 @@ import { Award, ShieldCheck, BadgeCheck, type LucideIcon } from 'lucide-react';
 import { SiGoogle } from 'react-icons/si';
 import type { IconType } from 'react-icons';
 import SectionWrapper from '@/components/ui/SectionWrapper';
-import {
-  GOOGLE_RATING,
-  GOOGLE_REVIEW_COUNT,
-  GOOGLE_REVIEW_COUNT_DISPLAY,
-} from '@/lib/reviews';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT_DISPLAY } from '@/lib/reviews';
 import WhyChooseUsCard from './WhyChooseUsCard';
 import styles from './WhyChooseUsSection.module.css';
 

@@ -4,16 +4,16 @@ Static Next.js App Router site on Vercel. Written from the project plan; check t
 
 ## Routes and rendering
 
-| Route              | Rendering                      | Notes                |
-| ------------------ | ------------------------------ | -------------------- |
-| `/`                | Static                         | Home                 |
-| `/about`           | Static                         | T4.1                 |
-| `/services/[slug]` | Static, `generateStaticParams` | All 15 service pages |
-| `/not-found`       | Static                         | T4.2                 |
+| Route              | Rendering                      | Notes                                                                                                                                                  |
+| ------------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                | Static                         | Home                                                                                                                                                   |
+| `/about`           | Static                         | T4.1                                                                                                                                                   |
+| `/services/[slug]` | Static, `generateStaticParams` | All 15 service pages                                                                                                                                   |
+| Unmatched URLs     | Static                         | `app/not-found.tsx`, built as `/_not-found`. HTTP 404, `noindex` added by Next. Unknown slugs are stopped by `dynamicParams = false` and land here too |
 
 - No API routes and no dynamic rendering anywhere.
 - Categories are data, not folders. They drive the nav and the page theme, not the URL.
-- No `/services` index and no breadcrumbs. The Navbar mega-menu covers navigation.
+- No `/services` index (by decision) and no breadcrumbs. The Navbar mega-menu and the homepage Popular grid cover navigation. `/services` is a normal 404.
 - Contact is `tel:`, `wa.me` and `mailto:` links only. No form, no backend.
 
 ## Source tree
@@ -25,7 +25,7 @@ src/
     page.tsx              home
     globals.css           @theme design tokens
     about/page.tsx             static About page, copy in exported constants (T4.1)
-    not-found.tsx              (T4.2, not built yet)
+    not-found.tsx              branded 404 for unmatched URLs and notFound() (T4.2)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
   components/
     layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget

@@ -5,7 +5,10 @@ export const routes = {
   about: '/about',
   servicesPrefix: '/services/',
   service: (slug: string) => `/services/${slug}`,
+  unknownPage: '/this-page-does-not-exist',
 } as const;
+
+export const unknownServiceSlug = 'not-a-real-service';
 
 export const pageTitle = 'Team AutoTech';
 

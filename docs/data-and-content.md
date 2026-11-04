@@ -67,5 +67,5 @@ Never retype contact details elsewhere. Import them.
 
 - Five curated Google reviews, typed by hand. No live API and no third-party widget
 - Names shortened (for example "Nichola D."). No reviewer photos (UK GDPR). Initials avatars instead
-- `GOOGLE_REVIEW_COUNT_DISPLAY` is computed once and shared by `WhyChooseUsSection` and `ReviewsSection`
+- `GOOGLE_REVIEW_COUNT` is the exact figure (update it on milestones). `GOOGLE_REVIEW_COUNT_DISPLAY` is derived from it once (rounded down to 10) and shared by `WhyChooseUsSection` and `ReviewsSection`. Components use the display value, so nothing imports the raw count yet. Keep it for the motion phase (for example a count-up). The rounding assumes at least 10 reviews
 - Optional `photoUrl` is reserved for cases with explicit consent
