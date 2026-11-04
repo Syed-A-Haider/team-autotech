@@ -15,7 +15,12 @@ if (file) {
   try {
     execFileSync(
       process.execPath,
-      [require.resolve('prettier/bin/prettier.cjs'), '--write', '--ignore-unknown', file],
+      [
+        require.resolve('prettier/bin/prettier.cjs'),
+        '--write',
+        '--ignore-unknown',
+        file,
+      ],
       { cwd: root, stdio: 'ignore' },
     );
   } catch {
