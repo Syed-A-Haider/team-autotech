@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Wrench } from 'lucide-react';
-import ServiceCard from './ServiceCard';
+import { ServiceCard } from './ServiceCard';
 import type { Service } from '@/types/service';
 
 // Don't rely on changing real service, use mock instead

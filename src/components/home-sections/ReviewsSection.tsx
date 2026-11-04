@@ -5,15 +5,15 @@ import {
   GOOGLE_REVIEW_COUNT_DISPLAY,
 } from '@/lib/reviews';
 import { GOOGLE_PROFILE_LINK } from '@/lib/constants';
-import SectionWrapper from '@/components/ui/SectionWrapper';
-import LinkButton from '@/components/ui/LinkButton';
-import ReviewCard from '@/components/ui/ReviewCard';
-import ReviewsCarousel from './ReviewsCarousel';
+import { SectionWrapper } from '@/components/ui/SectionWrapper';
+import { LinkButton } from '@/components/ui/LinkButton';
+import { ReviewCard } from '@/components/ui/ReviewCard';
+import { ReviewsCarousel } from './ReviewsCarousel';
 
 export const REVIEWS_SECTION_HEADING = 'What Our Customers Say';
 export const REVIEWS_SECTION_SUBHEADING = `Rated ${GOOGLE_RATING} out of 5 from ${GOOGLE_REVIEW_COUNT_DISPLAY}+ Google reviews`;
 
-export default function ReviewsSection() {
+export function ReviewsSection() {
   const reviews = getAllReviews();
 
   return (

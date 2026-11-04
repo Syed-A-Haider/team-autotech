@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import SectionWrapper from './SectionWrapper';
+import { SectionWrapper } from './SectionWrapper';
 
 describe('SectionWrapper', () => {
   it('Renders its children', () => {

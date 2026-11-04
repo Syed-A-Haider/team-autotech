@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ServiceCategories } from '@/types/service';
 import clsx from 'clsx';
+import { serviceHref } from '@/lib/routes';
 
 interface ServicesDropdownProps {
   categories: ServiceCategories;
@@ -10,9 +11,7 @@ interface ServicesDropdownProps {
 // Visibility is CSS-only - group-hover/group-focus-within on parent in Navbar.tsx
 // Positioned against the nav's content row (see 'relative' on Navbar.tsx), so it spans
 // the full logo-to-CTA width instead of centering under the Services button
-export default function ServicesDropdown({
-  categories,
-}: ServicesDropdownProps) {
+export function ServicesDropdown({ categories }: ServicesDropdownProps) {
   const dropdownPanelClasses = clsx(
     'invisible absolute inset-x-4 top-full translate-y-2 opacity-0',
     'group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100',
@@ -37,7 +36,7 @@ export default function ServicesDropdown({
                   <li key={service.slug}>
                     {/* Each service will point to specific url (determined by their slug) */}
                     <Link
-                      href={`/services/${service.slug}`}
+                      href={serviceHref(service.slug)}
                       className="text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm transition-colors duration-150"
                     >
                       {/* Structure of each line = Icon followed by name, followed by conditional popular tag */}

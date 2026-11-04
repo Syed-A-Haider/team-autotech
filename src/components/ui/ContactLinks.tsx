@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Phone, MessageCircle, type LucideIcon } from 'lucide-react';
-import LinkButton, { type ButtonVariant } from './LinkButton';
+import { LinkButton, type ButtonVariant } from './LinkButton';
 import { PHONE_MOBILE, TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 
 export const CALL_LABEL = 'Call us';

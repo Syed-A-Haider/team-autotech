@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
-import MobileMenu, { type MobileMenuCategories } from './MobileMenu';
+import { afterEach, describe, expect, it } from 'vitest';
+import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
 
 const mockCategories: MobileMenuCategories = {
   'Remap / Tuning': [{ slug: 'stage-1-tuning', title: 'Stage 1 Tuning' }],
@@ -10,7 +10,16 @@ const mockCategories: MobileMenuCategories = {
   ],
 };
 
+// jsdom cannot navigate, so stop link clicks before it logs "Not implemented"
+function blockNavigation(event: Event) {
+  event.preventDefault();
+}
+
 describe('MobileMenu', () => {
+  afterEach(() => {
+    document.removeEventListener('click', blockNavigation);
+  });
+
   it('Renders closed by default', () => {
     render(<MobileMenu categories={mockCategories} />);
 
@@ -68,6 +77,7 @@ describe('MobileMenu', () => {
   });
 
   it('Closes when a top-level link is clicked', async () => {
+    document.addEventListener('click', blockNavigation);
     const user = userEvent.setup();
     render(<MobileMenu categories={mockCategories} />);
 
@@ -81,6 +91,7 @@ describe('MobileMenu', () => {
   });
 
   it('Closes when a service link is clicked', async () => {
+    document.addEventListener('click', blockNavigation);
     const user = userEvent.setup();
     render(<MobileMenu categories={mockCategories} />);
 

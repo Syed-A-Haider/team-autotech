@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import MapEmbed from './MapEmbed';
+import { MapEmbed } from './MapEmbed';
 
 describe('MapEmbed', () => {
   it('Renders the iframe with the given src and title', () => {

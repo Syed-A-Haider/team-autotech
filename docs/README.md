@@ -27,4 +27,5 @@ The code is the source of truth. If a doc and the code disagree, trust the code 
 ## Keeping these current
 
 - End of every ticket: the steps are in `workflow.md`. The outcome lives in `status.md`.
+- Each phase keeps one running completion report (`t#-completion-report.md`), appended at the end of every ticket in that phase. The T5 report is created at the end of T5.1.
 - Keep files short. If one passes about 150 lines, split it or trim it.

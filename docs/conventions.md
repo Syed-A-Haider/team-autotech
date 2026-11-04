@@ -21,10 +21,11 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - Export only when a second consumer exists. Do not export speculatively.
 - No dedicated icon prop. Pass icons as children (YAGNI).
 - Use `import type { ReactNode } from 'react'`, not the global `React.ReactNode`.
+- Components use named exports (`export function Name`). Pages, layouts and other route files keep `export default`, which Next requires. Every component under `src/components` uses a named export.
 
 ## Data
 
-- Components never import a data file directly. Pages fetch through the `lib/` getters and pass typed props.
+- Components never import the raw services or reviews arrays. Pages fetch through the `lib/` getters and pass typed props. Constants and pure helpers from `lib/` are fine.
 - Copy lives in named constants exported from the component file. Tests import those constants.
 - Constants use the "derive once, export flat" pattern: flat named exports, derived values computed once.
 

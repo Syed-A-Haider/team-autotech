@@ -4,12 +4,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
-import LinkButton from '../ui/LinkButton';
+import { LinkButton } from '../ui/LinkButton';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
+import { serviceHref } from '@/lib/routes';
 import clsx from 'clsx';
 
-// Smaller then 'Service' - Client Component so props passed from Server Component must be serializable
-// Service.icon = function reference - cannot cross boundary
+// Smaller than 'Service'. Client Component, so its props must be serialisable (no icons or functions).
 export interface MobileMenuLink {
   slug: string;
   title: string;
@@ -30,7 +30,7 @@ const topLevelLinkClasses =
 
 // Only client piece in layout - owns own toggle state + panel it controls.
 // Navbar (server component) cannot hold
-export default function MobileMenu({ categories }: MobileMenuProps) {
+export function MobileMenu({ categories }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Lock background scroll while panel is open
@@ -112,7 +112,7 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
                 {services.map((service) => (
                   <li key={service.slug}>
                     <Link
-                      href={`/services/${service.slug}`}
+                      href={serviceHref(service.slug)}
                       onClick={close}
                       className="text-muted hover:text-foreground flex items-center gap-2 py-2 text-sm"
                     >

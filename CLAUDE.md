@@ -6,21 +6,18 @@ Static Next.js 16 (App Router) + React 19 (React Compiler) + TypeScript + Tailwi
 
 ## Commands
 
-- `pnpm dev` / `pnpm build` / `pnpm lint`
-- `pnpm test:unit` (Vitest, jsdom). Single file: `pnpm test:unit src/lib/reviews.test.ts`, or add `-t "name"`.
-- `pnpm test:e2e` (Playwright, starts `pnpm dev` itself). Single: `pnpm test:e2e tests/smoke.spec.ts` or `--grep @smoke`.
+- `pnpm dev` / `pnpm build` / `pnpm start` (serves a build) / `pnpm lint`
+- `pnpm test:unit` (Vitest, jsdom; `pnpm test:unit:watch` to watch). Single file: `pnpm test:unit src/lib/reviews.test.ts`, or add `-t "name"`.
+- `pnpm test:e2e` (Playwright, starts `pnpm dev` itself). Single: `pnpm test:e2e tests/homepage.spec.ts` or `--grep @smoke`.
 - `pnpm typecheck` runs `tsc --noEmit`.
-- No format script. Prettier config exists (`.prettierrc`): `pnpm exec prettier --write <file>`.
-- Definition of done: lint, typecheck, test:unit, build, plus test:e2e when a page or route changes. `/verify` runs these.
+- No format script. Prettier config exists (`.prettierrc`): `pnpm exec prettier --write <file>`. A PostToolUse hook (`.claude/hooks/format.mjs`) runs it on files Claude writes.
+- Definition of done: lint, typecheck, test:unit, build, plus test:e2e when a page or route changes. `/verify` runs these. `/finish-ticket T#.#` wraps up a ticket (status, docs, PR draft).
 
 ## Gotchas
 
 - Vitest resolves `@/*` via native `resolve.tsconfigPaths`. Do not add `vite-tsconfig-paths`.
 - Vitest has no `globals: true`. `vitest.setup.ts` handles cleanup and jest-dom. Playwright specs in `tests/` are excluded from Vitest.
-- Functions and `LucideIcon` cannot cross the Server to Client boundary. Pass a trimmed serialisable shape (see `Navbar` to `MobileMenu`).
-- A `//` comment directly above a JSX spread attribute breaks the Next compiler.
-- `backdrop-filter`/`filter` on an ancestor traps `position: fixed` children.
-- `next/image` with `fill` needs a positioned parent.
+- The Server to Client boundary, `next/image` `fill`, JSX spread comments and `backdrop-filter` gotchas are in the Gotchas section of `docs/conventions.md` (imported below).
 
 ## Workflow
 

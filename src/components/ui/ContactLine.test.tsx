@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Phone } from 'lucide-react';
-import ContactLine from './ContactLine';
+import { ContactLine } from './ContactLine';
 
 describe('ContactLine', () => {
   it('Renders the link text and href', () => {
@@ -36,5 +36,16 @@ describe('ContactLine', () => {
     const link = screen.getByRole('link', { name: 'Visit' });
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('Passes className through to the link', () => {
+    render(
+      <ContactLine icon={<Phone />} href="tel:+441234567890" className="extra">
+        01234 567890
+      </ContactLine>,
+    );
+    expect(screen.getByRole('link', { name: '01234 567890' })).toHaveClass(
+      'extra',
+    );
   });
 });

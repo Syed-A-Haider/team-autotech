@@ -8,7 +8,7 @@ interface ReviewCardProps {
   review: Review;
 }
 
-export default function ReviewCard({ review }: ReviewCardProps) {
+export function ReviewCard({ review }: ReviewCardProps) {
   const { author, rating, text, excerpt: exerpt, photoUrl } = review;
 
   return (

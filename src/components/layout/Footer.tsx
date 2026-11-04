@@ -17,8 +17,8 @@ import {
   GOOGLE_PROFILE_LINK,
 } from '@/lib/constants';
 
-import SectionWrapper from '@/components/ui/SectionWrapper';
-import ContactLine from '@/components/ui/ContactLine';
+import { SectionWrapper } from '@/components/ui/SectionWrapper';
+import { ContactLine } from '@/components/ui/ContactLine';
 import { ReactNode } from 'react';
 
 const quickLinks = [

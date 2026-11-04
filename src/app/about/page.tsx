@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { Check, Clock, MapPin } from 'lucide-react';
-import LinkButton from '@/components/ui/LinkButton';
-import PageHero from '@/components/ui/PageHero';
-import SectionWrapper from '@/components/ui/SectionWrapper';
+import { LinkButton } from '@/components/ui/LinkButton';
+import { PageHero } from '@/components/ui/PageHero';
+import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { EnquiryBand } from '@/components/ui/EnquiryBand';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { groupServicesByCategory } from '@/lib/services';
+import { serviceHref } from '@/lib/routes';
 import {
   ADDRESS,
   MAPS_DIRECTIONS_LINK,
@@ -132,7 +133,7 @@ export default function AboutPage() {
                     return (
                       <li key={service.slug}>
                         <Link
-                          href={`/services/${service.slug}`}
+                          href={serviceHref(service.slug)}
                           className={SERVICE_LINK_STYLES}
                         >
                           <Icon

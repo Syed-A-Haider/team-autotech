@@ -1,5 +1,5 @@
 // siteConfig - single source of truth for site name/description, saves retyping.
-// as const: Treat as read-only, preserve exact values --> immutable + strongly typed configuration
+// as const: read-only, exact literal types
 export const siteConfig = {
   name: 'Team Autotech',
   description:
@@ -16,7 +16,7 @@ export const EMAIL = 'teamautotech@outlook.com';
 export const ADDRESS = 'Unit 4E Wenning St, Nelson, Lancashire BB9 0LE';
 
 export const WHATSAPP_NUMBER = '447515007688';
-export const WHATSAPP_LINK = `https://api.whatsapp.com/send?phone=447515007688&text=Hi%2C%20How%20can%20we%20help%3F`;
+export const WHATSAPP_LINK = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=Hi%2C%20How%20can%20we%20help%3F`;
 export const TEL_MOBILE_LINK = `tel:+44${PHONE_MOBILE.replace(/^0/, '').replace(/\s/g, '')}`;
 export const TEL_LANDLINE_LINK = `tel:+44${PHONE_LANDLINE.replace(/^0/, '').replace(/\s/g, '')}`;
 

@@ -1,6 +1,6 @@
 # Content requests for Syd
 
-Tracker for services with no source copy. The old-site pages for these 12 were empty when checked on 2026-11-03. When copy arrives: create `docs/content/<slug>.md` from `_template.md`, open the next content ticket (T3.11 onward), and update the row below.
+Tracker for services with no source copy. The old-site pages for these 12 were empty when checked on 2026-11-03. When copy arrives: create `docs/content/<slug>.md` from `_template.md`, open the next content ticket (numbered in order in a later phase, as T3 is closed), and update the row below.
 
 ## What we need for each service (minimum to go live)
 

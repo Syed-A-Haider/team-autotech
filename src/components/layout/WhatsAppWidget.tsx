@@ -2,7 +2,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 import { WHATSAPP_LINK } from '@/lib/constants';
 
 // Floating site-wide WhatsApp shortcut. Rendered once from root layout.
-export default function WhatsAppWidget() {
+export function WhatsAppWidget() {
   return (
     <a
       href={WHATSAPP_LINK}

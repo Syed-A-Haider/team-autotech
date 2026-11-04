@@ -1,16 +1,32 @@
+import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
-import { pageTitle, routes, viewports } from './config/testData';
+import { htmlLang, pageTitle, routes, viewports } from './config/testData';
 
 test.describe('Homepage', { tag: '@homepage' }, () => {
-  test('Loads with the correct title', { tag: '@smoke' }, async ({ page }) => {
-    // Arrange - homePage fixture already navigated to '/'
+  test(
+    'Loads with the correct title',
+    { tag: '@smoke' },
+    async ({ homePage }) => {
+      // Arrange - homePage fixture already navigated to '/'
 
-    // Act
-    const title = await page.title();
+      // Assert
+      await expect(homePage.page).toHaveTitle(pageTitle);
+    },
+  );
 
-    // Assert
-    expect(title).toBe(pageTitle);
-  });
+  test(
+    'Sets the html lang and meta description',
+    { tag: '@smoke' },
+    async ({ homePage }) => {
+      // Arrange - homePage fixture already navigated to '/'
+
+      // Assert - soft, so both report even if one fails
+      await expect.soft(homePage.html).toHaveAttribute('lang', htmlLang);
+      await expect
+        .soft(homePage.metaDescription)
+        .toHaveAttribute('content', siteConfig.description);
+    },
+  );
 
   test('has exactly one h1', { tag: '@smoke' }, async ({ homePage }) => {
     // Assert
@@ -40,11 +56,14 @@ test.describe('Homepage', { tag: '@homepage' }, () => {
     'Services grid links through to a real service page',
     { tag: '@navigation' },
     async ({ page, homePage }) => {
+      // Arrange
+      const href = await homePage.firstServiceLink.getAttribute('href');
+
       // Act
       await homePage.firstServiceLink.click();
 
-      // Assert
-      await expect(page).toHaveURL(/\/services\//);
+      // Assert - plain string, no regex
+      await expect(page).toHaveURL(href!);
     },
   );
 
@@ -61,12 +80,12 @@ test.describe('Homepage', { tag: '@homepage' }, () => {
     'FindUsSection directions link is present and has a destination',
     { tag: '@navigation' },
     async ({ homePage }) => {
-      // Act
-      const href = await homePage.directionsLink.getAttribute('href');
-
       // Assert
       await expect(homePage.directionsLink).toBeVisible();
-      expect(href).toBeTruthy();
+      await expect(homePage.directionsLink).toHaveAttribute(
+        'href',
+        MAPS_DIRECTIONS_LINK,
+      );
     },
   );
 });

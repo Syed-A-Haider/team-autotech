@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import ReviewCard from './ReviewCard';
+import { ReviewCard } from './ReviewCard';
 import type { Review } from '@/types/review';
 
 const reviewWithExcerpt: Review = {

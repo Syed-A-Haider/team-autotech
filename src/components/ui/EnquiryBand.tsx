@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import SectionWrapper from './SectionWrapper';
+import { SectionWrapper } from './SectionWrapper';
 import { SectionHeading, GLOW_STYLES } from './SectionHeading';
 import { ContactLinks } from './ContactLinks';
 

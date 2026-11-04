@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import SectionWrapper from './SectionWrapper';
+import { SectionWrapper } from './SectionWrapper';
 
 type PageHeroSize = 'default' | 'compact';
 
@@ -16,7 +16,7 @@ interface PageHeroProps {
   className?: string;
 }
 
-export default function PageHero({
+export function PageHero({
   title,
   subtitle,
   size = 'default',

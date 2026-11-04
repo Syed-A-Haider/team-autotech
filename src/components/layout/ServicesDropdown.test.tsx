@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Gauge, ShieldCheck } from 'lucide-react';
-import ServicesDropdown from './ServicesDropdown';
+import { ServicesDropdown } from './ServicesDropdown';
 import type { ServiceCategories } from '@/types/service';
 
 // Use mock services for testing purposes

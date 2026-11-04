@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import HeroSection, { HERO_HEADLINE, HERO_SUBTITLE } from './HeroSection';
+import { HeroSection, HERO_HEADLINE, HERO_SUBTITLE } from './HeroSection';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 
 describe('HeroSection', () => {

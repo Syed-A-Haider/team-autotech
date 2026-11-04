@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import clsx from 'clsx';
-import LinkButton from '@/components/ui/LinkButton';
-import SectionWrapper from '@/components/ui/SectionWrapper';
+import { LinkButton } from '@/components/ui/LinkButton';
+import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { STRIPE_STYLES } from '@/components/ui/SectionHeading';
 

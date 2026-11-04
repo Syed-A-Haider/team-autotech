@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import FindUsSection, {
+import {
+  FindUsSection,
   FIND_US_SECTION_HEADING,
   FIND_US_SECTION_INTRO,
 } from './FindUsSection';

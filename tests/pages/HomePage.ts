@@ -14,6 +14,8 @@ import { navLabels, routes } from '../config/testData';
 export class HomePage {
   readonly page: Page;
   readonly main: Locator;
+  readonly html: Locator;
+  readonly metaDescription: Locator;
   readonly h1: Locator;
   readonly firstServiceLink: Locator;
   readonly aboutCtaLink: Locator;
@@ -30,6 +32,8 @@ export class HomePage {
   constructor(page: Page) {
     this.page = page;
     this.main = page.getByRole('main');
+    this.html = page.locator('html');
+    this.metaDescription = page.locator('meta[name="description"]');
     this.h1 = page.getByRole('heading', { level: 1 });
     this.firstServiceLink = this.main
       .locator(`a[href^="${routes.servicesPrefix}"]`)

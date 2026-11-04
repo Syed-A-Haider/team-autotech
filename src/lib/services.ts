@@ -1,13 +1,6 @@
 // Every page/component reads from here. Never hardcode services
 
-/* 
-Reason for choosing an Array of Services:
-    1. Matches generateStaticParams (which wants an array)
-    2. Can easily enumerate them (put them in dropdowns, homepage grids) with .map() and .filter()
-    3. Can search them easily with .find() by their slug which is their unique ID
-    4. For limited services - will be < 100, O(n) lookup is irrelevant, same practical result as a hash
-
-*/
+// Array, not a map: generateStaticParams wants an array and the list is small (<100).
 import type { Service, ServiceCategories } from '@/types/service';
 import {
   Gauge,
@@ -30,8 +23,7 @@ import {
   Timer,
 } from 'lucide-react';
 
-// Not exported - Encapsulation = access via functions instead.
-// Adding new service, copy the same structure, pick a unique slug, pick a category that's already existing, rest is up to you
+// Not exported: read through the getters. To add a service, copy an entry and use a unique slug.
 const services: Service[] = [
   // Remap / Tuning
   {
@@ -381,7 +373,7 @@ const services: Service[] = [
   },
 ];
 
-// Ranked list for homepage "Popular Services" grid (T2.3)
+// Ranked list for the homepage "Popular Services" grid
 // Order is deliberate - Remap and Ghosts are kept apart
 const FEATURED_SERVICE_SLUGS = [
   'stage-1-tuning',
@@ -425,7 +417,7 @@ export function getFeaturedServices(): Service[] {
   );
 }
 
-// Get all services in category
+// Other services in the same category
 export function getRelatedServices(service: Service, limit = 3): Service[] {
   return services
     .filter((s) => s.category === service.category && s.slug !== service.slug)

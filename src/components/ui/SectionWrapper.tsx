@@ -9,9 +9,9 @@ interface SectionWrapperProps {
   className?: string;
 }
 
-export default function SectionWrapper({
+export function SectionWrapper({
   children,
-  //   Polymorphic component - don't need if/else. Capitalised so treated as variable reference, not literal HTML
+  // Capitalised so JSX treats it as a variable, not an HTML tag
   as: Component = 'section',
   id,
   className,

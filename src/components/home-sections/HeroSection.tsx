@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { Phone } from 'lucide-react';
-import LinkButton from '../ui/LinkButton';
+import { LinkButton } from '../ui/LinkButton';
 import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
 
 export const HERO_HEADLINE =
   'Vehicle Remapping, Auto Electrical & Tuning Specialists in Nelson';
 export const HERO_SUBTITLE = 'Home of Auto Solutions';
 
-export default function HeroSection() {
+export function HeroSection() {
   return (
     <div className="relative h-125 max-h-[85dvh] overflow-hidden sm:h-150">
       {/* Decorative background image - alt left empty */}

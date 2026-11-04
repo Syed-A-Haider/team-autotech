@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import { Phone } from 'lucide-react';
+import clsx from 'clsx';
 import type { Service } from '@/types/service';
 import type { CategoryTheme } from '@/lib/service-themes';
-import LinkButton from '../ui/LinkButton';
-import SectionWrapper from '../ui/SectionWrapper';
+import { LinkButton } from '../ui/LinkButton';
+import { SectionWrapper } from '../ui/SectionWrapper';
 import { TEL_MOBILE_LINK } from '@/lib/constants';
 
 interface ServiceHeroProps {
@@ -24,11 +25,11 @@ export function ServiceHero({ service, theme }: ServiceHeroProps) {
       {/* Readability scrim, then category motif */}
       <div
         aria-hidden="true"
-        className={`absolute inset-0 ${theme.overlayClassName}`}
+        className={clsx('absolute inset-0', theme.overlayClassName)}
       />
       <div
         aria-hidden="true"
-        className={`absolute inset-0 ${theme.motifClassName}`}
+        className={clsx('absolute inset-0', theme.motifClassName)}
       />
       {/* Pinned to the bottom of the box, above both overlays */}
       <SectionWrapper
