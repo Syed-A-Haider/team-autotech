@@ -22,4 +22,16 @@ describe('SectionHeading', () => {
     expect(container).toHaveTextContent(/^Our process$/);
     expect(screen.getAllByRole('heading')).toHaveLength(1);
   });
+
+  it('Shows the stripe by default and hides it when stripe is false', () => {
+    const { container, rerender } = render(
+      <SectionHeading title="Our process" align="start" />,
+    );
+    expect(container.querySelector('span[aria-hidden="true"]')).not.toBeNull();
+
+    rerender(
+      <SectionHeading title="Our process" align="start" stripe={false} />,
+    );
+    expect(container.querySelector('span[aria-hidden="true"]')).toBeNull();
+  });
 });

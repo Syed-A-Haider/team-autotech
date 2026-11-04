@@ -20,10 +20,10 @@ So far T4.1 is done (PR open). It added a static, deliberately unnumbered About 
 
 Baseline at the start of T4 (after T3.10): 15 services (3 live, 12 coming-soon), routes `/` and `/services/[slug]` only, 195 Vitest tests in 37 files, 27 Playwright tests.
 
-| After ticket     | Routes                    | Vitest         | Playwright | Notes                                                                          |
-| ---------------- | ------------------------- | -------------- | ---------- | ------------------------------------------------------------------------------ |
-| T3.10 (baseline) | `/`, `/services/[slug]`   | 195            | 27         |                                                                                |
-| T4.1             | adds `/about` (static, ○) | 215 (39 files) | 32         | +6 `SectionShell`, +13 About page, +1 `AboutSnippet`, +5 Playwright (`@about`) |
+| After ticket     | Routes                    | Vitest         | Playwright | Notes                                                                                                               |
+| ---------------- | ------------------------- | -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------- |
+| T3.10 (baseline) | `/`, `/services/[slug]`   | 195            | 27         |                                                                                                                     |
+| T4.1             | adds `/about` (static, ○) | 216 (39 files) | 32         | +6 `SectionShell`, +13 About page, +1 `AboutSnippet`, +1 `SectionHeading` (`stripe` prop), +5 Playwright (`@about`) |
 
 ## Major decisions
 

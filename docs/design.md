@@ -49,7 +49,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 ## About page
 
 - Deliberately not the numbered service-page look: no faded numbers, glows or alternating split. Un-numbered `SectionHeading` stripe headings inside `SectionWrapper` (the `RelatedServices` pattern), surface panels with the racing stripe, `py-16 lg:py-24`
-- Who We Are: text beside a facts panel (`YEARS_EXPERIENCE` stat plus three highlights from approved copy). What We Do: four category cards, every service a link (icon plus title, the `ServicesDropdown` row style, no coming-soon marker). Find Us: address as text, hours, and a Get Directions button. Phone and email live in the Footer and closing band only
+- Who We Are: text beside a facts panel (`YEARS_EXPERIENCE` stat plus three highlights from approved copy). What We Do: four category cards, every service a link (icon plus title, the `ServicesDropdown` row style, no coming-soon marker). Find Us: address as text, hours, and a Get Directions button (its heading uses `stripe={false}` because the panel has its own stripe). Phone and email live in the Footer and closing band only
 - `SectionShell` is now used only by `ServiceSections`. It stays in `ui/`
 
 ## Closing bands

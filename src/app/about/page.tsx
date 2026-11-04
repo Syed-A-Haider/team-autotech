@@ -159,7 +159,11 @@ export default function AboutPage() {
             )}
           >
             <div>
-              <SectionHeading title={ABOUT_VISIT_HEADING} align="start" />
+              <SectionHeading
+                title={ABOUT_VISIT_HEADING}
+                align="start"
+                stripe={false}
+              />
               <p className="text-muted mt-6 max-w-prose leading-relaxed">
                 {ABOUT_VISIT_INTRO}
               </p>
