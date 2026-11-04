@@ -98,6 +98,7 @@ Technical:
 - Fixed in docs at T4.1: `status.md` and `project.md` claimed the Footer links to `/#services`. It does not, and `/#services` is the 6-card Popular grid.
 - `MapEmbed` loads the Google Maps iframe without a click (`loading="lazy"`, `src` set at once), so the homepage contacts four Google hosts on load. `conventions.md` says third-party embeds load after a click. Pre-existing, found by the T4.5 snapshot, not touched (T4.5).
 - pnpm warns that `eslint` 9.39.5 is deprecated, and `react` and `react-dom` are 19.2.8 while 19.3.x exists. Both are out of scope for a security bump and need their own tickets (T4.5).
+- 36 audit findings remain in dev-only tooling (`undici`, `vite`, `brace-expansion`, `@vitest/mocker`, `zod`, `minimatch`, `js-yaml`), down from 53 before T4.5, with none new. They are not shipped. Clearing them means upgrading the test toolchain, so it needs its own ticket (T4.5).
 
 ## Gotchas recorded in the docs during T4
 

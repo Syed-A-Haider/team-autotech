@@ -43,20 +43,21 @@ Commits, each followed by `/verify`:
 
 ## T4.5 record: next 16.3.0 to 16.4.5 (2026-11-04)
 
-| Check                  | Result                                                                                                                                                                      |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm audit --prod`    | 17 (5 critical, 6 high, 5 moderate, 1 low) to 2 high after the bump, to 0 after the `nanoid` and `source-map-js` refresh                                                    |
-| Lockfile               | next, `@next/*`, `@swc/helpers`, sharp 0.35.3 to 0.35.5 with its `@img/*` binaries, eslint-config-next, nanoid 3.3.17 to 3.3.20, source-map-js 1.2.1 to 1.2.2. Nothing else |
-| lint, typecheck, build | Pass. 0 lint problems, so no new rule fires. Same route table, 20 static pages                                                                                              |
-| Vitest                 | 231 tests in 42 files, unchanged                                                                                                                                            |
-| Playwright             | 36 of 36 against production and 36 of 36 against dev, unchanged                                                                                                             |
-| React Compiler         | Marker count 9 in 3 chunks before and after                                                                                                                                 |
-| Static assets          | 900,158 to 901,439 bytes (+0.14%), same file counts                                                                                                                         |
-| Pages                  | 20 routes: status, headers, metadata, headings, landmarks, image attributes, links, text, console and hosts all identical                                                   |
-| Markup                 | Identical outside `<script>` elements once generated class names are normalised                                                                                             |
-| Screenshots            | 18 (6 pages at 3 widths), pixel-identical                                                                                                                                   |
-| `/_next/image`         | 60 URLs, all 200 webp, byte-identical output (3,830,434 bytes) despite the sharp bump                                                                                       |
-| Video facade           | No request beyond the site's own host before the click, player from `youtube-nocookie.com` after, focus moves into it                                                       |
+| Check                   | Result                                                                                                                                                                                          |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm audit --prod`     | 17 (5 critical, 6 high, 5 moderate, 1 low) to 2 high after the bump, to 0 after the `nanoid` and `source-map-js` refresh                                                                        |
+| `pnpm audit` (all deps) | 53 to 36 findings, none new. The 36 left are dev-only tooling that is not shipped (`undici`, `vite`, `brace-expansion`, `@vitest/mocker`, `zod`, `minimatch`, `js-yaml`) and were already there |
+| Lockfile                | next, `@next/*`, `@swc/helpers`, sharp 0.35.3 to 0.35.5 with its `@img/*` binaries, eslint-config-next, nanoid 3.3.17 to 3.3.20, source-map-js 1.2.1 to 1.2.2. Nothing else                     |
+| lint, typecheck, build  | Pass. 0 lint problems, so no new rule fires. Same route table, 20 static pages                                                                                                                  |
+| Vitest                  | 231 tests in 42 files, unchanged                                                                                                                                                                |
+| Playwright              | 36 of 36 against production and 36 of 36 against dev, unchanged                                                                                                                                 |
+| React Compiler          | Marker count 9 in 3 chunks before and after                                                                                                                                                     |
+| Static assets           | 900,158 to 901,439 bytes (+0.14%), same file counts                                                                                                                                             |
+| Pages                   | 20 routes: status, headers, metadata, headings, landmarks, image attributes, links, text, console and hosts all identical                                                                       |
+| Markup                  | Identical outside `<script>` elements once generated class names are normalised                                                                                                                 |
+| Screenshots             | 18 (6 pages at 3 widths), pixel-identical                                                                                                                                                       |
+| `/_next/image`          | 60 URLs, all 200 webp, byte-identical output (3,830,434 bytes) despite the sharp bump                                                                                                           |
+| Video facade            | No request beyond the site's own host before the click, player from `youtube-nocookie.com` after, focus moves into it                                                                           |
 
 ### What changed under the hood
 
