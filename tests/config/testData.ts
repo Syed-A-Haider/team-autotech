@@ -12,6 +12,8 @@ export const unknownServiceSlug = 'not-a-real-service';
 
 export const pageTitle = 'Team AutoTech';
 
+export const htmlLang = 'en';
+
 // aria-labels and link text of the desktop Main nav
 export const navLabels = { main: 'Main', about: 'About' } as const;
 

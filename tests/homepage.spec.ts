@@ -1,5 +1,6 @@
+import { siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
-import { pageTitle, routes, viewports } from './config/testData';
+import { htmlLang, pageTitle, routes, viewports } from './config/testData';
 
 test.describe('Homepage', { tag: '@homepage' }, () => {
   test('Loads with the correct title', { tag: '@smoke' }, async ({ page }) => {
@@ -11,6 +12,20 @@ test.describe('Homepage', { tag: '@homepage' }, () => {
     // Assert
     expect(title).toBe(pageTitle);
   });
+
+  test(
+    'Sets the html lang and meta description',
+    { tag: '@smoke' },
+    async ({ homePage }) => {
+      // Arrange - homePage fixture already navigated to '/'
+
+      // Assert - soft, so both report even if one fails
+      await expect.soft(homePage.html).toHaveAttribute('lang', htmlLang);
+      await expect
+        .soft(homePage.metaDescription)
+        .toHaveAttribute('content', siteConfig.description);
+    },
+  );
 
   test('has exactly one h1', { tag: '@smoke' }, async ({ homePage }) => {
     // Assert
