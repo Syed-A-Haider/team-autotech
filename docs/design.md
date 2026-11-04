@@ -54,7 +54,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 ## 404 page
 
-- `app/not-found.tsx`: a centred column in `SectionWrapper` (`py-16 lg:py-24`, `max-w-2xl`). A large faded "404" (the race-number look, `text-accent/25`, `aria-hidden`), the racing stripe (`STRIPE_STYLES`, exported from `SectionHeading`), the single `h1`, one muted line and one "Back to home" `LinkButton` (`lg`). No glow, badge, icons, contact block or service links
+- `app/not-found.tsx`: a centred column in `SectionWrapper` (`max-w-2xl`, `py-24` on mobile, `py-16 lg:py-24` from `sm`, with looser gaps on mobile so it is not squashed above the footer). A large faded "404" (the race-number look, `text-accent/25`, `aria-hidden`), the racing stripe (`STRIPE_STYLES`, exported from `SectionHeading`), the single `h1`, one muted line and one "Back to home" `LinkButton` (`lg`). No glow, badge, icons, contact block or service links
 - Plain tone, no jokes. It renders inside the root `<main>`, so it adds none
 
 ## Closing bands
