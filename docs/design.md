@@ -28,7 +28,7 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 
 ## Z-index scale
 
-`z-30` Navbar, `z-40` WhatsAppWidget, `z-50` MobileMenu overlay. Stay inside this scale.
+`z-30` Navbar, `z-40` WhatsAppWidget, `z-50` MobileMenu overlay. Stay inside this scale for fixed and sticky layers. In-flow content may use `z-10` to sit above a sibling background (`HeroSection`, `ServiceHero`), and the decorative glow in `SectionHeading` uses `-z-10`.
 
 ## Layout building blocks
 
@@ -71,10 +71,13 @@ The accent hex is provisional until Syd supplies the logo. Changing it is a one-
 - No product or carousel images on service pages. An image-capable block needs its own component ticket first
 - Use `next/image`. With `fill`, the parent must be positioned
 - T3.32 added the category hero images. Check how before adding more
+- The four hero images are large originals (about 20 MB in total). Left as is by decision (T4.4), because the site needs few images
 
 ## Motion
 
 T3.31 added a transition on page navigation (`PageTransition`). Read how it is built before adding other animation. Keep new motion subtle. Service sections have no scroll or hover animation. Non-link cards get no hover effect. Planned: a dedicated motion phase (T5.1, T5.2) will add scroll reveals and richer effects across the site, and rewrites this section. Do not add ad hoc animation before then.
+
+Known gap for T5.1: at the T4.4 sweep, 15 of 22 `transition-*` uses lacked the `motion-safe:` prefix that `conventions.md` requires. They are in `ContactLine`, `MapEmbed`, `LinkButton`, `ReviewsCarousel`, `Footer`, `MobileMenu`, `Navbar`, `ServicesDropdown`, `WhatsAppWidget` and `ServiceCard`. Fix them when this section is rewritten, because adding the prefix changes behaviour for reduced-motion users.
 
 ## Responsive checks
 

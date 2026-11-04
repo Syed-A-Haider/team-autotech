@@ -27,7 +27,7 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 ## Vitest and RTL rules
 
 - Colocated as `Component.test.tsx`. Config is `vitest.config.mts` and the environment is jsdom
-- Assert on role, text and href. Never on CSS classes
+- Assert on role, text and href. Never on CSS classes, with one exception: a test that a `className` prop reaches the element may use `toHaveClass`. The `LinkButton` variant and size tests still assert classes and are due a rewrite against exported constants or attributes
 - Import exported copy constants instead of retyping strings. Do not hardcode literals or counts that change independently of logic
 - Block and renderer tests use typed fixture data, never real service data
 - `afterEach(cleanup)` is registered manually in `vitest.setup.ts` because `globals: true` is not set
