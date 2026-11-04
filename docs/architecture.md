@@ -14,7 +14,7 @@ Static Next.js App Router site on Vercel. Written from the project plan; check t
 - No API routes and no dynamic rendering anywhere.
 - Categories are data, not folders. They drive the nav and the page theme, not the URL.
 - No `/services` index (by decision) and no breadcrumbs. The Navbar mega-menu and the homepage Popular grid cover navigation. `/services` is a normal 404.
-- Contact is `tel:`, `wa.me` and `mailto:` links only. No form, no backend.
+- Contact is `tel:`, WhatsApp and `mailto:` links only. No form, no backend.
 
 ## Source tree
 
@@ -52,7 +52,9 @@ tests/                    Playwright specs (Page Object Model + custom fixture)
 
 ```
 lib/services.ts
-  getAllServices()           -> Home -> ServicesGrid -> ServiceCard
+  getFeaturedServices()      -> Home -> ServicesGrid -> ServiceCard
+  getAllServices()           -> services/[slug]/page.tsx (generateStaticParams)
+  getRelatedServices()       -> services/[slug]/page.tsx
   getServiceBySlug(slug)     -> services/[slug]/page.tsx -> ServicePageTemplate (service: Service)
   groupServicesByCategory()  -> Navbar -> ServicesDropdown / MobileMenu (trimmed shape)
 lib/service-themes.ts

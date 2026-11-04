@@ -16,7 +16,7 @@ Two goals: a better site for the business, and portfolio experience for the deve
 | Topic              | Decision                                                                                                                                                                |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Rendering          | Fully static. No API routes, no dynamic rendering                                                                                                                       |
-| Contact            | `tel:`, `wa.me`, `mailto:` links only. No form, no backend                                                                                                              |
+| Contact            | `tel:`, WhatsApp, `mailto:` links only. No form, no backend                                                                                                             |
 | Design             | Dark theme, orange accent, Inter only                                                                                                                                   |
 | Content            | Structure and placeholder content first, real copy after Syd reviews                                                                                                    |
 | Google reviews     | Static and curated, not a live API or widget                                                                                                                            |
