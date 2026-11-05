@@ -32,7 +32,7 @@ src/
     layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget
     ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
                PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks
-    home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ WhyChooseUsCard, CSS Module),
+    home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ WhyChooseUsCard),
                         ReviewsSection, ReviewsCarousel (Client), FindUsSection,
                         MapEmbed (Client), AboutSnippet
     service-sections/   ServicePageTemplate, ServiceHero, ComingSoonPanel,

@@ -98,6 +98,41 @@ test.describe('Lift and sheen, desktop', { tag: '@interaction' }, () => {
     await expect.poll(() => interactionAudit.translateY(card)).toBe(-rise);
   });
 
+  test('a hovered Why Choose Us card rises', async ({
+    homePage,
+    interactionAudit,
+  }) => {
+    // Arrange - the card is not a link, so it has lift but no press
+    const card = homePage.whyChooseUsCards.first();
+    const rise = await interactionAudit.liftDistance();
+    expect(await interactionAudit.translateY(card)).toBe(0);
+
+    // Act
+    await card.hover();
+
+    // Assert
+    await expect.poll(() => interactionAudit.translateY(card)).toBe(-rise);
+  });
+
+  test('hovering a Why Choose Us card changes no layout', async ({
+    homePage,
+    interactionAudit,
+  }) => {
+    // Arrange - where every card sits and how big it is, before the hover
+    const before = await interactionAudit.layoutBoxes(
+      homePage.whyChooseUsCards,
+    );
+
+    // Act
+    await homePage.whyChooseUsCards.first().hover();
+    await interactionAudit.settleFrames();
+
+    // Assert - the old strip grew one card and shrank the other three
+    expect(
+      await interactionAudit.layoutBoxes(homePage.whyChooseUsCards),
+    ).toEqual(before);
+  });
+
   test('a primary button sweeps a sheen across once on hover', async ({
     homePage,
     interactionAudit,

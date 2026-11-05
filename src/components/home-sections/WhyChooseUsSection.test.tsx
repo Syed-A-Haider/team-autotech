@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   WhyChooseUsSection,
   sectionHeading,
@@ -36,12 +37,30 @@ describe('WhyChooseUsSection', () => {
     expect(icons).toHaveLength(whyChooseUsItems.length);
   });
 
-  it('Makes every item keyboard-focusable', () => {
+  // The cards do nothing when activated, so they must not be tab stops
+  it('Makes no item a tab stop', async () => {
+    const user = userEvent.setup();
+    render(<WhyChooseUsSection />);
+
+    await user.tab();
+
+    expect(document.body).toHaveFocus();
+  });
+
+  it('Gives every item a level-3 title', () => {
     render(<WhyChooseUsSection />);
     whyChooseUsItems.forEach(({ title }) => {
-      const heading = screen.getByText(title);
-      const item = heading.closest('[tabindex]');
-      expect(item).toHaveAttribute('tabindex', '0');
+      expect(
+        screen.getByRole('heading', { level: 3, name: title }),
+      ).toBeInTheDocument();
     });
+  });
+
+  it('Renders the items as one list', () => {
+    render(<WhyChooseUsSection />);
+    const list = screen.getByRole('list');
+    expect(within(list).getAllByRole('listitem')).toHaveLength(
+      whyChooseUsItems.length,
+    );
   });
 });

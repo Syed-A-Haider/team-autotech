@@ -1,8 +1,8 @@
 # Status
 
-Last updated: 2026-11-05, after T5.5. Next ticket: T5.6.
+Last updated: 2026-11-05, after T5.6. Next ticket: T5.7.
 
-T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.6 to T5.12).
+T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.7 to T5.12).
 
 ## Done
 
@@ -37,27 +37,28 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is com
 
 - T5.5: Homepage hero load-in, services grid reveal and the `PageTransition` decision. New `motion.css` blocks, all timed CSS: `hero-settle` (the hero image eases from 1.14x to 1x over 1.8s), `hero-in-N` (any step number: fade and rise 2rem, 200ms apart), `hero-solid` (rise without fading, for LCP text), `hero-draw-N` (the racing stripe draws out) and `sheen-once` (one light sweep across the call button on load). The headline rises but never fades, the subtitle and call button fade up, and a new stripe draws under the headline. `ServicesGrid`: the heading `reveal`s and the six cards `reveal-stagger` through a wrapper `div` (a one-cell grid, so rows stay equal height). `PageTransition` stays but changed: the fade starts at 0.6 (`--page-enter-from`), lasts `--motion-fast` (150ms) and no longer translates. Measured on a production build (phone, 4x CPU, slow 4G): home LCP 1152 to 1036ms, service page 1156 to 1044ms, CLS 0, JS unchanged, CSS +0.2 KB gzipped, so the "hero outside `PageTransition`" fallback was not needed. The 404 numeral gets `hero-in-1` (the shorter page fade stopped hiding a 0.002 font-swap shift there). The Safari anchor tolerance is gone (0px, 8 repeats on WebKit). 232 Vitest, 125 Playwright per browser (250). See `t5-completion-report.md`
 
+- T5.6: Why Choose Us redesign, no new `motion.css` block. The hover-expanding strip (a CSS Module animating flex, padding, font size and max-height, with descriptions `display:none` on phones and at zero height until hover on desktop, and four tab stops that did nothing) is now four always-visible cards: icon, h3 title and description, in a `ul role="list"` (1 column, 2 from `sm`, 4 from `lg`) inside the full-bleed `bg-surface` band. The `ul` is `reveal-stagger`, each `li` is the reveal wrapper and the card inside has a static skewed wedge behind the icon (`bg-accent/10`, a tint, never `opacity-*`), a short skewed top stripe with `stripe-draw` and `lift`. By decision the cards are not clickable, so they take `lift` with their own `motion-safe:transition-transform` and no `press`, and the band has `border-t` only (the page `divide-y` already drew the bottom line, so `border-y` doubled it). The CSS Module is deleted (the site has none now), `iconAlign` and `tabIndex` are gone, the copy is untouched. The page-wide `@motion` guards now also run at desktop (faded, sideways, layout shift, reduced motion, JS off). Held fills, the reveal audit and the hero tests stay phone-only, by decision. The desktop layout-shift guard found a font-swap shift in the header call button (4px narrower once Inter loads, only visible from `lg`), fixed with `min-w-70` on `Navbar`. 234 Vitest, 164 Playwright per browser (328, 14 skipped on WebKit). See `t5-completion-report.md`
+
 ## Next
 
-- T5.6: Why Choose Us redesign (brief in `docs/tickets/T5.6.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
+- T5.7: Reviews swipe carousel (brief in `docs/tickets/T5.7.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
 Phases still to come: 5 motion and wow factor (T5.x), 6 audits and launch (T6.x), 7 deferred shop (no tickets yet).
 
-| Ticket  | Scope                                                                                                                  |
-| ------- | ---------------------------------------------------------------------------------------------------------------------- |
-| T5.6    | Why Choose Us redesign (always-visible text, no layout animation, CSS Module deleted). Motion guards extend to desktop |
-| T5.7    | Reviews swipe carousel (scroll-snap, big arrows, click a neighbour, keys), dynamic on desktop, no autoplay             |
-| T5.8    | Carousel depth: scaled and dimmed neighbours, desktop tilt, star pop                                                   |
-| T5.9    | Homepage rest: Find Us, About snippet, section headings                                                                |
-| T5.10   | Service pages: hero load-in, steps, features, spec band, prose, video, scroll-progress bar                             |
-| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                      |
-| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                             |
-| T6.1    | Add Firefox to the Playwright projects (chromium and webkit already run, since T5.3) and fix what it finds             |
-| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                 |
-| T6.3    | Domain connection (A record and CNAME), deliberately last                                                              |
-| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                               |
+| Ticket  | Scope                                                                                                      |
+| ------- | ---------------------------------------------------------------------------------------------------------- |
+| T5.7    | Reviews swipe carousel (scroll-snap, big arrows, click a neighbour, keys), dynamic on desktop, no autoplay |
+| T5.8    | Carousel depth: scaled and dimmed neighbours, desktop tilt, star pop                                       |
+| T5.9    | Homepage rest: Find Us, About snippet, section headings                                                    |
+| T5.10   | Service pages: hero load-in, steps, features, spec band, prose, video, scroll-progress bar                 |
+| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                          |
+| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                 |
+| T6.1    | Add Firefox to the Playwright projects (chromium and webkit already run, since T5.3) and fix what it finds |
+| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                     |
+| T6.3    | Domain connection (A record and CNAME), deliberately last                                                  |
+| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                   |
 
 ## Open items
 
@@ -81,6 +82,7 @@ Technical:
 
 - Motion (T5): scroll effects need `animation-timeline` (Chrome 115, Safari and iOS 26, Firefox 159). Older iOS and current Firefox see the finished page with no scroll effect, by decision. `PageTransition` cost about 180ms of LCP on a throttled phone (T5.1 baseline). T5.5 fixed it (0.6 start, 150ms, no translate): the gap between the motion and reduced-motion runs went from about 164ms to 28ms on home. Playwright runs Chromium and WebKit (the Safari 26.5 engine, T5.3). Firefox is checked by hand until T6.1. No iPhone is available, so iOS address-bar behaviour and touch feel are untested on a real device (an Android phone can check the PR preview). The Safari `/#services` shortfall is gone: the page fade no longer translates, and the 4px test allowance was removed (WebKit, 8 repeats)
 - Motion (T5.4): iOS Safari `:active` is not verified. It has historically ignored `:active` on elements with no touch listener, and there is no iPhone here (Playwright WebKit covers a mouse press only). The Navbar links and dropdown rows have no focus ring of their own, so the underline is their keyboard focus indicator. The About category rows copy the dropdown row style (`about/page.tsx`) and have no underline, left for T5.11. The WhatsApp pulse plays once per full page load (the widget is in the root layout), so client-side navigation never replays it. Each cycle is 1s (`--pulse-duration`), so shortening it further is a one-token edit
+- Motion (T5.6): the header call button has `min-w-70` (280px) so its width cannot change when Inter replaces the fallback font (it is 276px in Arial, 272px in Inter). Other right-aligned text could do the same on a device with a wider fallback font. The `@motion` guards read at desktop now, so a new desktop-only fault should show there. Held-fill, reveal-audit and hero checks run at phone size only
 - Service hero images are large (about 20.8 MB across four files). Left as they are by decision, as few such files are expected. Revisit only if page weight becomes a problem
 - Ghost Immobiliser II is `live` (indexable) with UNAPPROVED corrected copy, a provisional video title ("See Ghost Immobiliser II in Action") and a placeholder poster (frame saved from the video, `public/images/videos/ghost-immobiliser-ii.jpg`). `shortDescription` now uses the old-site tagline instead of the unsourced "CAN bus... no external fob or LED" line. Syd must approve before T6.3. If rejected, delete `status` to revert. `Service.body` is never rendered (follow-up: remove the field)
 - Scorpion X Series is `live` (indexable) with UNAPPROVED corrected copy. The step text was read from the old-site carousel images (confirmed visually); the images, the GBP 449 price and Scorpion's contact details are deliberately not used. The three feature tiles (Key Relay Defence, Personal Security, High Level Protection) have titles only, so there is no feature block. `shortDescription` uses sourced wording instead of the unsourced "Thatcham-approved" line. Syd must approve before T6.3. If rejected, delete `status` to revert
