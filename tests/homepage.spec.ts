@@ -1,3 +1,4 @@
+import { whyChooseUsItems } from '@/components/home-sections/WhyChooseUsSection';
 import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
 import { htmlLang, pageTitle, routes, viewports } from './config/testData';
@@ -130,5 +131,26 @@ test.describe(
       // Assert
       await expect(homePage.menuToggleButton).toBeHidden();
     });
+  },
+);
+
+// T5.6: the old strip hid every description (display:none on phones, a zero-height
+// box until hover on desktop). Visibility is read from the browser, not a class
+test.describe(
+  'Homepage - Why Choose Us',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    for (const [size, viewport] of Object.entries(viewports)) {
+      test.describe(`${size} width`, () => {
+        test.use({ viewport });
+
+        test('Every description shows without hover', async ({ homePage }) => {
+          // Assert - the fixture has loaded the page at this width
+          await expect(
+            homePage.whyChooseUsDescriptions.filter({ visible: true }),
+          ).toHaveCount(whyChooseUsItems.length);
+        });
+      });
+    }
   },
 );

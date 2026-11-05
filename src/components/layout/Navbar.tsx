@@ -24,6 +24,12 @@ const servicesButtonClasses = clsx(
   'group-hover:[--underline:1] group-focus-within:[--underline:1]',
 );
 
+// The call button sits at the right edge, so any change in its width moves its
+// left edge. Its text is about 4px narrower in Inter (272px) than in the fallback
+// font (276px), which shifted the button when Inter loaded (CLS on desktop).
+// A minimum width above both (280px) keeps the box the same size in either font
+const callButtonClasses = 'min-w-70';
+
 export function Navbar({ categories }: NavbarProps) {
   // MobileMenu = Client Component
   // Strip service to serializable fields to pass down
@@ -78,7 +84,12 @@ export function Navbar({ categories }: NavbarProps) {
           </nav>
 
           {/* Direct link to phone calls */}
-          <LinkButton href={TEL_MOBILE_LINK} variant="primary" size="md">
+          <LinkButton
+            href={TEL_MOBILE_LINK}
+            variant="primary"
+            size="md"
+            className={callButtonClasses}
+          >
             <Phone aria-hidden="true" size={16} />
             Get a Quote: {PHONE_MOBILE}
           </LinkButton>

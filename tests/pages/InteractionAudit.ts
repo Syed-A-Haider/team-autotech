@@ -167,6 +167,21 @@ export class InteractionAudit {
     });
   }
 
+  // Where each matched element starts across the page, and its layout width and
+  // height. A lift or a reveal only moves things up and down, and offsetWidth and
+  // offsetHeight ignore transforms, so only a real layout change can alter these.
+  // offsetLeft and offsetTop are not used: WebKit measures them from an animated
+  // ancestor while it reveals, so they change with no layout change
+  async layoutBoxes(targets: Locator): Promise<number[][]> {
+    return targets.evaluateAll((elements) =>
+      elements.map((el) => [
+        el.getBoundingClientRect().left,
+        (el as HTMLElement).offsetWidth,
+        (el as HTMLElement).offsetHeight,
+      ]),
+    );
+  }
+
   // Pixels the page is wider than the window (0 = no sideways scroll)
   async horizontalOverflow(): Promise<number> {
     return this.page.evaluate(() =>

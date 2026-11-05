@@ -9,8 +9,11 @@ import {
 
 // Guards for the motion phase (T5). They read computed state, never class names,
 // so every later effect is checked by the same tests.
-// Phone size only for now: on desktop, Why Choose Us hides its text until hover.
-// T5.6 removes that and adds the desktop run.
+// Phone size by default. The page-wide guards (faded, sideways scroll, layout
+// shift, reduced motion, JavaScript off) also run at desktop since T5.6, which
+// removed the text that was hidden until hover. Held fills, the reveal audit and
+// the hero checks stay phone-only, by decision, to keep the suite quick: the hero
+// call button is hidden from lg, and the phone run already proves the rest
 test.use({ viewport: viewports.mobile });
 
 // Pages that reveal on scroll (the 404 has none yet)
@@ -34,43 +37,59 @@ const OPACITY_TOLERANCE = 0.01;
 const HEADING_PART_WAY = 0.85;
 const HEADING_DONE = 0.5;
 
-test.describe('Motion guards', () => {
+// Every size in `viewports`, so a page-wide guard is written once and runs at
+// both phone and desktop
+const sizes = Object.entries(viewports);
+
+// Same shape for the reduced-motion guards, which share one context option
+const reducedMotion = { contextOptions: { reducedMotion: 'reduce' } } as const;
+
+for (const [size, viewport] of sizes) {
+  test.describe(`Motion guards, ${size}`, () => {
+    test.use({ viewport });
+
+    for (const { name, path } of pages) {
+      test(
+        `${name}: nothing is left faded after scrolling to the bottom`,
+        { tag: '@motion' },
+        async ({ motionAudit }) => {
+          await motionAudit.goto(path);
+          await motionAudit.scrollThrough();
+          await expect.poll(() => motionAudit.fadedElementCount()).toBe(0);
+        },
+      );
+
+      test(
+        `${name}: does not scroll sideways`,
+        { tag: '@motion' },
+        async ({ motionAudit }) => {
+          await motionAudit.goto(path);
+          await motionAudit.scrollThrough();
+          expect(await motionAudit.horizontalOverflow()).toBe(0);
+        },
+      );
+
+      test(
+        `${name}: does not shift the layout`,
+        { tag: '@motion' },
+        async ({ motionAudit, browserName }) => {
+          test.skip(
+            browserName !== 'chromium',
+            'Only Chromium reports layout shifts, elsewhere this always passes',
+          );
+          await motionAudit.trackLayoutShift();
+          await motionAudit.goto(path);
+          await motionAudit.scrollThrough();
+          expect(await motionAudit.layoutShift()).toBe(0);
+        },
+      );
+    }
+  });
+}
+
+// Phone only (see the note at the top)
+test.describe('Motion guards, timed effects', () => {
   for (const { name, path } of pages) {
-    test(
-      `${name}: nothing is left faded after scrolling to the bottom`,
-      { tag: '@motion' },
-      async ({ motionAudit }) => {
-        await motionAudit.goto(path);
-        await motionAudit.scrollThrough();
-        await expect.poll(() => motionAudit.fadedElementCount()).toBe(0);
-      },
-    );
-
-    test(
-      `${name}: does not scroll sideways`,
-      { tag: '@motion' },
-      async ({ motionAudit }) => {
-        await motionAudit.goto(path);
-        await motionAudit.scrollThrough();
-        expect(await motionAudit.horizontalOverflow()).toBe(0);
-      },
-    );
-
-    test(
-      `${name}: does not shift the layout`,
-      { tag: '@motion' },
-      async ({ motionAudit, browserName }) => {
-        test.skip(
-          browserName !== 'chromium',
-          'Only Chromium reports layout shifts, elsewhere this always passes',
-        );
-        await motionAudit.trackLayoutShift();
-        await motionAudit.goto(path);
-        await motionAudit.scrollThrough();
-        expect(await motionAudit.layoutShift()).toBe(0);
-      },
-    );
-
     test(
       `${name}: no timed effect holds its end state`,
       { tag: '@motion' },
@@ -242,26 +261,33 @@ test.describe('Motion guards, scroll reveals', () => {
   );
 });
 
-test.describe('Motion guards, reduced motion', () => {
-  test.use({ contextOptions: { reducedMotion: 'reduce' } });
+for (const [size, viewport] of sizes) {
+  test.describe(`Motion guards, reduced motion, ${size}`, () => {
+    test.use({ ...reducedMotion, viewport });
 
-  for (const { name, path } of pages) {
-    test(
-      `${name}: nothing moves, fades or transitions`,
-      { tag: '@motion' },
-      async ({ motionAudit }) => {
-        await motionAudit.goto(path);
-        await motionAudit.scrollThrough();
-        await expect.poll(() => motionAudit.runningAnimationCount()).toBe(0);
-        expect(await motionAudit.fadedElementCount()).toBe(0);
-        expect(await motionAudit.transitioningElementCount()).toBe(0);
-        expect((await motionAudit.revealAudit()).subjects).toBe(0);
-      },
-    );
-  }
+    for (const { name, path } of pages) {
+      test(
+        `${name}: nothing moves, fades or transitions`,
+        { tag: '@motion' },
+        async ({ motionAudit }) => {
+          await motionAudit.goto(path);
+          await motionAudit.scrollThrough();
+          await expect.poll(() => motionAudit.runningAnimationCount()).toBe(0);
+          expect(await motionAudit.fadedElementCount()).toBe(0);
+          expect(await motionAudit.transitioningElementCount()).toBe(0);
+          expect((await motionAudit.revealAudit()).subjects).toBe(0);
+        },
+      );
+    }
+  });
+}
 
-  // The poll above waits for animations to end, so a timed effect that lost its
-  // guard would finish and pass. Look from the first frame instead
+// Phone only: the hero call button is hidden from lg
+test.describe('Motion guards, reduced motion, hero', () => {
+  test.use(reducedMotion);
+
+  // The poll in the page guards waits for animations to end, so a timed effect
+  // that lost its guard would finish and pass. Look from the first frame instead
   test(
     'home: the hero starts no animation, even on the first frame',
     { tag: '@motion' },
@@ -277,19 +303,21 @@ test.describe('Motion guards, reduced motion', () => {
   );
 });
 
-test.describe('Motion guards, JavaScript off', () => {
-  test.use({ javaScriptEnabled: false });
+for (const [size, viewport] of sizes) {
+  test.describe(`Motion guards, JavaScript off, ${size}`, () => {
+    test.use({ javaScriptEnabled: false, viewport });
 
-  // Scroll first: a reveal below the fold is correctly hidden until it is reached
-  for (const { name, path } of pages) {
-    test(
-      `${name}: all content is visible after scrolling`,
-      { tag: '@motion' },
-      async ({ motionAudit }) => {
-        await motionAudit.goto(path);
-        await motionAudit.scrollThrough();
-        await expect.poll(() => motionAudit.fadedElementCount()).toBe(0);
-      },
-    );
-  }
-});
+    // Scroll first: a reveal below the fold is correctly hidden until it is reached
+    for (const { name, path } of pages) {
+      test(
+        `${name}: all content is visible after scrolling`,
+        { tag: '@motion' },
+        async ({ motionAudit }) => {
+          await motionAudit.goto(path);
+          await motionAudit.scrollThrough();
+          await expect.poll(() => motionAudit.fadedElementCount()).toBe(0);
+        },
+      );
+    }
+  });
+}

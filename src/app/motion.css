@@ -214,8 +214,11 @@
 }
 
 /* lift (T5.4): a hovered card rises by --lift-y. Hover devices only, phones get
-   press instead. Needs press on the same element, which owns the transition.
-   It sets --lift-duration, so the rise is slower than the press */
+   press instead. It only sets the target, so the element needs a transition for
+   translate. A clickable card gets it from press, which owns the transition and
+   reads --lift-duration (so the rise is slower than the press). A card that is
+   not a link (T5.6, Why Choose Us) has no press, so it adds its own
+   motion-safe:transition-transform */
 @utility lift {
   @media (prefers-reduced-motion: no-preference) {
     --lift-duration: var(--motion-base);

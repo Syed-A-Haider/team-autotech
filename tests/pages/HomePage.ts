@@ -1,5 +1,8 @@
 import type { Locator, Page } from '@playwright/test';
-import { sectionHeading as whyChooseUsHeading } from '@/components/home-sections/WhyChooseUsSection';
+import {
+  sectionHeading as whyChooseUsHeading,
+  whyChooseUsItems,
+} from '@/components/home-sections/WhyChooseUsSection';
 import {
   FIND_US_SECTION_HEADING,
   FIND_US_DIRECTIONS_LABEL,
@@ -39,6 +42,11 @@ export class HomePage {
   readonly menuToggleButton: Locator;
   readonly header: Locator;
   readonly servicesSection: Locator;
+  // The four Why Choose Us items, found by their copy. The h3 title is the
+  // anchor: its parent is the card
+  readonly whyChooseUsDescriptions: Locator;
+  readonly whyChooseUsTitles: Locator;
+  readonly whyChooseUsCards: Locator;
 
   readonly sectionHeadings = {
     whyChooseUs: whyChooseUsHeading,
@@ -84,6 +92,22 @@ export class HomePage {
     });
     this.header = page.getByRole('banner');
     this.servicesSection = page.locator('#services');
+    this.whyChooseUsDescriptions = this.anyOf(
+      whyChooseUsItems.map(({ description }) =>
+        this.main.getByText(description, { exact: true }),
+      ),
+    );
+    this.whyChooseUsTitles = this.anyOf(
+      whyChooseUsItems.map(({ title }) =>
+        this.main.getByRole('heading', { level: 3, name: title, exact: true }),
+      ),
+    );
+    this.whyChooseUsCards = this.whyChooseUsTitles.locator('..');
+  }
+
+  // One locator that matches any of the given ones
+  private anyOf(locators: Locator[]): Locator {
+    return locators.reduce((all, next) => all.or(next));
   }
 
   async goto() {
