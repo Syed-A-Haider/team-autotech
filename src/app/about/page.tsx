@@ -58,9 +58,10 @@ export const metadata: Metadata = {
 // First paragraph is the lead, as in ProseSection
 const LEAD_STYLES = 'text-foreground text-lg leading-relaxed sm:text-xl';
 const BODY_STYLES = 'text-muted leading-relaxed';
-// Racing stripe on the top edge, drawn with CSS only, as in FeatureSection
+// Racing stripe on the top edge, drawn with CSS only, as in FeatureSection.
+// overflow-clip, not hidden: hidden would capture the Find Us heading's reveal
 const PANEL_STYLES =
-  'bg-surface border-border relative overflow-hidden rounded-lg border before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
+  'bg-surface border-border relative overflow-clip rounded-lg border before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
 const SERVICE_LINK_STYLES =
   'group text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm motion-safe:transition-colors focus-visible:ring-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none';
 

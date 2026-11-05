@@ -5,6 +5,7 @@ import { getAllServices } from '@/lib/services';
 export const routes = {
   home: '/',
   about: '/about',
+  homeServices: '/#services',
   servicesPrefix: '/services/',
   service: (slug: string) => `/services/${slug}`,
   unknownPage: '/this-page-does-not-exist',
@@ -12,11 +13,16 @@ export const routes = {
 
 export const unknownServiceSlug = 'not-a-real-service';
 
-// One live and one coming-soon service, so both page shapes are covered
+// Every live page shape (prose and FAQ, video, steps only) plus a coming-soon one
 export const motionServiceSlugs = [
   'stage-1-tuning',
+  'ghost-immobiliser-ii',
+  'scorpion-x-series-immobiliser',
   'dpf-egr-solutions',
 ] as const;
+
+// Long page with a closing band and related services, far below the fold
+export const revealCheckSlug = 'stage-1-tuning';
 
 // First live service with an FAQ block, so the FAQ tests follow the data.
 // A function, so a missing FAQ fails the FAQ tests only, not every spec

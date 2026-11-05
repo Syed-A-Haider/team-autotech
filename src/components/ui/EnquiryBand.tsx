@@ -25,10 +25,11 @@ const BADGE_TEXT_STYLES =
 const CONTACT_LINKS_STYLES = 'mt-8 flex-col sm:flex-row sm:justify-center';
 
 // Shared closing band: stripe heading, pitch and the contact buttons.
-// Powers both ComingSoonPanel and ServiceCtaBand
+// Powers both ComingSoonPanel and ServiceCtaBand.
+// overflow-clip, not hidden: hidden would capture the heading's scroll reveal
 export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-clip">
       <SectionWrapper as="div" className="relative py-16 lg:py-24">
         <div className="mx-auto max-w-3xl text-center">
           <div aria-hidden="true" className={BAND_GLOW_STYLES} />

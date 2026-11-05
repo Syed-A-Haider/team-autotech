@@ -51,7 +51,8 @@ const LAYOUT_STYLES: Record<SectionLayout, LayoutStyles> = {
 };
 
 // Numbered section: glow, stripe heading and body in a split or stacked layout.
-// Without a title and number it is only padding around the body
+// Without a title and number it is only padding around the body.
+// overflow-clip, not hidden: hidden would capture the heading's scroll reveal
 export function SectionShell({
   title,
   number,
@@ -63,7 +64,7 @@ export function SectionShell({
   const hasHeading = Boolean(title) && number !== undefined;
 
   return (
-    <section className={clsx('relative isolate overflow-hidden', className)}>
+    <section className={clsx('relative isolate overflow-clip', className)}>
       <SectionWrapper
         as="div"
         className={clsx('relative py-16 lg:py-24', hasHeading && styles.grid)}
