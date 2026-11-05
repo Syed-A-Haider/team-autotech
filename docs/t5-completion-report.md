@@ -14,6 +14,8 @@ In progress. T5.1 laid the foundation: tokens, rules, a block scaffold, the guar
 | ------ | ------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | T5.1   | this PR | TBC    | Motion tokens in `globals.css`, `motion.css` scaffold (rules comment, print safety net), the 15 missing `motion-safe:` prefixes, `@motion` guard suite (25 Playwright tests), mobile baseline, `design.md` Motion rewritten, 12 ticket briefs written (T5.2 to T5.12) |
 
+T5.1 also took one small visible change at Haider's request during review: on `lg` and up the reviews carousel is wider (`max-w-2xl` to `max-w-5xl`, 672px to 1024px) and the review card has larger text, stars and padding. Phone and tablet are unchanged. Checked at 375, 768, 1280 and 1662 px.
+
 ## Current state
 
 | After ticket    | Vitest         | Playwright | Notes                                                                                                                                            |

@@ -26,7 +26,8 @@ export function ReviewsSection() {
         <p className="text-muted text-sm">{REVIEWS_SECTION_SUBHEADING}</p>
       </div>
 
-      <div className="w-full max-w-2xl">
+      {/* Wider from lg so the carousel fills more of a desktop screen */}
+      <div className="w-full max-w-2xl lg:max-w-5xl">
         <ReviewsCarousel>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
