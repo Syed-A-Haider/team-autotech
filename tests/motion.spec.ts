@@ -1,3 +1,4 @@
+import { HERO_SUBTITLE } from '@/components/home-sections/HeroSection';
 import { test, expect } from './fixtures';
 import {
   motionServiceSlugs,
@@ -12,8 +13,9 @@ import {
 // T5.6 removes that and adds the desktop run.
 test.use({ viewport: viewports.mobile });
 
-// Pages whose headings reveal on scroll (home and 404 have none yet)
+// Pages that reveal on scroll (the 404 has none yet)
 const revealPages = [
+  { name: 'home', path: routes.home },
   { name: 'about', path: routes.about },
   ...motionServiceSlugs.map((slug) => ({
     name: slug,
@@ -21,11 +23,10 @@ const revealPages = [
   })),
 ];
 
-const pages = [
-  { name: 'home', path: routes.home },
-  ...revealPages,
-  { name: 'not found', path: routes.unknownPage },
-];
+const pages = [...revealPages, { name: 'not found', path: routes.unknownPage }];
+
+// A sampled opacity can sit a hair under its start value on the first frame
+const OPACITY_TOLERANCE = 0.01;
 
 // Where a heading's top edge sits in the window, as a fraction of its height.
 // The reveal covers the first 30% of the heading's pass (--reveal-end), so 0.85
@@ -69,7 +70,120 @@ test.describe('Motion guards', () => {
         expect(await motionAudit.layoutShift()).toBe(0);
       },
     );
+
+    test(
+      `${name}: no timed effect holds its end state`,
+      { tag: '@motion' },
+      async ({ motionAudit }) => {
+        await motionAudit.goto(path);
+        expect(await motionAudit.heldFillCount()).toBe(0);
+      },
+    );
   }
+});
+
+test.describe('Motion guards, homepage load-in', () => {
+  // Sampled on every frame from first paint, because a timed effect has
+  // finished by the time a test could look
+  test.beforeEach(async ({ motionAudit }) => {
+    await motionAudit.trackHeroFrames();
+    await motionAudit.goto(routes.home);
+    await expect
+      .poll(async () => (await motionAudit.heroFrames()).done)
+      .toBe(true);
+  });
+
+  test(
+    'the headline is visible from the first frame',
+    { tag: '@motion' },
+    async ({ motionAudit, interactionAudit }) => {
+      const frames = await motionAudit.heroFrames();
+      const pageFadeStart = await interactionAudit.token('--page-enter-from');
+
+      // The h1 never fades itself, and the page fade never starts from 0
+      expect.soft(frames.h1OwnMin).toBe(1);
+      expect
+        .soft(frames.h1EffectiveMin)
+        .toBeGreaterThanOrEqual(pageFadeStart - OPACITY_TOLERANCE);
+    },
+  );
+
+  test(
+    'nothing above the headline moves while the page fades in',
+    { tag: '@motion' },
+    async ({ motionAudit }) => {
+      expect((await motionAudit.heroFrames()).ancestorMoved).toBe(false);
+    },
+  );
+
+  test(
+    'the page fade lasts as long as --motion-fast',
+    { tag: '@motion' },
+    async ({ motionAudit, interactionAudit }) => {
+      expect(await motionAudit.pageEnterDuration()).toBe(
+        await interactionAudit.durationToken('--motion-fast'),
+      );
+    },
+  );
+
+  test(
+    'the hero image settles from --hero-zoom and is never faded',
+    { tag: '@motion' },
+    async ({ page, motionAudit, interactionAudit }) => {
+      const frames = await motionAudit.heroFrames();
+      const zoom = await interactionAudit.token('--hero-zoom');
+      const firstScale = Number(frames.imageFirstScale);
+
+      expect.soft(firstScale).toBeGreaterThan(1);
+      expect.soft(firstScale).toBeLessThanOrEqual(zoom);
+      expect.soft(frames.imageOwnMin).toBe(1);
+      await expect(page.getByRole('main').locator('img').first()).toHaveCSS(
+        'scale',
+        'none',
+      );
+    },
+  );
+
+  test(
+    'the stripe, subtitle and call button start hidden and finish in place',
+    { tag: '@motion' },
+    async ({ page, motionAudit }) => {
+      const frames = await motionAudit.heroFrames();
+      const subtitle = page.getByText(HERO_SUBTITLE);
+      const stripe = page
+        .getByRole('main')
+        .locator('span[aria-hidden]')
+        .first();
+      const button = motionAudit.heroCallButton();
+
+      expect.soft(frames.stripeFirstScale.startsWith('0')).toBe(true);
+      expect.soft(frames.subtitleFirstOpacity).toBeLessThan(1);
+      expect.soft(frames.buttonFirstOpacity).toBeLessThan(1);
+      await expect.soft(stripe).toHaveCSS('scale', 'none');
+      await expect.soft(subtitle).toHaveCSS('opacity', '1');
+      await expect.soft(subtitle).toHaveCSS('translate', 'none');
+      await expect.soft(button).toHaveCSS('opacity', '1');
+      await expect.soft(button).toHaveCSS('translate', 'none');
+    },
+  );
+
+  test(
+    'the call button sweeps once and leaves nothing showing',
+    { tag: '@motion' },
+    async ({ motionAudit }) => {
+      const { sheenFirst } = await motionAudit.heroFrames();
+
+      // One sweep, no held fill
+      expect.soft(sheenFirst.count).toBe(1);
+      expect.soft(sheenFirst.iterations).toBe(1);
+      expect.soft(sheenFirst.fill).toBe('none');
+      await expect.poll(() => motionAudit.sheenAnimationCount()).toBe(0);
+      // Back off the left edge, where the band is invisible
+      expect(
+        (await motionAudit.sheenRestingTranslate()).startsWith('-100%'),
+      ).toBe(true);
+    },
+  );
 });
 
 test.describe('Motion guards, scroll reveals', () => {
@@ -87,6 +201,19 @@ test.describe('Motion guards, scroll reveals', () => {
       },
     );
   }
+
+  test(
+    'home: each service card reveals through its wrapper, not itself',
+    { tag: '@motion' },
+    async ({ motionAudit }) => {
+      await motionAudit.goto(routes.home);
+      const cards = await motionAudit.serviceCardTimelines();
+
+      expect.soft(cards.length).toBeGreaterThan(0);
+      expect.soft(cards.every((card) => !card.own)).toBe(true);
+      expect.soft(cards.every((card) => card.parent)).toBe(true);
+    },
+  );
 
   test(
     'a heading below the fold fades in with the scroll and ends fully shown',
@@ -132,6 +259,22 @@ test.describe('Motion guards, reduced motion', () => {
       },
     );
   }
+
+  // The poll above waits for animations to end, so a timed effect that lost its
+  // guard would finish and pass. Look from the first frame instead
+  test(
+    'home: the hero starts no animation, even on the first frame',
+    { tag: '@motion' },
+    async ({ motionAudit }) => {
+      await motionAudit.trackHeroFrames();
+      await motionAudit.goto(routes.home);
+      await expect
+        .poll(async () => (await motionAudit.heroFrames()).done)
+        .toBe(true);
+
+      expect((await motionAudit.heroFrames()).maxAnimations).toBe(0);
+    },
+  );
 });
 
 test.describe('Motion guards, JavaScript off', () => {

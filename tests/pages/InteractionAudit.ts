@@ -19,15 +19,25 @@ export class InteractionAudit {
     this.page = page;
   }
 
-  // Number value of a token on :root, such as --press-scale
-  async token(name: string): Promise<number> {
+  private async rawToken(name: string): Promise<string> {
     const raw = await this.page.evaluate(
       (property) =>
         getComputedStyle(document.documentElement).getPropertyValue(property),
       name,
     );
     if (raw.trim() === '') throw new Error(`Token ${name} is not defined`);
-    return parseFloat(raw);
+    return raw.trim();
+  }
+
+  // Number value of a token on :root, such as --press-scale
+  async token(name: string): Promise<number> {
+    return parseFloat(await this.rawToken(name));
+  }
+
+  // A time token in seconds. The build may write 150ms as .15s, so read the unit
+  async durationToken(name: string): Promise<number> {
+    const raw = await this.rawToken(name);
+    return raw.endsWith('ms') ? parseFloat(raw) / 1000 : parseFloat(raw);
   }
 
   // How far a card rises on hover (--lift-y is in rem) in pixels

@@ -15,7 +15,7 @@
   --font-sans: var(--font-inter);
   --color-whatsapp: var(--whatsapp);
   --color-whatsapp-hover: var(--whatsapp-hover);
-  --animate-page-enter: page-enter 200ms ease-out;
+  --animate-page-enter: page-enter var(--motion-fast) ease-out;
 }
 
 /* Change these hexadecimal values to change colours! */
@@ -50,6 +50,10 @@
   --pulse-delay: 2s; /* wait after load before the WhatsApp ring pulses */
   --pulse-duration: 1s; /* one pulse of the ring (it runs twice) */
   --pulse-reach: 1.5; /* how big the ring grows, times its starting size */
+  --hero-zoom: 1.06; /* how far the hero image starts zoomed in */
+  --hero-settle-duration: 1200ms; /* the hero image's slow settle */
+  --hero-step: 120ms; /* delay between hero text steps */
+  --page-enter-from: 0.6; /* where the page fade starts, never 0 (LCP) */
 }
 
 /* The sticky Navbar is h-16 plus a 1px border. Anchor jumps stop below it */
@@ -57,14 +61,12 @@ html {
   scroll-padding-top: calc(4rem + 1px);
 }
 
-/* Animation to make screen go from 0 opacity to 100 - blink effect */
+/* Page fade on every route mount. It starts at --page-enter-from, never 0: an
+   invisible hero image is not counted as the LCP until it fades in (about
+   180ms, T5.1 baseline). Opacity only, so it does not stack with the hero rise
+   or leave an anchor jump a few px short */
 @keyframes page-enter {
   from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: var(--page-enter-from);
   }
 }

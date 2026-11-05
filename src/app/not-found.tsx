@@ -14,9 +14,11 @@ export const NOT_FOUND_HOME_LABEL = 'Back to home';
 // Next adds noindex itself for a 404, so robots is not set here
 export const metadata: Metadata = { title: NOT_FOUND_TITLE };
 
-// The faded race number from SectionHeading, scaled up. A fill, not a stroke
+// The faded race number from SectionHeading, scaled up. A fill, not a stroke.
+// hero-in-1 fades it in. The page fade no longer starts from 0, and this big
+// numeral nudges about 9px when Inter swaps in, which then counted as layout shift
 const NUMERAL_STYLES =
-  'text-accent/25 block text-9xl leading-none font-black tabular-nums';
+  'hero-in-1 text-accent/25 block text-9xl leading-none font-black tabular-nums';
 
 // Roomier on mobile so the page is not squashed above the footer. Resets from sm
 const SECTION_STYLES = 'py-24 sm:py-16 lg:py-24';
