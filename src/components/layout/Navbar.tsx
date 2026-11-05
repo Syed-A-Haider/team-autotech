@@ -46,7 +46,7 @@ export function Navbar({ categories }: NavbarProps) {
               <button
                 type="button"
                 aria-haspopup="true"
-                className="text-muted hover:text-foreground flex items-center gap-1 text-sm font-medium transition-colors duration-150"
+                className="text-muted hover:text-foreground flex items-center gap-1 text-sm font-medium motion-safe:transition-colors motion-safe:duration-150"
               >
                 Services
                 <ChevronDown
@@ -61,7 +61,7 @@ export function Navbar({ categories }: NavbarProps) {
             {/* Link to About Page */}
             <Link
               href="/about"
-              className="text-muted hover:text-foreground text-sm font-medium transition-colors duration-150"
+              className="text-muted hover:text-foreground text-sm font-medium motion-safe:transition-colors motion-safe:duration-150"
             >
               About
             </Link>

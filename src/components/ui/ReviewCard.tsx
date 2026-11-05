@@ -12,7 +12,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
   const { author, rating, text, excerpt: exerpt, photoUrl } = review;
 
   return (
-    <div className="bg-surface border-border flex h-full flex-col gap-4 rounded-lg border-2 p-6">
+    <div className="bg-surface border-border flex h-full flex-col gap-4 rounded-lg border-2 p-6 lg:gap-6 lg:p-10">
       {/* Rating + Source */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-0.5">
@@ -22,24 +22,29 @@ export function ReviewCard({ review }: ReviewCardProps) {
               <FaStar
                 key={i}
                 aria-hidden="true"
-                className="text-accent h-4 w-4"
+                className="text-accent h-4 w-4 lg:h-6 lg:w-6"
               />
             ) : (
               <FaRegStar
                 key={i}
                 aria-hidden="true"
-                className="text-muted h-4 w-4"
+                className="text-muted h-4 w-4 lg:h-6 lg:w-6"
               />
             ),
           )}
           <span className="sr-only">Rated {rating} out of 5</span>
         </div>
 
-        <SiGoogle aria-hidden="true" className="text-muted h-4 w-4" />
+        <SiGoogle
+          aria-hidden="true"
+          className="text-muted h-4 w-4 lg:h-6 lg:w-6"
+        />
       </div>
 
       {/* Curated exerpt where available */}
-      <p className="text-foreground line-clamp-6 text-sm">{exerpt ?? text}</p>
+      <p className="text-foreground line-clamp-6 text-sm lg:text-xl lg:leading-relaxed">
+        {exerpt ?? text}
+      </p>
 
       {/* Avatar + author */}
       {/* Render photo if url given, else show initials */}
@@ -60,7 +65,9 @@ export function ReviewCard({ review }: ReviewCardProps) {
             {getReviewInitials(author)}
           </span>
         )}
-        <span className="text-foreground text-sm font-medium">{author}</span>
+        <span className="text-foreground text-sm font-medium lg:text-base">
+          {author}
+        </span>
       </div>
     </div>
   );

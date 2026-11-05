@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+/* Reusable motion blocks. Rules and token list: docs/design.md (Motion) */
+@import './motion.css';
 
 /*  Adding tokens - adjusting values = replace one value not same value many times */
 /* --color- is a placeholder for many things in theme like bg-surface or text-surface */
@@ -27,6 +29,16 @@
   --accent-hover: #ff6b3d;
   --whatsapp: #25d366;
   --whatsapp-hover: #1ebe5d;
+
+  /* Motion tokens. Change a value once and every effect follows */
+  --motion-fast: 150ms; /* press, colour hover */
+  --motion-base: 300ms; /* hover lift, menus, FAQ */
+  --motion-slow: 700ms; /* hero load-in, stripe draw */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1); /* fast start, soft landing */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* colour and state changes */
+  --reveal-y: 1rem; /* how far a fade-up rises */
+  --reveal-x: 1.5rem; /* how far a side slide travels */
+  --stagger: 8%; /* scroll distance between neighbours in a staggered group */
 }
 
 /* Animation to make screen go from 0 opacity to 100 - blink effect */

@@ -23,7 +23,7 @@ export function ContactLine({
       href={href}
       {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
       className={clsx(
-        'text-muted hover:text-accent flex items-center gap-2 text-sm transition-colors',
+        'text-muted hover:text-accent flex items-center gap-2 text-sm motion-safe:transition-colors',
         className,
       )}
     >

@@ -84,7 +84,7 @@ export function MobileMenu({ categories }: MobileMenuProps) {
         // Prevents focus/pointer events when closed --> can't tab onto hidden links
         inert={!isOpen}
         className={clsx(
-          'bg-background fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto transition-transform duration-200 ease-in-out',
+          'bg-background fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out',
           isOpen ? 'translate-x-0' : 'translate-x-full',
         )}
       >

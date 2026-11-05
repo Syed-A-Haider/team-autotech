@@ -23,7 +23,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
     <Link
       href={serviceHref(slug)}
       className={clsx(
-        'bg-surface hover:border-accent-hover flex flex-col gap-4 rounded-lg border-2 p-4 transition-colors sm:p-6',
+        'bg-surface hover:border-accent-hover flex flex-col gap-4 rounded-lg border-2 p-4 motion-safe:transition-colors sm:p-6',
         // If featured, give accent
         featured ? 'border-accent' : 'border-border',
       )}

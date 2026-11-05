@@ -17,7 +17,7 @@ export function ReviewsSection() {
   const reviews = getAllReviews();
 
   return (
-    <SectionWrapper className="flex flex-col items-center gap-6 py-12 sm:py-16">
+    <SectionWrapper className="flex flex-col items-center gap-6 py-12 sm:py-16 lg:gap-8">
       {/* Heading + Subtitle */}
       <div className="flex flex-col items-center gap-2 text-center">
         <h2 className="text-foreground text-2xl font-semibold sm:text-3xl">
@@ -26,14 +26,21 @@ export function ReviewsSection() {
         <p className="text-muted text-sm">{REVIEWS_SECTION_SUBHEADING}</p>
       </div>
 
-      <div className="w-full max-w-2xl">
+      {/* Wider from lg so the carousel fills more of a desktop screen */}
+      <div className="w-full max-w-2xl lg:max-w-4xl">
         <ReviewsCarousel>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
         </ReviewsCarousel>
       </div>
-      <LinkButton href={GOOGLE_PROFILE_LINK} variant="primary" external>
+      {/* lg size from the desktop breakpoint, to match the larger card */}
+      <LinkButton
+        href={GOOGLE_PROFILE_LINK}
+        variant="primary"
+        external
+        className="lg:px-7 lg:py-3.5 lg:text-lg"
+      >
         See all our reviews on Google
       </LinkButton>
     </SectionWrapper>

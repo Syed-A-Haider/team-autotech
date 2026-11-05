@@ -10,6 +10,12 @@ export const routes = {
 
 export const unknownServiceSlug = 'not-a-real-service';
 
+// One live and one coming-soon service, so both page shapes are covered
+export const motionServiceSlugs = [
+  'stage-1-tuning',
+  'dpf-egr-solutions',
+] as const;
+
 export const pageTitle = 'Team AutoTech';
 
 export const htmlLang = 'en';
