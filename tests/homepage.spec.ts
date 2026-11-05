@@ -2,6 +2,11 @@ import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
 import { htmlLang, pageTitle, routes, viewports } from './config/testData';
 
+// Safari jumps to an anchor while PageTransition still has the page up to 4px
+// low, so it can land a few px short. The section has 64px of padding above its
+// heading, so nothing visible is hidden
+const ANCHOR_SETTLE_PX = 4;
+
 test.describe('Homepage', { tag: '@homepage' }, () => {
   test(
     'Loads with the correct title',
@@ -86,7 +91,7 @@ test.describe('Homepage', { tag: '@homepage' }, () => {
       // Assert - polled, the jump settles after the navigation resolves
       await expect
         .poll(() => homePage.servicesGapBelowHeader())
-        .toBeGreaterThanOrEqual(0);
+        .toBeGreaterThanOrEqual(-ANCHOR_SETTLE_PX);
     },
   );
 

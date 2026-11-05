@@ -58,7 +58,11 @@ test.describe('Motion guards', () => {
     test(
       `${name}: does not shift the layout`,
       { tag: '@motion' },
-      async ({ motionAudit }) => {
+      async ({ motionAudit, browserName }) => {
+        test.skip(
+          browserName !== 'chromium',
+          'Only Chromium reports layout shifts, elsewhere this always passes',
+        );
         await motionAudit.trackLayoutShift();
         await motionAudit.goto(path);
         await motionAudit.scrollThrough();
