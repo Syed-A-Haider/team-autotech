@@ -16,8 +16,9 @@ interface LinkButtonProps {
 }
 
 // Map variant to it's CSS styles, O(1) lookup
+// sheen (motion.css) = one light sweep on hover, primary only
 export const buttonVariantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-accent text-foreground hover:bg-accent-hover',
+  primary: 'sheen bg-accent text-foreground hover:bg-accent-hover',
   secondary:
     'bg-surface border border-border text-muted hover:border-accent hover:text-accent',
   ghost: 'text-foreground hover:text-accent',
@@ -41,8 +42,9 @@ export function LinkButton({
   className,
 }: LinkButtonProps) {
   // All CSS Classes
+  // press (motion.css) = shrink on tap. It also owns the colour transition
   const classes = clsx(
-    'inline-flex items-center justify-center gap-2 rounded-md font-medium motion-safe:transition-colors',
+    'press inline-flex items-center justify-center gap-2 rounded-md font-medium',
     'focus-visible:ring-accent focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
     buttonVariantStyles[variant],
     buttonSizeStyles[size],

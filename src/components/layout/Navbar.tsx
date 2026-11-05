@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import clsx from 'clsx';
 import { ChevronDown, Phone } from 'lucide-react';
 import { LinkButton } from '../ui/LinkButton';
 import { ServicesDropdown } from './ServicesDropdown';
@@ -10,6 +11,18 @@ import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
 interface NavbarProps {
   categories: ServiceCategories;
 }
+
+// Top-level nav item. underline-draw (motion.css) draws a line on hover and focus
+const navItemClasses =
+  'underline-draw text-muted hover:text-foreground text-sm font-medium motion-safe:transition-colors motion-safe:duration-150';
+
+// Services is a button, so it needs a pointer cursor. Its underline stays drawn
+// while the dropdown is open: the pointer may be on a row, not the button
+const servicesButtonClasses = clsx(
+  navItemClasses,
+  'flex cursor-pointer items-center gap-1',
+  'group-hover:[--underline:1] group-focus-within:[--underline:1]',
+);
 
 export function Navbar({ categories }: NavbarProps) {
   // MobileMenu = Client Component
@@ -46,7 +59,7 @@ export function Navbar({ categories }: NavbarProps) {
               <button
                 type="button"
                 aria-haspopup="true"
-                className="text-muted hover:text-foreground flex items-center gap-1 text-sm font-medium motion-safe:transition-colors motion-safe:duration-150"
+                className={servicesButtonClasses}
               >
                 Services
                 <ChevronDown
@@ -59,10 +72,7 @@ export function Navbar({ categories }: NavbarProps) {
             </div>
 
             {/* Link to About Page */}
-            <Link
-              href="/about"
-              className="text-muted hover:text-foreground text-sm font-medium motion-safe:transition-colors motion-safe:duration-150"
-            >
+            <Link href="/about" className={navItemClasses}>
               About
             </Link>
           </nav>

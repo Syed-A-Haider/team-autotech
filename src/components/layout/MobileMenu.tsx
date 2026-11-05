@@ -72,7 +72,7 @@ export function MobileMenu({ categories }: MobileMenuProps) {
         aria-expanded={isOpen}
         aria-controls="mobile-menu-panel"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="text-foreground flex h-10 w-10 items-center justify-center"
+        className="press text-foreground flex h-10 w-10 cursor-pointer items-center justify-center"
       >
         {isOpen ? (
           <X aria-hidden="true" size={24} />

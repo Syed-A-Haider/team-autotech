@@ -41,7 +41,18 @@ export const pageTitle = 'Team AutoTech';
 export const htmlLang = 'en';
 
 // aria-labels and link text of the desktop Main nav
-export const navLabels = { main: 'Main', about: 'About' } as const;
+export const navLabels = {
+  main: 'Main',
+  about: 'About',
+  services: 'Services',
+} as const;
+
+// Start of the header call button's text ("Get a Quote: <number>"). Also the
+// mobile hero button, which has the same text
+export const callButtonLabel = 'Get a Quote';
+
+// aria-label of one footer social icon (the labels live in Footer.tsx)
+export const footerSocialLabel = 'Facebook';
 
 export const viewports = {
   mobile: { width: 375, height: 812 },

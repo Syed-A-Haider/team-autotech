@@ -15,6 +15,12 @@
    4. Put a reveal on a wrapper and hover or press on the element inside it
    5. Reveal compact things, not tall containers. Side slides need an
       overflow-clip ancestor, or they widen the page while moving
+   6. A hover effect sits inside @media (hover: hover) written out by hand.
+      Tailwind wraps its own hover: variant, but not these blocks, and without
+      it a tap leaves the effect stuck on a phone
+   7. press owns the transition of any element it is on (see press below). A
+      block that needs a transition on that element adds a duration slot to
+      press, it never sets transition-property itself
 
    Blocks are added by the T5 tickets listed in docs/design.md. Keep them in
    that order, each with a one-line comment saying what it does. */
@@ -171,6 +177,161 @@
       animation: stripe-grow linear backwards;
       animation-timeline: view();
       animation-range: cover 0% cover var(--reveal-end);
+    }
+  }
+}
+
+/* press (T5.4): tap feedback for anything clickable. It shrinks to --press-scale
+   the instant it is pressed and eases back over --motion-fast, so even a quick
+   tap shows. touch-action also removes the double-tap-zoom delay.
+   press OWNS THE TRANSITION of its element: do not add transition-colors or
+   transition-transform next to it, the last one declared would win. Each
+   property below has its own duration slot, so another block asks for a speed
+   by setting the variable (lift sets --lift-duration). To animate one more
+   property, add it to BOTH lists. Keep the two lists the same length and order.
+   :not(:disabled) lifts the specificity above a hover:scale-* utility, so a
+   press still wins while the pointer is over the element */
+@utility press {
+  touch-action: manipulation;
+
+  @media (prefers-reduced-motion: no-preference) {
+    -webkit-tap-highlight-color: transparent;
+    transition-property:
+      color, background-color, border-color, translate, scale;
+    transition-duration:
+      var(--motion-fast), var(--motion-fast), var(--motion-fast),
+      var(--lift-duration, var(--motion-fast)),
+      var(--press-duration, var(--motion-fast));
+    transition-timing-function:
+      var(--ease-standard), var(--ease-standard), var(--ease-standard),
+      var(--ease-settle), var(--ease-settle);
+
+    &:active:not(:disabled) {
+      scale: var(--press-scale);
+      --press-duration: 0s;
+    }
+  }
+}
+
+/* lift (T5.4): a hovered card rises by --lift-y. Hover devices only, phones get
+   press instead. Needs press on the same element, which owns the transition.
+   It sets --lift-duration, so the rise is slower than the press */
+@utility lift {
+  @media (prefers-reduced-motion: no-preference) {
+    --lift-duration: var(--motion-base);
+
+    @media (hover: hover) {
+      &:hover {
+        translate: 0 calc(var(--lift-y) * -1);
+      }
+    }
+  }
+}
+
+/* sheen (T5.4): one light sweep across a button when hovered. Sets relative and
+   overflow-clip itself, so the gradient is cut off at the button's edge (the
+   focus ring is the button's own shadow, so it is not clipped). The sweep rests
+   off the left edge. Only :hover declares the transition, so leaving resets it
+   at once and unseen. Hover devices only. Linear, so the band crosses at an even
+   pace: --ease-settle would flick it across in the first third */
+@utility sheen {
+  position: relative;
+  overflow: clip;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      var(--sheen) 50%,
+      transparent 70%
+    );
+    translate: -100% 0;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover::after {
+      translate: 100% 0;
+      transition: translate var(--motion-slow) linear;
+    }
+  }
+}
+
+/* underline-draw (T5.4): an accent line draws in from the left under a link on
+   hover and keyboard focus. The line's width is --underline (0 or 1), so a
+   parent can hold it open by setting --underline: 1 (the Services button does,
+   while its dropdown is showing). The variable inherits: do not nest one
+   underline-draw inside another. Reduced motion: it appears at once, no draw */
+@utility underline-draw {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: calc(var(--spacing) * -1);
+    height: calc(var(--spacing) * 0.5);
+    background: var(--accent);
+    transform-origin: left;
+    scale: var(--underline, 0) 1;
+    pointer-events: none;
+  }
+
+  &:focus-visible {
+    --underline: 1;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      --underline: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::after {
+      transition: scale var(--motion-base) var(--ease-settle);
+    }
+  }
+}
+
+/* pulse-ring (T5.4): a ring grows out of a round, filled element and fades,
+   --pulse-delay after load, twice, then it stays still. Put it on a positioned
+   element with a background and a border-radius: the ring copies both. Its
+   resting state is invisible and nothing is filled, so it can never be left
+   showing. The ring sits behind the icon (z-index -1 needs the element to be a
+   stacking context, which a fixed element is). Linear, not --ease-settle: a
+   fast start would fade the ring in the first third and it would barely show */
+@keyframes pulse-ring-out {
+  from {
+    opacity: 0.5;
+    scale: 1;
+  }
+
+  to {
+    opacity: 0;
+    scale: var(--pulse-reach);
+  }
+}
+
+@utility pulse-ring {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: inherit;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::before {
+      animation: pulse-ring-out var(--pulse-duration) linear var(--pulse-delay)
+        2;
     }
   }
 }

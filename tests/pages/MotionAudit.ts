@@ -151,20 +151,29 @@ export class MotionAudit {
     );
   }
 
-  // Elements that would fade or slide something when their state changes.
+  // Elements that would fade or slide something when their state changes, on
+  // the element itself or on a ::before / ::after it draws (sheen, underline,
+  // pulse ring). A pseudo-element that does not exist does not count.
   // Under 10ms counts as instant (the usual "reduced motion" override)
   async transitioningElementCount(): Promise<number> {
     return this.page.evaluate(() => {
       const INSTANT_SECONDS = 0.01;
-      const hasDuration = (el: Element) => {
-        const style = getComputedStyle(el);
+      const hasDuration = (style: CSSStyleDeclaration) => {
         if (style.transitionProperty === 'none') return false;
         return style.transitionDuration
           .split(',')
           .some((duration) => parseFloat(duration) > INSTANT_SECONDS);
       };
-      return [...document.querySelectorAll('body *')].filter(hasDuration)
-        .length;
+      const pseudoHasDuration = (el: Element, pseudo: string) => {
+        const style = getComputedStyle(el, pseudo);
+        return style.content !== 'none' && hasDuration(style);
+      };
+      return [...document.querySelectorAll('body *')].filter(
+        (el) =>
+          hasDuration(getComputedStyle(el)) ||
+          pseudoHasDuration(el, '::before') ||
+          pseudoHasDuration(el, '::after'),
+      ).length;
     });
   }
 

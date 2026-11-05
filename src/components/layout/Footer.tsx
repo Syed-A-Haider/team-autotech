@@ -88,8 +88,9 @@ export function Footer() {
                   aria-label={link.label}
 
                   // Shared circle sizing/shape, only fill vs outline colours differ by variant
+                  // press = shrink on tap, and it owns the colour transition
                   className={clsx(
-                    'flex h-10 w-10 items-center justify-center rounded-full motion-safe:transition-colors sm:h-11 sm:w-11',
+                    'press flex h-10 w-10 items-center justify-center rounded-full sm:h-11 sm:w-11',
                     link.variant === 'accent'
                       ? 'bg-accent hover:bg-accent-hover text-foreground'
                       : 'text-muted border-border hover:border-accent hover:text-accent border',
