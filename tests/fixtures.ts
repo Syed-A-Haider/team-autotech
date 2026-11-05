@@ -3,12 +3,14 @@ import { HomePage } from './pages/HomePage';
 import { ServicePage } from './pages/ServicePage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { MotionAudit } from './pages/MotionAudit';
 
 interface Fixtures {
   homePage: HomePage;
   servicePage: ServicePage;
   aboutPage: AboutPage;
   notFoundPage: NotFoundPage;
+  motionAudit: MotionAudit;
 }
 
 export const test = base.extend<Fixtures>({
@@ -29,6 +31,10 @@ export const test = base.extend<Fixtures>({
   // Non-auto: Only the not-found tests need it
   notFoundPage: async ({ page }, use) => {
     await use(new NotFoundPage(page));
+  },
+  // Non-auto: Only the motion guard tests need it
+  motionAudit: async ({ page }, use) => {
+    await use(new MotionAudit(page));
   },
 });
 

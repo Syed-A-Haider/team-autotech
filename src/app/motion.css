@@ -1,0 +1,27 @@
+/* Motion blocks. Rules and token list: docs/design.md (Motion).
+
+   Each block is a Tailwind @utility, so a component just adds the class.
+   Every block must follow these rules:
+   1. Animate only opacity, translate, scale and rotate (never size or position)
+   2. Wrap the effect in the guards below, so a visitor with reduced motion, or a
+      browser that cannot do it, simply sees the finished page
+        scroll effects: @media (prefers-reduced-motion: no-preference) {
+                          @supports (animation-timeline: view()) { ... } }
+        timed effects:  @media (prefers-reduced-motion: no-preference) { ... }
+   3. Scroll effects fill 'backwards' only, so they let go of the element when
+      done and hover or press styles work again. Set animation-timeline AFTER the
+      animation shorthand, because the shorthand resets it
+   4. Put a reveal on a wrapper and hover or press on the element inside it
+
+   Blocks are added by the T5 tickets listed in docs/design.md. Keep them in
+   that order, each with a one-line comment saying what it does. */
+
+/* Print: show the finished page, nothing mid-animation */
+@media print {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
