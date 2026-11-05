@@ -4,31 +4,34 @@ Phase T5: motion and wow factor, a CSS-first motion system in 12 small tickets (
 
 ## Summary
 
-Done so far: T5.1 to T5.3 (3 of 12).
+Done so far: T5.1 to T5.4 (4 of 12).
 
 - **Foundation (T5.1):** motion tokens, a `motion.css` block scaffold with the rules every block follows, a `@motion` guard suite that reads computed style, and a measured mobile baseline. No visible effect by design
 - **First block (T5.2):** `details-expand`. The FAQ now toggles from the whole padded row (a functional bug fix: only the text and chevron worked before) and opens with a fade-up, a rotating chip and an accent edge bar. Chromium also animates the height, in and out. Safari and Firefox get the fade and an instant close. The mobile menu categories share the same block
 - **Scroll reveals (T5.3):** `reveal`, `reveal-left`, `reveal-right`, `reveal-stagger` and `stripe-draw`, all on `view()` timelines with no JavaScript. Applied to `SectionHeading` only: the faded number and the h2 fade up and the racing stripe draws out, on every numbered service section, closing band, Related Services and the About headings. `overflow-clip` replaced `overflow-hidden` on `SectionShell`, `EnquiryBand` and the About panel, so the timelines bind to the page. `scroll-padding-top` clears the sticky Navbar on anchor jumps
 - **WebKit (T5.3):** Playwright now runs Chromium and WebKit (Safari 26.5 engine), because no iPhone is available. The whole suite passed on WebKit unedited before T5.3 started. This pulls part of T6.1 forward (Firefox is left)
+- **Press and hover polish (T5.4):** `press`, `lift`, `sheen`, `underline-draw` and `pulse-ring`, all CSS. A tap shrinks a button, card, menu toggle, social icon or the WhatsApp widget instantly and eases back. Primary buttons get one sheen sweep, cards rise and tilt their icon, the Navbar links and dropdown titles draw an underline, and the widget pulses twice 3s after a full page load. `press` owns each element's transition and other blocks add a duration slot, so two effects on one element cannot override each other. Every hover rule sits in its own hover media query, so nothing sticks on touch. `ServiceCard` also gained a keyboard focus ring. 26 `@interaction` tests per browser, and the reduced-motion guard now reads pseudo-elements
 - **Proven so far:** the production CSS keeps the new syntax, reduced motion starts no animation, the guards fail when a reveal is captured or missing, and the reveals behave the same in both engines (spike table below)
-- **Next:** T5.4, press, sheen, lift, Navbar underline and the WhatsApp pulse
+- **Next:** T5.5, homepage hero load-in, services grid reveal and the `PageTransition` decision
 
 ## Timeline
 
-| Ticket | PR      | Merged     | What it delivered                                                                                                                                                                                                                         |
-| ------ | ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T5.1   | #16     | 2026-11-05 | Tokens, `motion.css` scaffold, 15 missing `motion-safe:` prefixes, `@motion` guards (25 tests), baseline, `design.md` Motion, 12 briefs. Also a wider desktop reviews carousel at Haider's request (`lg` and up only, checked at 4 sizes) |
-| T5.2   | #17     | 2026-11-05 | `details-expand` block, FAQ whole-row click fix, chip and edge bar, mobile menu accordion motion and inset link focus ring, `@faq` spec (5 tests), Vitest guard, `testData` and `ServicePage` helpers                                     |
-| T5.3   | this PR | TBC        | Five reveal blocks, `SectionHeading` reveals, `overflow-clip` switch, `scroll-padding-top`, WebKit project, positive reveal guards (live timeline, no held fill, mid-scroll fade), `#services` anchor test, two more service pages        |
+| Ticket | PR      | Merged     | What it delivered                                                                                                                                                                                                                                                                |
+| ------ | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T5.1   | #16     | 2026-11-05 | Tokens, `motion.css` scaffold, 15 missing `motion-safe:` prefixes, `@motion` guards (25 tests), baseline, `design.md` Motion, 12 briefs. Also a wider desktop reviews carousel at Haider's request (`lg` and up only, checked at 4 sizes)                                        |
+| T5.2   | #17     | 2026-11-05 | `details-expand` block, FAQ whole-row click fix, chip and edge bar, mobile menu accordion motion and inset link focus ring, `@faq` spec (5 tests), Vitest guard, `testData` and `ServicePage` helpers                                                                            |
+| T5.3   | #18     | 2026-11-05 | Five reveal blocks, `SectionHeading` reveals, `overflow-clip` switch, `scroll-padding-top`, WebKit project, positive reveal guards (live timeline, no held fill, mid-scroll fade), `#services` anchor test, two more service pages                                               |
+| T5.4   | this PR | TBC        | Five blocks (`press`, `lift`, `sheen`, `underline-draw`, `pulse-ring`), six tokens, `ServiceCard` focus ring, `cursor-pointer` on two buttons, `@interaction` spec and `InteractionAudit` (26 per browser), pseudo-element reduced-motion guard (proven with a deliberate fault) |
 
 ## Current state
 
-| After ticket    | Vitest         | Playwright           | Notes                                                                                                                                                                                                                               |
-| --------------- | -------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T4.5 (baseline) | 231 (42 files) | 36                   |                                                                                                                                                                                                                                     |
-| T5.1            | 231 (42 files) | 61                   | +25 `@motion` guards (5 page types x phone-size, reduced-motion and JavaScript-off checks)                                                                                                                                          |
-| T5.2            | 232 (42 files) | 66                   | +1 Vitest guard (summary is the only control), +5 `@faq`. Three were red first (two row-click, one answer-animation), no test edited or removed                                                                                     |
-| T5.3            | 232 (42 files) | 83 per browser (166) | +10 guards (two more service pages), +5 reveal guards, +1 mid-scroll fade, +1 anchor. The WebKit project doubles the run. 7 skipped on WebKit (CLS). Red first: 14 (7 per browser). The JS-off guard was edited (now scrolls first) |
+| After ticket    | Vitest         | Playwright            | Notes                                                                                                                                                                                                                                                                                                                   |
+| --------------- | -------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T4.5 (baseline) | 231 (42 files) | 36                    |                                                                                                                                                                                                                                                                                                                         |
+| T5.1            | 231 (42 files) | 61                    | +25 `@motion` guards (5 page types x phone-size, reduced-motion and JavaScript-off checks)                                                                                                                                                                                                                              |
+| T5.2            | 232 (42 files) | 66                    | +1 Vitest guard (summary is the only control), +5 `@faq`. Three were red first (two row-click, one answer-animation), no test edited or removed                                                                                                                                                                         |
+| T5.3            | 232 (42 files) | 83 per browser (166)  | +10 guards (two more service pages), +5 reveal guards, +1 mid-scroll fade, +1 anchor. The WebKit project doubles the run. 7 skipped on WebKit (CLS). Red first: 14 (7 per browser). The JS-off guard was edited (now scrolls first)                                                                                     |
+| T5.4            | 232 (42 files) | 109 per browser (218) | +26 `@interaction` per browser. 23 were red first on Chromium. The 3 that passed first guard "nothing happens" (a secondary button has no sheen, reduced motion neither shrinks nor pulses). No existing test edited: `WhatsAppWidget.test.tsx` now imports the new label constant. CSS about 11.1 KB gzipped (+0.6 KB) |
 
 ## Baseline (T5.1, before any effect)
 
@@ -81,6 +84,15 @@ Production build, phone 375x812. Chromium and WebKit gave the same result unless
 | The section glow is not revealed                                                                             | A 576px soft background is a tall element, so its reveal would be slow and it is outside the brief. Revisit in T5.10 or T5.11                                                                                  | T5.3 Stage 1, Haider |
 | The About panel moved to `overflow-clip` too                                                                 | The Find Us heading sits inside it, so it would never animate under `overflow-hidden`. Small scope addition, the panel looks the same                                                                          | T5.3 Stage 1, Haider |
 | WebKit is a permanent Playwright project                                                                     | Haider has no iPhone and Safari is widely used. It stands in for Safari until a real device is available. Firefox joins in T6.1                                                                                | T5.3, Haider         |
+| `press` owns the transition of its element. Other blocks add a `--*-duration` slot to it                     | Two blocks setting `transition-property` on one element means the last declared wins. One owner removes the question, and a new block adds one property to two lists                                           | T5.4 Stage 1         |
+| Press shrinks instantly and eases back over `--motion-fast`                                                  | An eased-in shrink can be over before a quick tap shows                                                                                                                                                        | T5.4 Stage 1, Haider |
+| Custom blocks write `@media (hover: hover)` by hand                                                          | Tailwind wraps only its own `hover:` variant, so a bare `:hover` in a block would stick after a tap                                                                                                            | T5.4 Stage 1         |
+| `sheen` reaches the calm pages (About, 404, Find Us), no opt-out prop                                        | One pass on desktop hover only, and an opt-out would change `LinkButton`'s props                                                                                                                               | T5.4 Stage 1, Haider |
+| `ServiceCard` gets the `LinkButton` focus ring now                                                           | Cards had no visible keyboard focus and the file was already open. Closes the T3.10 follow-up                                                                                                                  | T5.4 Stage 1, Haider |
+| The pulse plays on every full page load, 1s per cycle, twice, after 3s                                       | Once per visit needs `sessionStorage` and a Client Component. The widget is in the root layout, so client-side navigation never replays it, and the shorter cycle keeps repeated full loads from annoying      | T5.4 Stage 1, Haider |
+| Sheen, underline and ring are pseudo-elements, and the guards read pseudo-elements                           | No DOM or Vitest change. `MotionAudit.transitioningElementCount` was blind to them                                                                                                                             | T5.4 Stage 1         |
+| The dropdown underline sits under the title only. The Services underline is held by `group-hover`            | A line under the icon and the Popular tag reads as a divider. The pointer is on a row, not the button, while the dropdown is open                                                                              | T5.4 Stage 1         |
+| `sheen` and `pulse-ring` run `linear`, not `--ease-settle`                                                   | Seen in stepped frames: with a fast start the ring was gone in the first third of each cycle and the sheen band crossed the button in about 40% of its time                                                    | T5.4 Stage 2         |
 
 ## Gotchas found
 
@@ -101,6 +113,13 @@ Production build, phone 375x812. Chromium and WebKit gave the same result unless
 - `animation-delay` does nothing on a scroll timeline, so stagger shifts `animation-range` instead. The individual `translate` and `scale` properties do not apply to inline boxes, so reveal `block` elements (T5.3)
 - The sticky Navbar is 65px tall (`h-16` plus a 1px border), so `scroll-padding-top` is `calc(4rem + 1px)` (T5.3)
 - A first run of the whole suite on a cold dev server can time out on one test. A rerun passes (seen once on WebKit in T5.3)
+- A `:active` rule inside a custom block ties a Tailwind hover scale utility on specificity (two classes or pseudo-classes each) and loses on a mouse click, because the pointer is also hovering. The widget test read 1.1 (the hover scale) until `press` was written `:active:not(:disabled)`. Specificity decides it, not file order (T5.4)
+- A custom `@utility` hover rule gets no hover media query for free. Wrap it in `@media (hover: hover)` (T5.4)
+- A guard that reads elements cannot see `::before` or `::after`. `getComputedStyle(el, '::after')` is needed. A missing pseudo-element also reads `scale: none`, which means 1, so an underline test would pass with no underline: `InteractionAudit.scaleX` returns `NaN` for one that does not exist (T5.4)
+- Checking that something did NOT happen (hover on a touch device) passes at once if you only poll. Wait a few frames first (`settleFrames`) (T5.4)
+- `--ease-settle` suits things that arrive and stay (reveals, expands). It is wrong for an effect that must stay visible while it moves, because the motion is over in the first third. Judge a timed effect from stepped frames: pause `getAnimations()` at a set `currentTime` and screenshot (T5.4)
+- Tailwind scans `docs/*.md`, so naming a utility in a brief emits it. The T5.4 brief put the 110% scale utilities in the build until it was deleted (T5.4)
+- Playwright has no `expect.soft.poll`. Poll first, then use a soft check (T5.4)
 
 ## Follow-ups
 
@@ -109,6 +128,8 @@ Production build, phone 375x812. Chromium and WebKit gave the same result unless
 - Not in T5: the map facade decision, the accent contrast fix, brand casing, the large hero images, unapproved service copy
 - Find-in-page opening a FAQ item counts as a small layout shift in Chromium (not user input). Accepted, revisit only if a real CLS report shows it
 - The `@motion` guards check the end state, so a transient sideways overflow mid-reveal is invisible to them. Side slides in T5.10 sit inside `SectionShell` (clipped), so this is only a risk if one is used elsewhere
+- Navbar links and dropdown rows have no focus ring of their own, so the underline is their keyboard focus indicator. The About category rows copy the dropdown row style and have no underline (T5.11). Footer text links still have colour hovers only (T5.11)
+- `LinkButton` and `ServiceCard` now carry the same focus-ring class string. A shared constant would remove the copy, left out to stay inside the ticket
 
 ## Not verified
 
@@ -117,3 +138,6 @@ Production build, phone 375x812. Chromium and WebKit gave the same result unless
 - How scrolling back up feels on a phone (brief item 7). The numbers mirror symmetrically, the feel is a judgement
 - A real-phone tap on the empty edge of an FAQ row (the Chromium click test passes at 375 and 1280, but touch is not simulated)
 - Browser support figures come from the MDN compat data fetched on 2026-11-05
+- iOS Safari `:active` on a real iPhone. It has historically ignored `:active` on elements with no touch listener. Playwright WebKit only covers a mouse press. Android Chrome is the hand check on the PR preview
+- How the five T5.4 effects feel (sheen pace, pulse visibility, lift and icon tilt) on a real phone and in Firefox. Chromium and WebKit assertions pass, the look is a judgement
+- Resolved in T5.4: WebKit's touch emulation (`hasTouch` and `isMobile`) does report `(hover: none)`, and WebKit lists pseudo-element animations in `getAnimations({ subtree: true })`. All 26 `@interaction` tests run on both engines with no skips

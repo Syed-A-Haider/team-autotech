@@ -36,6 +36,7 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - Extract long multi-state class strings into named constants.
 - Data-driven classes must be literal strings in a record. Tailwind cannot generate `bg-${x}`.
 - Decorative icons get `aria-hidden`. One `<h1>` per page. Use semantic elements, with an `as` prop escape hatch where needed.
+- Every new clickable element (button, card, icon link) takes the `press` block from `motion.css`. It owns the element's transition, so do not add `transition-colors` or `transition-transform` next to it (see `design.md`, Motion).
 - Clickable non-link `<button>`s get `cursor-pointer` (Tailwind v4 keeps the default cursor). Use `group-hover` and `motion-safe:` for hover and transitions, so touch devices get no sticky hover and reduced-motion users get none.
 - Use an inset focus ring (`focus-visible:ring-inset`) inside an `overflow-hidden` ancestor. An offset ring is clipped.
 - Third-party embeds load only after a click (facade), from a privacy host (`youtube-nocookie.com`). Encode ids with `encodeURIComponent` before putting them in a URL.
