@@ -238,10 +238,14 @@ test.describe('Touch devices', { tag: '@interaction' }, () => {
   test('hover effects stay off when the device cannot hover', async ({
     homePage,
     interactionAudit,
+    motionAudit,
   }) => {
     // Arrange - the hover media query must be false, or this proves nothing
     expect(await interactionAudit.canHover()).toBe(false);
     const button = homePage.heroCallLink;
+    // The button sweeps once on load (T5.5). Wait for that to end, or "resting"
+    // would be a position part-way through the sweep
+    await expect.poll(() => motionAudit.sheenAnimationCount()).toBe(0);
     expect(await interactionAudit.hasPseudo(button, '::after')).toBe(true);
     const resting = await interactionAudit.style(
       button,

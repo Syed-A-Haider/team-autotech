@@ -17,16 +17,20 @@ export function ServicesGrid({ services }: ServiceGridProps) {
     >
       {/* Heading and Subtitle  */}
       <div className="flex flex-col gap-2 text-center">
-        <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h2 className="reveal text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
           {SERVICES_GRID_HEADING}
         </h2>
       </div>
 
       {/* Grid of services */}
-      {/* 2 cols on mobile, 3 from md up */}
-      <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
+      {/* 2 cols on mobile, 3 from md up. reveal-stagger fades each child in turn */}
+      <div className="reveal-stagger grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3">
         {services.map((service) => (
-          <ServiceCard key={service.slug} service={service} />
+          // The wrapper takes the reveal, the card keeps lift and press. Its own
+          // grid stretches the card to the row height, as before
+          <div key={service.slug} className="grid">
+            <ServiceCard service={service} />
+          </div>
         ))}
       </div>
     </SectionWrapper>

@@ -1,4 +1,25 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import { callButtonLabel } from '../config/testData';
+
+// What the homepage hero looked like on every frame from its first paint.
+// First* values are read on the first frame the element exists
+export interface HeroFrames {
+  done: boolean;
+  // Lowest opacity the h1 itself ever had, and with every ancestor multiplied in
+  h1OwnMin: number;
+  h1EffectiveMin: number;
+  // True if any ancestor of the h1 was ever translated or transformed
+  ancestorMoved: boolean;
+  imageFirstScale: string;
+  imageOwnMin: number;
+  stripeFirstScale: string;
+  subtitleFirstOpacity: number;
+  buttonFirstOpacity: number;
+  // Animations on the call button's ::after on that first frame
+  sheenFirst: { count: number; iterations: number; fill: string };
+  // Most animations running anywhere in main on any frame
+  maxAnimations: number;
+}
 
 // Page-wide motion checks. Each reads the browser's computed state, so no test
 // needs to know a class name. Header is left out: its dropdown is hidden at rest
@@ -186,5 +207,165 @@ export class MotionAudit {
           document.documentElement.clientWidth,
       ),
     );
+  }
+
+  // Elements in main whose fill keeps an end state after the animation. A timed
+  // effect that holds its fill would block hover and trap fixed children
+  async heldFillCount(): Promise<number> {
+    return this.page.evaluate(
+      () =>
+        [...document.querySelectorAll('main, main *')].filter((el) => {
+          const style = getComputedStyle(el);
+          return (
+            style.animationName !== 'none' &&
+            /forwards|both/.test(style.animationFillMode)
+          );
+        }).length,
+    );
+  }
+
+  // Call before goto. Samples the hero on every frame from first paint, for
+  // two and a half seconds after the h1 exists, because a timed effect has
+  // finished by the time a test could look
+  async trackHeroFrames() {
+    await this.page.addInitScript(() => {
+      const WINDOW_MS = 2500;
+      const frames = {
+        done: false,
+        h1OwnMin: 1,
+        h1EffectiveMin: 1,
+        ancestorMoved: false,
+        imageFirstScale: '',
+        imageOwnMin: 1,
+        stripeFirstScale: '',
+        subtitleFirstOpacity: -1,
+        buttonFirstOpacity: -1,
+        sheenFirst: { count: -1, iterations: 0, fill: '' },
+        maxAnimations: 0,
+      };
+      (window as unknown as { __hero: typeof frames }).__hero = frames;
+      const opacityOf = (el: Element) => Number(getComputedStyle(el).opacity);
+      let startedAt = -1;
+
+      const sample = (now: number) => {
+        const h1 = document.querySelector('main h1');
+        if (!h1) return requestAnimationFrame(sample);
+        if (startedAt < 0) startedAt = now;
+
+        let effective = 1;
+        for (let el: Element | null = h1; el; el = el.parentElement) {
+          effective *= opacityOf(el);
+          const style = getComputedStyle(el);
+          if (
+            el !== h1 &&
+            (style.transform !== 'none' || style.translate !== 'none')
+          ) {
+            frames.ancestorMoved = true;
+          }
+        }
+        frames.h1OwnMin = Math.min(frames.h1OwnMin, opacityOf(h1));
+        frames.h1EffectiveMin = Math.min(frames.h1EffectiveMin, effective);
+
+        const content = h1.parentElement as Element;
+        const image = document.querySelector('main img') as Element;
+        const stripe = content.querySelector('span');
+        const subtitle = content.querySelector('p');
+        const button = content.querySelector('a');
+        if (frames.imageFirstScale === '') {
+          frames.imageFirstScale = getComputedStyle(image).scale;
+          frames.stripeFirstScale = stripe
+            ? getComputedStyle(stripe).scale
+            : '';
+          frames.subtitleFirstOpacity = subtitle ? opacityOf(subtitle) : -1;
+          frames.buttonFirstOpacity = button ? opacityOf(button) : -1;
+          const sheen = (button?.getAnimations({ subtree: true }) ?? []).filter(
+            (animation) =>
+              (animation.effect as KeyframeEffect).pseudoElement === '::after',
+          );
+          const timing = sheen[0]?.effect?.getComputedTiming();
+          frames.sheenFirst = {
+            count: sheen.length,
+            iterations: timing?.iterations ?? 0,
+            fill: timing?.fill ?? '',
+          };
+        }
+        frames.imageOwnMin = Math.min(frames.imageOwnMin, opacityOf(image));
+        const main = document.querySelector('main') as Element;
+        frames.maxAnimations = Math.max(
+          frames.maxAnimations,
+          main.getAnimations({ subtree: true }).length,
+        );
+
+        if (now - startedAt < WINDOW_MS) requestAnimationFrame(sample);
+        else frames.done = true;
+      };
+      requestAnimationFrame(sample);
+    });
+  }
+
+  async heroFrames(): Promise<HeroFrames> {
+    return this.page.evaluate(
+      () => (window as unknown as { __hero: HeroFrames }).__hero,
+    );
+  }
+
+  // Duration in seconds of the page fade (PageTransition) around the h1, or
+  // NaN if the page has none
+  async pageEnterDuration(): Promise<number> {
+    return this.page.getByRole('heading', { level: 1 }).evaluate((h1) => {
+      for (let el = h1.parentElement; el; el = el.parentElement) {
+        const style = getComputedStyle(el);
+        if (style.animationName.includes('page-enter')) {
+          return parseFloat(style.animationDuration);
+        }
+      }
+      return NaN;
+    });
+  }
+
+  // The hero call button, shown below lg only
+  heroCallButton(): Locator {
+    return this.page
+      .getByRole('main')
+      .getByRole('link', { name: callButtonLabel });
+  }
+
+  // Animations still running on the call button's ::after (the sheen sweep)
+  async sheenAnimationCount(): Promise<number> {
+    return this.heroCallButton().evaluate(
+      (button) =>
+        button
+          .getAnimations({ subtree: true })
+          .filter(
+            (animation) =>
+              (animation.effect as KeyframeEffect).pseudoElement === '::after',
+          ).length,
+    );
+  }
+
+  // Where the sheen band rests, read from the call button's ::after
+  async sheenRestingTranslate(): Promise<string> {
+    return this.heroCallButton().evaluate(
+      (button) => getComputedStyle(button, '::after').translate,
+    );
+  }
+
+  // For each service card on the homepage: does the card itself, or its
+  // parent, ride a scroll (view) timeline? The reveal belongs on the parent,
+  // so lift and press on the card are never fought over
+  async serviceCardTimelines(): Promise<{ own: boolean; parent: boolean }[]> {
+    return this.page
+      .locator('#services')
+      .getByRole('link')
+      .evaluateAll((cards) => {
+        const onViewTimeline = (el: Element) =>
+          getComputedStyle(el)
+            .getPropertyValue('animation-timeline')
+            .includes('view');
+        return cards.map((card) => ({
+          own: onViewTimeline(card),
+          parent: onViewTimeline(card.parentElement as Element),
+        }));
+      });
   }
 }

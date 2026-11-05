@@ -336,6 +336,80 @@
   }
 }
 
+/* Hero load-in (T5.5). Timed, so only the reduced-motion guard applies. Each one
+   plays once at load and lets go: no fill after the end, and 'backwards' only
+   covers the delay. Nothing here animates the LCP image or text from opacity 0.
+   hero-settle: put on the hero <Image>. It eases from --hero-zoom down to its
+   size, and the hero's overflow clips the zoom. Opacity is never touched */
+@keyframes hero-zoom {
+  from {
+    scale: var(--hero-zoom);
+  }
+}
+
+@utility hero-settle {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: hero-zoom var(--hero-settle-duration) var(--ease-settle);
+  }
+}
+
+/* hero-in-N (N = 1, 2, 3...): the element fades and rises into place, each step
+   --hero-step after the one before. One element on its own is hero-in-1. It
+   sets --hero-delay so another block on the same element (sheen-once) can wait
+   for it to land. hero-solid on the same element drops the fade, for LCP text
+   that must never start invisible. The variable inherits: do not nest a
+   hero-in-N inside a hero-solid */
+@keyframes hero-rise {
+  from {
+    opacity: var(--hero-fade-from, 0);
+    translate: 0 var(--hero-rise-y);
+  }
+}
+
+@utility hero-in-* {
+  @media (prefers-reduced-motion: no-preference) {
+    --hero-delay: calc((--value(integer) - 1) * var(--hero-step));
+    animation: hero-rise var(--hero-duration) var(--ease-settle)
+      var(--hero-delay) backwards;
+  }
+}
+
+@utility hero-solid {
+  --hero-fade-from: 1;
+}
+
+/* hero-draw-N: the skewed stripe draws out from its centre at step N, the same
+   steps as hero-in-N. Reuses stripe-grow from stripe-draw above */
+@utility hero-draw-* {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: stripe-grow var(--hero-duration) var(--ease-settle)
+      calc((--value(integer) - 1) * var(--hero-step)) backwards;
+  }
+}
+
+/* sheen-once: one light sweep when the page loads. Needs sheen on the same
+   element, which draws the band. It waits for its own hero-in-N to land (the
+   --hero-delay plus one --hero-duration), then crosses once, linear, and rests
+   off the left edge where nothing shows. Runs wherever the button shows */
+@keyframes sheen-sweep {
+  from {
+    translate: -100% 0;
+  }
+
+  to {
+    translate: 100% 0;
+  }
+}
+
+@utility sheen-once {
+  @media (prefers-reduced-motion: no-preference) {
+    &::after {
+      animation: sheen-sweep var(--motion-slow) linear
+        calc(var(--hero-delay, 0s) + var(--hero-duration));
+    }
+  }
+}
+
 /* Print: show the finished page, nothing mid-animation */
 @media print {
   *,
