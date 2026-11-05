@@ -36,7 +36,7 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - Extract long multi-state class strings into named constants.
 - Data-driven classes must be literal strings in a record. Tailwind cannot generate `bg-${x}`.
 - Decorative icons get `aria-hidden`. One `<h1>` per page. Use semantic elements, with an `as` prop escape hatch where needed.
-- Every new clickable element (button, card, icon link) takes the `press` block from `motion.css`. It owns the element's transition, so do not add `transition-colors` or `transition-transform` next to it (see `design.md`, Motion).
+- Every new clickable element (button, card, icon link) takes the `press` block from `motion.css`. It owns the element's transition, so do not add `transition-colors` or `transition-transform` next to it (see `design.md`, Motion). A card that is not clickable never takes `press` (a tap shrink suggests a click). It may take `lift` with its own `motion-safe:transition-transform`.
 - Clickable non-link `<button>`s get `cursor-pointer` (Tailwind v4 keeps the default cursor). Use `group-hover` and `motion-safe:` for hover and transitions, so touch devices get no sticky hover and reduced-motion users get none.
 - Use an inset focus ring (`focus-visible:ring-inset`) inside an `overflow-hidden` ancestor. An offset ring is clipped.
 - Third-party embeds load only after a click (facade), from a privacy host (`youtube-nocookie.com`). Encode ids with `encodeURIComponent` before putting them in a URL.
@@ -56,4 +56,5 @@ Next.js App Router, TypeScript, Tailwind CSS v4, `clsx`, `lucide-react` (generic
 - `backdrop-filter` or `filter` on an ancestor creates a containing block that traps `position: fixed` children. Fix the cause, do not portal around it.
 - Fix root causes, not symptoms, especially in CSS.
 - A non-component export (such as copy constants) from a `'use client'` file arrives as a client reference in a Server Component. Import those constants in tests only, never in a Server Component.
+- A right-aligned element whose width depends on text (the header call button) shifts its left edge when the web font replaces the fallback (CLS). Give it a `min-w-*` above its width in both fonts (`Navbar` uses `min-w-70`). Check at desktop, the button is hidden below `lg`.
 - Move focus on mount with a module-level ref callback (`function focusOnMount(node) { node?.focus(); }`), not `useEffect`. It has a stable identity, avoids the set-state-in-effect lint, and behaves the same under the React Compiler and in Vitest.

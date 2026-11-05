@@ -61,7 +61,7 @@ Commits, each followed by `/verify`:
 
 ### What changed under the hood
 
-- Generated CSS Module class names are shorter, for example `WhyChooseUsSection-module__gUzrRG__row` is now `gUzrRG_row`, and the `next/font` class on `<html>` likewise. The site has one CSS Module (`WhyChooseUsSection.module.css`). Do not assert on generated class names in tests.
+- Generated CSS Module class names are shorter, for example `WhyChooseUsSection-module__gUzrRG__row` is now `gUzrRG_row`, and the `next/font` class on `<html>` likewise. The site had one CSS Module (`WhyChooseUsSection.module.css`) until T5.6 deleted it, so it has none now. Do not assert on generated class names in tests.
 - Font files are renamed with a different hash scheme. The seven Inter files are byte-identical to 16.3.0 (checked by hashing both builds).
 - Turbopack changes its bootstrap and the React Server Components payload (shared runtime chunk, one more `<script>`, no `crossorigin` on the loader). Chunk names and ids change on every build anyway.
 - In dev, `cache-control` is `no-store` (was `no-cache, must-revalidate`). Production `cache-control` is unchanged.
