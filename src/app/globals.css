@@ -47,7 +47,7 @@
     var(--foreground) 35%,
     transparent
   ); /* the light sweep across a primary button */
-  --pulse-delay: 3s; /* wait after load before the WhatsApp ring pulses */
+  --pulse-delay: 2s; /* wait after load before the WhatsApp ring pulses */
   --pulse-duration: 1s; /* one pulse of the ring (it runs twice) */
   --pulse-reach: 1.5; /* how big the ring grows, times its starting size */
 }
