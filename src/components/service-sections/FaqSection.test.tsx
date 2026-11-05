@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { FaqSection } from './FaqSection';
 
 const items = [
@@ -29,6 +29,17 @@ describe('FaqSection', () => {
     container
       .querySelectorAll('details')
       .forEach((d) => expect(d).not.toHaveAttribute('open'));
+  });
+
+  it('Keeps the summary the only control, with the answer outside it', () => {
+    const { container } = render(
+      <FaqSection section={{ type: 'faq', items }} />,
+    );
+    container.querySelectorAll('summary').forEach((summary, i) => {
+      expect(within(summary).queryAllByRole('link')).toHaveLength(0);
+      expect(within(summary).queryAllByRole('button')).toHaveLength(0);
+      expect(summary).not.toHaveTextContent(items[i].answer);
+    });
   });
 
   it('Does not crash with no items', () => {
