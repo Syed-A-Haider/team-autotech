@@ -1,3 +1,5 @@
+import { getAllServices } from '@/lib/services';
+
 // Central home for literal test data with no single source of truth in the
 // app itself (routes, viewport presets).
 export const routes = {
@@ -15,6 +17,18 @@ export const motionServiceSlugs = [
   'stage-1-tuning',
   'dpf-egr-solutions',
 ] as const;
+
+// First live service with an FAQ block, so the FAQ tests follow the data.
+// A function, so a missing FAQ fails the FAQ tests only, not every spec
+export function getFaqServiceSlug(): string {
+  const service = getAllServices().find(
+    (candidate) =>
+      candidate.status === 'live' &&
+      candidate.sections?.some((section) => section.type === 'faq'),
+  );
+  if (!service) throw new Error('No live service has an FAQ section');
+  return service.slug;
+}
 
 export const pageTitle = 'Team AutoTech';
 

@@ -28,6 +28,10 @@ interface MobileMenuProps {
 const topLevelLinkClasses =
   'border-border text-foreground border-b py-3 text-base font-medium';
 
+// Inset ring: the category list is clipped by details-expand, which would cut an outline
+const categoryLinkClasses =
+  'text-muted hover:text-foreground focus-visible:ring-accent flex items-center gap-2 py-2 text-sm focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none';
+
 // Only client piece in layout - owns own toggle state + panel it controls.
 // Navbar (server component) cannot hold
 export function MobileMenu({ categories }: MobileMenuProps) {
@@ -96,7 +100,10 @@ export function MobileMenu({ categories }: MobileMenuProps) {
 
           {/* Services as Collapsed Accordion */}
           {Object.entries(categories).map(([category, services]) => (
-            <details key={category} className="group border-border border-b">
+            <details
+              key={category}
+              className="details-expand group border-border border-b"
+            >
               {/* webkit = hides chrome/safari disclosure triangle on summary */}
               <summary className="text-foreground flex cursor-pointer list-none items-center justify-between py-3 text-base font-medium [&::-webkit-details-marker]:hidden">
                 {category}
@@ -114,7 +121,7 @@ export function MobileMenu({ categories }: MobileMenuProps) {
                     <Link
                       href={serviceHref(service.slug)}
                       onClick={close}
-                      className="text-muted hover:text-foreground flex items-center gap-2 py-2 text-sm"
+                      className={categoryLinkClasses}
                     >
                       {service.title}
                     </Link>

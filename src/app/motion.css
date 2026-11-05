@@ -2,7 +2,8 @@
 
    Each block is a Tailwind @utility, so a component just adds the class.
    Every block must follow these rules:
-   1. Animate only opacity, translate, scale and rotate (never size or position)
+   1. Animate only opacity, translate, scale and rotate (never size or position).
+      One named exception: details-expand grows ::details-content, see design.md
    2. Wrap the effect in the guards below, so a visitor with reduced motion, or a
       browser that cannot do it, simply sees the finished page
         scroll effects: @media (prefers-reduced-motion: no-preference) {
@@ -15,6 +16,42 @@
 
    Blocks are added by the T5 tickets listed in docs/design.md. Keep them in
    that order, each with a one-line comment saying what it does. */
+
+/* details-expand (T5.2): put on a <details>. The answer fades up on open, and
+   Chromium also grows the height. Elsewhere close is instant. Pad the answer
+   itself, not ::details-content, so a closed item is truly 0 high */
+@keyframes details-in {
+  from {
+    opacity: 0;
+    translate: 0 calc(var(--reveal-y) / 2);
+  }
+}
+
+@utility details-expand {
+  @media (prefers-reduced-motion: no-preference) {
+    &[open] > :not(summary) {
+      animation: details-in var(--motion-base) var(--ease-settle);
+    }
+
+    /* Both are needed: Safari and Firefox have the first but not the second */
+    @supports selector(::details-content) and (interpolate-size: allow-keywords) {
+      interpolate-size: allow-keywords;
+
+      &::details-content {
+        block-size: 0;
+        overflow: clip;
+        transition-property: block-size, content-visibility;
+        transition-duration: var(--motion-base);
+        transition-timing-function: var(--ease-settle);
+        transition-behavior: allow-discrete;
+      }
+
+      &[open]::details-content {
+        block-size: auto;
+      }
+    }
+  }
+}
 
 /* Print: show the finished page, nothing mid-animation */
 @media print {
