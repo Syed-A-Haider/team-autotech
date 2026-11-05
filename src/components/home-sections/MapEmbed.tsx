@@ -30,7 +30,7 @@ export function MapEmbed({ src, title, className }: MapEmbedProps) {
         referrerPolicy="no-referrer-when-downgrade"
         onLoad={() => setIsLoaded(true)}
         className={clsx(
-          'h-full w-full transition-opacity duration-300',
+          'h-full w-full motion-safe:transition-opacity motion-safe:duration-300',
           isLoaded ? 'opacity-100' : 'opacity-0',
         )}
       />

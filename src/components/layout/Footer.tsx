@@ -89,7 +89,7 @@ export function Footer() {
 
                   // Shared circle sizing/shape, only fill vs outline colours differ by variant
                   className={clsx(
-                    'flex h-10 w-10 items-center justify-center rounded-full transition-colors sm:h-11 sm:w-11',
+                    'flex h-10 w-10 items-center justify-center rounded-full motion-safe:transition-colors sm:h-11 sm:w-11',
                     link.variant === 'accent'
                       ? 'bg-accent hover:bg-accent-hover text-foreground'
                       : 'text-muted border-border hover:border-accent hover:text-accent border',
@@ -111,7 +111,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-muted hover:text-accent text-sm transition-colors"
+                    className="text-muted hover:text-accent text-sm motion-safe:transition-colors"
                   >
                     {link.label}
                   </Link>

@@ -30,7 +30,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
       <div className="overflow-hidden">
         <div
           aria-live="polite"
-          className="flex transition-transform duration-300 ease-in-out"
+          className="flex motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-in-out"
           // Inline: the offset is computed at runtime, a Tailwind class cannot express it
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
@@ -55,7 +55,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
           type="button"
           aria-label="Previous review"
           onClick={() => goTo(currentIndex - 1)}
-          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full motion-safe:transition-colors"
         >
           <ChevronLeft aria-hidden="true" size={20} />
         </button>
@@ -69,7 +69,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
               aria-current={index === currentIndex}
               onClick={() => goTo(index)}
               className={clsx(
-                'h-2 w-2 rounded-full transition-colors',
+                'h-2 w-2 rounded-full motion-safe:transition-colors',
                 index === currentIndex ? 'bg-accent' : 'bg-border',
               )}
             />
@@ -80,7 +80,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
           type="button"
           aria-label="Next review"
           onClick={() => goTo(currentIndex + 1)}
-          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full motion-safe:transition-colors"
         >
           <ChevronRight aria-hidden="true" size={20} />
         </button>

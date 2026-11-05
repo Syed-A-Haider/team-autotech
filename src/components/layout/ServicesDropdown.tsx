@@ -37,7 +37,7 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
                     {/* Each service will point to specific url (determined by their slug) */}
                     <Link
                       href={serviceHref(service.slug)}
-                      className="text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm transition-colors duration-150"
+                      className="text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm motion-safe:transition-colors motion-safe:duration-150"
                     >
                       {/* Structure of each line = Icon followed by name, followed by conditional popular tag */}
                       <Icon
