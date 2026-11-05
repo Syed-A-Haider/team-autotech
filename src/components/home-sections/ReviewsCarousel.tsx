@@ -50,17 +50,17 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-4 lg:gap-6">
         <button
           type="button"
           aria-label="Previous review"
           onClick={() => goTo(currentIndex - 1)}
-          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full motion-safe:transition-colors"
+          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full motion-safe:transition-colors lg:h-12 lg:w-12"
         >
-          <ChevronLeft aria-hidden="true" size={20} />
+          <ChevronLeft aria-hidden="true" size={20} className="lg:h-7 lg:w-7" />
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 lg:gap-3">
           {slides.map((_, index) => (
             <button
               key={index}
@@ -69,7 +69,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
               aria-current={index === currentIndex}
               onClick={() => goTo(index)}
               className={clsx(
-                'h-2 w-2 rounded-full motion-safe:transition-colors',
+                'h-2 w-2 rounded-full motion-safe:transition-colors lg:h-3.5 lg:w-3.5',
                 index === currentIndex ? 'bg-accent' : 'bg-border',
               )}
             />
@@ -80,9 +80,13 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
           type="button"
           aria-label="Next review"
           onClick={() => goTo(currentIndex + 1)}
-          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full motion-safe:transition-colors"
+          className="text-muted hover:text-accent flex h-9 w-9 items-center justify-center rounded-full motion-safe:transition-colors lg:h-12 lg:w-12"
         >
-          <ChevronRight aria-hidden="true" size={20} />
+          <ChevronRight
+            aria-hidden="true"
+            size={20}
+            className="lg:h-7 lg:w-7"
+          />
         </button>
       </div>
     </div>
