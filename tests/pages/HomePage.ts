@@ -22,6 +22,8 @@ export class HomePage {
   readonly navAboutLink: Locator;
   readonly directionsLink: Locator;
   readonly menuToggleButton: Locator;
+  readonly header: Locator;
+  readonly servicesSection: Locator;
 
   readonly sectionHeadings = {
     whyChooseUs: whyChooseUsHeading,
@@ -50,10 +52,28 @@ export class HomePage {
     this.menuToggleButton = page.getByRole('button', {
       name: MENU_TOGGLE_OPEN_LABEL,
     });
+    this.header = page.getByRole('banner');
+    this.servicesSection = page.locator('#services');
   }
 
   async goto() {
     await this.page.goto(routes.home);
+  }
+
+  async gotoServicesAnchor() {
+    await this.page.goto(routes.homeServices);
+  }
+
+  // Pixels between the bottom of the sticky header and the top of the services
+  // section. Negative means the header covers the start of the section
+  async servicesGapBelowHeader(): Promise<number> {
+    const headerBottom = await this.header.evaluate(
+      (el) => el.getBoundingClientRect().bottom,
+    );
+    const sectionTop = await this.servicesSection.evaluate(
+      (el) => el.getBoundingClientRect().top,
+    );
+    return sectionTop - headerBottom;
   }
 
   async allSectionHeadings(): Promise<string[]> {

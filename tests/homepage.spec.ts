@@ -77,6 +77,20 @@ test.describe('Homepage', { tag: '@homepage' }, () => {
   );
 
   test(
+    'Jumping to #services leaves the section clear of the sticky header',
+    { tag: '@navigation' },
+    async ({ homePage }) => {
+      // Act
+      await homePage.gotoServicesAnchor();
+
+      // Assert - polled, the jump settles after the navigation resolves
+      await expect
+        .poll(() => homePage.servicesGapBelowHeader())
+        .toBeGreaterThanOrEqual(0);
+    },
+  );
+
+  test(
     'FindUsSection directions link is present and has a destination',
     { tag: '@navigation' },
     async ({ homePage }) => {

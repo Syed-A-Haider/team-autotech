@@ -53,6 +53,126 @@
   }
 }
 
+/* Scroll reveals (T5.3). The element rides the page scroll: it starts hidden
+   as its top edge enters the window and is done after --reveal-end of its pass
+   up the screen. The range is measured against the window, not the element, so
+   a 4px stripe still takes a visible stretch of scroll. Use them on compact
+   things (headings, cards), not tall containers, which would stay faded while
+   most of them is on screen. Do not put them on an element that has its own
+   translate, scale or hover lift: wrap it instead */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    translate: 0 var(--reveal-y);
+  }
+}
+
+/* The name is where it comes from: reveal-left enters from the left */
+@keyframes reveal-from-left {
+  from {
+    opacity: 0;
+    translate: calc(var(--reveal-x) * -1) 0;
+  }
+}
+
+@keyframes reveal-from-right {
+  from {
+    opacity: 0;
+    translate: var(--reveal-x) 0;
+  }
+}
+
+@keyframes stripe-grow {
+  from {
+    scale: 0 1;
+  }
+}
+
+/* reveal: fades up into place */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-up linear backwards;
+      animation-timeline: view();
+      animation-range: cover 0% cover var(--reveal-end);
+    }
+  }
+}
+
+/* reveal-left, reveal-right: fade in while sliding from that side */
+@utility reveal-left {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-from-left linear backwards;
+      animation-timeline: view();
+      animation-range: cover 0% cover var(--reveal-end);
+    }
+  }
+}
+
+@utility reveal-right {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal-from-right linear backwards;
+      animation-timeline: view();
+      animation-range: cover 0% cover var(--reveal-end);
+    }
+  }
+}
+
+/* reveal-stagger: put on a parent, its children fade up one after another, so a
+   row arrives in order. The children need no class. --i is set on every child
+   (the 6th onwards share the last step), so a nested group never inherits it.
+   animation-delay does nothing on a scroll timeline, so the range shifts instead */
+@utility reveal-stagger {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      & > * {
+        animation: reveal-up linear backwards;
+        animation-timeline: view();
+        animation-range: cover calc(var(--i) * var(--stagger)) cover
+          calc(var(--reveal-end) + var(--i) * var(--stagger));
+      }
+
+      & > :nth-child(1) {
+        --i: 0;
+      }
+
+      & > :nth-child(2) {
+        --i: 1;
+      }
+
+      & > :nth-child(3) {
+        --i: 2;
+      }
+
+      & > :nth-child(4) {
+        --i: 3;
+      }
+
+      & > :nth-child(5) {
+        --i: 4;
+      }
+
+      & > :nth-child(n + 6) {
+        --i: 5;
+      }
+    }
+  }
+}
+
+/* stripe-draw: the skewed stripe draws out. Scale is its own property, so it
+   composes with -skew-x-12. The side it grows from is the element's origin-* */
+@utility stripe-draw {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: stripe-grow linear backwards;
+      animation-timeline: view();
+      animation-range: cover 0% cover var(--reveal-end);
+    }
+  }
+}
+
 /* Print: show the finished page, nothing mid-animation */
 @media print {
   *,

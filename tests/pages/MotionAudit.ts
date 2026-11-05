@@ -36,17 +36,21 @@ export class MotionAudit {
     );
   }
 
-  // Scroll in steps so every scroll-driven effect gets to run, then rest at the bottom
+  // Scroll in steps so every scroll-driven effect gets to run, then rest at the bottom.
+  // One call per step: waiting for a frame inside the page hangs with JavaScript off
   async scrollThrough() {
-    await this.page.evaluate(async () => {
-      const step = window.innerHeight * 0.8;
-      const bottom = document.documentElement.scrollHeight;
-      for (let y = 0; y < bottom; y += step) {
-        window.scrollTo(0, y);
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-      }
-      window.scrollTo(0, bottom);
-    });
+    const { step, bottom } = await this.page.evaluate(() => ({
+      step: window.innerHeight * 0.8,
+      bottom: document.documentElement.scrollHeight,
+    }));
+    for (let y = 0; y < bottom; y += step) {
+      await this.scrollTo(y);
+    }
+    await this.scrollTo(bottom);
+  }
+
+  private async scrollTo(top: number) {
+    await this.page.evaluate((y) => window.scrollTo(0, y), top);
   }
 
   // Elements in main and footer that are still see-through. The map is skipped
@@ -63,6 +67,73 @@ export class MotionAudit {
           Number(getComputedStyle(el).opacity) < 1,
       ).length;
     });
+  }
+
+  // Scroll reveals in main, read from the browser (no class names).
+  // subjects: elements driven by a scroll (view) timeline.
+  // detached: subjects below the fold with no live animation on the page scroll.
+  //   An overflow-hidden ancestor would capture the timeline, so call this
+  //   before scrolling: past their range, finished animations are not listed
+  // held: subjects whose fill keeps the end state after the range (should be none)
+  async revealAudit(): Promise<{
+    subjects: number;
+    detached: number;
+    held: number;
+  }> {
+    return this.page.evaluate(() => {
+      type Timeline = { currentTime: unknown; source: Element | null };
+      const scroller = document.scrollingElement;
+      const subjects = [...document.querySelectorAll('main *')].filter((el) =>
+        getComputedStyle(el)
+          .getPropertyValue('animation-timeline')
+          .includes('view'),
+      );
+      const isLive = (el: Element) =>
+        el.getAnimations().some((animation) => {
+          const timeline = animation.timeline as unknown as Timeline | null;
+          return (
+            timeline !== null &&
+            timeline.currentTime !== null &&
+            timeline.source === scroller
+          );
+        });
+      const isBelowFold = (el: Element) =>
+        el.getBoundingClientRect().top > window.innerHeight;
+      const holdsEndState = (el: Element) =>
+        /forwards|both/.test(
+          getComputedStyle(el).getPropertyValue('animation-fill-mode'),
+        );
+
+      return {
+        subjects: subjects.length,
+        detached: subjects.filter((el) => isBelowFold(el) && !isLive(el))
+          .length,
+        held: subjects.filter(holdsEndState).length,
+      };
+    });
+  }
+
+  // The last h2 in main: far below the fold on a long page
+  private lastHeading() {
+    return this.page.locator('main h2').last();
+  }
+
+  async lastHeadingOpacity(): Promise<number> {
+    return this.lastHeading().evaluate((el) =>
+      Number(getComputedStyle(el).opacity),
+    );
+  }
+
+  async lastHeadingTranslate(): Promise<string> {
+    return this.lastHeading().evaluate((el) => getComputedStyle(el).translate);
+  }
+
+  // Put the heading's top edge at this fraction of the window height (0 = top, 1 = bottom)
+  async scrollLastHeadingTo(viewportFraction: number) {
+    await this.lastHeading().evaluate((el, fraction) => {
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, top - fraction * window.innerHeight);
+    }, viewportFraction);
   }
 
   // Animations and transitions in progress on the page itself (not Next's dev overlay)

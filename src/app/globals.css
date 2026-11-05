@@ -33,12 +33,18 @@
   /* Motion tokens. Change a value once and every effect follows */
   --motion-fast: 150ms; /* press, colour hover */
   --motion-base: 300ms; /* hover lift, menus, FAQ */
-  --motion-slow: 700ms; /* hero load-in, stripe draw */
+  --motion-slow: 700ms; /* hero load-in */
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1); /* fast start, soft landing */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* colour and state changes */
   --reveal-y: 1rem; /* how far a fade-up rises */
   --reveal-x: 1.5rem; /* how far a side slide travels */
-  --stagger: 8%; /* scroll distance between neighbours in a staggered group */
+  --reveal-end: 30%; /* how much of its pass up the screen a reveal covers */
+  --stagger: 3%; /* extra scroll between neighbours in a staggered group */
+}
+
+/* The sticky Navbar is h-16 plus a 1px border. Anchor jumps stop below it */
+html {
+  scroll-padding-top: calc(4rem + 1px);
 }
 
 /* Animation to make screen go from 0 opacity to 100 - blink effect */
