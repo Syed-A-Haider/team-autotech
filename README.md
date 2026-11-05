@@ -13,8 +13,10 @@ pnpm build
 pnpm lint
 pnpm typecheck
 pnpm test:unit    # Vitest
-pnpm test:e2e     # Playwright, starts pnpm dev itself
+pnpm test:e2e     # Playwright (Chromium and WebKit), starts pnpm dev itself
 ```
+
+First time only: `pnpm exec playwright install chromium webkit` downloads the two test browsers.
 
 ## Docs
 

@@ -1,8 +1,8 @@
 # Status
 
-Last updated: 2026-11-05, after T5.2. Next ticket: T5.3.
+Last updated: 2026-11-05, after T5.3. Next ticket: T5.4.
 
-T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.3 to T5.12).
+T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.4 to T5.12).
 
 ## Done
 
@@ -31,30 +31,31 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is com
 
 - T5.2: FAQ whole-row click and expand animation. The padding moved from `<details>` to `<summary>`, so the whole row toggles (a bug fix: only the text and chevron did). First motion block, `details-expand` (`motion.css`, one class on a `<details>`): the answer fades up on open, and Chromium also animates the height in and out (a named exception to "never animate size", see `design.md`). Safari and Firefox get the fade only and an instant close. FAQ rows gain a round chip chevron, an accent edge bar when open, a hover background and an inset focus ring. The `MobileMenu` category accordion shares the block and its links got an inset focus ring. New `@faq` spec (5 tests, data-driven slug), one new Vitest guard, `ServicePage` FAQ helpers. 232 Vitest, 66 Playwright. See `t5-completion-report.md`
 
+- T5.3: Scroll-reveal blocks and the `overflow-clip` spike. New `motion.css` blocks `reveal`, `reveal-left`, `reveal-right`, `reveal-stagger` (one class on a parent, it reveals the children) and `stripe-draw`, all on `view()` timelines. Applied to `SectionHeading` only: the faded number and the h2 fade up, the racing stripe draws out from the side the text starts on. The range is `cover 0% cover 30%` (`--reveal-end`), not the brief's `entry 0% entry 70%`, which drew the 4px stripe over about 3px of scroll. `--stagger` went from 8% to 3% to suit. `SectionShell`, `EnquiryBand` and the About panel moved from `overflow-hidden` to `overflow-clip`, proven necessary (3 to 17 captured reveals per page with `hidden`, none with `clip`) and screenshots at 375, 768 and 1280 are byte-identical. `html` got `scroll-padding-top: calc(4rem + 1px)`. The section glow is deliberately not revealed. Playwright gained a WebKit project (Safari 26.5 engine, no iPhone available): the suite runs on Chromium and WebKit. 232 Vitest, 83 Playwright per browser (166). See `t5-completion-report.md`
+
 ## Next
 
-- T5.3: scroll-reveal blocks and the `overflow-clip` spike (brief in `docs/tickets/T5.3.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
+- T5.4: press, sheen, lift, Navbar underline and the WhatsApp pulse (brief in `docs/tickets/T5.4.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
 Phases still to come: 5 motion and wow factor (T5.x), 6 audits and launch (T6.x), 7 deferred shop (no tickets yet).
 
-| Ticket  | Scope                                                                                                                           |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| T5.3    | Scroll-reveal blocks (`reveal`, side slides, stagger, `stripe-draw`) and the `overflow-clip` spike, applied to `SectionHeading` |
-| T5.4    | `press`, `sheen`, `lift`, Navbar underline, WhatsApp attention pulse                                                            |
-| T5.5    | Homepage hero load-in and services grid reveal. Decide `PageTransition` (the baseline shows about 180ms of LCP)                 |
-| T5.6    | Why Choose Us redesign (always-visible text, no layout animation, CSS Module deleted). Motion guards extend to desktop          |
-| T5.7    | Reviews swipe carousel (scroll-snap, big arrows, click a neighbour, keys), dynamic on desktop, no autoplay                      |
-| T5.8    | Carousel depth: scaled and dimmed neighbours, desktop tilt, star pop                                                            |
-| T5.9    | Homepage rest: Find Us, About snippet, section headings                                                                         |
-| T5.10   | Service pages: hero load-in, steps, features, spec band, prose, video, scroll-progress bar                                      |
-| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                               |
-| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                                      |
-| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                                                        |
-| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                          |
-| T6.3    | Domain connection (A record and CNAME), deliberately last                                                                       |
-| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                        |
+| Ticket  | Scope                                                                                                                  |
+| ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| T5.4    | `press`, `sheen`, `lift`, Navbar underline, WhatsApp attention pulse                                                   |
+| T5.5    | Homepage hero load-in and services grid reveal. Decide `PageTransition` (the baseline shows about 180ms of LCP)        |
+| T5.6    | Why Choose Us redesign (always-visible text, no layout animation, CSS Module deleted). Motion guards extend to desktop |
+| T5.7    | Reviews swipe carousel (scroll-snap, big arrows, click a neighbour, keys), dynamic on desktop, no autoplay             |
+| T5.8    | Carousel depth: scaled and dimmed neighbours, desktop tilt, star pop                                                   |
+| T5.9    | Homepage rest: Find Us, About snippet, section headings                                                                |
+| T5.10   | Service pages: hero load-in, steps, features, spec band, prose, video, scroll-progress bar                             |
+| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                      |
+| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                             |
+| T6.1    | Add Firefox to the Playwright projects (chromium and webkit already run, since T5.3) and fix what it finds             |
+| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                 |
+| T6.3    | Domain connection (A record and CNAME), deliberately last                                                              |
+| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                               |
 
 ## Open items
 
@@ -68,7 +69,6 @@ Technical:
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - There is no `/services` page, by decision (T4.2). Services are reached from the Navbar, the homepage Popular grid (`#services`, 6 cards) and the About page. The Footer links Home, About and two services only. `/services` is a normal 404, with no redirect
 - T6: old WordPress URLs (shop, basket, checkout, my-account, old product slugs) will 404 after the domain switch. Decide a redirect map in T6, before T6.3
-- `/#services` on the homepage may sit tight under the sticky Navbar (`h-16`) when jumped to. Not checked, look at it in T6.2
 - About page copy is placeholder (generated from site facts, "15+ years" approved). Syd replaces and approves it before T6.3. The homepage `AboutSnippet` still says "family-run" (unapproved), `WhyChooseUsSection` hardcodes "15 years" and has unsourced claims ("Authorised Ghost Immobiliser II Installer", "backed by our guarantee")
 - WhatsApp prefill reads "Hi, How can we help?" (`WHATSAPP_LINK`). That is the customer's message, so it sounds like the business speaking. Unconfirmed with Syd, not changed in T4.3. Reword it in `constants.ts` once he agrees
 - Follow-ups from T3.10: `ServiceCard` has no `focus-visible` style, and `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval)
@@ -77,7 +77,7 @@ Technical:
 - `MapEmbed` sets the Google Maps iframe `src` straight away with `loading="lazy"`, so the homepage requests `maps.googleapis.com`, `maps.gstatic.com`, `www.google.com` and `fonts.googleapis.com` without a click. `conventions.md` says third-party embeds load only after a click, as `VideoEmbed` does. Noticed during the T4.5 snapshot, not touched. Decide whether it becomes a facade, a privacy and page-weight call
 - Follow-ups from the T4.4 sweep, by decision: the `LinkButton` variant and size tests still assert CSS classes and need a rewrite against exported constants or attributes (see `testing.md`). the 15 `transition-*` uses without `motion-safe:` were fixed in T5.1
 
-- Motion (T5): scroll effects need `animation-timeline` (Chrome 115, Safari and iOS 26, Firefox 159). Older iOS and current Firefox see the finished page with no scroll effect, by decision. `PageTransition` costs about 180ms of LCP on a throttled phone (T5.1 baseline), to be fixed in T5.5. Playwright runs Chromium only until T6.1, so Safari and Firefox are checked by hand on each T5 PR
+- Motion (T5): scroll effects need `animation-timeline` (Chrome 115, Safari and iOS 26, Firefox 159). Older iOS and current Firefox see the finished page with no scroll effect, by decision. `PageTransition` costs about 180ms of LCP on a throttled phone (T5.1 baseline), to be fixed in T5.5. Playwright runs Chromium and WebKit (the Safari 26.5 engine, T5.3). Firefox is checked by hand until T6.1. No iPhone is available, so iOS address-bar behaviour and touch feel are untested on a real device (an Android phone can check the PR preview). Safari lands 1 to 2px short on a `/#services` jump because `PageTransition` has the page 4px low while it fades in (invisible, the section has 64px of padding). T5.5 changes `page-enter`, re-check then
 - Service hero images are large (about 20.8 MB across four files). Left as they are by decision, as few such files are expected. Revisit only if page weight becomes a problem
 - Ghost Immobiliser II is `live` (indexable) with UNAPPROVED corrected copy, a provisional video title ("See Ghost Immobiliser II in Action") and a placeholder poster (frame saved from the video, `public/images/videos/ghost-immobiliser-ii.jpg`). `shortDescription` now uses the old-site tagline instead of the unsourced "CAN bus... no external fob or LED" line. Syd must approve before T6.3. If rejected, delete `status` to revert. `Service.body` is never rendered (follow-up: remove the field)
 - Scorpion X Series is `live` (indexable) with UNAPPROVED corrected copy. The step text was read from the old-site carousel images (confirmed visually); the images, the GBP 449 price and Scorpion's contact details are deliberately not used. The three feature tiles (Key Relay Defence, Personal Security, High Level Protection) have titles only, so there is no feature block. `shortDescription` uses sourced wording instead of the unsourced "Thatcham-approved" line. Syd must approve before T6.3. If rejected, delete `status` to revert

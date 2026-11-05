@@ -13,6 +13,8 @@
       done and hover or press styles work again. Set animation-timeline AFTER the
       animation shorthand, because the shorthand resets it
    4. Put a reveal on a wrapper and hover or press on the element inside it
+   5. Reveal compact things, not tall containers. Side slides need an
+      overflow-clip ancestor, or they widen the page while moving
 
    Blocks are added by the T5 tickets listed in docs/design.md. Keep them in
    that order, each with a one-line comment saying what it does. */
