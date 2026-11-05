@@ -50,9 +50,11 @@
   --pulse-delay: 2s; /* wait after load before the WhatsApp ring pulses */
   --pulse-duration: 1s; /* one pulse of the ring (it runs twice) */
   --pulse-reach: 1.5; /* how big the ring grows, times its starting size */
-  --hero-zoom: 1.06; /* how far the hero image starts zoomed in */
-  --hero-settle-duration: 1200ms; /* the hero image's slow settle */
-  --hero-step: 120ms; /* delay between hero text steps */
+  --hero-zoom: 1.14; /* how far the hero image starts zoomed in */
+  --hero-settle-duration: 1800ms; /* the hero image's slow settle */
+  --hero-duration: 900ms; /* one hero text step rising or one stripe drawing */
+  --hero-rise-y: 2rem; /* how far a hero step rises, more than a scroll reveal */
+  --hero-step: 200ms; /* delay between hero text steps */
   --page-enter-from: 0.6; /* where the page fade starts, never 0 (LCP) */
 }
 

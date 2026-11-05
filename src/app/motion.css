@@ -362,15 +362,15 @@
 @keyframes hero-rise {
   from {
     opacity: var(--hero-fade-from, 0);
-    translate: 0 var(--reveal-y);
+    translate: 0 var(--hero-rise-y);
   }
 }
 
 @utility hero-in-* {
   @media (prefers-reduced-motion: no-preference) {
     --hero-delay: calc((--value(integer) - 1) * var(--hero-step));
-    animation: hero-rise var(--motion-slow) var(--ease-settle) var(--hero-delay)
-      backwards;
+    animation: hero-rise var(--hero-duration) var(--ease-settle)
+      var(--hero-delay) backwards;
   }
 }
 
@@ -382,14 +382,14 @@
    steps as hero-in-N. Reuses stripe-grow from stripe-draw above */
 @utility hero-draw-* {
   @media (prefers-reduced-motion: no-preference) {
-    animation: stripe-grow var(--motion-slow) var(--ease-settle)
+    animation: stripe-grow var(--hero-duration) var(--ease-settle)
       calc((--value(integer) - 1) * var(--hero-step)) backwards;
   }
 }
 
 /* sheen-once: one light sweep when the page loads. Needs sheen on the same
    element, which draws the band. It waits for its own hero-in-N to land (the
-   --hero-delay plus one --motion-slow), then crosses once, linear, and rests
+   --hero-delay plus one --hero-duration), then crosses once, linear, and rests
    off the left edge where nothing shows. Runs wherever the button shows */
 @keyframes sheen-sweep {
   from {
@@ -405,7 +405,7 @@
   @media (prefers-reduced-motion: no-preference) {
     &::after {
       animation: sheen-sweep var(--motion-slow) linear
-        calc(var(--hero-delay, 0s) + var(--motion-slow));
+        calc(var(--hero-delay, 0s) + var(--hero-duration));
     }
   }
 }
