@@ -15,7 +15,7 @@ The code is the source of truth. If a doc and the code disagree, trust the code 
 | `testing.md`              | Writing tests or verifying UI                                                                                                                                  |
 | `t3-completion-report.md` | History and decisions behind T3, read when you need the why                                                                                                    |
 | `t4-completion-report.md` | Running record of T4 (pages and shared pieces): timeline, test counts, decisions, follow-ups. Append to it at the end of each T4 ticket                        |
-| `t5-completion-report.md` | Running record of T5 (motion): baseline numbers, timeline, decisions, follow-ups. Append to it at the end of each T5 ticket                                    |
+| `t5-completion-report.md` | Running summary of T5 (motion): baseline numbers, timeline, decisions, gotchas. Rewrite it as a short summary at the end of each T5 ticket, do not append      |
 | `dependency-upgrades.md`  | Upgrading `next` or another runtime dependency: safety net, baseline and snapshot, rollback, and the T4.5 record                                               |
 | `project.md`              | Business context, stakeholder rules, confirmed product decisions                                                                                               |
 | `tickets/`                | One short brief per ticket (for example `T4.1.md`), added by Haider before the ticket starts. Delete each one when its ticket is done                          |
@@ -29,5 +29,5 @@ The code is the source of truth. If a doc and the code disagree, trust the code 
 ## Keeping these current
 
 - End of every ticket: the steps are in `workflow.md`. The outcome lives in `status.md`.
-- Each phase keeps one running completion report (`t#-completion-report.md`), appended at the end of every ticket in that phase. The T5 report was created in T5.1.
+- Each phase keeps one running completion report (`t#-completion-report.md`). T4 appended an entry per ticket. From T5.2 the report is rewritten as a condensed summary at the end of every ticket (fold the ticket into Summary, Decisions and Gotchas, keep one Timeline line). The T5 report was created in T5.1.
 - Keep files short. If one passes about 150 lines, split it or trim it.

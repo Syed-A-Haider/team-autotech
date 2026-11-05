@@ -39,8 +39,10 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 
 - Specs live in `tests/`. Use the Page Object Model (PascalCase classes) and the custom fixture
 - One spec file per page or feature, named for it (`about.spec.ts`, `not-found.spec.ts`), not grouped by the phase that built it
-- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`, `@notfound`, `@motion`
+- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`, `@notfound`, `@motion`, `@faq`
 - Motion guards (`motion.spec.ts`, `MotionAudit`) read computed style, never a class name. Set reduced motion with `test.use({ contextOptions: { reducedMotion: 'reduce' } })`, because plain `reducedMotion` in `test.use` is ignored. They run at phone size until T5.6 removes the hover-hidden Why Choose Us text, then at desktop too
+- A test of a click target must click where the old markup failed. The FAQ spec clicks the `details` row at 8px in (its padding), not the `summary`, because a click anywhere on a full-width `summary` already toggled it. Check the test is red against the old code before trusting it. To prove a motion is wired, read the animations on the element itself (`el.getAnimations()`), not the page-wide count, which an unrelated transition can satisfy
+- Pick data-driven slugs in `getFaqServiceSlug()` (`testData.ts`), not a hardcoded service, so the placeholder FAQs can change without breaking the spec
 - Use plain string assertions, not regex (`toHaveTitle('Team Autotech')`)
 - Locators: `getByRole`, `getByText`, `getByLabel`. No XPath and no tight CSS selectors
 - Use web-first assertions (`toBeVisible`, `toHaveText`). No `waitForTimeout`

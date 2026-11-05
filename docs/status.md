@@ -1,8 +1,8 @@
 # Status
 
-Last updated: 2026-11-05, after T5.1. Next ticket: T5.2.
+Last updated: 2026-11-05, after T5.2. Next ticket: T5.3.
 
-T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.2 to T5.12).
+T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.3 to T5.12).
 
 ## Done
 
@@ -29,9 +29,11 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is com
 
 - T5.1: Motion foundation, no visible effect. Motion tokens in `globals.css`, a `motion.css` scaffold (print safety net and the rules every block follows), the 15 `transition-*` uses without `motion-safe:` fixed, and a `@motion` Playwright guard suite (`motion.spec.ts`, `MotionAudit`) that reads computed style: nothing left faded, no sideways scroll, zero layout shift, reduced motion respected, JS off. Mobile baseline recorded (LCP, CLS, TBT, KB) and `design.md` Motion rewritten. Phase 5 was planned as 12 small tickets (T5.1 to T5.12). See `t5-completion-report.md`
 
+- T5.2: FAQ whole-row click and expand animation. The padding moved from `<details>` to `<summary>`, so the whole row toggles (a bug fix: only the text and chevron did). First motion block, `details-expand` (`motion.css`, one class on a `<details>`): the answer fades up on open, and Chromium also animates the height in and out (a named exception to "never animate size", see `design.md`). Safari and Firefox get the fade only and an instant close. FAQ rows gain a round chip chevron, an accent edge bar when open, a hover background and an inset focus ring. The `MobileMenu` category accordion shares the block and its links got an inset focus ring. New `@faq` spec (5 tests, data-driven slug), one new Vitest guard, `ServicePage` FAQ helpers. 232 Vitest, 66 Playwright. See `t5-completion-report.md`
+
 ## Next
 
-- T5.2: FAQ whole-row click and expand animation (brief in `docs/tickets/T5.2.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
+- T5.3: scroll-reveal blocks and the `overflow-clip` spike (brief in `docs/tickets/T5.3.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
@@ -39,7 +41,6 @@ Phases still to come: 5 motion and wow factor (T5.x), 6 audits and launch (T6.x)
 
 | Ticket  | Scope                                                                                                                           |
 | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| T5.2    | FAQ whole-row click fix (functional bug) and expand animation, shared with the `MobileMenu` accordion                           |
 | T5.3    | Scroll-reveal blocks (`reveal`, side slides, stagger, `stripe-draw`) and the `overflow-clip` spike, applied to `SectionHeading` |
 | T5.4    | `press`, `sheen`, `lift`, Navbar underline, WhatsApp attention pulse                                                            |
 | T5.5    | Homepage hero load-in and services grid reveal. Decide `PageTransition` (the baseline shows about 180ms of LCP)                 |

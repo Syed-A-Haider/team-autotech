@@ -83,5 +83,5 @@ Concise plain prose, no tables. Cover:
 
 - Update `status.md`: move the ticket to Done, set the next ticket, adjust open items.
 - Add any new decision or gotcha to the doc it belongs to.
-- Append the ticket to the phase's running completion report (`docs/t#-completion-report.md`).
+- Update the phase's running completion report (`docs/t#-completion-report.md`) as a condensed summary, not an appended entry: fold the ticket into the Summary, Decisions and Gotchas, keep one Timeline line, and drop detail that no longer helps.
 - Delete this ticket's brief from `docs/tickets/`. If a file covers several tickets, delete only this ticket's section. Git does not track an empty folder, so it disappears until Haider adds the next briefs.
