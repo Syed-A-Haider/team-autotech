@@ -9,7 +9,13 @@ import {
   ABOUT_CTA_LABEL,
 } from '@/components/home-sections/AboutSnippet';
 import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
-import { navLabels, routes } from '../config/testData';
+import { WHATSAPP_WIDGET_LABEL } from '@/components/layout/WhatsAppWidget';
+import {
+  callButtonLabel,
+  footerSocialLabel,
+  navLabels,
+  routes,
+} from '../config/testData';
 
 export class HomePage {
   readonly page: Page;
@@ -20,6 +26,15 @@ export class HomePage {
   readonly firstServiceLink: Locator;
   readonly aboutCtaLink: Locator;
   readonly navAboutLink: Locator;
+  readonly navServicesButton: Locator;
+  // First row of the Services dropdown (hidden until the button is hovered)
+  readonly navDropdownLink: Locator;
+  // Header call button on desktop, hidden below lg
+  readonly headerCallLink: Locator;
+  // Hero call button, shown below lg only
+  readonly heroCallLink: Locator;
+  readonly footerSocialLink: Locator;
+  readonly whatsAppWidget: Locator;
   readonly directionsLink: Locator;
   readonly menuToggleButton: Locator;
   readonly header: Locator;
@@ -43,9 +58,24 @@ export class HomePage {
     this.aboutCtaLink = this.main.getByRole('link', {
       name: ABOUT_CTA_LABEL,
     });
-    this.navAboutLink = page
-      .getByRole('navigation', { name: navLabels.main })
-      .getByRole('link', { name: navLabels.about });
+    const mainNav = page.getByRole('navigation', { name: navLabels.main });
+    this.navAboutLink = mainNav.getByRole('link', { name: navLabels.about });
+    this.navServicesButton = mainNav.getByRole('button', {
+      name: navLabels.services,
+    });
+    this.navDropdownLink = mainNav.getByRole('link').first();
+    this.headerCallLink = page
+      .getByRole('banner')
+      .getByRole('link', { name: callButtonLabel });
+    this.heroCallLink = page
+      .getByRole('main')
+      .getByRole('link', { name: callButtonLabel });
+    this.footerSocialLink = page
+      .getByRole('contentinfo')
+      .getByRole('link', { name: footerSocialLabel });
+    this.whatsAppWidget = page.getByRole('link', {
+      name: WHATSAPP_WIDGET_LABEL,
+    });
     this.directionsLink = page.getByRole('link', {
       name: FIND_US_DIRECTIONS_LABEL,
     });

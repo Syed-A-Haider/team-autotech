@@ -40,6 +40,16 @@
   --reveal-x: 1.5rem; /* how far a side slide travels */
   --reveal-end: 30%; /* how much of its pass up the screen a reveal covers */
   --stagger: 3%; /* extra scroll between neighbours in a staggered group */
+  --press-scale: 0.97; /* how far a pressed button or card shrinks */
+  --lift-y: 0.25rem; /* how far a hovered card rises */
+  --sheen: color-mix(
+    in oklab,
+    var(--foreground) 35%,
+    transparent
+  ); /* the light sweep across a primary button */
+  --pulse-delay: 2s; /* wait after load before the WhatsApp ring pulses */
+  --pulse-duration: 1s; /* one pulse of the ring (it runs twice) */
+  --pulse-reach: 1.5; /* how big the ring grows, times its starting size */
 }
 
 /* The sticky Navbar is h-16 plus a 1px border. Anchor jumps stop below it */

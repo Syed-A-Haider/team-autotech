@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { WhatsAppWidget } from './WhatsAppWidget';
+import { WhatsAppWidget, WHATSAPP_WIDGET_LABEL } from './WhatsAppWidget';
 import { WHATSAPP_LINK } from '@/lib/constants';
 
 describe('WhatsAppWidget', () => {
@@ -17,7 +17,7 @@ describe('WhatsAppWidget', () => {
   it('Has an accessible label', () => {
     render(<WhatsAppWidget />);
     expect(
-      screen.getByRole('link', { name: 'Chat with us on WhatsApp' }),
+      screen.getByRole('link', { name: WHATSAPP_WIDGET_LABEL }),
     ).toBeInTheDocument();
   });
 

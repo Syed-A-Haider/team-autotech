@@ -7,6 +7,15 @@ interface ServicesDropdownProps {
   categories: ServiceCategories;
 }
 
+// Named group: the nav already has an unnamed one that holds the dropdown open
+const rowClasses =
+  'group/row text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm motion-safe:transition-colors motion-safe:duration-150';
+
+// underline-draw (motion.css) under the title only. The row sets --underline,
+// so the line also draws when the pointer is on the icon or the Popular tag
+const rowTitleClasses =
+  'underline-draw leading-snug group-hover/row:[--underline:1] group-focus-visible/row:[--underline:1]';
+
 // Mega-menu panel for Navbar's Services
 // Visibility is CSS-only - group-hover/group-focus-within on parent in Navbar.tsx
 // Positioned against the nav's content row (see 'relative' on Navbar.tsx), so it spans
@@ -37,7 +46,7 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
                     {/* Each service will point to specific url (determined by their slug) */}
                     <Link
                       href={serviceHref(service.slug)}
-                      className="text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm motion-safe:transition-colors motion-safe:duration-150"
+                      className={rowClasses}
                     >
                       {/* Structure of each line = Icon followed by name, followed by conditional popular tag */}
                       <Icon
@@ -45,7 +54,7 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
                         size={16}
                         className="text-muted mt-0.5 shrink-0"
                       />
-                      <span className="leading-snug">{service.title}</span>
+                      <span className={rowTitleClasses}>{service.title}</span>
 
                       {/* If featured - render a popular tag */}
                       {service.popular && (
