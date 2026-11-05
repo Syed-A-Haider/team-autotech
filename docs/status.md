@@ -1,8 +1,8 @@
 # Status
 
-Last updated: 2026-11-04, after T4.5. Next ticket: T5.1.
+Last updated: 2026-11-05, after T5.1. Next ticket: T5.2.
 
-T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`.
+T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.2 to T5.12).
 
 ## Done
 
@@ -27,22 +27,33 @@ T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is com
 
 - T4.5: Next.js security upgrade, `next` and `eslint-config-next` 16.3.0 to 16.4.5 (exact pins), plus a lockfile refresh of `nanoid` and `source-map-js`. `pnpm audit --prod` went from 17 advisories to 0. No code, test or behaviour change: 231 Vitest and 36 Playwright pass unedited, and a before/after snapshot of 20 routes, 60 optimised images and 18 screenshots matches (generated CSS class names aside). The Next.js agent rules moved from `CLAUDE.md` to `AGENTS.md` (written by `next dev`, imported with `@AGENTS.md`, never edited by hand). New `docs/dependency-upgrades.md` runbook with rollback. See `t4-completion-report.md`
 
+- T5.1: Motion foundation, no visible effect. Motion tokens in `globals.css`, a `motion.css` scaffold (print safety net and the rules every block follows), the 15 `transition-*` uses without `motion-safe:` fixed, and a `@motion` Playwright guard suite (`motion.spec.ts`, `MotionAudit`) that reads computed style: nothing left faded, no sideways scroll, zero layout shift, reduced motion respected, JS off. Mobile baseline recorded (LCP, CLS, TBT, KB) and `design.md` Motion rewritten. Phase 5 was planned as 12 small tickets (T5.1 to T5.12). See `t5-completion-report.md`
+
 ## Next
 
-- T5.1: motion foundation, Stage 1 design review first (see Remaining)
+- T5.2: FAQ whole-row click and expand animation (brief in `docs/tickets/T5.2.md`). Each T5 ticket is implemented straight from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
 Phases still to come: 5 motion and wow factor (T5.x), 6 audits and launch (T6.x), 7 deferred shop (no tickets yet).
 
-| Ticket  | Scope                                                                                                                                                                                                                                                                                                                                  |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T5.1    | Motion foundation (Stage 1 design review first): motion language, reveal wrapper (one small Client island), library decision (CSS first, a library needs approval), reduced-motion and performance rules. Also fix the 15 `transition-*` uses without `motion-safe:` (list in `design.md`, Motion) and start `t5-completion-report.md` |
-| T5.2    | Apply the motion and wow-factor effects across the homepage, shell and service section blocks. Rewrite the Motion rules in `design.md`                                                                                                                                                                                                 |
-| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                                                                                                                                                                                                                                                               |
-| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                                                                                                                                                                                                                                 |
-| T6.3    | Domain connection (A record and CNAME), deliberately last                                                                                                                                                                                                                                                                              |
-| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                                                                                                                                                                                                                               |
+| Ticket  | Scope                                                                                                                           |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| T5.2    | FAQ whole-row click fix (functional bug) and expand animation, shared with the `MobileMenu` accordion                           |
+| T5.3    | Scroll-reveal blocks (`reveal`, side slides, stagger, `stripe-draw`) and the `overflow-clip` spike, applied to `SectionHeading` |
+| T5.4    | `press`, `sheen`, `lift`, Navbar underline, WhatsApp attention pulse                                                            |
+| T5.5    | Homepage hero load-in and services grid reveal. Decide `PageTransition` (the baseline shows about 180ms of LCP)                 |
+| T5.6    | Why Choose Us redesign (always-visible text, no layout animation, CSS Module deleted). Motion guards extend to desktop          |
+| T5.7    | Reviews swipe carousel (scroll-snap, big arrows, click a neighbour, keys), dynamic on desktop, no autoplay                      |
+| T5.8    | Carousel depth: scaled and dimmed neighbours, desktop tilt, star pop                                                            |
+| T5.9    | Homepage rest: Find Us, About snippet, section headings                                                                         |
+| T5.10   | Service pages: hero load-in, steps, features, spec band, prose, video, scroll-progress bar                                      |
+| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                               |
+| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                                      |
+| T6.1    | Cross-browser Playwright run (chromium, firefox, webkit)                                                                        |
+| T6.2    | Responsive audit at 375, 768, 1280 px across all pages                                                                          |
+| T6.3    | Domain connection (A record and CNAME), deliberately last                                                                       |
+| Phase 7 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                        |
 
 ## Open items
 
@@ -63,8 +74,9 @@ Technical:
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
 - Security: `next` is 16.4.5 and `pnpm audit --prod` reports 0 advisories (2026-11-04). The audit database lags behind Next's release notes (it did not yet list seven moderate advisories fixed in 16.4.5), so on the next upgrade pick the version from the GitHub release notes, not only from `pnpm audit`. Process and rollback are in `dependency-upgrades.md`. Out of scope in T4.5 and still open: `react` and `react-dom` are pinned at 19.2.8 (19.3.x exists, and the deployed app uses the React that Next bundles, so it only affects tests), `@types/node` is `^20`, and pnpm warns that `eslint` 9.39.5 is deprecated (moving to eslint 10 is its own ticket). The full `pnpm audit` (dev tools included) went from 53 to 36 findings in T4.5 with none new. The 36 left are all in dev-only tooling that is not shipped (`undici`, `vite`, `brace-expansion`, `@vitest/mocker`, `zod`, `minimatch`, `js-yaml`). Clearing them means upgrading the test toolchain, so it is its own ticket
 - `MapEmbed` sets the Google Maps iframe `src` straight away with `loading="lazy"`, so the homepage requests `maps.googleapis.com`, `maps.gstatic.com`, `www.google.com` and `fonts.googleapis.com` without a click. `conventions.md` says third-party embeds load only after a click, as `VideoEmbed` does. Noticed during the T4.5 snapshot, not touched. Decide whether it becomes a facade, a privacy and page-weight call
-- Follow-ups from the T4.4 sweep, by decision: the `LinkButton` variant and size tests still assert CSS classes and need a rewrite against exported constants or attributes (see `testing.md`). 15 `transition-*` uses lack `motion-safe:`, parked for T5.1 (see `design.md`, Motion)
+- Follow-ups from the T4.4 sweep, by decision: the `LinkButton` variant and size tests still assert CSS classes and need a rewrite against exported constants or attributes (see `testing.md`). the 15 `transition-*` uses without `motion-safe:` were fixed in T5.1
 
+- Motion (T5): scroll effects need `animation-timeline` (Chrome 115, Safari and iOS 26, Firefox 159). Older iOS and current Firefox see the finished page with no scroll effect, by decision. `PageTransition` costs about 180ms of LCP on a throttled phone (T5.1 baseline), to be fixed in T5.5. Playwright runs Chromium only until T6.1, so Safari and Firefox are checked by hand on each T5 PR
 - Service hero images are large (about 20.8 MB across four files). Left as they are by decision, as few such files are expected. Revisit only if page weight becomes a problem
 - Ghost Immobiliser II is `live` (indexable) with UNAPPROVED corrected copy, a provisional video title ("See Ghost Immobiliser II in Action") and a placeholder poster (frame saved from the video, `public/images/videos/ghost-immobiliser-ii.jpg`). `shortDescription` now uses the old-site tagline instead of the unsourced "CAN bus... no external fob or LED" line. Syd must approve before T6.3. If rejected, delete `status` to revert. `Service.body` is never rendered (follow-up: remove the field)
 - Scorpion X Series is `live` (indexable) with UNAPPROVED corrected copy. The step text was read from the old-site carousel images (confirmed visually); the images, the GBP 449 price and Scorpion's contact details are deliberately not used. The three feature tiles (Key Relay Defence, Personal Security, High Level Protection) have titles only, so there is no feature block. `shortDescription` uses sourced wording instead of the unsourced "Thatcham-approved" line. Syd must approve before T6.3. If rejected, delete `status` to revert

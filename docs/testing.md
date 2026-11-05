@@ -39,7 +39,8 @@ Rule: Playwright asserts what is true because of routing and structure. Vitest a
 
 - Specs live in `tests/`. Use the Page Object Model (PascalCase classes) and the custom fixture
 - One spec file per page or feature, named for it (`about.spec.ts`, `not-found.spec.ts`), not grouped by the phase that built it
-- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`, `@notfound`
+- Tag tests: `@homepage`, `@smoke`, `@navigation`, `@responsive`, `@services`, `@about`, `@notfound`, `@motion`
+- Motion guards (`motion.spec.ts`, `MotionAudit`) read computed style, never a class name. Set reduced motion with `test.use({ contextOptions: { reducedMotion: 'reduce' } })`, because plain `reducedMotion` in `test.use` is ignored. They run at phone size until T5.6 removes the hover-hidden Why Choose Us text, then at desktop too
 - Use plain string assertions, not regex (`toHaveTitle('Team Autotech')`)
 - Locators: `getByRole`, `getByText`, `getByLabel`. No XPath and no tight CSS selectors
 - Use web-first assertions (`toBeVisible`, `toHaveText`). No `waitForTimeout`

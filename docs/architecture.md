@@ -23,7 +23,8 @@ src/
   app/
     layout.tsx            root layout (Navbar, WhatsAppWidget, Footer, <main>)
     page.tsx              home
-    globals.css           @theme design tokens
+    globals.css           @theme design tokens, motion tokens
+    motion.css            reusable motion blocks (T5), imported by globals.css
     about/page.tsx             static About page, copy in exported constants (T4.1)
     not-found.tsx              branded 404 for unmatched URLs and notFound() (T4.2)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
@@ -42,7 +43,7 @@ src/
   types/      service.ts, review.ts
 public/images/            logo.jpg (placeholder), hero-background.jpg, services/ (category heroes), videos/ (posters)
 public/reviews/           review photos
-tests/                    Playwright specs (Page Object Model + custom fixture); config/testData.ts, fixtures.ts, pages/
+tests/                    Playwright specs (Page Object Model + custom fixture); config/testData.ts, fixtures.ts, pages/ (incl. MotionAudit, used by motion.spec.ts)
 ```
 
 ## Client Components (everything else is Server)

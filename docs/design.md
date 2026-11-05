@@ -75,9 +75,27 @@ The accent hex is provisional until Syd supplies the final logo (the current `pu
 
 ## Motion
 
-T3.31 added a transition on page navigation (`PageTransition`). Read how it is built before adding other animation. Keep new motion subtle. Service sections have no scroll or hover animation. Non-link cards get no hover effect. Planned: a dedicated motion phase (T5.1, T5.2) will add scroll reveals and richer effects across the site, and rewrites this section. Do not add ad hoc animation before then.
+CSS first, no new Client Components. Phase 5 (T5.1 to T5.12, briefs in `docs/tickets/`) builds it. Tokens live in `globals.css` (`:root`), reusable blocks in `motion.css` as Tailwind `@utility` classes, so an effect is one class on an existing element. Do not add ad hoc animation outside a ticket. `PageTransition` (T3.31, a 200ms fade on route mount) stays until T5.5 decides its fate.
 
-Known gap for T5.1: at the T4.4 sweep, 15 of 22 `transition-*` uses lacked the `motion-safe:` prefix that `conventions.md` requires. They are in `ContactLine`, `MapEmbed`, `LinkButton`, `ReviewsCarousel`, `Footer`, `MobileMenu`, `Navbar`, `ServicesDropdown`, `WhatsAppWidget` and `ServiceCard`. Fix them when this section is rewritten, because adding the prefix changes behaviour for reduced-motion users.
+**Intensity by page, phone first.** Homepage lively, service pages medium, About and 404 calm. Design the phone first, then add desktop-only extras.
+
+**Rules**
+
+- Animate only `opacity`, `translate`, `scale` and `rotate`. Never size, position, `flex`, padding or font size. Use the individual properties so they compose with `-skew-*`
+- Every effect is progressive enhancement. Wrap it so reduced-motion visitors and browsers without support see the finished page, never a hidden one. Scroll effects: `@media (prefers-reduced-motion: no-preference)` plus `@supports (animation-timeline: view())`. Timed effects: the media query only. Tailwind classes use `motion-safe:`
+- Scroll reveals use `animation-timeline: view()`, set after the `animation` shorthand, with `fill-mode: backwards` only (a held transform would block hover and trap `position: fixed`). `animation-delay` does nothing on a scroll timeline: stagger by shifting `animation-range`
+- Reveal a wrapper, hover or press the element inside it. Never reveal something inside an `overflow-hidden` ancestor (it becomes the scroller and the effect never runs): use `overflow-clip`
+- Hover effects only under the hover media query (Tailwind `hover:` already is). Phones get `press` instead. Colour changes use `motion-safe:transition-colors`
+- Never fade the hero image or the LCP text in from zero. No parallax, autoplay, count-up, cursor effects or `backdrop-filter` on the header (it traps the fixed mobile menu)
+- Support (MDN, Nov 2026): `view()` timelines in Chrome 115, Safari and iOS 26, Firefox 159 (not stable yet). Older iOS and Firefox simply see no scroll effect. `::details-content` Chrome 131, Safari 18.4, Firefox 143. Height animation of `details` (`interpolate-size`) is Chrome only
+
+**Tokens** (`:root` in `globals.css`): `--motion-fast` 150ms, `--motion-base` 300ms, `--motion-slow` 700ms, `--ease-settle`, `--ease-standard`, `--reveal-y` 1rem, `--reveal-x` 1.5rem, `--stagger` 8%.
+
+**Blocks** (all planned until their ticket lands, then listed as built): `details-expand` (T5.2), `reveal`, `reveal-left`, `reveal-right`, `reveal-stagger`, `stripe-draw` (T5.3), `press`, `sheen`, `lift` (T5.4), `hero-in-1/2/3` (T5.5), `scroll-progress` (T5.10). Each has a one-line comment in `motion.css`.
+
+**Standard motion checks** (every T5 ticket): lint, typecheck, test:unit, build, test:e2e including `@motion`. Screenshots at 375, 768 and 1280. A reduced-motion pass. Scroll feel on a real phone. For scroll effects, one look in Firefox for the fallback. For anything near the hero, run the metrics script against the baseline in `t5-completion-report.md`. Budget: LCP within baseline plus 0.1s, CLS 0, JS up at most about 1 KB gzipped (carousel only), CSS up under 3 KB gzipped.
+
+T5.1 fixed the 15 `transition-*` uses that lacked `motion-safe:`. Colour hovers are now instant for reduced-motion visitors.
 
 ## Responsive checks
 
