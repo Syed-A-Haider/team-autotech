@@ -1,6 +1,8 @@
 import { whyChooseUsItems } from '@/components/home-sections/WhyChooseUsSection';
+import { AUTOPLAY_INTERVAL_MS } from '@/components/home-sections/ReviewsCarousel';
 import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
+import type { HomePage } from './pages/HomePage';
 import {
   htmlLang,
   pageTitle,
@@ -447,6 +449,178 @@ test.describe(
         // Assert - soft, so both report even if one fails
         expect.soft(prev.y).toBeGreaterThanOrEqual(track.y + track.height);
         expect.soft(next.y).toBeGreaterThanOrEqual(track.y + track.height);
+      });
+    });
+  },
+);
+
+// T5.7: the carousel moves on by itself. A fake clock jumps over each interval,
+// so a test does not wait seven seconds. The clock is installed after the page
+// has loaded and then runs on in real time, so scrolling and the settle still work
+test.describe(
+  'Homepage - reviews autoplay',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    test.use({ viewport: viewports.mobile });
+
+    // The root says whether the timer is running or held (data-autoplay). A test
+    // waits for the state it needs, then two frames so React has started or
+    // cleared the timer, before the clock jumps
+    async function waitForAutoplay(
+      homePage: HomePage,
+      state: 'running' | 'held',
+    ) {
+      await expect(homePage.reviewsRoot).toHaveAttribute(
+        'data-autoplay',
+        state,
+      );
+      await homePage.waitForFrames();
+    }
+
+    // The carousel in view, with its timer running and the mouse out of the way
+    async function startAutoplay(homePage: HomePage) {
+      await homePage.page.clock.install();
+      await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+      await homePage.waitForReviewsWindow();
+      await homePage.page.mouse.move(0, 0);
+      await homePage.waitForReviewsInView();
+      await waitForAutoplay(homePage, 'running');
+    }
+
+    async function jumpOneInterval(homePage: HomePage) {
+      await homePage.page.clock.fastForward(AUTOPLAY_INTERVAL_MS);
+    }
+
+    test('Moves on by itself, one review at a time', async ({ homePage }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.centredReviewIndex()).toBe(1);
+
+      // And again, once that move has settled
+      await expect
+        .poll(() => homePage.currentReviewIsInMiddleSlot())
+        .toBe(true);
+      await jumpOneInterval(homePage);
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(2);
+    });
+
+    test('Wraps forward from the last review to the first', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await startAutoplay(homePage);
+      const last = (await homePage.reviewSlides.count()) - 1;
+
+      // Act - on to the last review, one settled move at a time
+      for (let review = 1; review <= last; review++) {
+        await jumpOneInterval(homePage);
+        await expect.poll(() => homePage.currentReviewIndex()).toBe(review);
+        await homePage.waitForReviewsToSettle();
+        await expect
+          .poll(() => homePage.currentReviewIsInMiddleSlot())
+          .toBe(true);
+      }
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(0);
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.centredReviewIndex()).toBe(0);
+    });
+
+    test('Pause holds it, and play sets it going again', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act - the click also leaves the mouse over the carousel
+      await homePage.reviewsPauseButton.click();
+      await waitForAutoplay(homePage, 'held');
+      await jumpOneInterval(homePage);
+      await jumpOneInterval(homePage);
+
+      // Assert - still on the first review
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.currentReviewIndex()).toBe(0);
+      expect(await homePage.centredReviewIndex()).toBe(0);
+
+      // Act
+      await homePage.reviewsPlayButton.click();
+      await homePage.page.mouse.move(0, 0);
+      await waitForAutoplay(homePage, 'running');
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    });
+
+    test('A mouse over the carousel holds it until the mouse leaves', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act
+      await homePage.reviewsTrack.hover();
+      await waitForAutoplay(homePage, 'held');
+      await jumpOneInterval(homePage);
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.currentReviewIndex()).toBe(0);
+
+      // Act
+      await homePage.page.mouse.move(0, 0);
+      await waitForAutoplay(homePage, 'running');
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    });
+
+    test('Using the carousel stops it for good', async ({ homePage }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act
+      await homePage.reviewsNextButton.click();
+      await homePage.page.mouse.move(0, 0);
+      await waitForAutoplay(homePage, 'held');
+      await jumpOneInterval(homePage);
+      await jumpOneInterval(homePage);
+
+      // Assert - it stays on the review the visitor chose, and offers play
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.currentReviewIndex()).toBe(1);
+      await expect(homePage.reviewsPlayButton).toBeVisible();
+    });
+
+    test.describe('with reduced motion', () => {
+      test.use(reducedMotion);
+
+      test('Stays still and has no pause button', async ({ homePage }) => {
+        // Arrange
+        await homePage.page.clock.install();
+        await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+        await homePage.waitForReviewsInView();
+
+        // Act
+        await jumpOneInterval(homePage);
+        await homePage.waitForReviewsToSettle();
+
+        // Assert
+        expect(await homePage.currentReviewIndex()).toBe(0);
+        await expect(homePage.reviewsPauseButton).toHaveCount(0);
+        await expect(homePage.reviewsPlayButton).toHaveCount(0);
       });
     });
   },

@@ -9,21 +9,25 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
+  type FocusEvent,
   type KeyboardEvent,
   type ReactNode,
   type RefObject,
   type WheelEvent,
 } from 'react';
 import { flushSync } from 'react-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import clsx from 'clsx';
+import { REDUCED_MOTION_QUERY, useReviewsAutoplay } from './useReviewsAutoplay';
 
 export const REVIEWS_CAROUSEL_LABEL = 'Customer reviews';
 export const REVIEWS_TRACK_LABEL = 'Review cards';
 export const PREV_REVIEW_LABEL = 'Previous review';
 export const NEXT_REVIEW_LABEL = 'Next review';
-
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+export const PAUSE_REVIEWS_LABEL = 'Pause automatic review rotation';
+export const PLAY_REVIEWS_LABEL = 'Play automatic review rotation';
+// How long a review stays before the carousel moves on by itself
+export const AUTOPLAY_INTERVAL_MS = 7000;
 
 const FIRST_SLIDE = 0;
 // Milliseconds with no scroll event before a scroll counts as finished, for
@@ -78,6 +82,11 @@ const PREV_PLACEMENT =
   'col-start-2 row-start-2 lg:col-start-1 lg:row-start-1 lg:ms-2 lg:justify-self-start';
 const NEXT_PLACEMENT =
   'col-start-4 row-start-2 lg:col-start-5 lg:row-start-1 lg:me-2 lg:justify-self-end';
+// The pause button has a row of its own on a phone (the arrows and dots fill
+// the first one, and 44px more does not fit at 320px). From sm it sits in the
+// row beside the dots
+const ROTATION_PLACEMENT =
+  'col-span-full row-start-3 justify-self-center sm:col-span-1 sm:col-start-5 sm:row-start-2 sm:justify-self-start';
 
 // The button is the tap target (32x44). The visible dot is its ::before, so the
 // active one can be marked by size and colour without changing the layout
@@ -173,6 +182,14 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
   const middleSlot = Math.floor(count / 2);
   const isWindowed = isClient && count >= MIN_WRAP_SLIDES;
   const waitsForWindow = !isClient && count >= MIN_WRAP_SLIDES;
+  const rotationButtonRef = useRef<HTMLButtonElement>(null);
+  const autoplay = useReviewsAutoplay({
+    count,
+    anchor,
+    isClient,
+    intervalMs: AUTOPLAY_INTERVAL_MS,
+    advance: () => goTo(currentIndex + 1),
+  });
 
   // The first slide starts in the middle slot, which is not scroll position 0.
   // Then any press that was waiting for the window gets its scroll
@@ -241,6 +258,13 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
     scrollToSlide(track, next, targetRef);
   }
 
+  // A choice by the visitor ends autoplay, which would move the carousel from
+  // under them
+  function goByVisitor(index: number) {
+    autoplay.stop();
+    goTo(index);
+  }
+
   function syncIndexFromScroll() {
     frameRef.current = null;
     const track = trackRef.current;
@@ -273,9 +297,21 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
     targetRef.current = null;
   }
 
+  function handlePointerDown() {
+    releaseTarget();
+    autoplay.stop();
+  }
+
   function handleWheel(event: WheelEvent<HTMLDivElement>) {
     // Sideways, or Shift+wheel. A plain vertical wheel is the page scrolling
-    if (event.deltaX !== 0 || event.shiftKey) releaseTarget();
+    if (event.deltaX === 0 && !event.shiftKey) return;
+    releaseTarget();
+    autoplay.stop();
+  }
+
+  // Focus anywhere in the carousel but the pause button ends autoplay
+  function handleFocus(event: FocusEvent<HTMLDivElement>) {
+    if (!rotationButtonRef.current?.contains(event.target)) autoplay.stop();
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -286,21 +322,26 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
     if (target === null) return;
     // The browser would also scroll the track a step, so stop it
     event.preventDefault();
-    goTo(target);
+    goByVisitor(target);
   }
 
   function handleSlideClick(index: number) {
     if (index === currentIndex) return;
     // Selecting text by dragging ends in a click, which is not choosing a card
     if (window.getSelection()?.isCollapsed === false) return;
-    goTo(index);
+    goByVisitor(index);
   }
 
   return (
     <div
+      ref={autoplay.rootRef}
       role="region"
       aria-roledescription="carousel"
       aria-label={REVIEWS_CAROUSEL_LABEL}
+      data-autoplay={autoplay.isRunning ? 'running' : 'held'}
+      onFocus={handleFocus}
+      onPointerEnter={autoplay.handlePointerEnter}
+      onPointerLeave={autoplay.handlePointerLeave}
       className={ROOT_STYLES}
     >
       {/* Track - all slides pre-rendered, the browser scrolls and snaps them */}
@@ -309,12 +350,12 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
         id={trackId}
         role="region"
         aria-label={REVIEWS_TRACK_LABEL}
-        aria-live="polite"
+        aria-live={autoplay.isPlaying ? 'off' : 'polite'}
         tabIndex={0}
         onScroll={handleScroll}
         onScrollEnd={settleWindow}
         onKeyDown={handleKeyDown}
-        onPointerDown={releaseTarget}
+        onPointerDown={handlePointerDown}
         onWheel={handleWheel}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
@@ -346,7 +387,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
         type="button"
         aria-label={PREV_REVIEW_LABEL}
         aria-controls={trackId}
-        onClick={() => goTo(currentIndex - 1)}
+        onClick={() => goByVisitor(currentIndex - 1)}
         className={clsx(ARROW_STYLES, PREV_PLACEMENT)}
       >
         <ChevronLeft aria-hidden="true" size={20} className="lg:h-7 lg:w-7" />
@@ -359,7 +400,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
             type="button"
             aria-label={`Show review ${index + 1} of ${count}`}
             aria-current={index === currentIndex}
-            onClick={() => goTo(index)}
+            onClick={() => goByVisitor(index)}
             className={DOT_STYLES}
           />
         ))}
@@ -369,11 +410,42 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
         type="button"
         aria-label={NEXT_REVIEW_LABEL}
         aria-controls={trackId}
-        onClick={() => goTo(currentIndex + 1)}
+        onClick={() => goByVisitor(currentIndex + 1)}
         className={clsx(ARROW_STYLES, NEXT_PLACEMENT)}
       >
         <ChevronRight aria-hidden="true" size={20} className="lg:h-7 lg:w-7" />
       </button>
+
+      {/* Last in the page, so the first tab stop is still the track. Only where
+          autoplay can run: not on the server, with reduced motion or with one review.
+          The icons ignore the pointer: swapping the one under the cursor would lose
+          the browser's leave event, and the carousel would stay held for a mouse */}
+      {autoplay.isAvailable && (
+        <button
+          ref={rotationButtonRef}
+          type="button"
+          aria-label={
+            autoplay.isPlaying ? PAUSE_REVIEWS_LABEL : PLAY_REVIEWS_LABEL
+          }
+          aria-controls={trackId}
+          onClick={autoplay.toggle}
+          className={clsx(ARROW_STYLES, ROTATION_PLACEMENT)}
+        >
+          {autoplay.isPlaying ? (
+            <Pause
+              aria-hidden="true"
+              size={20}
+              className="pointer-events-none lg:h-6 lg:w-6"
+            />
+          ) : (
+            <Play
+              aria-hidden="true"
+              size={20}
+              className="pointer-events-none lg:h-6 lg:w-6"
+            />
+          )}
+        </button>
+      )}
     </div>
   );
 }

@@ -9,8 +9,12 @@ import userEvent from '@testing-library/user-event';
 import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
 import {
+  AUTOPLAY_INTERVAL_MS,
   NEXT_REVIEW_LABEL,
+  PAUSE_REVIEWS_LABEL,
+  PLAY_REVIEWS_LABEL,
   PREV_REVIEW_LABEL,
+  REVIEWS_CAROUSEL_LABEL,
   REVIEWS_TRACK_LABEL,
   ReviewsCarousel,
 } from './ReviewsCarousel';
@@ -648,6 +652,311 @@ describe('ReviewsCarousel - wrap-around', () => {
         left: centreOfSlot(MIDDLE_SLOT + 1),
         behavior: 'smooth',
       });
+    });
+  });
+});
+
+// Autoplay. It moves on by itself only while the carousel is on screen, the page
+// is visible and nobody is using it. jsdom has no IntersectionObserver, so a fake
+// one lets a test say when the carousel comes into view
+class FakeIntersectionObserver {
+  static instances: FakeIntersectionObserver[] = [];
+  constructor(public callback: IntersectionObserverCallback) {
+    FakeIntersectionObserver.instances.push(this);
+  }
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+}
+
+function setInView(visible: boolean) {
+  const observer = FakeIntersectionObserver.instances.at(-1)!;
+  act(() => {
+    observer.callback(
+      [{ intersectionRatio: visible ? 1 : 0 } as IntersectionObserverEntry],
+      observer as unknown as IntersectionObserver,
+    );
+  });
+}
+
+function renderPlaying() {
+  const view = renderFive();
+  setInView(true);
+  return view;
+}
+
+function advance(ms: number) {
+  act(() => {
+    vi.advanceTimersByTime(ms);
+  });
+}
+
+function getRoot() {
+  return screen.getByRole('region', { name: REVIEWS_CAROUSEL_LABEL });
+}
+
+function setPageVisible(visible: boolean) {
+  vi.spyOn(document, 'visibilityState', 'get').mockReturnValue(
+    visible ? 'visible' : 'hidden',
+  );
+  act(() => {
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+}
+
+function scrollCalls() {
+  return vi.mocked(Element.prototype.scrollTo).mock.calls.length;
+}
+
+describe('ReviewsCarousel - autoplay', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    FakeIntersectionObserver.instances = [];
+    vi.stubGlobal('IntersectionObserver', FakeIntersectionObserver);
+    fakeOrderedLayout();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  describe('moving on', () => {
+    it('Moves to the next slide after the interval, once it is in view', () => {
+      renderPlaying();
+      advance(AUTOPLAY_INTERVAL_MS - 1);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+
+      advance(1);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT + 1),
+        behavior: 'smooth',
+      });
+    });
+
+    it('Does not move while it is out of view', () => {
+      renderFive();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      expect(scrollCalls()).toBe(0);
+    });
+
+    it('Stops when it leaves the screen and waits a full interval after it returns', () => {
+      renderPlaying();
+      advance(AUTOPLAY_INTERVAL_MS - 1000);
+      setInView(false);
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+
+      setInView(true);
+      advance(AUTOPLAY_INTERVAL_MS - 1);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      advance(1);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+
+    it('Waits while the page is hidden', () => {
+      setPageVisible(false);
+      renderPlaying();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+
+      setPageVisible(true);
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+
+    it('Keeps going, one interval after each move has settled', () => {
+      renderPlaying();
+      advance(AUTOPLAY_INTERVAL_MS);
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[2])).toBe(true);
+    });
+
+    it('Wraps forward from the last slide to the first, one card on', () => {
+      renderPlaying();
+      for (let i = 0; i < FIVE - 1; i++) {
+        advance(AUTOPLAY_INTERVAL_MS);
+        swipeToSlot(MIDDLE_SLOT + 1);
+        settle();
+      }
+      expect(isCurrent(getSlides()[FIVE - 1])).toBe(true);
+
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT + 1),
+        behavior: 'smooth',
+      });
+    });
+
+    it('Does not move again until the last move has settled', () => {
+      renderPlaying();
+      advance(AUTOPLAY_INTERVAL_MS);
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+      expect(scrollCalls()).toBe(1);
+    });
+
+    it('Never starts with one review, and shows no button', () => {
+      render(
+        <ReviewsCarousel>{[<div key="only">Only slide</div>]}</ReviewsCarousel>,
+      );
+      setInView(true);
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(scrollCalls()).toBe(0);
+      expect(screen.queryByLabelText(PAUSE_REVIEWS_LABEL)).toBeNull();
+    });
+
+    it('Clears its timer when the carousel goes away', () => {
+      const { unmount } = renderPlaying();
+      unmount();
+      expect(vi.getTimerCount()).toBe(0);
+    });
+  });
+
+  describe('reduced motion', () => {
+    it('Never moves, and shows no button', () => {
+      setReducedMotion(true);
+      renderPlaying();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      expect(screen.queryByLabelText(PAUSE_REVIEWS_LABEL)).toBeNull();
+      expect(screen.queryByLabelText(PLAY_REVIEWS_LABEL)).toBeNull();
+    });
+
+    it('Follows a change of the preference while the page is open', () => {
+      const listeners: Array<() => void> = [];
+      let reduced = false;
+      vi.mocked(window.matchMedia).mockImplementation(
+        () =>
+          ({
+            get matches() {
+              return reduced;
+            },
+            addEventListener: (_: string, listener: () => void) =>
+              listeners.push(listener),
+            removeEventListener: vi.fn(),
+          }) as unknown as MediaQueryList,
+      );
+      renderPlaying();
+      expect(screen.getByLabelText(PAUSE_REVIEWS_LABEL)).toBeInTheDocument();
+
+      reduced = true;
+      act(() => listeners.forEach((listener) => listener()));
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(screen.queryByLabelText(PAUSE_REVIEWS_LABEL)).toBeNull();
+      expect(isCurrent(getSlides()[0])).toBe(true);
+    });
+  });
+
+  describe('hovering', () => {
+    it('Pauses under a mouse and starts a fresh interval when it leaves', () => {
+      renderPlaying();
+      advance(AUTOPLAY_INTERVAL_MS - 1000);
+      fireEvent.pointerEnter(getRoot(), { pointerType: 'mouse' });
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+
+      fireEvent.pointerLeave(getRoot(), { pointerType: 'mouse' });
+      advance(AUTOPLAY_INTERVAL_MS - 1);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      advance(1);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+
+    it('Ignores a touch, which also fires pointerenter and would stick', () => {
+      renderPlaying();
+      fireEvent.pointerEnter(getRoot(), { pointerType: 'touch' });
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+  });
+
+  describe('using the carousel', () => {
+    const interactions: Array<[string, () => void]> = [
+      [
+        'the next button',
+        () => fireEvent.click(screen.getByLabelText(NEXT_REVIEW_LABEL)),
+      ],
+      [
+        'a dot',
+        () => fireEvent.click(screen.getByLabelText('Show review 3 of 5')),
+      ],
+      ['a key', () => fireEvent.keyDown(getTrack(), { key: 'ArrowRight' })],
+      ['a click on a neighbour', () => fireEvent.click(getSlides()[1])],
+      ['a pointer on the track', () => fireEvent.pointerDown(getTrack())],
+      ['a sideways wheel', () => fireEvent.wheel(getTrack(), { deltaX: 40 })],
+      ['focus on the track', () => act(() => getTrack().focus())],
+    ];
+
+    it.each(interactions)('Stops for good after %s', (_name, interact) => {
+      renderPlaying();
+      interact();
+      const callsAfter = scrollCalls();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(scrollCalls()).toBe(callsAfter);
+    });
+
+    it('Is not stopped by focusing the pause button', () => {
+      renderPlaying();
+      act(() => screen.getByLabelText(PAUSE_REVIEWS_LABEL).focus());
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+  });
+
+  describe('the pause button', () => {
+    it('Pauses, then plays again with a fresh interval', () => {
+      renderPlaying();
+      expect(getRoot()).toHaveAttribute('data-autoplay', 'running');
+      fireEvent.click(screen.getByLabelText(PAUSE_REVIEWS_LABEL));
+      expect(getRoot()).toHaveAttribute('data-autoplay', 'held');
+      expect(screen.getByLabelText(PLAY_REVIEWS_LABEL)).toBeInTheDocument();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+
+      fireEvent.click(screen.getByLabelText(PLAY_REVIEWS_LABEL));
+      advance(AUTOPLAY_INTERVAL_MS - 1);
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      advance(1);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+
+    it('Is last in the page, so the first tab stop is still the track', () => {
+      renderPlaying();
+      const position = getTrack().compareDocumentPosition(
+        screen.getByLabelText(PAUSE_REVIEWS_LABEL),
+      );
+      expect(position & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+
+    it('Controls the track', () => {
+      renderPlaying();
+      expect(screen.getByLabelText(PAUSE_REVIEWS_LABEL)).toHaveAttribute(
+        'aria-controls',
+        getTrack().id,
+      );
+    });
+  });
+
+  describe('announcements', () => {
+    it('Is silent while rotating and polite once it has stopped', () => {
+      renderPlaying();
+      expect(getTrack()).toHaveAttribute('aria-live', 'off');
+
+      fireEvent.click(screen.getByLabelText(NEXT_REVIEW_LABEL));
+      expect(getTrack()).toHaveAttribute('aria-live', 'polite');
+    });
+
+    it('Stays polite for a visitor who cannot have autoplay', () => {
+      setReducedMotion(true);
+      renderPlaying();
+      expect(getTrack()).toHaveAttribute('aria-live', 'polite');
     });
   });
 });

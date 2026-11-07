@@ -13,7 +13,10 @@ import {
 } from '@/components/home-sections/AboutSnippet';
 import {
   NEXT_REVIEW_LABEL,
+  PAUSE_REVIEWS_LABEL,
+  PLAY_REVIEWS_LABEL,
   PREV_REVIEW_LABEL,
+  REVIEWS_CAROUSEL_LABEL,
   REVIEWS_TRACK_LABEL,
 } from '@/components/home-sections/ReviewsCarousel';
 import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
@@ -54,10 +57,14 @@ export class HomePage {
   readonly whyChooseUsCards: Locator;
   // The reviews carousel (T5.7): the scrolling track, its slides (the hidden
   // ones are the neighbours, so they are included) and the two arrows
+  readonly reviewsRoot: Locator;
   readonly reviewsTrack: Locator;
   readonly reviewSlides: Locator;
   readonly reviewsPrevButton: Locator;
   readonly reviewsNextButton: Locator;
+  // The pause and play button for the carousel's own movement (T5.7)
+  readonly reviewsPauseButton: Locator;
+  readonly reviewsPlayButton: Locator;
 
   readonly sectionHeadings = {
     whyChooseUs: whyChooseUsHeading,
@@ -114,12 +121,21 @@ export class HomePage {
       ),
     );
     this.whyChooseUsCards = this.whyChooseUsTitles.locator('..');
+    this.reviewsRoot = page.getByRole('region', {
+      name: REVIEWS_CAROUSEL_LABEL,
+    });
     this.reviewsTrack = page.getByRole('region', { name: REVIEWS_TRACK_LABEL });
     this.reviewSlides = this.reviewsTrack.getByRole('group', {
       includeHidden: true,
     });
     this.reviewsPrevButton = page.getByRole('button', {
       name: PREV_REVIEW_LABEL,
+    });
+    this.reviewsPauseButton = page.getByRole('button', {
+      name: PAUSE_REVIEWS_LABEL,
+    });
+    this.reviewsPlayButton = page.getByRole('button', {
+      name: PLAY_REVIEWS_LABEL,
     });
     this.reviewsNextButton = page.getByRole('button', {
       name: NEXT_REVIEW_LABEL,
@@ -242,6 +258,38 @@ export class HomePage {
           };
           check();
         }),
+    );
+  }
+
+  // Resolves once at least half of the carousel is on screen, and React has had
+  // two frames to see it and start the autoplay timer. That timer is what a fake
+  // clock then jumps over
+  async waitForReviewsInView(): Promise<void> {
+    await this.reviewsTrack.evaluate(
+      (track) =>
+        new Promise<void>((resolve) => {
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.intersectionRatio < 0.5) return;
+              observer.disconnect();
+              resolve();
+            },
+            { threshold: [0.5] },
+          );
+          observer.observe(track.parentElement!);
+        }),
+    );
+    await this.waitForFrames();
+  }
+
+  // Two animation frames: long enough for React to apply a state change and
+  // start or clear a timer it asked for
+  async waitForFrames(): Promise<void> {
+    await this.page.evaluate(
+      () =>
+        new Promise<void>((resolve) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+        ),
     );
   }
 
