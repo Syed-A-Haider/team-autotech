@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { ServicesDropdownLink } from './ServicesDropdownLink';
 import type { ServiceCategories } from '@/types/service';
 import clsx from 'clsx';
 import { serviceHref } from '@/lib/routes';
@@ -44,7 +44,7 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
                 return (
                   <li key={service.slug}>
                     {/* Each service will point to specific url (determined by their slug) */}
-                    <Link
+                    <ServicesDropdownLink
                       href={serviceHref(service.slug)}
                       className={rowClasses}
                     >
@@ -62,7 +62,7 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
                           Popular
                         </span>
                       )}
-                    </Link>
+                    </ServicesDropdownLink>
                   </li>
                 );
               })}

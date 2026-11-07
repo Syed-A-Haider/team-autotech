@@ -29,7 +29,7 @@ src/
     not-found.tsx              branded 404 for unmatched URLs and notFound() (T4.2)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
   components/
-    layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget
+    layout/    Navbar, MobileMenu (Client), ServicesDropdown, ServicesDropdownLink (Client, blurs on click), Footer, WhatsAppWidget
     ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
                PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks,
                ScrollProgress (decorative bar, rendered by ServicePageTemplate, T5.10)
@@ -49,7 +49,7 @@ tests/                    Playwright specs (Page Object Model + custom fixture);
 
 ## Client Components (everything else is Server)
 
-`MobileMenu`, `ReviewsCarousel`, `MapEmbed`, and `VideoEmbed`. Each holds only the interactive part. Content is passed in from a Server parent.
+`MobileMenu`, `ServicesDropdownLink`, `ReviewsCarousel`, `MapEmbed`, and `VideoEmbed`. Each holds only the interactive part. Content is passed in from a Server parent.
 
 ## Prop flow
 

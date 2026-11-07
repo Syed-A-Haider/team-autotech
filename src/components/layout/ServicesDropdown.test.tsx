@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect } from 'vitest';
 import { Gauge, ShieldCheck } from 'lucide-react';
 import { ServicesDropdown } from './ServicesDropdown';
@@ -41,6 +42,17 @@ describe('ServicesDropdown', () => {
     expect(
       screen.getByRole('link', { name: /Stage 1 Tuning/ }),
     ).toHaveAttribute('href', '/services/stage-1-tuning');
+  });
+
+  it('Drops focus from a row when it is clicked, so the dropdown can close', async () => {
+    render(<ServicesDropdown categories={mockCategories} />);
+    const row = screen.getByRole('link', { name: /Stage 1 Tuning/ });
+    row.focus();
+    expect(row).toHaveFocus();
+
+    await userEvent.click(row);
+
+    expect(row).not.toHaveFocus();
   });
 
   it('Shows a Popular tag only on popular services', () => {
