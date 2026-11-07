@@ -18,7 +18,7 @@ Lowest legal risk, so it sets the pattern. Add a `testData` slug for the first l
 
 ## T6.8 - Auto Security (Spectre, Scorpion Trackers, Fleet Trackers)
 
-Do not use "Insurance-approved" unless Syd confirms it. No Thatcham, subscription or recovery claims. Depends on T6.7.
+Haider confirmed "Insurance-approved GPS tracking systems" (the existing Scorpion Trackers one-liner), so it stays and the copy guard allows that phrase. Do not extend it: no Thatcham, subscription or recovery claims. Depends on T6.7.
 
 ## T6.9 - Auto Electrical (Car Audio, Dashcam, Parking Sensors, Reverse Camera, Road Angel Dashcam)
 
@@ -36,9 +36,9 @@ No power, torque or shift-time figures, no "warranty-safe". A general line advis
 
 Highest risk, so it goes last. Wording only for lawful work (diagnosis, cleaning, regeneration, sensor and fault repair, software fault-finding). No removal, delete or "MOT pass" wording unless Syd states otherwise in writing. Haider chose the default (2026-11-07): lawful-work wording only, so this no longer waits on Syd. If Syd later says otherwise, change it in his review pass. This is the last coming-soon batch, so it also replaces `comingSoonSlug` and the coming-soon entry in `motionServiceSlugs` in `testData.ts` (needs Haider's approval), and `testing.md` records that `ComingSoonPanel` is then covered by Vitest only.
 
-## T6.13 - Live-copy claims sweep (homepage and About)
+## T6.13 - Confirmed claims and the hard-coded years
 
-`WhyChooseUsSection` ("Authorised Ghost Immobiliser II Installer", "backed by our guarantee", hard-coded 15 years that should use `YEARS_EXPERIENCE`), `AboutSnippet` "family-run", the About placeholder. Keep what Syd confirms, make the rest generic. Depends on Syd's answer.
+Haider confirmed the live claims on 2026-11-07, so nothing is softened: "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools" (`AboutSnippet`), "Insurance-approved" (Scorpion Trackers). Remaining work is small: `WhyChooseUsSection` uses `YEARS_EXPERIENCE` instead of a hard-coded 15, and the confirmed claims are listed in `content/_review.md` (marked "confirmed by Haider, Syd to verify") so Syd sees them in T6.14. The About placeholder is reviewed in T6.14. If this ends up as one tiny diff, fold it into T6.14. Does not wait on anyone.
 
 ## T6.14 - Syd's review pass and phase close
 

@@ -44,7 +44,9 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 
 Haider answered on 2026-11-07 (Syd can still correct): the Shop label as planned (T6.4), the landline answered in hours and also on service-page "Call now" (T6.1), emissions wording at the default (T6.12), AI pages indexable on going live, and Haider picks the Mechanical hero photo (T6.5).
 
-Still waiting on Syd, see `status.md`: the unsourced claims already live on the homepage and in Scorpion Trackers (T6.13), what the emissions services involve (not blocking), and his review of all AI copy (T6.14).
+Haider also confirmed the five unsourced claims already live (Authorised Ghost Immobiliser II Installer, backed by our guarantee, family-run, genuine manufacturer-grade tools, insurance-approved trackers), so they stay as they are. Syd can still correct them in T6.14.
+
+Still waiting on Syd, see `status.md`: what the emissions services involve (not blocking), and his review of all AI copy (T6.14).
 
 ## Follow-ups (not in any T6 ticket)
 

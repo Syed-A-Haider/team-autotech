@@ -65,27 +65,27 @@ teamautotech.co.uk is live on this site. The old WordPress site crashed, so the 
 
 Phases still to come: 5 motion and wow factor (T5.x, finishing), 6 Syd's change requests (T6.x, live-site changes and AI-drafted content), 7 audits (T7.x), 8 deferred shop (no tickets yet). Why this order is in `t6-completion-report.md`.
 
-| Ticket  | Scope                                                                                                                                |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| T6.1    | Landline on every primary Call button (WhatsApp and the Footer mobile row stay)                                                      |
-| T6.2    | Redirects for old WordPress URLs (urgent, the domain is live). Shop and account URLs stay a 404                                      |
-| T6.3    | Sitemap, robots, noindex test rewrite, Search Console checklist                                                                      |
-| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                                    |
-| T6.4    | Shop (inactive): a non-clickable "Shop, coming soon" label in the top nav and the mobile menu                                        |
-| T6.5    | Fifth category (Mechanical / Customisation), nine new services as coming-soon, five-column dropdown, About five-card layout          |
-| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                                           |
-| T6.6    | AI content standard (`content/_standard.md`), review tracker (`content/_review.md`), copy guard test. Before any content batch       |
-| T6.7    | Content: Programming (BMW, Mercedes, VAG, Component Protection Removal)                                                              |
-| T6.8    | Content: Auto Security (Spectre, Scorpion Trackers, Fleet Trackers)                                                                  |
-| T6.9    | Content: Auto Electrical (Car Audio, Dashcam, Parking Sensors, Reverse Camera, Road Angel Dashcam)                                   |
-| T6.10   | Content: Mechanical / Customisation (4 pages)                                                                                        |
-| T6.11   | Content: Remap / Tuning performance (Bootmod, XHP Gearbox Map)                                                                       |
-| T6.12   | Content: Remap / Tuning emissions and diagnostics (DPF / EGR, AdBlue, Error Code Delete). Last, waits on Syd's answer                |
-| T6.13   | Sweep unsourced claims on live pages (homepage Why Choose Us and About snippet, About placeholder). Waits on Syd's answer            |
-| T6.14   | Syd's review pass, apply his edits, close the phase                                                                                  |
-| T7.1    | Add Firefox to the Playwright projects (chromium and webkit already run, since T5.3) and fix what it finds                           |
-| T7.2    | Responsive audit at 375, 768, 1280 px across all pages. Candidate T7.3: LocalBusiness JSON-LD (landline as telephone) and Open Graph |
-| Phase 8 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                             |
+| Ticket  | Scope                                                                                                                                                    |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T6.1    | Landline on every primary Call button (WhatsApp and the Footer mobile row stay)                                                                          |
+| T6.2    | Redirects for old WordPress URLs (urgent, the domain is live). Shop and account URLs stay a 404                                                          |
+| T6.3    | Sitemap, robots, noindex test rewrite, Search Console checklist                                                                                          |
+| T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                                                        |
+| T6.4    | Shop (inactive): a non-clickable "Shop, coming soon" label in the top nav and the mobile menu                                                            |
+| T6.5    | Fifth category (Mechanical / Customisation), nine new services as coming-soon, five-column dropdown, About five-card layout                              |
+| T5.12   | Polish, final metrics against the baseline, real-device pass, close the phase and the docs                                                               |
+| T6.6    | AI content standard (`content/_standard.md`), review tracker (`content/_review.md`), copy guard test. Before any content batch                           |
+| T6.7    | Content: Programming (BMW, Mercedes, VAG, Component Protection Removal)                                                                                  |
+| T6.8    | Content: Auto Security (Spectre, Scorpion Trackers, Fleet Trackers)                                                                                      |
+| T6.9    | Content: Auto Electrical (Car Audio, Dashcam, Parking Sensors, Reverse Camera, Road Angel Dashcam)                                                       |
+| T6.10   | Content: Mechanical / Customisation (4 pages)                                                                                                            |
+| T6.11   | Content: Remap / Tuning performance (Bootmod, XHP Gearbox Map)                                                                                           |
+| T6.12   | Content: Remap / Tuning emissions and diagnostics (DPF / EGR, AdBlue, Error Code Delete). Last, waits on Syd's answer                                    |
+| T6.13   | Small clean-up: Why Choose Us uses `YEARS_EXPERIENCE` instead of a hard-coded 15, and the confirmed claims are recorded where the copy guard allows them |
+| T6.14   | Syd's review pass, apply his edits, close the phase                                                                                                      |
+| T7.1    | Add Firefox to the Playwright projects (chromium and webkit already run, since T5.3) and fix what it finds                                               |
+| T7.2    | Responsive audit at 375, 768, 1280 px across all pages. Candidate T7.3: LocalBusiness JSON-LD (landline as telephone) and Open Graph                     |
+| Phase 8 | Deferred: shop, basket, Stripe, Neon Postgres and Prisma                                                                                                 |
 
 ## Open items
 
@@ -99,7 +99,7 @@ Technical:
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - There is no `/services` page, by decision (T4.2). Services are reached from the Navbar, the homepage Popular grid (`#services`, 6 cards) and the About page. The Footer links Home, About and two services only. `/services` is a normal 404, with no redirect
 - Old WordPress URLs (shop, basket, checkout, my-account, old product slugs) 404 now that the domain is live. T6.2 maps the ones with a real equivalent. Shop and account URLs stay a 404 by decision
-- About page copy is placeholder (generated from site facts, "15+ years" approved). It is public already, Syd reviews it in T6.14. The homepage `AboutSnippet` still says "family-run" (unapproved), `WhyChooseUsSection` hardcodes "15 years" and has unsourced claims ("Authorised Ghost Immobiliser II Installer", "backed by our guarantee")
+- About page copy is placeholder (generated from site facts, "15+ years" approved). It is public already, Syd reviews it in T6.14. The homepage claims "Authorised Ghost Immobiliser II Installer", "backed by our guarantee", "family-run" and "genuine manufacturer-grade tools" are confirmed true (Haider, 2026-11-07). `WhyChooseUsSection` still hardcodes "15 years" (T6.13)
 - WhatsApp prefill reads "Hi, How can we help?" (`WHATSAPP_LINK`). That is the customer's message, so it sounds like the business speaking. Unconfirmed with Syd, not changed in T4.3. Reword it in `constants.ts` once he agrees
 - Follow-up from T3.10: `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval). The other T3.10 follow-up, no `focus-visible` style on `ServiceCard`, was closed in T5.4
 - Text on `bg-accent` fails AA (about 3.1:1) in `LinkButton` primary. Fix with the accent hex once the logo arrives. Steps badges already use `text-background`
@@ -120,12 +120,11 @@ Technical:
 - Placeholder FAQs on the three live pages (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series), drafted from each page's copy and generic enquiry answers. No source FAQs exist. Syd reviews and edits them in `lib/services.ts` (`faq` sections). Remove any he rejects
 - The 12 coming-soon services have no source copy, and nine new ones are coming (T6.5). Syd chose AI-drafted copy for all of them (2026-11-07), written in T6.7 to T6.12 to `docs/content/_standard.md` and tracked in `docs/content/_review.md` (both created in T6.6) until he reviews it. Until each batch lands, the Homepage Popular grid has 4 of 6 cards (BMW Programming, Dashcam, Scorpion Trackers, DPF / EGR) leading to coming-soon pages. `docs/content/_requests.md` is superseded and T6.6 deletes it
 
-Decided by Haider on 2026-11-07 (the T6 plan's questions, Syd can still correct them): "Shop (inactive)" is a non-clickable "Shop, coming soon" label (T6.4). The landline is answered in opening hours and the service-page "Call now" also dials it (T6.1). The emissions services use the default wording only (diagnosis, cleaning and repair, T6.12). AI pages are indexable as soon as they go live. Haider picks the Mechanical / Customisation hero photo himself (T6.5).
+Decided by Haider on 2026-11-07 (the T6 plan's questions, Syd can still correct them): "Shop (inactive)" is a non-clickable "Shop, coming soon" label (T6.4). The landline is answered in opening hours and the service-page "Call now" also dials it (T6.1). The emissions services use the default wording only (diagnosis, cleaning and repair, T6.12). AI pages are indexable as soon as they go live. Haider picks the Mechanical / Customisation hero photo himself (T6.5). The five claims already live are confirmed true (Haider, 2026-11-07): "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools - not the cheap clones" (`AboutSnippet`), and "Insurance-approved GPS tracking systems" (Scorpion Trackers `shortDescription`).
 
 Waiting on Syd:
 
 - What do DPF / EGR, AdBlue and Engine Management Error Code Delete involve, and does any of it remove or disable equipment? Not blocking: T6.12 uses lawful-work wording only until he says otherwise
-- Can he confirm the unsourced claims already live: "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools - not the cheap clones" (`AboutSnippet`), and "Insurance-approved GPS tracking systems" (Scorpion Trackers `shortDescription`)? Default: keep only what he confirms, the rest becomes generic wording (T6.13)
 - His review of all AI-drafted and placeholder copy (T6.14), tracked in `docs/content/_review.md`: the three live pages and their placeholder FAQs, About, the homepage claims and every new page
 - Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
 - Final logo file. `public/images/logo.jpg` is a placeholder: it has a black bar behind it that must be removed. The final logo unblocks the favicon and confirms the real accent hex
