@@ -25,8 +25,8 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 | Order: T6.1 and T6.2 first, T5.12 after T6.5, content after the standard (T6.6)                                                        | The site is live: the landline and the 404s are visible and cheap. T5.12's final screenshots and metrics should cover the final nav, dropdown and fifth theme. Content is data only and needs no motion work | Opus plan, Haider to confirm |
 | Redirect only real equivalents. Shop and account URLs stay a branded 404                                                               | An honest 404 beats a soft-404 redirect to home                                                                                                                                                              | Opus plan                    |
 | Landline replaces the mobile on primary Call buttons. WhatsApp and the Footer mobile row keep the mobile                               | A landline has no WhatsApp, and the Footer lists both numbers. Supersedes the T4.3 decision "Call is the mobile"                                                                                             | Syd's request                |
-| "Shop (inactive)" is a non-clickable label with a "Coming soon" tag, not a page or a dropdown column                                   | The shop is Phase 8. This is the least that satisfies the request. Needs Syd's confirmation                                                                                                                  | Opus plan, default           |
-| Pages are indexable as soon as they go live, not `noindex` until Syd approves                                                          | Indexing is the point of the content, and the content standard keeps copy generic. Needs Syd's confirmation                                                                                                  | Opus plan, default           |
+| "Shop (inactive)" is a non-clickable label with a "Coming soon" tag, not a page or a dropdown column                                   | The shop is Phase 8. This is the least that satisfies the request. Confirmed by Haider 2026-11-07                                                                                                            | Opus plan, default           |
+| Pages are indexable as soon as they go live, not `noindex` until Syd approves                                                          | Indexing is the point of the content, and the content standard keeps copy generic. Confirmed by Haider 2026-11-07                                                                                            | Opus plan, default           |
 | AI copy follows a written standard with a Vitest guard, and a review tracker. Emissions pages go last and use lawful-work wording only | A real local business: invented prices, accreditations, guarantees or emissions-removal wording are a legal and trust risk. The standard is in `tickets/T6.6.md`                                             | Opus plan                    |
 | Mechanical / Customisation entries go last in the array                                                                                | Dropdown column order is the order of first appearance in the data                                                                                                                                           | Opus plan                    |
 
@@ -40,9 +40,11 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 - `next.config.ts` may not resolve the `@/` alias, so `lib/redirects.ts` is plain data with no icon imports
 - The new category has no hero photo. The four existing hero images are about 20.8 MB together, so the new one must be compressed (about 500 KB or less)
 
-## Waiting on Syd
+## Open questions
 
-See "Waiting on Syd" in `status.md`: the Shop meaning, landline use, the emissions services, indexing, the unsourced live claims, a Mechanical hero photo, and his review of all AI copy. Each question has a default, so work is not blocked.
+Haider answered on 2026-11-07 (Syd can still correct): the Shop label as planned (T6.4), the landline answered in hours and also on service-page "Call now" (T6.1), emissions wording at the default (T6.12), AI pages indexable on going live, and Haider picks the Mechanical hero photo (T6.5).
+
+Still waiting on Syd, see `status.md`: the unsourced claims already live on the homepage and in Scorpion Trackers (T6.13), what the emissions services involve (not blocking), and his review of all AI copy (T6.14).
 
 ## Follow-ups (not in any T6 ticket)
 

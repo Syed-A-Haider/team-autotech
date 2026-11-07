@@ -120,14 +120,12 @@ Technical:
 - Placeholder FAQs on the three live pages (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series), drafted from each page's copy and generic enquiry answers. No source FAQs exist. Syd reviews and edits them in `lib/services.ts` (`faq` sections). Remove any he rejects
 - The 12 coming-soon services have no source copy, and nine new ones are coming (T6.5). Syd chose AI-drafted copy for all of them (2026-11-07), written in T6.7 to T6.12 to `docs/content/_standard.md` and tracked in `docs/content/_review.md` (both created in T6.6) until he reviews it. Until each batch lands, the Homepage Popular grid has 4 of 6 cards (BMW Programming, Dashcam, Scorpion Trackers, DPF / EGR) leading to coming-soon pages. `docs/content/_requests.md` is superseded and T6.6 deletes it
 
-Waiting on Syd (each question has a default, so work is not blocked):
+Decided by Haider on 2026-11-07 (the T6 plan's questions, Syd can still correct them): "Shop (inactive)" is a non-clickable "Shop, coming soon" label (T6.4). The landline is answered in opening hours and the service-page "Call now" also dials it (T6.1). The emissions services use the default wording only (diagnosis, cleaning and repair, T6.12). AI pages are indexable as soon as they go live. Haider picks the Mechanical / Customisation hero photo himself (T6.5).
 
-- What "Shop (inactive)" means. Default: a non-clickable "Shop, coming soon" label in the top nav (T6.4)
-- Is the landline answered during opening hours? Should the service-page "Call now" button also dial it? Default: yes to both (T6.1)
-- What do DPF / EGR, AdBlue and Engine Management Error Code Delete involve, and does any of it remove or disable equipment? Default: copy for diagnosis, cleaning and repair only, written last (T6.12)
-- Should AI pages be indexable as soon as they go live, or `noindex` until he approves? Default: indexable
-- Can he confirm "Authorised Ghost Immobiliser II Installer", "backed by our guarantee", "family-run" and "insurance-approved" trackers? Default: keep only what he confirms (T6.13)
-- A workshop photo for the Mechanical / Customisation hero? Default: a licensed, compressed stock photo, swapped when he sends one (T6.5)
+Waiting on Syd:
+
+- What do DPF / EGR, AdBlue and Engine Management Error Code Delete involve, and does any of it remove or disable equipment? Not blocking: T6.12 uses lawful-work wording only until he says otherwise
+- Can he confirm the unsourced claims already live: "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools - not the cheap clones" (`AboutSnippet`), and "Insurance-approved GPS tracking systems" (Scorpion Trackers `shortDescription`)? Default: keep only what he confirms, the rest becomes generic wording (T6.13)
 - His review of all AI-drafted and placeholder copy (T6.14), tracked in `docs/content/_review.md`: the three live pages and their placeholder FAQs, About, the homepage claims and every new page
 - Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
 - Final logo file. `public/images/logo.jpg` is a placeholder: it has a black bar behind it that must be removed. The final logo unblocks the favicon and confirms the real accent hex

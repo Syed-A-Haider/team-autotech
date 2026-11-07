@@ -34,7 +34,7 @@ No power, torque or shift-time figures, no "warranty-safe". A general line advis
 
 ## T6.12 - Remap / Tuning, emissions and diagnostics (DPF / EGR Solutions, AdBlue Solutions, Engine Management Error Code Delete)
 
-Highest risk, so it goes last. Wording only for lawful work (diagnosis, cleaning, regeneration, sensor and fault repair, software fault-finding). No removal, delete or "MOT pass" wording unless Syd states otherwise in writing. Depends on Syd's answer to the emissions question in `status.md`. This is the last coming-soon batch, so it also replaces `comingSoonSlug` and the coming-soon entry in `motionServiceSlugs` in `testData.ts` (needs Haider's approval), and `testing.md` records that `ComingSoonPanel` is then covered by Vitest only.
+Highest risk, so it goes last. Wording only for lawful work (diagnosis, cleaning, regeneration, sensor and fault repair, software fault-finding). No removal, delete or "MOT pass" wording unless Syd states otherwise in writing. Haider chose the default (2026-11-07): lawful-work wording only, so this no longer waits on Syd. If Syd later says otherwise, change it in his review pass. This is the last coming-soon batch, so it also replaces `comingSoonSlug` and the coming-soon entry in `motionServiceSlugs` in `testData.ts` (needs Haider's approval), and `testing.md` records that `ComingSoonPanel` is then covered by Vitest only.
 
 ## T6.13 - Live-copy claims sweep (homepage and About)
 
