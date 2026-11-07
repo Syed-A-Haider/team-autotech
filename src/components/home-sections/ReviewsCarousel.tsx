@@ -3,13 +3,18 @@
 
 import {
   Children,
+  useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
+  useSyncExternalStore,
   type KeyboardEvent,
   type ReactNode,
+  type RefObject,
   type WheelEvent,
 } from 'react';
+import { flushSync } from 'react-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -19,6 +24,19 @@ export const PREV_REVIEW_LABEL = 'Previous review';
 export const NEXT_REVIEW_LABEL = 'Next review';
 
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+const FIRST_SLIDE = 0;
+// Milliseconds with no scroll event before a scroll counts as finished, for
+// browsers without the scrollend event
+const SETTLE_DELAY = 150;
+// With fewer slides there is nothing to wrap past
+const MIN_WRAP_SLIDES = 3;
+
+// The server has no script, so it renders the slides in plain order and the
+// browser takes over after hydration (see the wrap-around note in the component)
+const subscribeToNothing = () => () => {};
+const getIsClient = () => true;
+const getIsServer = () => false;
 
 // --slide and --gap are read by the track, the spacers and the slides. From lg
 // the slide is a fixed 56rem, so the centre card is never under 896px
@@ -38,13 +56,18 @@ const TRACK_STYLES =
 
 // Empty spaces at both ends, each half the free room minus the gap, so the first
 // and last card can sit in the middle without any scrolling
+// order-first and order-last keep them at the two ends of the reordered slides
 const SPACER_STYLES =
-  'before:w-[calc((100%_-_var(--slide))_/_2_-_var(--gap))] before:shrink-0 after:w-[calc((100%_-_var(--slide))_/_2_-_var(--gap))] after:shrink-0';
+  'before:order-first before:w-[calc((100%_-_var(--slide))_/_2_-_var(--gap))] before:shrink-0 after:order-last after:w-[calc((100%_-_var(--slide))_/_2_-_var(--gap))] after:shrink-0';
 
-// Neighbours are clickable (aria-hidden is how they are told apart). No press:
-// the card gliding to the centre is the feedback
-const SLIDE_STYLES =
-  'w-(--slide) shrink-0 snap-center aria-hidden:cursor-pointer';
+// Neighbours are clickable (aria-hidden is how they are told apart) and a faint
+// tint on hover says so. It is a colour on an overlay the size of the card and
+// not opacity, which the faded-element guard would flag. No press: the card
+// gliding to the centre is the feedback
+const SLIDE_STYLES = clsx(
+  'relative w-(--slide) shrink-0 snap-center aria-hidden:cursor-pointer',
+  'aria-hidden:after:absolute aria-hidden:after:inset-0 aria-hidden:after:rounded-lg aria-hidden:after:bg-transparent aria-hidden:hover:after:bg-foreground/8 motion-safe:aria-hidden:after:transition-colors',
+);
 
 // 44px, 48px from lg. On a phone the arrows sit in the row under the track. From
 // lg they move onto the track edges, centred on the track (z-10 keeps them
@@ -81,6 +104,29 @@ function nearestSlideIndex(track: HTMLElement) {
   return nearest;
 }
 
+// The scrollLeft that puts a slide in the middle of what the track shows
+function centredScrollLeft(track: HTMLElement, index: number) {
+  return (
+    slideMiddle(track.children[index] as HTMLElement) - track.clientWidth / 2
+  );
+}
+
+// Scrolls a slide to the middle of the track. The target lock stops the slides
+// passed on the way from counting as current
+function scrollToSlide(
+  track: HTMLElement,
+  index: number,
+  target: RefObject<number | null>,
+) {
+  target.current = nearestSlideIndex(track) === index ? null : index;
+  track.scrollTo({
+    left: centredScrollLeft(track, index),
+    behavior: window.matchMedia(REDUCED_MOTION_QUERY).matches
+      ? 'auto'
+      : 'smooth',
+  });
+}
+
 // The slide a key points at, or null for any other key
 function keyTarget(key: string, current: number, count: number) {
   if (key === 'ArrowLeft') return current - 1;
@@ -95,32 +141,104 @@ interface ReviewsCarouselProps {
 }
 
 export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(FIRST_SLIDE);
+  // Wrap-around: a scroll track has hard ends, so the slides are laid out in a
+  // window with CSS order. The anchor is the slide in the middle slot, so there
+  // is always a real card on both sides of it. When a scroll settles on another
+  // slide the window turns around that one and the scroll follows by the same
+  // amount, so the view does not move. Nothing is cloned. The DOM order, and so
+  // the reading order, never changes
+  const [anchor, setAnchor] = useState(FIRST_SLIDE);
+  const isClient = useSyncExternalStore(
+    subscribeToNothing,
+    getIsClient,
+    getIsServer,
+  );
   const trackRef = useRef<HTMLDivElement>(null);
   // The pending animation frame, so a burst of scroll events is read once
   const frameRef = useRef<number | null>(null);
   // While a button or key scrolls to a slide, the slide it is heading for.
   // Until the scroll gets there, slides passed on the way do not count
   const targetRef = useRef<number | null>(null);
+  // The pending check that a scroll has finished
+  const settleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // True while a finger is on the track
+  const touchingRef = useRef(false);
+  // A press can come before the window is on: React replays a click made during
+  // hydration ahead of the render that turns it on. The slide it chose waits here
+  const pendingRef = useRef<number | null>(null);
   const trackId = useId();
   const slides = Children.toArray(children);
   const count = slides.length;
+  const middleSlot = Math.floor(count / 2);
+  const isWindowed = isClient && count >= MIN_WRAP_SLIDES;
+  const waitsForWindow = !isClient && count >= MIN_WRAP_SLIDES;
+
+  // The first slide starts in the middle slot, which is not scroll position 0.
+  // Then any press that was waiting for the window gets its scroll
+  useLayoutEffect(() => {
+    const track = trackRef.current;
+    if (!isWindowed || !track) return;
+    track.scrollLeft = centredScrollLeft(track, FIRST_SLIDE);
+    if (pendingRef.current === null) return;
+    scrollToSlide(track, pendingRef.current, targetRef);
+    pendingRef.current = null;
+  }, [isWindowed]);
+
+  useEffect(() => clearSettleTimer, []);
+
+  function clearSettleTimer() {
+    if (settleTimerRef.current === null) return;
+    clearTimeout(settleTimerRef.current);
+    settleTimerRef.current = null;
+  }
+
+  // Turns the window around a slide. Every slide in view moves by the same
+  // amount, so the scroll position moves with them. The new layout is needed
+  // to measure that, so React is made to apply it now
+  function turnWindowTo(track: HTMLElement, index: number) {
+    if (!isWindowed) return;
+    const slide = track.children[index] as HTMLElement;
+    const slideBefore = slide.offsetLeft;
+    const scrollBefore = track.scrollLeft;
+    flushSync(() => setAnchor(index));
+    // Set outright, not added on. After a layout change the browser may already
+    // have re-snapped to the slide, and reading scrollLeft would include that
+    track.scrollLeft = scrollBefore + slide.offsetLeft - slideBefore;
+  }
+
+  // The scroll has finished. Not while a finger is on the track (moving the
+  // layout under it would break the swipe) or a button scroll is still heading
+  // for its slide
+  function settleWindow() {
+    const track = trackRef.current;
+    if (!track || touchingRef.current || targetRef.current !== null) return;
+    // Only now, so a scrollend that comes before the frame that releases the
+    // target does not cancel the check that follows it
+    clearSettleTimer();
+    turnWindowTo(track, nearestSlideIndex(track));
+  }
+
+  function scheduleSettle() {
+    clearSettleTimer();
+    settleTimerRef.current = setTimeout(settleWindow, SETTLE_DELAY);
+  }
 
   // Wraps in both directions
   function goTo(index: number) {
     const next = (index + count) % count;
     setCurrentIndex(next);
+    if (waitsForWindow) {
+      pendingRef.current = next;
+      return;
+    }
 
     const track = trackRef.current;
     if (!track) return;
-    targetRef.current = nearestSlideIndex(track) === next ? null : next;
-    const slide = track.children[next] as HTMLElement;
-    track.scrollTo({
-      left: slideMiddle(slide) - track.clientWidth / 2,
-      behavior: window.matchMedia(REDUCED_MOTION_QUERY).matches
-        ? 'auto'
-        : 'smooth',
-    });
+    // Turn the window around the slide in view first, so the target is never
+    // more than half a window away, even when presses come before a scroll ended
+    turnWindowTo(track, nearestSlideIndex(track));
+    scrollToSlide(track, next, targetRef);
   }
 
   function syncIndexFromScroll() {
@@ -135,8 +253,19 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
   }
 
   function handleScroll() {
+    scheduleSettle();
     if (frameRef.current !== null) return;
     frameRef.current = requestAnimationFrame(syncIndexFromScroll);
+  }
+
+  function handleTouchStart() {
+    touchingRef.current = true;
+  }
+
+  // The scroll may already have stopped, so there is no event to wait for
+  function handleTouchEnd() {
+    touchingRef.current = false;
+    scheduleSettle();
   }
 
   // The visitor took over: follow their scroll again
@@ -183,9 +312,13 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
         aria-live="polite"
         tabIndex={0}
         onScroll={handleScroll}
+        onScrollEnd={settleWindow}
         onKeyDown={handleKeyDown}
         onPointerDown={releaseTarget}
         onWheel={handleWheel}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
         className={clsx(TRACK_STYLES, SPACER_STYLES)}
       >
         {slides.map((slide, index) => (
@@ -195,6 +328,11 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${count}`}
             aria-hidden={index !== currentIndex}
+            style={
+              isWindowed
+                ? { order: (index - anchor + middleSlot + count) % count }
+                : undefined
+            }
             onClick={() => handleSlideClick(index)}
             className={SLIDE_STYLES}
           >

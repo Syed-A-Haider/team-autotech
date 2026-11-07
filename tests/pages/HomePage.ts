@@ -210,4 +210,84 @@ export class HomePage {
         }),
     );
   }
+
+  // The carousel keeps a window of slides around the current one (CSS order) and
+  // turns it a moment after a scroll stops, so a card always has a neighbour on
+  // both sides. True once the current review sits in the middle of that window
+  async currentReviewIsInMiddleSlot(): Promise<boolean> {
+    return this.reviewSlides.evaluateAll((slides) => {
+      const current = slides.find(
+        (slide) => slide.getAttribute('aria-hidden') === 'false',
+      );
+      return (
+        current !== undefined &&
+        Number((current as HTMLElement).style.order) ===
+          Math.floor(slides.length / 2)
+      );
+    });
+  }
+
+  // Resolves once the carousel has its wrap-around window, which it gets when
+  // the page hydrates. Before that it is a plain scroller with hard ends
+  async waitForReviewsWindow(): Promise<void> {
+    await this.reviewsTrack.evaluate(
+      (track) =>
+        new Promise<void>((resolve) => {
+          const check = () => {
+            const ready = Array.from(track.children).every(
+              (slide) => (slide as HTMLElement).style.order !== '',
+            );
+            if (ready) resolve();
+            else requestAnimationFrame(check);
+          };
+          check();
+        }),
+    );
+  }
+
+  // A swipe over the track: one card's width sideways. -1 swipes back (towards
+  // the previous review). By default it is a sideways wheel, which is what a
+  // trackpad swipe sends. Two wheel swipes in quick succession can be read by
+  // WebKit as one gesture, so a test that chains swipes asks for 'scroll': the
+  // track moved the same distance, with no input device involved
+  async swipeReviews(
+    direction: -1 | 1,
+    input: 'wheel' | 'scroll' = 'wheel',
+  ): Promise<void> {
+    await this.waitForReviewsWindow();
+    const step = await this.reviewsTrack.evaluate((track) => {
+      const slide = track.children[0] as HTMLElement;
+      const gap = parseFloat(getComputedStyle(track).columnGap);
+      return slide.offsetWidth + gap;
+    });
+    if (input === 'scroll') {
+      await this.reviewsTrack.evaluate(
+        (track, distance) =>
+          track.scrollTo({
+            left: track.scrollLeft + distance,
+            behavior: 'instant',
+          }),
+        direction * step,
+      );
+      return;
+    }
+    await this.reviewsTrack.hover();
+    await this.page.mouse.wheel(direction * step, 0);
+  }
+
+  // How opaque the colour laid over a review is, 0 to 1. The hover tint on the
+  // neighbouring reviews is an ::after overlay
+  async reviewTintAlpha(index: number): Promise<number> {
+    return this.reviewSlides.nth(index).evaluate((slide) => {
+      const colour = getComputedStyle(slide, '::after').backgroundColor;
+      if (colour === 'transparent') return 0;
+      const slashAlpha = colour.match(/\/\s*([\d.]+%?)\s*\)/);
+      if (slashAlpha) {
+        const value = parseFloat(slashAlpha[1]);
+        return slashAlpha[1].endsWith('%') ? value / 100 : value;
+      }
+      const commaAlpha = colour.match(/rgba\(.*,\s*([\d.]+)\)/);
+      return commaAlpha ? parseFloat(commaAlpha[1]) : 1;
+    });
+  }
 }

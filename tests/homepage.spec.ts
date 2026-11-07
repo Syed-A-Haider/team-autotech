@@ -208,6 +208,116 @@ function defineReviewNavigationTests() {
     await homePage.waitForReviewsToSettle();
     expect(await homePage.centredReviewIndex()).toBe(1);
   });
+
+  // Wrap-around: both ends join up, by button, by click and by swipe
+  test('The previous button on the first review wraps to the last', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    const last = (await homePage.reviewSlides.count()) - 1;
+
+    // Act
+    await homePage.reviewsPrevButton.click();
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+
+  test('The next button on the last review wraps to the first', async ({
+    homePage,
+  }) => {
+    // Arrange - on the last review, once the window has turned around it
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.reviewsPrevButton.click();
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+
+    // Act
+    await homePage.reviewsNextButton.click();
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(0);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(0);
+  });
+
+  test('Clicking the review beside the first on its left centres the last', async ({
+    homePage,
+  }) => {
+    // Arrange - once the window is on, the last review is beside the first
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.waitForReviewsWindow();
+    const last = (await homePage.reviewSlides.count()) - 1;
+    const lastSlide = homePage.reviewSlides.nth(last);
+    const { width } = await homePage.reviewSlideBox(last);
+
+    // Act - near the slide's right edge, the part that shows beside the first
+    await lastSlide.click({ position: { x: width - 8, y: 100 } });
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+
+  test('Swiping back from the first review lands on the last', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    const last = (await homePage.reviewSlides.count()) - 1;
+
+    // Act
+    await homePage.swipeReviews(-1);
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+
+  test('Swiping forward from the last review lands on the first', async ({
+    homePage,
+  }) => {
+    // Arrange - on the last review, once the window has turned around it
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.reviewsPrevButton.click();
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+
+    // Act
+    await homePage.swipeReviews(1);
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(0);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(0);
+  });
+
+  test('The window turns after a swipe, so the next swipe has a neighbour too', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+
+    // Act - swipe forward, let it land, then swipe back past the first
+    await homePage.swipeReviews(1, 'scroll');
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+    await homePage.swipeReviews(-1, 'scroll');
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+    await homePage.swipeReviews(-1, 'scroll');
+
+    // Assert
+    const last = (await homePage.reviewSlides.count()) - 1;
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
 }
 
 test.describe(
@@ -231,6 +341,38 @@ test.describe(
         }) => {
           // Assert - its left edge is inside the window
           expect((await homePage.reviewSlideBox(1)).peek).toBeGreaterThan(0);
+        });
+
+        test('A neighbouring review tints faintly on hover, the centre one does not', async ({
+          homePage,
+        }) => {
+          // Arrange
+          await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+          await homePage.waitForReviewsWindow();
+          const last = (await homePage.reviewSlides.count()) - 1;
+          const { width } = await homePage.reviewSlideBox(last);
+          expect(await homePage.reviewTintAlpha(1)).toBe(0);
+
+          // Act - over each side neighbour, at the part that shows
+          await homePage.reviewSlides
+            .nth(1)
+            .hover({ position: { x: 8, y: 100 } });
+
+          // Assert - a faint wash, nowhere near opaque. The centre card has none
+          await expect
+            .poll(() => homePage.reviewTintAlpha(1))
+            .toBeGreaterThan(0);
+          expect(await homePage.reviewTintAlpha(1)).toBeLessThan(0.2);
+          expect(await homePage.reviewTintAlpha(0)).toBe(0);
+
+          await homePage.reviewSlides
+            .nth(last)
+            .hover({ position: { x: width - 8, y: 100 } });
+          await expect
+            .poll(() => homePage.reviewTintAlpha(last))
+            .toBeGreaterThan(0);
+          // The first neighbour's tint fades out as the pointer leaves it
+          await expect.poll(() => homePage.reviewTintAlpha(1)).toBe(0);
         });
       });
     }
@@ -267,6 +409,32 @@ test.describe(
 
     test.describe('phone width', () => {
       test.use({ viewport: viewports.mobile });
+
+      test('A press made as the page loads still lands', async ({
+        homePage,
+      }) => {
+        // React replays a click made while the page hydrates, a moment before
+        // the carousel switches to its wrap-around layout. It is a race, so a
+        // few early clicks. Each one used to leave the last review current with
+        // the first still on screen
+        const attempts = 4;
+        for (let attempt = 0; attempt < attempts; attempt++) {
+          // Arrange - the click comes as soon as the button can take it
+          await homePage.page.goto(routes.home, { waitUntil: 'commit' });
+
+          // Act
+          await homePage.reviewsPrevButton.click();
+
+          // Assert
+          const last = (await homePage.reviewSlides.count()) - 1;
+          await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+          await homePage.waitForReviewsToSettle();
+          expect(await homePage.centredReviewIndex()).toBe(last);
+          await expect
+            .poll(() => homePage.currentReviewIsInMiddleSlot())
+            .toBe(true);
+        }
+      });
 
       test('The arrows sit in the row under the track', async ({
         homePage,

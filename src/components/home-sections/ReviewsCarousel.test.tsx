@@ -6,7 +6,8 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { renderToString } from 'react-dom/server';
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
 import {
   NEXT_REVIEW_LABEL,
   PREV_REVIEW_LABEL,
@@ -315,5 +316,338 @@ describe('ReviewsCarousel - controls', () => {
       'true',
       'false',
     ]);
+  });
+});
+
+// Wrap-around. The slides are laid out with CSS order so the current one is
+// always in the middle slot of the window, with a real neighbour on each side.
+// jsdom has no layout, so these tests fake one that follows the order: the slide
+// in slot n starts at n * 400. With 5 slides the middle slot is 2
+const FIVE = 5;
+const MIDDLE_SLOT = 2;
+// Longer than the delay after the last scroll event before the window turns
+const SETTLE_WAIT = 300;
+
+function renderFive() {
+  return render(
+    <ReviewsCarousel>
+      {Array.from({ length: FIVE }, (_, i) => (
+        <div key={i}>Slide {i + 1}</div>
+      ))}
+    </ReviewsCarousel>,
+  );
+}
+
+function slotOf(slide: HTMLElement) {
+  if (slide.style.order !== '') return Number(slide.style.order);
+  return Array.from(slide.parentElement!.children).indexOf(slide);
+}
+
+// jsdom's own scrollLeft, taken before any test spies on it
+const scrollLeftProperty = Object.getOwnPropertyDescriptor(
+  Element.prototype,
+  'scrollLeft',
+)!;
+
+// Installed before render, so the first layout effect sees it. With resnaps, the
+// fake browser does what real ones do when the layout changes under a snapped
+// scroller: the first read that forces layout (of a position or of scrollLeft
+// itself) finds the scroller already moved to follow the slide it was snapped to
+function fakeOrderedLayout({ resnaps = false } = {}) {
+  const seenSlot = new WeakMap<HTMLElement, number>();
+
+  function followSnappedSlide(track: HTMLElement) {
+    const slides = Array.from(track.children).filter(
+      (child) => child.getAttribute('role') === 'group',
+    ) as HTMLElement[];
+    const left = scrollLeftProperty.get!.call(track) as number;
+    const viewMiddle = left + TRACK_WIDTH / 2;
+    const known = slides.every((slide) => seenSlot.has(slide));
+    if (known) {
+      // The slide whose old place was in the middle of the view
+      const snapped = slides.reduce((nearest, slide) => {
+        const middle = (slot: HTMLElement) =>
+          seenSlot.get(slot)! * SLIDE_STEP + SLIDE_WIDTH / 2;
+        return Math.abs(middle(slide) - viewMiddle) <
+          Math.abs(middle(nearest) - viewMiddle)
+          ? slide
+          : nearest;
+      });
+      const shift = (slotOf(snapped) - seenSlot.get(snapped)!) * SLIDE_STEP;
+      if (shift !== 0) scrollLeftProperty.set!.call(track, left + shift);
+    }
+    slides.forEach((slide) => seenSlot.set(slide, slotOf(slide)));
+  }
+
+  vi.spyOn(Element.prototype, 'scrollLeft', 'get').mockImplementation(function (
+    this: Element,
+  ) {
+    if (resnaps && this.getAttribute('aria-label') === REVIEWS_TRACK_LABEL) {
+      followSnappedSlide(this as HTMLElement);
+    }
+    return scrollLeftProperty.get!.call(this) as number;
+  });
+  vi.spyOn(HTMLElement.prototype, 'offsetLeft', 'get').mockImplementation(
+    function (this: HTMLElement) {
+      if (this.getAttribute('role') !== 'group') return 0;
+      if (resnaps) followSnappedSlide(this.parentElement!);
+      return slotOf(this) * SLIDE_STEP;
+    },
+  );
+  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(
+    function (this: HTMLElement) {
+      return this.getAttribute('role') === 'group' ? SLIDE_WIDTH : 0;
+    },
+  );
+  vi.spyOn(Element.prototype, 'clientWidth', 'get').mockImplementation(
+    function (this: Element) {
+      return this.getAttribute('aria-label') === REVIEWS_TRACK_LABEL
+        ? TRACK_WIDTH
+        : 0;
+    },
+  );
+}
+
+// scrollLeft that puts the given slot in the middle of the track
+function centreOfSlot(slot: number) {
+  return slot * SLIDE_STEP + (SLIDE_WIDTH - TRACK_WIDTH) / 2;
+}
+
+function swipeToSlot(slot: number) {
+  getTrack().scrollLeft = centreOfSlot(slot);
+  fireEvent.scroll(getTrack());
+}
+
+// Lets the animation frame and the settle delay run
+function settle() {
+  act(() => {
+    vi.advanceTimersByTime(SETTLE_WAIT);
+  });
+}
+
+function slideOrders() {
+  return getSlides().map((slide) => slide.style.order);
+}
+
+// Orders when slide n is the one in the middle
+function ordersAround(anchor: number) {
+  return Array.from({ length: FIVE }, (_, i) =>
+    String((i - anchor + MIDDLE_SLOT + FIVE) % FIVE),
+  );
+}
+
+function lastScrollTarget() {
+  return vi.mocked(Element.prototype.scrollTo).mock.lastCall?.[0];
+}
+
+describe('ReviewsCarousel - wrap-around', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    fakeOrderedLayout();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  describe('the window', () => {
+    it('Puts the current slide in the middle, with a neighbour on each side', () => {
+      renderFive();
+      expect(slideOrders()).toEqual(ordersAround(0));
+    });
+
+    it('Keeps the slides in their reading order in the page', () => {
+      renderFive();
+      expect(getSlides().map((s) => s.getAttribute('aria-label'))).toEqual([
+        '1 of 5',
+        '2 of 5',
+        '3 of 5',
+        '4 of 5',
+        '5 of 5',
+      ]);
+    });
+
+    it('Starts with the first slide in the middle of the track', () => {
+      renderFive();
+      expect(getTrack().scrollLeft).toBe(centreOfSlot(MIDDLE_SLOT));
+    });
+
+    it('Renders the slides in their natural order on the server', () => {
+      const html = renderToString(
+        <ReviewsCarousel>
+          {Array.from({ length: FIVE }, (_, i) => (
+            <div key={i}>Slide {i + 1}</div>
+          ))}
+        </ReviewsCarousel>,
+      );
+      expect(html).not.toMatch(/style="[^"]*order:/);
+    });
+
+    it('Does not reorder fewer than three slides, there is nothing to wrap past', () => {
+      render(
+        <ReviewsCarousel>
+          <div>Slide 1</div>
+          <div>Slide 2</div>
+        </ReviewsCarousel>,
+      );
+      expect(slideOrders()).toEqual(['', '']);
+    });
+  });
+
+  describe('swiping', () => {
+    it('Swiping left from the first slide lands on the last', () => {
+      renderFive();
+      swipeToSlot(MIDDLE_SLOT - 1);
+      settle();
+      expect(isCurrent(getSlides()[FIVE - 1])).toBe(true);
+    });
+
+    it('Swiping right from the last slide lands on the first', () => {
+      renderFive();
+      fireEvent.keyDown(getTrack(), { key: 'End' });
+      swipeToSlot(MIDDLE_SLOT - 1);
+      settle();
+      expect(isCurrent(getSlides()[FIVE - 1])).toBe(true);
+
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      expect(isCurrent(getSlides()[0])).toBe(true);
+    });
+
+    it('Turns the window around the new slide once the scroll settles', () => {
+      renderFive();
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      expect(slideOrders()).toEqual(ordersAround(1));
+    });
+
+    it('Keeps the view where it was when the window turns', () => {
+      renderFive();
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      // Slide 1 moved from slot 3 to the middle slot, and the scroll followed
+      expect(getTrack().scrollLeft).toBe(centreOfSlot(MIDDLE_SLOT));
+    });
+
+    it('Keeps the view where it was when the browser re-snaps by itself', () => {
+      fakeOrderedLayout({ resnaps: true });
+      renderFive();
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      expect(getTrack().scrollLeft).toBe(centreOfSlot(MIDDLE_SLOT));
+    });
+
+    it('Turns the window as soon as the browser says the scroll ended', () => {
+      renderFive();
+      swipeToSlot(MIDDLE_SLOT + 1);
+      fireEvent(getTrack(), new Event('scrollend'));
+      expect(slideOrders()).toEqual(ordersAround(1));
+    });
+
+    it('Still turns the window when scrollend comes before the frame that releases a button scroll', () => {
+      renderFive();
+      // The scroll lands on its target and scrollend fires at once, before the
+      // animation frame that notices the arrival has run
+      fireEvent.click(screen.getByLabelText('Show review 2 of 5'));
+      swipeToSlot(MIDDLE_SLOT + 1);
+      fireEvent(getTrack(), new Event('scrollend'));
+      expect(slideOrders()).toEqual(ordersAround(0));
+
+      settle();
+      expect(slideOrders()).toEqual(ordersAround(1));
+    });
+
+    it('Does not turn the window while a finger is on the track', () => {
+      renderFive();
+      fireEvent.touchStart(getTrack());
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      expect(slideOrders()).toEqual(ordersAround(0));
+    });
+
+    it('Turns the window when the finger lifts after a pause', () => {
+      renderFive();
+      fireEvent.touchStart(getTrack());
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      fireEvent.touchEnd(getTrack());
+      settle();
+      expect(slideOrders()).toEqual(ordersAround(1));
+    });
+
+    it('Does not turn the window while a button scroll is still heading for its slide', () => {
+      renderFive();
+      fireEvent.click(screen.getByLabelText('Show review 3 of 5'));
+      // Passes slide 1 on the way and pauses there
+      swipeToSlot(MIDDLE_SLOT + 1);
+      settle();
+      expect(slideOrders()).toEqual(ordersAround(0));
+    });
+  });
+
+  describe('pressing', () => {
+    it('Previous on the first slide travels one card, not four', () => {
+      renderFive();
+      fireEvent.click(screen.getByLabelText(PREV_REVIEW_LABEL));
+      expect(isCurrent(getSlides()[FIVE - 1])).toBe(true);
+      // The last slide sits in the slot just left of the middle
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT - 1),
+        behavior: 'smooth',
+      });
+    });
+
+    it('Next on the last slide travels one card to the first', () => {
+      renderFive();
+      fireEvent.keyDown(getTrack(), { key: 'End' });
+      swipeToSlot(MIDDLE_SLOT - 1);
+      settle();
+      fireEvent.click(screen.getByLabelText(NEXT_REVIEW_LABEL));
+      expect(isCurrent(getSlides()[0])).toBe(true);
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT + 1),
+        behavior: 'smooth',
+      });
+    });
+
+    it('ArrowLeft on the first slide travels one card to the last', () => {
+      renderFive();
+      fireEvent.keyDown(getTrack(), { key: 'ArrowLeft' });
+      expect(isCurrent(getSlides()[FIVE - 1])).toBe(true);
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT - 1),
+        behavior: 'smooth',
+      });
+    });
+
+    it('Clicking the card left of the first slide centres the last', () => {
+      renderFive();
+      fireEvent.click(getSlides()[FIVE - 1]);
+      expect(isCurrent(getSlides()[FIVE - 1])).toBe(true);
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT - 1),
+        behavior: 'smooth',
+      });
+    });
+
+    it('Turns the window before a press that comes while the view has moved on', () => {
+      renderFive();
+      fireEvent.click(screen.getByLabelText(NEXT_REVIEW_LABEL));
+      // Arrives at slide 1 and the next press comes before the window turned
+      swipeToSlot(MIDDLE_SLOT + 1);
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+      fireEvent.click(screen.getByLabelText(NEXT_REVIEW_LABEL));
+
+      expect(slideOrders()).toEqual(ordersAround(1));
+      expect(getTrack().scrollLeft).toBe(centreOfSlot(MIDDLE_SLOT));
+      // Slide 2 is now one slot to the right, so the press goes one card on
+      expect(lastScrollTarget()).toEqual({
+        left: centreOfSlot(MIDDLE_SLOT + 1),
+        behavior: 'smooth',
+      });
+    });
   });
 });
