@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import clsx from 'clsx';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import { SiGoogle } from 'react-icons/si';
 import type { Review } from '@/types/review';
@@ -6,16 +7,23 @@ import { getReviewInitials } from '@/lib/reviews';
 
 interface ReviewCardProps {
   review: Review;
+  className?: string;
 }
 
-export function ReviewCard({ review }: ReviewCardProps) {
+export function ReviewCard({ review, className }: ReviewCardProps) {
   const { author, rating, text, excerpt: exerpt, photoUrl } = review;
 
   return (
-    <div className="bg-surface border-border flex h-full flex-col gap-4 rounded-lg border-2 p-6 lg:gap-6 lg:p-10">
+    <div
+      className={clsx(
+        'bg-surface border-border flex h-full flex-col gap-4 rounded-lg border-2 p-6 lg:gap-6 lg:p-10',
+        className,
+      )}
+    >
       {/* Rating + Source */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-0.5">
+        {/* star-pop only does anything inside a carousel-depth slide */}
+        <div className="star-pop flex items-center gap-0.5">
           {/* Render the stars */}
           {Array.from({ length: 5 }, (_, i) =>
             i < rating ? (

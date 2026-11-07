@@ -11,6 +11,7 @@ import {
   useSyncExternalStore,
   type FocusEvent,
   type KeyboardEvent,
+  type PointerEvent,
   type ReactNode,
   type RefObject,
   type WheelEvent,
@@ -68,9 +69,10 @@ const SPACER_STYLES =
 // Neighbours are clickable (aria-hidden is how they are told apart) and a faint
 // tint on hover says so. It is a colour on an overlay the size of the card and
 // not opacity, which the faded-element guard would flag. No press: the card
-// gliding to the centre is the feedback
+// gliding to the centre is the feedback. carousel-depth (motion.css) scales,
+// dims and tilts the card and the tint, never the slide itself
 const SLIDE_STYLES = clsx(
-  'relative w-(--slide) shrink-0 snap-center aria-hidden:cursor-pointer',
+  'carousel-depth relative w-(--slide) shrink-0 snap-center aria-hidden:cursor-pointer',
   'aria-hidden:after:absolute aria-hidden:after:inset-0 aria-hidden:after:rounded-lg aria-hidden:after:bg-transparent aria-hidden:hover:after:bg-foreground/8 motion-safe:aria-hidden:after:transition-colors',
 );
 
@@ -90,9 +92,11 @@ const ROTATION_PLACEMENT =
   'col-span-full row-start-3 justify-self-center sm:col-span-1 sm:col-start-5 sm:row-start-2 sm:justify-self-start';
 
 // The button is the tap target (32x44). The visible dot is its ::before, so the
-// active one can be marked by size and colour without changing the layout
+// active one is stretched into a short bar by scaling it (never its width, which
+// would move the other dots). 2.5x of 8px (14px from lg) stays inside the tap
+// target. The pseudo-element has its own transition, press owns the button's
 const DOT_STYLES =
-  'press relative flex h-11 w-8 cursor-pointer items-center justify-center before:size-2 before:rounded-full before:bg-muted lg:h-12 lg:w-10 lg:before:size-3.5 aria-[current=true]:before:scale-125 aria-[current=true]:before:bg-accent focus-visible:outline-none focus-visible:before:ring-2 focus-visible:before:ring-accent focus-visible:before:ring-offset-2 focus-visible:before:ring-offset-background';
+  'press relative flex h-11 w-8 cursor-pointer items-center justify-center before:size-2 before:rounded-full before:bg-muted motion-safe:before:transition-[scale,background-color] motion-safe:before:duration-(--motion-base) motion-safe:before:ease-(--ease-settle) lg:h-12 lg:w-10 lg:before:size-3.5 aria-[current=true]:before:scale-x-250 aria-[current=true]:before:bg-accent focus-visible:outline-none focus-visible:before:ring-2 focus-visible:before:ring-accent focus-visible:before:ring-offset-2 focus-visible:before:ring-offset-background';
 
 // Where a slide's middle is along the track's full scrollable width
 function slideMiddle(slide: HTMLElement) {
@@ -278,6 +282,9 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
   }
 
   function handleScroll() {
+    // The track moving under a finger is the visitor swiping it. A scroll with
+    // no finger on it is autoplay's own, or a button's
+    if (touchingRef.current) autoplay.stop();
     scheduleSettle();
     if (frameRef.current !== null) return;
     frameRef.current = requestAnimationFrame(syncIndexFromScroll);
@@ -298,9 +305,13 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
     targetRef.current = null;
   }
 
-  function handlePointerDown() {
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
     releaseTarget();
-    autoplay.stop();
+    // A finger landing on the track is usually a thumb scrolling the page, as
+    // the carousel fills much of a phone's screen. Stopping then meant autoplay
+    // was already paused when the visitor reached it. For touch it stops once
+    // the track itself scrolls (handleScroll). A mouse press stops it at once
+    if (event.pointerType !== 'touch') autoplay.stop();
   }
 
   function handleWheel(event: WheelEvent<HTMLDivElement>) {

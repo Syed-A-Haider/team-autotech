@@ -28,6 +28,9 @@ interface MobileMenuProps {
 const topLevelLinkClasses =
   'border-border text-foreground border-b py-3 text-base font-medium';
 
+// A phone dials on a tap, so the number is only text from sm up (tablets)
+const CALL_NUMBER_STYLES = 'hidden sm:inline';
+
 // Inset ring: the category list is clipped by details-expand, which would cut an outline
 const categoryLinkClasses =
   'text-muted hover:text-foreground focus-visible:ring-accent flex items-center gap-2 py-2 text-sm focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none';
@@ -144,7 +147,10 @@ export function MobileMenu({ categories }: MobileMenuProps) {
             className="mt-6"
           >
             <Phone aria-hidden="true" size={16} />
-            Get a Quote: {PHONE_MOBILE}
+            <span>
+              Get a Quote
+              <span className={CALL_NUMBER_STYLES}>: {PHONE_MOBILE}</span>
+            </span>
           </LinkButton>
         </nav>
       </div>

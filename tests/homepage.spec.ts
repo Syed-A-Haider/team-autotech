@@ -1,13 +1,19 @@
 import { whyChooseUsItems } from '@/components/home-sections/WhyChooseUsSection';
 import { AUTOPLAY_INTERVAL_MS } from '@/components/home-sections/ReviewsCarousel';
-import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
+import {
+  MAPS_DIRECTIONS_LINK,
+  PHONE_MOBILE,
+  siteConfig,
+} from '@/lib/constants';
 import { test, expect } from './fixtures';
 import type { HomePage } from './pages/HomePage';
 import {
+  callButtonLabel,
   htmlLang,
   pageTitle,
   reviewCardMinWidth,
   routes,
+  tabletViewport,
   viewports,
 } from './config/testData';
 
@@ -138,6 +144,52 @@ test.describe(
 
       // Assert
       await expect(homePage.menuToggleButton).toBeHidden();
+    });
+  },
+);
+
+// The hero call button is a tel: link, so a phone dials on a tap and has no use
+// for the number. From sm it is shown, as on the Call button in ContactLinks.
+// Visible text (innerText) is read from the browser, so CSS decides
+test.describe(
+  'Homepage - hero call button',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    test.describe('phone width', () => {
+      test.use({ viewport: viewports.mobile });
+
+      test('Shows no phone number, a tap dials', async ({ homePage }) => {
+        // Assert - the fixture has loaded the page at this width
+        await expect(homePage.heroCallLink).toBeVisible();
+        await expect(homePage.heroCallLink).toHaveText(callButtonLabel, {
+          useInnerText: true,
+        });
+      });
+
+      test('The open menu call button shows no phone number either', async ({
+        homePage,
+      }) => {
+        // Act
+        await homePage.menuToggleButton.click();
+
+        // Assert
+        await expect(homePage.mobileMenuCallLink).toBeVisible();
+        await expect(homePage.mobileMenuCallLink).toHaveText(callButtonLabel, {
+          useInnerText: true,
+        });
+      });
+    });
+
+    test.describe('tablet width', () => {
+      test.use({ viewport: tabletViewport });
+
+      test('Shows the phone number', async ({ homePage }) => {
+        // Assert
+        await expect(homePage.heroCallLink).toBeVisible();
+        await expect(homePage.heroCallLink).toContainText(PHONE_MOBILE, {
+          useInnerText: true,
+        });
+      });
     });
   },
 );
@@ -615,6 +667,59 @@ test.describe(
         await expect(homePage.reviewsPauseButton).toHaveCount(0);
         await expect(homePage.reviewsPlayButton).toHaveCount(0);
       });
+    });
+  },
+);
+
+// A thumb scrolling the page lands on the carousel, because it fills much of a
+// phone's screen. That must not stop autoplay (it did, so on a phone the carousel
+// was often already paused when the visitor reached it). A swipe of the track
+// itself is use and does stop it. Real touch events go through the browser's
+// debugging protocol, which only Chromium has
+test.describe(
+  'Homepage - reviews autoplay, finger',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    test.use({ viewport: viewports.mobile, hasTouch: true, isMobile: true });
+    test.skip(
+      ({ browserName }) => browserName !== 'chromium',
+      'Needs real touch events (CDP)',
+    );
+
+    async function showReviewsPlaying(homePage: HomePage) {
+      await homePage.reviewsTrack.scrollIntoViewIfNeeded();
+      await homePage.waitForReviewsWindow();
+      await homePage.waitForReviewsInView();
+      await expect(homePage.reviewsRoot).toHaveAttribute(
+        'data-autoplay',
+        'running',
+      );
+    }
+
+    test('A finger scrolling the page over the carousel does not stop it', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await showReviewsPlaying(homePage);
+
+      // Act - the finger goes down on the track and drags the page up
+      await homePage.dragFingerOverReviews({ x: 0, y: -80 });
+      await homePage.waitForFrames();
+
+      // Assert - still offering to pause, so it is still playing
+      await expect(homePage.reviewsPauseButton).toBeVisible();
+      await expect(homePage.reviewsPlayButton).toBeHidden();
+    });
+
+    test('A finger swiping the track stops it', async ({ homePage }) => {
+      // Arrange
+      await showReviewsPlaying(homePage);
+
+      // Act
+      await homePage.dragFingerOverReviews({ x: -120, y: 0 });
+
+      // Assert
+      await expect(homePage.reviewsPlayButton).toBeVisible();
     });
   },
 );

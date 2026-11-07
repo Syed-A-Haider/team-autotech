@@ -28,6 +28,39 @@ import {
   routes,
 } from '../config/testData';
 
+// What the reviews carousel's depth effect (T5.8) has done to one review, read
+// from computed style. Numbers, so a test compares them with the design tokens.
+// ring and dim are NaN when the overlay does not exist (reduced motion, no support)
+export interface ReviewDepth {
+  scale: number;
+  // Sideways shift of the card in percent of its width (negative is left)
+  shift: number;
+  // Turn about the vertical axis in degrees
+  tilt: number;
+  ring: number;
+  dim: number;
+  // The five rating stars' scales, first to last
+  stars: number[];
+  // True if the slide itself is scaled, moved or turned. It must never be
+  slideTransformed: boolean;
+  perspective: string;
+}
+
+// The active dot and the others, read from each dot's ::before (the visible dot)
+export interface ReviewDot {
+  current: boolean;
+  barScale: number;
+  barWidth: number;
+  tapWidth: number;
+}
+
+// Runs in the page: does this element ride a scroll (view) timeline?
+function ridesViewTimeline(el: Element): boolean {
+  return getComputedStyle(el)
+    .getPropertyValue('animation-timeline')
+    .includes('view');
+}
+
 export class HomePage {
   readonly page: Page;
   readonly main: Locator;
@@ -44,6 +77,8 @@ export class HomePage {
   readonly headerCallLink: Locator;
   // Hero call button, shown below lg only
   readonly heroCallLink: Locator;
+  // Call button at the foot of the open mobile menu, which exists below lg only
+  readonly mobileMenuCallLink: Locator;
   readonly footerSocialLink: Locator;
   readonly whatsAppWidget: Locator;
   readonly directionsLink: Locator;
@@ -95,6 +130,9 @@ export class HomePage {
       .getByRole('link', { name: callButtonLabel });
     this.heroCallLink = page
       .getByRole('main')
+      .getByRole('link', { name: callButtonLabel });
+    this.mobileMenuCallLink = page
+      .getByRole('navigation', { name: navLabels.mobile })
       .getByRole('link', { name: callButtonLabel });
     this.footerSocialLink = page
       .getByRole('contentinfo')
@@ -282,6 +320,38 @@ export class HomePage {
     await this.waitForFrames();
   }
 
+  // A finger goes down in the middle of the track, drags by this much in small
+  // steps and lifts. Real touch events through the browser's debugging protocol,
+  // so Chromium only
+  async dragFingerOverReviews(distance: {
+    x: number;
+    y: number;
+  }): Promise<void> {
+    const STEPS = 8;
+    const box = await this.reviewsTrack.boundingBox();
+    if (box === null) throw new Error('The reviews track is not on screen');
+    const cdp = await this.page.context().newCDPSession(this.page);
+    let x = box.x + box.width / 2;
+    let y = box.y + box.height / 2;
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y }],
+    });
+    for (let step = 0; step < STEPS; step++) {
+      x += distance.x / STEPS;
+      y += distance.y / STEPS;
+      await cdp.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x, y }],
+      });
+      await this.waitForFrames();
+    }
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
+    });
+  }
+
   // Two animation frames: long enough for React to apply a state change and
   // start or clear a timer it asked for
   async waitForFrames(): Promise<void> {
@@ -321,6 +391,276 @@ export class HomePage {
     }
     await this.reviewsTrack.hover();
     await this.page.mouse.wheel(direction * step, 0);
+  }
+
+  // The carousel moves on by itself, so a check of a still picture pauses it
+  async pauseReviews(): Promise<void> {
+    await this.reviewsRoot.scrollIntoViewIfNeeded();
+    await this.waitForReviewsWindow();
+    await this.reviewsPauseButton.click();
+    await this.reviewsPlayButton.waitFor();
+  }
+
+  // The dots under the carousel
+  get reviewDots(): Locator {
+    return this.reviewsRoot.getByRole('button', { name: 'Show review' });
+  }
+
+  async reviewDotBars(): Promise<ReviewDot[]> {
+    return this.reviewDots.evaluateAll((dots) =>
+      dots.map((dot) => {
+        const bar = getComputedStyle(dot, '::before');
+        return {
+          current: dot.getAttribute('aria-current') === 'true',
+          barScale: bar.scale === 'none' ? 1 : parseFloat(bar.scale),
+          barWidth: parseFloat(bar.width),
+          tapWidth: dot.getBoundingClientRect().width,
+        };
+      }),
+    );
+  }
+
+  // The slide on screen just left or right of the centred one
+  async reviewIndexBeside(side: 'left' | 'right'): Promise<number> {
+    return this.reviewSlides.evaluateAll((slides, wanted) => {
+      const track = slides[0].parentElement as HTMLElement;
+      const trackBox = track.getBoundingClientRect();
+      const middle = trackBox.left + trackBox.width / 2;
+      const offsets = slides.map((slide) => {
+        const box = slide.getBoundingClientRect();
+        return box.left + box.width / 2 - middle;
+      });
+      const centre = offsets.findIndex(
+        (offset) => Math.abs(offset) === Math.min(...offsets.map(Math.abs)),
+      );
+      const beside = offsets
+        .map((offset, index) => ({ offset, index }))
+        .filter(({ index }) => index !== centre)
+        .filter(({ offset }) => (wanted === 'left' ? offset < 0 : offset > 0))
+        .sort((a, b) => Math.abs(a.offset) - Math.abs(b.offset));
+      return beside[0].index;
+    }, side);
+  }
+
+  async reviewDepth(index: number): Promise<ReviewDepth> {
+    return this.reviewSlides.nth(index).evaluate((slide) => {
+      const card = slide.firstElementChild as HTMLElement;
+      const style = getComputedStyle(card);
+      // 'none' is the plain value. Otherwise the first number in it
+      const firstNumber = (value: string, plain: number) => {
+        if (value === 'none') return plain;
+        const found = value.match(/-?[\d.]+/);
+        return found ? parseFloat(found[0]) : plain;
+      };
+      // A pseudo-element that does not exist has no content and reads opacity 1
+      const overlayOpacity = (pseudo: string) => {
+        const overlay = getComputedStyle(card, pseudo);
+        return overlay.content === 'none' ? NaN : Number(overlay.opacity);
+      };
+      const slideStyle = getComputedStyle(slide);
+      return {
+        scale: firstNumber(style.scale, 1),
+        shift: firstNumber(style.translate, 0),
+        tilt: firstNumber(style.rotate, 0),
+        ring: overlayOpacity('::before'),
+        dim: overlayOpacity('::after'),
+        stars: [...card.querySelectorAll('svg')]
+          .slice(0, 5)
+          .map((star) => firstNumber(getComputedStyle(star).scale, 1)),
+        slideTransformed:
+          slideStyle.transform !== 'none' ||
+          slideStyle.scale !== 'none' ||
+          slideStyle.rotate !== 'none' ||
+          slideStyle.translate !== 'none',
+        perspective: slideStyle.perspective,
+      };
+    });
+  }
+
+  // How far the card sits inside its slide, from the slide's left and right
+  // edges. The slide box never changes, so a card anchored on its inner edge
+  // (the side next to the centre) must show 0 there: the neighbour keeps its peek
+  async reviewCardInset(
+    index: number,
+  ): Promise<{ left: number; right: number }> {
+    return this.reviewSlides.nth(index).evaluate((slide) => {
+      const slideBox = slide.getBoundingClientRect();
+      const cardBox = (
+        slide.firstElementChild as Element
+      ).getBoundingClientRect();
+      return {
+        left: cardBox.left - slideBox.left,
+        right: slideBox.right - cardBox.right,
+      };
+    });
+  }
+
+  // Scrolls so a slide's middle sits `fraction` of a card step off the middle of
+  // the track (negative is left). Snapping is turned off, so it stays there.
+  // Used to read the depth effect part-way through a move
+  async scrollReviewsOffCentre(index: number, fraction: number): Promise<void> {
+    await this.reviewsTrack.evaluate(
+      (track, [slideIndex, offset]) => {
+        const slide = track.children[slideIndex] as HTMLElement;
+        const gap = parseFloat(getComputedStyle(track).columnGap);
+        const step = slide.offsetWidth + gap;
+        track.style.scrollSnapType = 'none';
+        track.scrollLeft =
+          slide.offsetLeft +
+          slide.offsetWidth / 2 -
+          track.clientWidth / 2 +
+          offset * step;
+      },
+      [index, fraction],
+    );
+    await this.waitForFrames();
+  }
+
+  // Call before goto. Samples the first review's card on every frame from its
+  // first paint for two seconds: it is the centred one, so it must never be
+  // small or dim, not even before the page hydrates. The ring is not sampled:
+  // its resting value (0) is not the centred one (1), and Chromium applies a scroll
+  // timeline one frame after the first layout, long before a card below the
+  // fold paints. The rest-state test covers the ring
+  async trackFirstReviewFrames(trackLabel: string): Promise<void> {
+    await this.page.addInitScript((label) => {
+      const WINDOW_MS = 2000;
+      const frames = {
+        done: false,
+        samples: 0,
+        minScale: 1,
+        maxDim: 0,
+      };
+      (window as unknown as { __firstReview: typeof frames }).__firstReview =
+        frames;
+      let startedAt = -1;
+      const sample = (now: number) => {
+        const track = document.querySelector(`[aria-label="${label}"]`);
+        const card = track?.children[0]?.firstElementChild;
+        if (!card) return requestAnimationFrame(sample);
+        if (startedAt < 0) startedAt = now;
+        const scale = getComputedStyle(card).scale;
+        frames.minScale = Math.min(
+          frames.minScale,
+          scale === 'none' ? 1 : parseFloat(scale),
+        );
+        frames.maxDim = Math.max(
+          frames.maxDim,
+          Number(getComputedStyle(card, '::after').opacity),
+        );
+        frames.samples += 1;
+        if (now - startedAt < WINDOW_MS) requestAnimationFrame(sample);
+        else frames.done = true;
+      };
+      requestAnimationFrame(sample);
+    }, trackLabel);
+  }
+
+  async firstReviewFrames(): Promise<{
+    done: boolean;
+    samples: number;
+    minScale: number;
+    maxDim: number;
+  }> {
+    return this.page.evaluate(
+      () =>
+        (
+          window as unknown as {
+            __firstReview: {
+              done: boolean;
+              samples: number;
+              minScale: number;
+              maxDim: number;
+            };
+          }
+        ).__firstReview,
+    );
+  }
+
+  // Starts watching, frame by frame, for the carousel to turn its window (the
+  // CSS order of the slides changes). Resolves a few frames after the turn with
+  // the biggest change in scale or dim of any card on screen across it. The
+  // view does not move at a turn, so that change must be nil. Call it WITHOUT
+  // awaiting, then do the move, then await the result
+  watchReviewWindowTurn(): Promise<{ turned: boolean; worstChange: number }> {
+    return this.reviewsTrack.evaluate(
+      (track) =>
+        new Promise<{ turned: boolean; worstChange: number }>((resolve) => {
+          const FRAMES_AFTER_TURN = 4;
+          const GIVE_UP_MS = 4000;
+          const slides = [...track.children].filter(
+            (child) => child.getAttribute('role') === 'group',
+          ) as HTMLElement[];
+          const read = () =>
+            slides.map((slide) => {
+              const box = slide.getBoundingClientRect();
+              const card = slide.firstElementChild as Element;
+              const scale = getComputedStyle(card).scale;
+              return {
+                order: slide.style.order,
+                onScreen: box.right > 0 && box.left < window.innerWidth,
+                scale: scale === 'none' ? 1 : parseFloat(scale),
+                dim: Number(getComputedStyle(card, '::after').opacity),
+              };
+            });
+          let previous = read();
+          let turned = false;
+          let framesSince = 0;
+          let worstChange = 0;
+          const startedAt = performance.now();
+          const frame = (now: number) => {
+            const current = read();
+            if (!turned) {
+              turned = current.some(
+                (slide, i) => slide.order !== previous[i].order,
+              );
+              if (turned) {
+                current.forEach((slide, i) => {
+                  if (!slide.onScreen) return;
+                  worstChange = Math.max(
+                    worstChange,
+                    Math.abs(slide.scale - previous[i].scale),
+                    Math.abs(slide.dim - previous[i].dim),
+                  );
+                });
+              }
+            } else {
+              framesSince += 1;
+            }
+            previous = current;
+            if (
+              framesSince >= FRAMES_AFTER_TURN ||
+              now - startedAt > GIVE_UP_MS
+            ) {
+              resolve({ turned, worstChange });
+            } else {
+              requestAnimationFrame(frame);
+            }
+          };
+          requestAnimationFrame(frame);
+        }),
+    );
+  }
+
+  // The heading block and the Google button wrapper of the reviews section: does
+  // each ride a scroll (view) timeline, and does the link itself (it must not:
+  // the reveal sits on the wrapper so the button keeps its press)
+  async reviewsRevealTimelines(
+    headingText: string,
+    linkName: string,
+  ): Promise<{ heading: boolean; wrapper: boolean; link: boolean }> {
+    const heading = this.main.getByRole('heading', {
+      level: 2,
+      name: headingText,
+    });
+    const link = this.main.getByRole('link', { name: linkName });
+    // The heading's own block is its parent (the h2 and the subtitle sit in it)
+    const [headingBlock, wrapper, linkItself] = await Promise.all([
+      heading.locator('..').evaluate(ridesViewTimeline),
+      link.locator('..').evaluate(ridesViewTimeline),
+      link.evaluate(ridesViewTimeline),
+    ]);
+    return { heading: headingBlock, wrapper, link: linkItself };
   }
 
   // How opaque the colour laid over a review is, 0 to 1. The hover tint on the

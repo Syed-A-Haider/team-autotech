@@ -45,6 +45,8 @@ export const navLabels = {
   main: 'Main',
   about: 'About',
   services: 'Services',
+  // The menu panel that opens below lg (MobileMenu)
+  mobile: 'Mobile',
 } as const;
 
 // Start of the header call button's text ("Get a Quote: <number>"). Also the
@@ -57,7 +59,14 @@ export const footerSocialLabel = 'Facebook';
 // The centre review card must never be narrower than this on desktop (T5.1, T5.7)
 export const reviewCardMinWidth = 896;
 
+// The button under the reviews carousel (the label lives in ReviewsSection.tsx)
+export const googleReviewsLinkLabel = 'See all our reviews on Google';
+
 export const viewports = {
   mobile: { width: 375, height: 812 },
   desktop: { width: 1280, height: 800 },
 } as const;
+
+// Between phone and lg (1024): the narrowest the side cards sit on the ramp's
+// edge, and no tilt yet. Not in `viewports`, so the page-wide loops stay as they are
+export const tabletViewport = { width: 768, height: 900 } as const;

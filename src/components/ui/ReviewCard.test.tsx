@@ -43,4 +43,11 @@ describe('ReviewCard', () => {
     render(<ReviewCard review={reviewWithExcerpt} />);
     expect(screen.getByText('Rated 4 out of 5')).toBeInTheDocument();
   });
+
+  it('Passes className to the card', () => {
+    const { container } = render(
+      <ReviewCard review={reviewWithExcerpt} className="extra-class" />,
+    );
+    expect(container.firstElementChild).toHaveClass('extra-class');
+  });
 });
