@@ -70,3 +70,6 @@ export const viewports = {
 // Between phone and lg (1024): the narrowest the side cards sit on the ramp's
 // edge, and no tilt yet. Not in `viewports`, so the page-wide loops stay as they are
 export const tabletViewport = { width: 768, height: 900 } as const;
+
+// The first lg width: side slides have the least room here (T5.9)
+export const lgViewport = { width: 1024, height: 800 } as const;

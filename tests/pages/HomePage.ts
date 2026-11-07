@@ -8,6 +8,7 @@ import {
   FIND_US_DIRECTIONS_LABEL,
 } from '@/components/home-sections/FindUsSection';
 import {
+  ABOUT_BLURB,
   ABOUT_HEADLINE,
   ABOUT_CTA_LABEL,
 } from '@/components/home-sections/AboutSnippet';
@@ -100,6 +101,21 @@ export class HomePage {
   // The pause and play button for the carousel's own movement (T5.7)
   readonly reviewsPauseButton: Locator;
   readonly reviewsPlayButton: Locator;
+  // The lower sections' reveal subjects (T5.9), found from their copy. The
+  // heading's parent is the block that reveals
+  readonly whyChooseUsHeadingBlock: Locator;
+  // Find Us: the info column (heading block, address, hours, button), the
+  // address link, the map frame (two levels above the iframe) and the iframe
+  readonly findUsColumn: Locator;
+  readonly findUsAddressLink: Locator;
+  readonly findUsMapFrame: Locator;
+  readonly findUsMapIframe: Locator;
+  // About: heading block (bar, eyebrow, h2), the paragraph, the bar and the
+  // wrapper round the button
+  readonly aboutHeadingBlock: Locator;
+  readonly aboutBlurb: Locator;
+  readonly aboutBar: Locator;
+  readonly aboutButtonWrapper: Locator;
 
   readonly sectionHeadings = {
     whyChooseUs: whyChooseUsHeading,
@@ -178,6 +194,19 @@ export class HomePage {
     this.reviewsNextButton = page.getByRole('button', {
       name: NEXT_REVIEW_LABEL,
     });
+    const h2 = (name: string) =>
+      this.main.getByRole('heading', { level: 2, name });
+    this.whyChooseUsHeadingBlock = h2(whyChooseUsHeading).locator('..');
+    this.findUsColumn = h2(FIND_US_SECTION_HEADING).locator('../..');
+    this.findUsAddressLink = this.main.locator('address a');
+    this.findUsMapIframe = this.main.locator('iframe');
+    this.findUsMapFrame = this.findUsMapIframe.locator('../..');
+    this.aboutHeadingBlock = h2(ABOUT_HEADLINE).locator('..');
+    this.aboutBlurb = this.main.getByText(ABOUT_BLURB);
+    this.aboutBar = this.aboutHeadingBlock.locator(
+      ':scope > [aria-hidden="true"]',
+    );
+    this.aboutButtonWrapper = this.aboutCtaLink.locator('..');
   }
 
   // One locator that matches any of the given ones
@@ -661,6 +690,44 @@ export class HomePage {
       link.evaluate(ridesViewTimeline),
     ]);
     return { heading: headingBlock, wrapper, link: linkItself };
+  }
+
+  // Does this element ride a scroll (view) timeline?
+  async ridesScroll(target: Locator): Promise<boolean> {
+    return target.evaluate(ridesViewTimeline);
+  }
+
+  // Which direct children of this element ride a scroll (view) timeline
+  async childrenRideScroll(target: Locator): Promise<boolean[]> {
+    return target
+      .locator(':scope > *')
+      .evaluateAll((children) =>
+        children.map((child) =>
+          getComputedStyle(child)
+            .getPropertyValue('animation-timeline')
+            .includes('view'),
+        ),
+      );
+  }
+
+  // Put the element's top edge at this fraction of the window height (0 = top,
+  // 1 = bottom), so its reveal is part-way
+  async scrollTopTo(target: Locator, viewportFraction: number): Promise<void> {
+    await target.evaluate((el, fraction) => {
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, top - fraction * window.innerHeight);
+    }, viewportFraction);
+  }
+
+  // How far a reveal has the element shifted, in px. Computed style only: in
+  // WebKit offsetTop is unreliable under an animated ancestor
+  async revealOffset(target: Locator): Promise<{ x: number; y: number }> {
+    return target.evaluate((el) => {
+      const translate = getComputedStyle(el).translate;
+      if (translate === 'none') return { x: 0, y: 0 };
+      const [x = '0', y = '0'] = translate.split(' ');
+      return { x: parseFloat(x), y: parseFloat(y) };
+    });
   }
 
   // How opaque the colour laid over a review is, 0 to 1. The hover tint on the
