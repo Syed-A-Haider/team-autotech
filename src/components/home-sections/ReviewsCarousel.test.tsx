@@ -855,23 +855,11 @@ describe('ReviewsCarousel - autoplay', () => {
   });
 
   describe('hovering', () => {
-    it('Pauses under a mouse and starts a fresh interval when it leaves', () => {
+    // A mouse is usually already over the carousel, because scrolling brings it
+    // under a resting cursor. Holding autoplay for that meant it never started
+    it('Keeps going while a mouse rests over it', () => {
       renderPlaying();
-      advance(AUTOPLAY_INTERVAL_MS - 1000);
       fireEvent.pointerEnter(getRoot(), { pointerType: 'mouse' });
-      advance(3 * AUTOPLAY_INTERVAL_MS);
-      expect(isCurrent(getSlides()[0])).toBe(true);
-
-      fireEvent.pointerLeave(getRoot(), { pointerType: 'mouse' });
-      advance(AUTOPLAY_INTERVAL_MS - 1);
-      expect(isCurrent(getSlides()[0])).toBe(true);
-      advance(1);
-      expect(isCurrent(getSlides()[1])).toBe(true);
-    });
-
-    it('Ignores a touch, which also fires pointerenter and would stick', () => {
-      renderPlaying();
-      fireEvent.pointerEnter(getRoot(), { pointerType: 'touch' });
       advance(AUTOPLAY_INTERVAL_MS);
       expect(isCurrent(getSlides()[1])).toBe(true);
     });

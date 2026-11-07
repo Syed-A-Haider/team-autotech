@@ -4,7 +4,6 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
-  type PointerEvent,
 } from 'react';
 
 export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
@@ -40,9 +39,10 @@ interface ReviewsAutoplayOptions {
 }
 
 // Moves a carousel on by itself, one slide per interval. It runs only while the
-// carousel is on screen, the page is visible and a mouse is not over it, and it
-// stops for good once the visitor uses the carousel (until they press play).
-// Nothing moves for reduced motion
+// carousel is on screen and the page is visible, and it stops for good once the
+// visitor uses the carousel (until they press play). Nothing moves for reduced
+// motion. A mouse over the carousel does not hold it: scrolling brings the
+// carousel under a resting cursor, so holding for that meant it never started
 export function useReviewsAutoplay({
   count,
   anchor,
@@ -53,7 +53,6 @@ export function useReviewsAutoplay({
   const rootRef = useRef<HTMLDivElement>(null);
   // The visitor's choice: false once they use the carousel or press pause
   const [playing, setPlaying] = useState(true);
-  const [hovered, setHovered] = useState(false);
   const [inView, setInView] = useState(false);
   const reducedMotion = useSyncExternalStore(
     subscribeToReducedMotion,
@@ -69,7 +68,7 @@ export function useReviewsAutoplay({
 
   const isAvailable = isClient && !reducedMotion && count > 1;
   const isPlaying = isAvailable && playing;
-  const isRunning = isPlaying && pageVisible && inView && !hovered;
+  const isRunning = isPlaying && pageVisible && inView;
 
   useEffect(() => {
     const root = rootRef.current;
@@ -91,16 +90,6 @@ export function useReviewsAutoplay({
     return () => clearTimeout(timer);
   }, [isRunning, anchor, intervalMs]);
 
-  // A touch fires pointerenter too and never fires a leave until the next tap,
-  // so only a mouse counts as hovering
-  function handlePointerEnter(event: PointerEvent) {
-    if (event.pointerType === 'mouse') setHovered(true);
-  }
-
-  function handlePointerLeave() {
-    setHovered(false);
-  }
-
   return {
     rootRef,
     isAvailable,
@@ -108,7 +97,5 @@ export function useReviewsAutoplay({
     isRunning,
     toggle: () => setPlaying((current) => !current),
     stop: () => setPlaying(false),
-    handlePointerEnter,
-    handlePointerLeave,
   };
 }

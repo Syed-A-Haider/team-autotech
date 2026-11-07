@@ -341,8 +341,6 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
       aria-label={REVIEWS_CAROUSEL_LABEL}
       data-autoplay={autoplay.isRunning ? 'running' : 'held'}
       onFocus={handleFocus}
-      onPointerEnter={autoplay.handlePointerEnter}
-      onPointerLeave={autoplay.handlePointerLeave}
       className={ROOT_STYLES}
     >
       {/* Track - all slides pre-rendered, the browser scrolls and snaps them */}
@@ -418,9 +416,7 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
       </button>
 
       {/* Last in the page, so the first tab stop is still the track. Only where
-          autoplay can run: not on the server, with reduced motion or with one review.
-          The icons ignore the pointer: swapping the one under the cursor would lose
-          the browser's leave event, and the carousel would stay held for a mouse */}
+          autoplay can run: not on the server, with reduced motion or with one review */}
       {autoplay.isAvailable && (
         <button
           ref={rotationButtonRef}
@@ -433,17 +429,9 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
           className={clsx(ARROW_STYLES, ROTATION_PLACEMENT)}
         >
           {autoplay.isPlaying ? (
-            <Pause
-              aria-hidden="true"
-              size={20}
-              className="pointer-events-none lg:h-6 lg:w-6"
-            />
+            <Pause aria-hidden="true" size={20} className="lg:h-6 lg:w-6" />
           ) : (
-            <Play
-              aria-hidden="true"
-              size={20}
-              className="pointer-events-none lg:h-6 lg:w-6"
-            />
+            <Play aria-hidden="true" size={20} className="lg:h-6 lg:w-6" />
           )}
         </button>
       )}

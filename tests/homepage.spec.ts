@@ -482,7 +482,6 @@ test.describe(
       await homePage.page.clock.install();
       await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
       await homePage.waitForReviewsWindow();
-      await homePage.page.mouse.move(0, 0);
       await homePage.waitForReviewsInView();
       await waitForAutoplay(homePage, 'running');
     }
@@ -541,7 +540,7 @@ test.describe(
       // Arrange
       await startAutoplay(homePage);
 
-      // Act - the click also leaves the mouse over the carousel
+      // Act
       await homePage.reviewsPauseButton.click();
       await waitForAutoplay(homePage, 'held');
       await jumpOneInterval(homePage);
@@ -554,7 +553,6 @@ test.describe(
 
       // Act
       await homePage.reviewsPlayButton.click();
-      await homePage.page.mouse.move(0, 0);
       await waitForAutoplay(homePage, 'running');
       await jumpOneInterval(homePage);
 
@@ -562,29 +560,25 @@ test.describe(
       await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
     });
 
-    test('A mouse over the carousel holds it until the mouse leaves', async ({
+    // The only autoplay test on the real clock. A fake clock hid the bug where
+    // a mouse resting over the carousel (where scrolling to it leaves the cursor)
+    // held autoplay for good
+    test('Starts by itself in real time, with a mouse resting over it', async ({
       homePage,
     }) => {
       // Arrange
-      await startAutoplay(homePage);
+      await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+      await homePage.waitForReviewsWindow();
 
       // Act
       await homePage.reviewsTrack.hover();
-      await waitForAutoplay(homePage, 'held');
-      await jumpOneInterval(homePage);
-      await jumpOneInterval(homePage);
 
-      // Assert
-      await homePage.waitForReviewsToSettle();
-      expect(await homePage.currentReviewIndex()).toBe(0);
-
-      // Act
-      await homePage.page.mouse.move(0, 0);
-      await waitForAutoplay(homePage, 'running');
-      await jumpOneInterval(homePage);
-
-      // Assert
-      await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+      // Assert - within a couple of intervals, on its own
+      await expect
+        .poll(() => homePage.currentReviewIndex(), {
+          timeout: 3 * AUTOPLAY_INTERVAL_MS,
+        })
+        .toBe(1);
     });
 
     test('Using the carousel stops it for good', async ({ homePage }) => {
@@ -593,7 +587,6 @@ test.describe(
 
       // Act
       await homePage.reviewsNextButton.click();
-      await homePage.page.mouse.move(0, 0);
       await waitForAutoplay(homePage, 'held');
       await jumpOneInterval(homePage);
       await jumpOneInterval(homePage);
