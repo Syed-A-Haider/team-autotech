@@ -36,6 +36,25 @@ export function getFaqServiceSlug(): string {
   return service.slug;
 }
 
+// Title of a service's first section of this type, so the block tests follow
+// the data. A function, so a missing block fails its own test only
+export function getSectionTitle(
+  slug: string,
+  type: 'feature' | 'steps' | 'video' | 'prose',
+): string {
+  const section = getAllServices()
+    .find((service) => service.slug === slug)
+    ?.sections?.find((candidate) => candidate.type === type);
+  if (!section?.title) throw new Error(`${slug} has no titled ${type} section`);
+  return section.title;
+}
+
+// One live page per block under test (T5.10)
+export const featureGridSlug = 'stage-1-tuning';
+export const stepsSlug = 'scorpion-x-series-immobiliser';
+export const videoSlug = 'ghost-immobiliser-ii';
+export const comingSoonSlug = 'dpf-egr-solutions';
+
 export const pageTitle = 'Team AutoTech';
 
 export const htmlLang = 'en';

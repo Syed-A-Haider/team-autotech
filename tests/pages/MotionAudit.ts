@@ -248,18 +248,168 @@ export class MotionAudit {
   }
 
   // Elements in main whose fill keeps an end state after the animation. A timed
-  // effect that holds its fill would block hover and trap fixed children
+  // effect that holds its fill would block hover and trap fixed children.
+  // One exception (T5.10): a fixed element on a scroll() timeline, the progress
+  // bar, which has no children and no hover and must stay full during an
+  // overscroll bounce
   async heldFillCount(): Promise<number> {
     return this.page.evaluate(
       () =>
         [...document.querySelectorAll('main, main *')].filter((el) => {
           const style = getComputedStyle(el);
+          const isProgressBar =
+            style.position === 'fixed' &&
+            style.getPropertyValue('animation-timeline').includes('scroll(');
           return (
+            !isProgressBar &&
             style.animationName !== 'none' &&
             /forwards|both/.test(style.animationFillMode)
           );
         }).length,
     );
+  }
+
+  // Does this element ride a scroll (view) timeline?
+  async ridesScroll(target: Locator): Promise<boolean> {
+    return target.evaluate((el) =>
+      getComputedStyle(el)
+        .getPropertyValue('animation-timeline')
+        .includes('view'),
+    );
+  }
+
+  // Which direct children of this element ride a scroll (view) timeline
+  async childrenRideScroll(target: Locator): Promise<boolean[]> {
+    return target
+      .locator(':scope > *')
+      .evaluateAll((children) =>
+        children.map((child) =>
+          getComputedStyle(child)
+            .getPropertyValue('animation-timeline')
+            .includes('view'),
+        ),
+      );
+  }
+
+  // The element's own animation name, as the browser computes it ('none' if none)
+  async animationName(target: Locator): Promise<string> {
+    return target.evaluate((el) => getComputedStyle(el).animationName);
+  }
+
+  // The element's animation delay in seconds (the build may write ms or s)
+  async animationDelay(target: Locator): Promise<number> {
+    return target.evaluate((el) => {
+      const raw = getComputedStyle(el).animationDelay;
+      return raw.endsWith('ms') ? parseFloat(raw) / 1000 : parseFloat(raw);
+    });
+  }
+
+  // A custom property as the browser computes it on this element
+  async customProperty(target: Locator, name: string): Promise<string> {
+    return target.evaluate(
+      (el, property) => getComputedStyle(el).getPropertyValue(property).trim(),
+      name,
+    );
+  }
+
+  // How far a reveal has the element shifted, in px (computed style only)
+  async revealOffset(target: Locator): Promise<{ x: number; y: number }> {
+    return target.evaluate((el) => {
+      const translate = getComputedStyle(el).translate;
+      if (translate === 'none') return { x: 0, y: 0 };
+      const [x = '0', y = '0'] = translate.split(' ');
+      return { x: parseFloat(x), y: parseFloat(y) };
+    });
+  }
+
+  // The horizontal scale of an element: 1 when none is set
+  async scaleX(target: Locator): Promise<number> {
+    return target.evaluate((el) => {
+      const scale = getComputedStyle(el).scale;
+      return scale === 'none' ? 1 : parseFloat(scale.split(' ')[0]);
+    });
+  }
+
+  // Put the element's top edge at this fraction of the window height (0 = top,
+  // 1 = bottom), so its reveal is part-way
+  async scrollTopTo(target: Locator, viewportFraction: number): Promise<void> {
+    await target.evaluate((el, fraction) => {
+      const top = el.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, top - fraction * window.innerHeight);
+    }, viewportFraction);
+  }
+
+  // The scroll progress bar (T5.10): the only fixed element inside main. Read
+  // by position, not by animation, so it is found with reduced motion too.
+  // top and bottom are against the sticky header's bottom edge
+  async progressBars(): Promise<
+    {
+      ariaHidden: string | null;
+      top: number;
+      height: number;
+      left: number;
+      width: number;
+      headerBottom: number;
+      clientWidth: number;
+      scale: string;
+      timeline: string;
+    }[]
+  > {
+    return this.page.evaluate(() => {
+      const header = document.querySelector('header') as Element;
+      return [...document.querySelectorAll('main *')]
+        .filter((el) => getComputedStyle(el).position === 'fixed')
+        .map((el) => {
+          // Layout box, not the drawn one: an empty bar is scaled to 0 wide
+          const html = el as HTMLElement;
+          const style = getComputedStyle(el);
+          return {
+            ariaHidden: el.getAttribute('aria-hidden'),
+            top: el.getBoundingClientRect().top,
+            height: html.offsetHeight,
+            left: html.offsetLeft,
+            width: html.offsetWidth,
+            headerBottom: header.getBoundingClientRect().bottom,
+            clientWidth: document.documentElement.clientWidth,
+            scale: style.scale,
+            timeline: style.getPropertyValue('animation-timeline'),
+          };
+        });
+    });
+  }
+
+  // The progress bar's horizontal scale now: 0 empty, 1 full
+  async progressBarScale(): Promise<number> {
+    const [bar] = await this.progressBars();
+    return bar.scale === 'none' ? 1 : parseFloat(bar.scale.split(' ')[0]);
+  }
+
+  // The element at the middle of the progress bar. Tells whether the header,
+  // an open menu or the bar itself is on top. Scroll to the bottom first, or
+  // the bar is empty and has no area to hit
+  async elementAtProgressBar(): Promise<{
+    insideHeader: boolean;
+    isBar: boolean;
+  }> {
+    return this.page.evaluate(() => {
+      const bar = [...document.querySelectorAll('main *')].find(
+        (el) => getComputedStyle(el).position === 'fixed',
+      ) as Element;
+      const html = bar as HTMLElement;
+      const top = bar.getBoundingClientRect().top;
+      // The bar ignores the pointer, so let it be hit for a moment to see
+      // whether it is on top of what is under it
+      html.style.pointerEvents = 'auto';
+      const hit = document.elementFromPoint(
+        html.offsetLeft + html.offsetWidth / 2,
+        top + html.offsetHeight / 2,
+      );
+      html.style.pointerEvents = '';
+      return {
+        insideHeader: !!hit?.closest('header'),
+        isBar: hit === bar,
+      };
+    });
   }
 
   // Call before goto. Samples the hero on every frame from first paint, for

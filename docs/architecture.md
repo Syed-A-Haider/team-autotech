@@ -31,7 +31,8 @@ src/
   components/
     layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget
     ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
-               PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks
+               PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks,
+               ScrollProgress (decorative bar, rendered by ServicePageTemplate, T5.10)
     home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ WhyChooseUsCard),
                         ReviewsSection, ReviewsCarousel (Client), FindUsSection,
                         MapEmbed (Client), AboutSnippet

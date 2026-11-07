@@ -61,6 +61,7 @@
   --depth-tilt: 8deg; /* how far a side card turns towards the centre (lg up) */
   --depth-perspective: 1200px; /* how strong the tilt looks (lg up) */
   --star-rest: 0.6; /* how small the stars are on a side card */
+  --pop-scale: 0.5; /* how small a step badge starts before it pops in */
 }
 
 /* The sticky Navbar is h-16 plus a 1px border. Anchor jumps stop below it */
