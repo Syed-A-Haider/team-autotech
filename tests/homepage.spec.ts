@@ -455,7 +455,7 @@ test.describe(
 );
 
 // T5.7: the carousel moves on by itself. A fake clock jumps over each interval,
-// so a test does not wait seven seconds. The clock is installed after the page
+// so a test does not wait out each interval. The clock is installed after the page
 // has loaded and then runs on in real time, so scrolling and the settle still work
 test.describe(
   'Homepage - reviews autoplay',

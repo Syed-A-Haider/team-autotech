@@ -26,8 +26,9 @@ export const PREV_REVIEW_LABEL = 'Previous review';
 export const NEXT_REVIEW_LABEL = 'Next review';
 export const PAUSE_REVIEWS_LABEL = 'Pause automatic review rotation';
 export const PLAY_REVIEWS_LABEL = 'Play automatic review rotation';
-// How long a review stays before the carousel moves on by itself
-export const AUTOPLAY_INTERVAL_MS = 7000;
+// How long a review stays before the carousel moves on by itself. Short on
+// purpose: it is a glance on a homepage, not something to read
+export const AUTOPLAY_INTERVAL_MS = 3000;
 
 const FIRST_SLIDE = 0;
 // Milliseconds with no scroll event before a scroll counts as finished, for
