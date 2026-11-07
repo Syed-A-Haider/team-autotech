@@ -1,7 +1,13 @@
 import { whyChooseUsItems } from '@/components/home-sections/WhyChooseUsSection';
 import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
-import { htmlLang, pageTitle, routes, viewports } from './config/testData';
+import {
+  htmlLang,
+  pageTitle,
+  reviewCardMinWidth,
+  routes,
+  viewports,
+} from './config/testData';
 
 test.describe('Homepage', { tag: '@homepage' }, () => {
   test(
@@ -152,5 +158,128 @@ test.describe(
         });
       });
     }
+  },
+);
+
+// T5.7: the reviews carousel is a native scroller. Positions are read from the
+// layout, and each check waits for the smooth scroll to stop before it looks
+const reducedMotion = { contextOptions: { reducedMotion: 'reduce' } } as const;
+
+// Run once normally and once with reduced motion (an instant scroll)
+function defineReviewNavigationTests() {
+  test('The next button centres the next review', async ({ homePage }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    expect(await homePage.centredReviewIndex()).toBe(0);
+
+    // Act
+    await homePage.reviewsNextButton.click();
+
+    // Assert - the state moves at once, the layout once the scroll has landed
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(1);
+  });
+
+  test('Clicking the neighbouring review centres it', async ({ homePage }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+
+    // Act - near the slide's left edge, the part that shows beside the first
+    await homePage.reviewSlides.nth(1).click({ position: { x: 8, y: 100 } });
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(1);
+  });
+
+  test('ArrowRight moves exactly one review', async ({ homePage }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.reviewsTrack.focus();
+
+    // Act
+    await homePage.page.keyboard.press('ArrowRight');
+
+    // Assert - after the scroll stops, so a second step from the browser's own
+    // key handling would show as review 3
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(1);
+  });
+}
+
+test.describe(
+  'Homepage - reviews carousel',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    for (const [size, viewport] of Object.entries(viewports)) {
+      test.describe(`${size} width`, () => {
+        test.use({ viewport });
+
+        defineReviewNavigationTests();
+
+        test.describe('with reduced motion', () => {
+          test.use(reducedMotion);
+
+          defineReviewNavigationTests();
+        });
+
+        test('The next review peeks in beside the first', async ({
+          homePage,
+        }) => {
+          // Assert - its left edge is inside the window
+          expect((await homePage.reviewSlideBox(1)).peek).toBeGreaterThan(0);
+        });
+      });
+    }
+
+    test.describe('desktop width', () => {
+      test.use({ viewport: viewports.desktop });
+
+      test('The centre card is at least the desktop minimum wide', async ({
+        homePage,
+      }) => {
+        // Assert
+        expect((await homePage.reviewSlideBox(0)).width).toBeGreaterThanOrEqual(
+          reviewCardMinWidth,
+        );
+      });
+
+      test('The arrows sit on the track edges, centred on the track', async ({
+        homePage,
+      }) => {
+        // Act
+        const track = (await homePage.reviewsTrack.boundingBox())!;
+        const prev = (await homePage.reviewsPrevButton.boundingBox())!;
+        const next = (await homePage.reviewsNextButton.boundingBox())!;
+
+        // Assert - soft, so all three report even if one fails
+        const trackMiddle = track.y + track.height / 2;
+        expect
+          .soft(Math.abs(prev.y + prev.height / 2 - trackMiddle))
+          .toBeLessThan(1);
+        expect.soft(prev.x).toBeLessThan(track.x + track.width / 2);
+        expect.soft(next.x).toBeGreaterThan(track.x + track.width / 2);
+      });
+    });
+
+    test.describe('phone width', () => {
+      test.use({ viewport: viewports.mobile });
+
+      test('The arrows sit in the row under the track', async ({
+        homePage,
+      }) => {
+        // Act
+        const track = (await homePage.reviewsTrack.boundingBox())!;
+        const prev = (await homePage.reviewsPrevButton.boundingBox())!;
+        const next = (await homePage.reviewsNextButton.boundingBox())!;
+
+        // Assert - soft, so both report even if one fails
+        expect.soft(prev.y).toBeGreaterThanOrEqual(track.y + track.height);
+        expect.soft(next.y).toBeGreaterThanOrEqual(track.y + track.height);
+      });
+    });
   },
 );

@@ -54,6 +54,9 @@ export const callButtonLabel = 'Get a Quote';
 // aria-label of one footer social icon (the labels live in Footer.tsx)
 export const footerSocialLabel = 'Facebook';
 
+// The centre review card must never be narrower than this on desktop (T5.1, T5.7)
+export const reviewCardMinWidth = 896;
+
 export const viewports = {
   mobile: { width: 375, height: 812 },
   desktop: { width: 1280, height: 800 },

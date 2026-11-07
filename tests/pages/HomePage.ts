@@ -11,6 +11,11 @@ import {
   ABOUT_HEADLINE,
   ABOUT_CTA_LABEL,
 } from '@/components/home-sections/AboutSnippet';
+import {
+  NEXT_REVIEW_LABEL,
+  PREV_REVIEW_LABEL,
+  REVIEWS_TRACK_LABEL,
+} from '@/components/home-sections/ReviewsCarousel';
 import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
 import { WHATSAPP_WIDGET_LABEL } from '@/components/layout/WhatsAppWidget';
 import {
@@ -47,6 +52,12 @@ export class HomePage {
   readonly whyChooseUsDescriptions: Locator;
   readonly whyChooseUsTitles: Locator;
   readonly whyChooseUsCards: Locator;
+  // The reviews carousel (T5.7): the scrolling track, its slides (the hidden
+  // ones are the neighbours, so they are included) and the two arrows
+  readonly reviewsTrack: Locator;
+  readonly reviewSlides: Locator;
+  readonly reviewsPrevButton: Locator;
+  readonly reviewsNextButton: Locator;
 
   readonly sectionHeadings = {
     whyChooseUs: whyChooseUsHeading,
@@ -103,6 +114,16 @@ export class HomePage {
       ),
     );
     this.whyChooseUsCards = this.whyChooseUsTitles.locator('..');
+    this.reviewsTrack = page.getByRole('region', { name: REVIEWS_TRACK_LABEL });
+    this.reviewSlides = this.reviewsTrack.getByRole('group', {
+      includeHidden: true,
+    });
+    this.reviewsPrevButton = page.getByRole('button', {
+      name: PREV_REVIEW_LABEL,
+    });
+    this.reviewsNextButton = page.getByRole('button', {
+      name: NEXT_REVIEW_LABEL,
+    });
   }
 
   // One locator that matches any of the given ones
@@ -132,5 +153,61 @@ export class HomePage {
 
   async allSectionHeadings(): Promise<string[]> {
     return this.page.getByRole('heading', { level: 2 }).allTextContents();
+  }
+
+  // The review the carousel treats as current: the one slide that is not
+  // aria-hidden
+  async currentReviewIndex(): Promise<number> {
+    return this.reviewSlides.evaluateAll((slides) =>
+      slides.findIndex(
+        (slide) => slide.getAttribute('aria-hidden') === 'false',
+      ),
+    );
+  }
+
+  // The review that is actually in the middle of the track on screen: the slide
+  // whose middle is nearest the track's middle. Read from the layout, so it
+  // proves the scroll happened and not only that the state changed
+  async centredReviewIndex(): Promise<number> {
+    return this.reviewsTrack.evaluate((track) => {
+      const trackBox = track.getBoundingClientRect();
+      const trackMiddle = trackBox.left + trackBox.width / 2;
+      const distances = Array.from(track.children).map((slide) => {
+        const box = slide.getBoundingClientRect();
+        return Math.abs(box.left + box.width / 2 - trackMiddle);
+      });
+      return distances.indexOf(Math.min(...distances));
+    });
+  }
+
+  // A slide's width and how far its left edge is from the right edge of the
+  // window (negative when it is off screen). Layout sizes, not transformed ones
+  async reviewSlideBox(
+    index: number,
+  ): Promise<{ width: number; peek: number }> {
+    return this.reviewSlides.nth(index).evaluate((slide) => ({
+      width: (slide as HTMLElement).offsetWidth,
+      peek: window.innerWidth - slide.getBoundingClientRect().left,
+    }));
+  }
+
+  // Resolves once the track has stopped moving. A smooth scroll takes a while,
+  // and a check made mid-scroll could pass for the wrong reason
+  async waitForReviewsToSettle(): Promise<void> {
+    await this.reviewsTrack.evaluate(
+      (track) =>
+        new Promise<void>((resolve) => {
+          const STILL_FRAMES = 10;
+          let last = track.scrollLeft;
+          let still = 0;
+          const check = () => {
+            still = track.scrollLeft === last ? still + 1 : 0;
+            last = track.scrollLeft;
+            if (still >= STILL_FRAMES) resolve();
+            else requestAnimationFrame(check);
+          };
+          requestAnimationFrame(check);
+        }),
+    );
   }
 }
