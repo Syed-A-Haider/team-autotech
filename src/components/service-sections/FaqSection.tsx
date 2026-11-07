@@ -31,7 +31,7 @@ export function FaqSection({ section }: FaqSectionProps) {
               <ChevronDown className="h-5 w-5" />
             </span>
           </summary>
-          <p className="text-muted px-6 pb-6">{item.answer}</p>
+          <p className="text-muted px-6 pt-4 pb-6">{item.answer}</p>
         </details>
       ))}
     </div>
