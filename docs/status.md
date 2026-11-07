@@ -59,7 +59,7 @@ teamautotech.co.uk is live on this site. The old WordPress site crashed, so the 
 
 ## Next
 
-- T6.1 and T6.2 (landline on the primary Call buttons, redirects for old WordPress URLs), once PR #25 merges. Then T6.3, then T5.11 (Closing bands, About, 404 and Footer, brief in `docs/tickets/T5.11.md`). T5.12 now waits for T6.5 so its final pass covers the final nav and themes. Each ticket is implemented from its brief, then raised as its own PR for manual testing
+- T6.1 and T6.2 (landline on the primary Call buttons, redirects for old WordPress URLs), once PR #25 merges. Then T6.3, then T5.11 (Closing bands, About, 404 and Footer). T5.11 Stage 1 is COMPLETE and approved (2026-11-07): the full spec is in `docs/tickets/T5.11.md`, go straight to Stage 2 and do not repeat the review. T5.12 now waits for T6.5 so its final pass covers the final nav and themes. Each ticket is implemented from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
