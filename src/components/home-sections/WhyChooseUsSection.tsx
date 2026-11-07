@@ -51,12 +51,15 @@ export function WhyChooseUsSection() {
   return (
     <section>
       <SectionWrapper as="div" className="pt-10 pb-8 sm:pt-14 sm:pb-10">
-        <h2 className="text-foreground text-center text-2xl font-semibold sm:text-3xl">
-          {sectionHeading}
-        </h2>
-        <p className="text-muted mt-2 text-center text-sm sm:text-base">
-          {sectionSubheading}
-        </p>
+        {/* One block, so the heading and subheading reveal together */}
+        <div className="reveal">
+          <h2 className="text-foreground text-center text-2xl font-semibold sm:text-3xl">
+            {sectionHeading}
+          </h2>
+          <p className="text-muted mt-2 text-center text-sm sm:text-base">
+            {sectionSubheading}
+          </p>
+        </div>
       </SectionWrapper>
 
       {/* Full-bleed band - deliberately NOT inside SectionWrapper. Top border

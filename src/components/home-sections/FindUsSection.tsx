@@ -16,12 +16,14 @@ export const FIND_US_SECTION_INTRO =
   "Based in Nelson, Lancashire - here's how to find us.";
 export const FIND_US_DIRECTIONS_LABEL = 'Get Directions';
 
+// overflow-x-clip on the section: the side slides from lg can never widen the page
 export function FindUsSection() {
   return (
-    <SectionWrapper className="py-12 sm:py-16">
+    <SectionWrapper className="overflow-x-clip py-12 sm:py-16">
       <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-        {/* Information */}
-        <div className="flex flex-col gap-6">
+        {/* Information. Below lg its rows rise in turn, from lg the whole
+            column slides in from the left (never both on one element) */}
+        <div className="max-lg:reveal-stagger lg:reveal-left flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <h2 className="text-foreground text-2xl font-semibold sm:text-3xl">
               {FIND_US_SECTION_HEADING}
@@ -54,20 +56,18 @@ export function FindUsSection() {
             </div>
           </div>
 
-          {/* Link to Map */}
-          <LinkButton
-            href={MAPS_DIRECTIONS_LINK}
-            variant="primary"
-            external
-            className="self-start"
-          >
-            <Navigation aria-hidden="true" size={16} />
-            {FIND_US_DIRECTIONS_LABEL}
-          </LinkButton>
+          {/* Link to Map. The wrapper takes the reveal, the button keeps its
+              press and sheen. flex keeps the button its own width */}
+          <div className="flex">
+            <LinkButton href={MAPS_DIRECTIONS_LINK} variant="primary" external>
+              <Navigation aria-hidden="true" size={16} />
+              {FIND_US_DIRECTIONS_LABEL}
+            </LinkButton>
+          </div>
         </div>
 
-        {/* Embedded Map */}
-        <div className="border-accent bg-surface overflow-hidden rounded-lg border-t-4">
+        {/* Embedded Map. The frame reveals, never the iframe inside it */}
+        <div className="border-accent bg-surface max-lg:reveal lg:reveal-right overflow-hidden rounded-lg border-t-4">
           <MapEmbed
             src={MAPS_EMBED_SRC}
             title={`Map showing ${siteConfig.name}'s location`}
