@@ -26,7 +26,7 @@ export function SpecBand({ section }: SpecBandProps) {
   const columns = COLUMN_STYLES[section.specs.length] ?? FALLBACK_COLUMNS;
 
   return (
-    <dl className={clsx('grid gap-6', columns)}>
+    <dl className={clsx('reveal-stagger grid gap-6', columns)}>
       {section.specs.map((spec) => (
         <div key={spec.label} className={TILE_STYLES}>
           <dt className={LABEL_STYLES}>{spec.label}</dt>

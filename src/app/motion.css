@@ -11,7 +11,8 @@
         timed effects:  @media (prefers-reduced-motion: no-preference) { ... }
    3. Scroll effects fill 'backwards' only, so they let go of the element when
       done and hover or press styles work again. Set animation-timeline AFTER the
-      animation shorthand, because the shorthand resets it
+      animation shorthand, because the shorthand resets it. One exception:
+      scroll-progress fills 'forwards' (a fixed bar, no children, no hover)
    4. Put a reveal on a wrapper and hover or press on the element inside it
    5. Reveal compact things, not tall containers. Side slides need an
       overflow-clip ancestor, or they widen the page while moving
@@ -640,6 +641,54 @@
         animation: star-pop-5 linear backwards;
         animation-timeline: --slide-pass;
       }
+    }
+  }
+}
+
+/* pop-in (T5.10): put on a step number badge. It grows from --pop-scale to full
+   size as its row lands, one --stagger after the row starts (--i comes from a
+   reveal-stagger parent, 0 when there is none). Scale only, so it composes with
+   the badge's -skew-x-12 */
+@keyframes pop-grow {
+  from {
+    scale: var(--pop-scale);
+  }
+}
+
+@utility pop-in {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: pop-grow var(--ease-settle) backwards;
+      animation-timeline: view();
+      animation-range: cover calc((var(--i, 0) + 1) * var(--stagger)) cover
+        calc(var(--reveal-end) + (var(--i, 0) + 1) * var(--stagger));
+    }
+  }
+}
+
+/* scroll-progress (T5.10): the thin bar under the Navbar on service pages. It
+   rides the page scroll (scroll(root)), empty at the top and full at the bottom.
+   Empty everywhere else: reduced motion, no scroll-timeline support and a page
+   that does not scroll all leave the base scale. It fills 'forwards' so an iOS
+   bounce past the bottom keeps it full. The element is fixed, so its component
+   gives it position, size and origin (origin-left) */
+@keyframes progress-fill {
+  from {
+    scale: 0 1;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}
+
+@utility scroll-progress {
+  scale: 0 1;
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      animation: progress-fill linear forwards;
+      animation-timeline: scroll(root);
     }
   }
 }

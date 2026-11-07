@@ -79,15 +79,17 @@ const LG_SPAN = {
   3: 'lg:col-span-3',
 } satisfies Record<GridPlan['lg']['spans'][number], string>;
 
+// Grid and list rise in turn (reveal-stagger). Alternating cards reveal one by
+// one, see ALTERNATING_REVEAL
 const LIST_STYLES = {
-  grid: 'grid gap-6',
+  grid: 'reveal-stagger grid gap-6',
   alternating: 'flex flex-col gap-6',
-  list: 'divide-border divide-y',
+  list: 'reveal-stagger divide-border divide-y',
 } satisfies Record<FeatureLayout, string>;
 
 // Racing stripe on the top edge of each card, drawn with CSS only
 const CARD_STYLES =
-  'border-border bg-surface relative flex gap-4 overflow-hidden rounded-lg border p-6 before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
+  'border-border bg-surface relative flex gap-4 overflow-clip rounded-lg border p-6 before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
 
 const ITEM_STYLES = {
   grid: CARD_STYLES,
@@ -98,6 +100,13 @@ const ITEM_STYLES = {
 // Alternating zig-zags down the page: every second card sits right and mirrors
 const ALTERNATE_STYLES =
   'sm:ml-auto sm:flex-row-reverse sm:text-right sm:before:right-6 sm:before:left-auto';
+
+// Cards only zig-zag from sm, so a phone gets a plain rise and sm and up slide
+// in from their own side. Even cards sit left, odd cards right
+const ALTERNATING_REVEAL = [
+  'max-sm:reveal sm:reveal-left',
+  'max-sm:reveal sm:reveal-right',
+];
 
 const ICON_TILE_STYLES =
   'border-border bg-background flex h-11 w-11 shrink-0 items-center justify-center rounded-md border';
@@ -124,7 +133,10 @@ export function FeatureSection({ section }: FeatureSectionProps) {
               SM_SPAN[plan.sm.spans[index]],
               LG_SPAN[plan.lg.spans[index]],
             ],
-            layout === 'alternating' && index % 2 === 1 && ALTERNATE_STYLES,
+            layout === 'alternating' && [
+              ALTERNATING_REVEAL[index % 2],
+              index % 2 === 1 && ALTERNATE_STYLES,
+            ],
           )}
         >
           {Icon && isCard && (

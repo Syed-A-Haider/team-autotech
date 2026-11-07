@@ -29,9 +29,10 @@ src/
     not-found.tsx              branded 404 for unmatched URLs and notFound() (T4.2)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
   components/
-    layout/    Navbar, MobileMenu (Client), ServicesDropdown, Footer, WhatsAppWidget
+    layout/    Navbar, MobileMenu (Client), ServicesDropdown, ServicesDropdownLink (Client, blurs on click), Footer, WhatsAppWidget
     ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
-               PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks
+               PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks,
+               ScrollProgress (decorative bar, rendered by ServicePageTemplate, T5.10)
     home-sections/     HeroSection, ServicesGrid, WhyChooseUsSection (+ WhyChooseUsCard),
                         ReviewsSection, ReviewsCarousel (Client), FindUsSection,
                         MapEmbed (Client), AboutSnippet
@@ -48,7 +49,7 @@ tests/                    Playwright specs (Page Object Model + custom fixture);
 
 ## Client Components (everything else is Server)
 
-`MobileMenu`, `ReviewsCarousel`, `MapEmbed`, and `VideoEmbed`. Each holds only the interactive part. Content is passed in from a Server parent.
+`MobileMenu`, `ServicesDropdownLink`, `ReviewsCarousel`, `MapEmbed`, and `VideoEmbed`. Each holds only the interactive part. Content is passed in from a Server parent.
 
 ## Prop flow
 
@@ -84,10 +85,10 @@ Page structure is data, the same way page content is. Three axes of variation, a
 | Coming-soon SEO              | `robots: { index: false }` until content lands                                                                    | A thin indexed page is worse for local SEO than no page                                                                                       |
 | Third-party embeds           | None on page load                                                                                                 | Reviews and map are static. Video uses the facade                                                                                             |
 
-## Deferred (Phase 7)
+## Deferred (Phase 8)
 
 Shop, basket, Stripe checkout, Neon Postgres via Vercel Marketplace, Prisma. `AddToBasketButton` will be a Client Component importing `buttonVariantStyles` and `buttonSizeStyles` from `LinkButton`.
 
 ## Domain
 
-teamautotech.co.uk uses an A record and CNAME, not a registrar transfer, to avoid disrupting business email. Done last (T6.3).
+teamautotech.co.uk is live on this site. It uses an A record and CNAME, not a registrar transfer, to avoid disrupting business email. It was connected early, out of the planned order, because the old WordPress site crashed, so the former T6.3 no longer exists. Consequences: old WordPress URLs already 404, and copy that was waiting for Syd's approval is public (see `status.md`).

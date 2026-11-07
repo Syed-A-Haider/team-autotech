@@ -258,6 +258,29 @@ test.describe('Nav underline', { tag: '@interaction' }, () => {
       .toBe(1);
   });
 
+  test('the Services dropdown closes after a row is clicked and the pointer leaves', async ({
+    homePage,
+    page,
+  }) => {
+    // Arrange - open the dropdown and pick a row. The header outlives the
+    // navigation, so a focused row would keep the dropdown open
+    // (found by href: a hidden dropdown drops out of the role tree, so the
+    // role locator would fall back to the About link)
+    const row = page
+      .getByRole('banner')
+      .locator('a[href^="/services/"]')
+      .first();
+    await homePage.navServicesButton.hover();
+    await row.click();
+    await expect(page).toHaveURL(/\/services\//);
+
+    // Act - the pointer moves off the header
+    await page.mouse.move(640, 600);
+
+    // Assert
+    await expect(row).toBeHidden();
+  });
+
   test('Services button shows a pointer cursor', async ({
     homePage,
     interactionAudit,

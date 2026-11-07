@@ -34,20 +34,20 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 
 ## Section content (T3.4 onward)
 
-- A page's body is its `sections` array. Content tickets are data edits only. Three services are live (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series); the other 12 have no source copy. Future per-service content tickets are numbered in order in a later phase, opened by Haider (T3 is closed, so there is no T3.11)
+- A page's body is its `sections` array. Content tickets are data edits only. Three services are live (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series); the other 12 have no source copy. T6 (planned 2026-11-07) adds nine services and a fifth category (24 in 5, see T6.5) and writes AI-drafted copy for every coming-soon page in batches (T6.7 to T6.12, brief in `docs/tickets/T6-content.md`)
 - `ServiceSections` plans layout and numbering and wraps each block in `ui/SectionShell`, which owns the wrapper, the optional `title` `h2` and the spacing. Blocks render only their inner content, so spacing and title style change in one place
 - A live service with no `sections` falls back to `ComingSoonPanel`. The `video` type renders `VideoSection`: a local poster (`public/images/videos/<slug>.jpg`, 16:9, at least 1280x720, no baked-in play button) and a play button. `videoId` is the bare 11-character id, not a URL. The `title` names the player and the renderer shows it as the `h2`. A missing poster file renders a broken box and the build does not catch it, so check the file exists. Ghost Immobiliser II is the worked example
 - `Feature` has no image field, so the `alternating` layout is text-only
 - If a page needs something no block can do, add a block or variant in a component ticket first. Do not hack the data
 - Section data may hold `LucideIcon` references because blocks are Server Components. Never pass section data into a Client Component
 - No pricing anywhere. Prices vary by vehicle and spec, so CTAs are enquiry-only
-- Real copy comes from Syd's WordPress pages. Structure and placeholder content first, real copy after his review. Where the old page is empty, copy is requested from Syd via `docs/content/_requests.md`
+- Where the old WordPress page has copy, use it (corrected, see below). Where it is empty, the copy is AI-drafted to `docs/content/_standard.md` (T6.6) and tracked in `docs/content/_review.md` until Syd reviews it (T6.14). Until T6.6 lands, `docs/content/_requests.md` is the old tracker
 - One-liners (`shortDescription`) on services with no source copy only restate the title, or a nav label that is Syd's own. No scope claims, product versions or accreditations
 - Where copy lives: raw source briefs are `docs/content/<slug>.md` (verbatim from the old site, mistakes included, reference only). The published copy is the service's `sections` in `lib/services.ts`. Stage 1 Tuning is the worked example. Edit the data, not the brief
 - Do not treat Syd's copy as correct. Fix spelling, grammar, punctuation and capitalisation, use British English (specialise, optimise, colour), and keep an energetic, sporty tone that still sounds natural. Keep the meaning. Add no new facts, claims, figures or prices, and do not drop any. List meaningful rewording in the PR so Syd can confirm it
 - Old-site images can hide copy in Photoshop text layers: `curl -s <url> | LC_ALL=C grep -aoE 'photoshop:LayerText="[^"]*"'`. Layers pile up across exports and can be hidden, so open the image and use only what is visible. Put the text in native blocks, never in images
 - FAQs: no source copy exists, so live pages carry placeholder `faq` sections drafted from the page's own facts. Keep answers to sourced facts, enquiry-only pricing and "get in touch" for fitment. Syd reviews them
-- Unapproved copy: a service can be `live` before Syd signs off, so previews are testable. Each one must be listed in `status.md` open items until approved
+- Unapproved copy: the site is live, so every page with unreviewed copy is public. Each one is listed in `status.md` open items (and, from T6.6, in `content/_review.md`) until Syd approves it
 
 ## `lib/constants.ts`
 

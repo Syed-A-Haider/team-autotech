@@ -36,6 +36,25 @@ describe('ServicePageTemplate', () => {
     expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
   });
 
+  it('Renders the scroll progress bar, hidden from assistive tech', () => {
+    const { container } = render(
+      <ServicePageTemplate
+        service={mockService}
+        theme={mockTheme}
+        relatedServices={[]}
+      >
+        <p>Body</p>
+      </ServicePageTemplate>,
+    );
+    // The bar is the only direct decorative child of the template fragment
+    const bars = [...container.children].filter(
+      (el) =>
+        el.getAttribute('aria-hidden') === 'true' && el.textContent === '',
+    );
+    expect(bars).toHaveLength(1);
+    expect(container.firstElementChild).toBe(bars[0]);
+  });
+
   it('Renders the children passed in as the main body', () => {
     render(
       <ServicePageTemplate

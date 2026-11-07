@@ -9,10 +9,10 @@ interface ProseSectionProps {
 const LEAD_STYLES = 'text-foreground text-lg leading-relaxed sm:text-xl';
 const BODY_STYLES = 'text-muted leading-relaxed';
 
-// Plain text block. Title and spacing come from ServiceSections
+// Plain text block, revealed as one. Title and spacing come from ServiceSections
 export function ProseSection({ section }: ProseSectionProps) {
   return (
-    <div className="max-w-prose space-y-5">
+    <div className="reveal max-w-prose space-y-5">
       {section.body.map((paragraph, index) => (
         <p
           key={index}
