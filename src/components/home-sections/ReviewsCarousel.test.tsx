@@ -898,6 +898,43 @@ describe('ReviewsCarousel - autoplay', () => {
     });
   });
 
+  // A thumb scrolling the page lands on the carousel, because it is a big part
+  // of a phone's screen. That is not using it, or autoplay would stop before the
+  // visitor had seen it move
+  describe('a finger on a phone', () => {
+    it('Keeps going when a finger lands on the track', () => {
+      renderPlaying();
+      fireEvent.pointerDown(getTrack(), { pointerType: 'touch' });
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+
+    it('Stops for good when the track itself scrolls under the finger', () => {
+      renderPlaying();
+      fireEvent.pointerDown(getTrack(), { pointerType: 'touch' });
+      fireEvent.touchStart(getTrack());
+      fireEvent.scroll(getTrack());
+      const callsAfter = scrollCalls();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(scrollCalls()).toBe(callsAfter);
+    });
+
+    it('Keeps going when the track scrolls with no finger on it', () => {
+      renderPlaying();
+      fireEvent.scroll(getTrack());
+      advance(AUTOPLAY_INTERVAL_MS);
+      expect(isCurrent(getSlides()[1])).toBe(true);
+    });
+
+    it('Still stops for a mouse press', () => {
+      renderPlaying();
+      fireEvent.pointerDown(getTrack(), { pointerType: 'mouse' });
+      const callsAfter = scrollCalls();
+      advance(3 * AUTOPLAY_INTERVAL_MS);
+      expect(scrollCalls()).toBe(callsAfter);
+    });
+  });
+
   describe('the pause button', () => {
     it('Pauses, then plays again with a fresh interval', () => {
       renderPlaying();

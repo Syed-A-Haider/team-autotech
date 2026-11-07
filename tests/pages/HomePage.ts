@@ -77,6 +77,8 @@ export class HomePage {
   readonly headerCallLink: Locator;
   // Hero call button, shown below lg only
   readonly heroCallLink: Locator;
+  // Call button at the foot of the open mobile menu, which exists below lg only
+  readonly mobileMenuCallLink: Locator;
   readonly footerSocialLink: Locator;
   readonly whatsAppWidget: Locator;
   readonly directionsLink: Locator;
@@ -128,6 +130,9 @@ export class HomePage {
       .getByRole('link', { name: callButtonLabel });
     this.heroCallLink = page
       .getByRole('main')
+      .getByRole('link', { name: callButtonLabel });
+    this.mobileMenuCallLink = page
+      .getByRole('navigation', { name: navLabels.mobile })
       .getByRole('link', { name: callButtonLabel });
     this.footerSocialLink = page
       .getByRole('contentinfo')
@@ -313,6 +318,38 @@ export class HomePage {
         }),
     );
     await this.waitForFrames();
+  }
+
+  // A finger goes down in the middle of the track, drags by this much in small
+  // steps and lifts. Real touch events through the browser's debugging protocol,
+  // so Chromium only
+  async dragFingerOverReviews(distance: {
+    x: number;
+    y: number;
+  }): Promise<void> {
+    const STEPS = 8;
+    const box = await this.reviewsTrack.boundingBox();
+    if (box === null) throw new Error('The reviews track is not on screen');
+    const cdp = await this.page.context().newCDPSession(this.page);
+    let x = box.x + box.width / 2;
+    let y = box.y + box.height / 2;
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x, y }],
+    });
+    for (let step = 0; step < STEPS; step++) {
+      x += distance.x / STEPS;
+      y += distance.y / STEPS;
+      await cdp.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x, y }],
+      });
+      await this.waitForFrames();
+    }
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
+    });
   }
 
   // Two animation frames: long enough for React to apply a state change and

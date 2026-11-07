@@ -17,6 +17,9 @@ const SUBTITLE_STYLES = 'hero-in-2 text-muted text-lg sm:text-xl';
 // Same racing stripe as SectionHeading, with no margin: the flex gap spaces it
 const STRIPE_STYLES = 'hero-draw-2 bg-accent block h-1 w-12 -skew-x-12';
 const CALL_BUTTON_STYLES = 'hero-in-3 sheen-once lg:hidden';
+// A phone dials on a tap, so the number is only text from sm up (as on the Call
+// button in ContactLinks)
+const CALL_NUMBER_STYLES = 'hidden sm:inline';
 
 export function HeroSection() {
   return (
@@ -48,7 +51,10 @@ export function HeroSection() {
           className={CALL_BUTTON_STYLES}
         >
           <Phone aria-hidden="true" size={16} />
-          Get a Quote: {PHONE_MOBILE}
+          <span>
+            Get a Quote
+            <span className={CALL_NUMBER_STYLES}>: {PHONE_MOBILE}</span>
+          </span>
         </LinkButton>
       </div>
     </div>

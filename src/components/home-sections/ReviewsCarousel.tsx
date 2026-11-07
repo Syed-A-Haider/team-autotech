@@ -11,6 +11,7 @@ import {
   useSyncExternalStore,
   type FocusEvent,
   type KeyboardEvent,
+  type PointerEvent,
   type ReactNode,
   type RefObject,
   type WheelEvent,
@@ -281,6 +282,9 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
   }
 
   function handleScroll() {
+    // The track moving under a finger is the visitor swiping it. A scroll with
+    // no finger on it is autoplay's own, or a button's
+    if (touchingRef.current) autoplay.stop();
     scheduleSettle();
     if (frameRef.current !== null) return;
     frameRef.current = requestAnimationFrame(syncIndexFromScroll);
@@ -301,9 +305,13 @@ export function ReviewsCarousel({ children }: ReviewsCarouselProps) {
     targetRef.current = null;
   }
 
-  function handlePointerDown() {
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
     releaseTarget();
-    autoplay.stop();
+    // A finger landing on the track is usually a thumb scrolling the page, as
+    // the carousel fills much of a phone's screen. Stopping then meant autoplay
+    // was already paused when the visitor reached it. For touch it stops once
+    // the track itself scrolls (handleScroll). A mouse press stops it at once
+    if (event.pointerType !== 'touch') autoplay.stop();
   }
 
   function handleWheel(event: WheelEvent<HTMLDivElement>) {

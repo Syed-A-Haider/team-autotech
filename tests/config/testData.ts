@@ -45,6 +45,8 @@ export const navLabels = {
   main: 'Main',
   about: 'About',
   services: 'Services',
+  // The menu panel that opens below lg (MobileMenu)
+  mobile: 'Mobile',
 } as const;
 
 // Start of the header call button's text ("Get a Quote: <number>"). Also the
