@@ -13,25 +13,25 @@ Two goals: a better site for the business, and portfolio experience for the deve
 
 ## Confirmed decisions
 
-| Topic              | Decision                                                                                                                                                                |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Rendering          | Fully static. No API routes, no dynamic rendering                                                                                                                       |
-| Contact            | `tel:`, WhatsApp, `mailto:` links only. No form, no backend                                                                                                             |
-| Design             | Dark theme, orange accent, Inter only                                                                                                                                   |
-| Content            | Structure and placeholder content first, real copy after Syd reviews                                                                                                    |
-| Google reviews     | Static and curated, not a live API or widget                                                                                                                            |
-| Shop               | Deferred, out of scope for the current build                                                                                                                            |
-| Motion and wow     | Phase 5 (T5.1, T5.2), once core pages and routing are done, before T6.1. Not added per content ticket, so those stay data-only and the motion language stays consistent |
-| Service pages      | Single accent. Identity through the hero. No pricing, enquiry-only CTAs                                                                                                 |
-| Services index     | No `/services` page, by decision. Services are reached from the Navbar mega-menu, the homepage Popular grid and the About page. `/services` is a normal 404             |
-| Coming-soon pages  | `noindex` until real content lands                                                                                                                                      |
-| Third-party embeds | None on page load. YouTube uses a click-to-load facade                                                                                                                  |
-| Domain             | A record and CNAME, not a transfer. Syd has registrar access                                                                                                            |
-| Hosting            | Vercel, GitHub (SSH)                                                                                                                                                    |
+| Topic              | Decision                                                                                                                                                                         |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rendering          | Fully static. No API routes, no dynamic rendering                                                                                                                                |
+| Contact            | `tel:`, WhatsApp, `mailto:` links only. No form, no backend                                                                                                                      |
+| Design             | Dark theme, orange accent, Inter only                                                                                                                                            |
+| Content            | AI-drafted copy for every page (Syd's choice, 2026-11-07), written to `content/_standard.md` and reviewed by Syd at the end (T6.14). Old-site copy stays corrected, not invented |
+| Google reviews     | Static and curated, not a live API or widget                                                                                                                                     |
+| Shop               | Deferred to Phase 8. T6.4 adds an inactive "Shop" label to the nav, nothing more                                                                                                 |
+| Motion and wow     | Phase 5 (T5.1, T5.2), once core pages and routing are done, before T7.1. Not added per content ticket, so those stay data-only and the motion language stays consistent          |
+| Service pages      | Single accent. Identity through the hero. No pricing, enquiry-only CTAs                                                                                                          |
+| Services index     | No `/services` page, by decision. Services are reached from the Navbar mega-menu, the homepage Popular grid and the About page. `/services` is a normal 404                      |
+| Coming-soon pages  | `noindex` until content lands. T6.7 to T6.12 write AI-drafted copy for every one, so each page goes live (indexable) with its batch                                              |
+| Third-party embeds | None on page load. YouTube uses a click-to-load facade                                                                                                                           |
+| Domain             | Live at teamautotech.co.uk (A record and CNAME, not a transfer). Connected early because the old WordPress site crashed, so there is no domain ticket any more                   |
+| Hosting            | Vercel, GitHub (SSH)                                                                                                                                                             |
 
 ## Rules from the owner
 
-- Everything is as Syd wants it. Placeholder copy stays placeholder until he signs off. Temporary exception: a service may be `live` with unapproved copy so Haider can test the PR preview. Each one is listed in `status.md` and Syd must approve it before the domain is connected (T6.3)
+- Everything is as Syd wants it. The site is live (it went live early, see `status.md`), so unapproved copy is public. Syd chose AI-drafted copy for every page on 2026-11-07. It goes live and indexable before his review, is written to `content/_standard.md`, and is listed in `content/_review.md` until he approves it (T6.14). Business facts are still never invented
 - Do not invent business facts: services, prices, accreditations, hours, claims. Use `constants.ts` and Syd's source pages
 - Services and slugs live in `lib/services.ts`. Contact details live in `lib/constants.ts`
 

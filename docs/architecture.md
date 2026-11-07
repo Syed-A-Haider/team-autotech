@@ -85,10 +85,10 @@ Page structure is data, the same way page content is. Three axes of variation, a
 | Coming-soon SEO              | `robots: { index: false }` until content lands                                                                    | A thin indexed page is worse for local SEO than no page                                                                                       |
 | Third-party embeds           | None on page load                                                                                                 | Reviews and map are static. Video uses the facade                                                                                             |
 
-## Deferred (Phase 7)
+## Deferred (Phase 8)
 
 Shop, basket, Stripe checkout, Neon Postgres via Vercel Marketplace, Prisma. `AddToBasketButton` will be a Client Component importing `buttonVariantStyles` and `buttonSizeStyles` from `LinkButton`.
 
 ## Domain
 
-teamautotech.co.uk uses an A record and CNAME, not a registrar transfer, to avoid disrupting business email. Done last (T6.3).
+teamautotech.co.uk is live on this site. It uses an A record and CNAME, not a registrar transfer, to avoid disrupting business email. It was connected early, out of the planned order, because the old WordPress site crashed, so the former T6.3 no longer exists. Consequences: old WordPress URLs already 404, and copy that was waiting for Syd's approval is public (see `status.md`).

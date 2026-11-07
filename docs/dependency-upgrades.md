@@ -72,5 +72,5 @@ Commits, each followed by `/verify`:
 
 - The Vercel preview (Haider checks it).
 - That a fresh Claude Code session loads `AGENTS.md` through the `@AGENTS.md` import. It uses the same syntax as the docs imports beside it.
-- Browsers other than Chromium (T6.1) and performance or accessibility audits (T6).
+- Browsers other than Chromium (T7.1) and performance or accessibility audits (T7).
 - The snapshot and compare scripts were throwaway and are not in the repo. If upgrades become routine, turning them into a repo script is a follow-up.

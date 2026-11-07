@@ -148,7 +148,7 @@ T5.1 fixed the 15 `transition-*` uses that lacked `motion-safe:`. Colour hovers 
 
 ## Responsive checks
 
-Check 375, 768 and 1280 px (procedure in `testing.md`, Visual verification). Known: minor card-text wrapping at 360px on `ServicesGrid` (T6.2).
+Check 375, 768 and 1280 px (procedure in `testing.md`, Visual verification). Known: minor card-text wrapping at 360px on `ServicesGrid` (T7.2).
 
 ## Do not change
 
