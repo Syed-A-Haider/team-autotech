@@ -1,7 +1,15 @@
 import { whyChooseUsItems } from '@/components/home-sections/WhyChooseUsSection';
+import { AUTOPLAY_INTERVAL_MS } from '@/components/home-sections/ReviewsCarousel';
 import { MAPS_DIRECTIONS_LINK, siteConfig } from '@/lib/constants';
 import { test, expect } from './fixtures';
-import { htmlLang, pageTitle, routes, viewports } from './config/testData';
+import type { HomePage } from './pages/HomePage';
+import {
+  htmlLang,
+  pageTitle,
+  reviewCardMinWidth,
+  routes,
+  viewports,
+} from './config/testData';
 
 test.describe('Homepage', { tag: '@homepage' }, () => {
   test(
@@ -152,5 +160,461 @@ test.describe(
         });
       });
     }
+  },
+);
+
+// T5.7: the reviews carousel is a native scroller. Positions are read from the
+// layout, and each check waits for the smooth scroll to stop before it looks
+const reducedMotion = { contextOptions: { reducedMotion: 'reduce' } } as const;
+
+// Run once normally and once with reduced motion (an instant scroll)
+function defineReviewNavigationTests() {
+  test('The next button centres the next review', async ({ homePage }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    expect(await homePage.centredReviewIndex()).toBe(0);
+
+    // Act
+    await homePage.reviewsNextButton.click();
+
+    // Assert - the state moves at once, the layout once the scroll has landed
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(1);
+  });
+
+  test('Clicking the neighbouring review centres it', async ({ homePage }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+
+    // Act - near the slide's left edge, the part that shows beside the first
+    await homePage.reviewSlides.nth(1).click({ position: { x: 8, y: 100 } });
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(1);
+  });
+
+  test('ArrowRight moves exactly one review', async ({ homePage }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.reviewsTrack.focus();
+
+    // Act
+    await homePage.page.keyboard.press('ArrowRight');
+
+    // Assert - after the scroll stops, so a second step from the browser's own
+    // key handling would show as review 3
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(1);
+  });
+
+  // Wrap-around: both ends join up, by button, by click and by swipe
+  test('The previous button on the first review wraps to the last', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    const last = (await homePage.reviewSlides.count()) - 1;
+
+    // Act
+    await homePage.reviewsPrevButton.click();
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+
+  test('The next button on the last review wraps to the first', async ({
+    homePage,
+  }) => {
+    // Arrange - on the last review, once the window has turned around it
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.reviewsPrevButton.click();
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+
+    // Act
+    await homePage.reviewsNextButton.click();
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(0);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(0);
+  });
+
+  test('Clicking the review beside the first on its left centres the last', async ({
+    homePage,
+  }) => {
+    // Arrange - once the window is on, the last review is beside the first
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.waitForReviewsWindow();
+    const last = (await homePage.reviewSlides.count()) - 1;
+    const lastSlide = homePage.reviewSlides.nth(last);
+    const { width } = await homePage.reviewSlideBox(last);
+
+    // Act - near the slide's right edge, the part that shows beside the first
+    await lastSlide.click({ position: { x: width - 8, y: 100 } });
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+
+  test('Swiping back from the first review lands on the last', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    const last = (await homePage.reviewSlides.count()) - 1;
+
+    // Act
+    await homePage.swipeReviews(-1);
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+
+  test('Swiping forward from the last review lands on the first', async ({
+    homePage,
+  }) => {
+    // Arrange - on the last review, once the window has turned around it
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+    await homePage.reviewsPrevButton.click();
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+
+    // Act
+    await homePage.swipeReviews(1);
+
+    // Assert
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(0);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(0);
+  });
+
+  test('The window turns after a swipe, so the next swipe has a neighbour too', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+
+    // Act - swipe forward, let it land, then swipe back past the first
+    await homePage.swipeReviews(1, 'scroll');
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+    await homePage.swipeReviews(-1, 'scroll');
+    await homePage.waitForReviewsToSettle();
+    await expect.poll(() => homePage.currentReviewIsInMiddleSlot()).toBe(true);
+    await homePage.swipeReviews(-1, 'scroll');
+
+    // Assert
+    const last = (await homePage.reviewSlides.count()) - 1;
+    await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+    await homePage.waitForReviewsToSettle();
+    expect(await homePage.centredReviewIndex()).toBe(last);
+  });
+}
+
+test.describe(
+  'Homepage - reviews carousel',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    for (const [size, viewport] of Object.entries(viewports)) {
+      test.describe(`${size} width`, () => {
+        test.use({ viewport });
+
+        defineReviewNavigationTests();
+
+        test.describe('with reduced motion', () => {
+          test.use(reducedMotion);
+
+          defineReviewNavigationTests();
+        });
+
+        test('The next review peeks in beside the first', async ({
+          homePage,
+        }) => {
+          // Assert - its left edge is inside the window
+          expect((await homePage.reviewSlideBox(1)).peek).toBeGreaterThan(0);
+        });
+
+        test('A neighbouring review tints faintly on hover, the centre one does not', async ({
+          homePage,
+        }) => {
+          // Arrange
+          await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+          await homePage.waitForReviewsWindow();
+          const last = (await homePage.reviewSlides.count()) - 1;
+          const { width } = await homePage.reviewSlideBox(last);
+          expect(await homePage.reviewTintAlpha(1)).toBe(0);
+
+          // Act - over each side neighbour, at the part that shows
+          await homePage.reviewSlides
+            .nth(1)
+            .hover({ position: { x: 8, y: 100 } });
+
+          // Assert - a faint wash, nowhere near opaque. The centre card has none
+          await expect
+            .poll(() => homePage.reviewTintAlpha(1))
+            .toBeGreaterThan(0);
+          expect(await homePage.reviewTintAlpha(1)).toBeLessThan(0.2);
+          expect(await homePage.reviewTintAlpha(0)).toBe(0);
+
+          await homePage.reviewSlides
+            .nth(last)
+            .hover({ position: { x: width - 8, y: 100 } });
+          await expect
+            .poll(() => homePage.reviewTintAlpha(last))
+            .toBeGreaterThan(0);
+          // The first neighbour's tint fades out as the pointer leaves it
+          await expect.poll(() => homePage.reviewTintAlpha(1)).toBe(0);
+        });
+      });
+    }
+
+    test.describe('desktop width', () => {
+      test.use({ viewport: viewports.desktop });
+
+      test('The centre card is at least the desktop minimum wide', async ({
+        homePage,
+      }) => {
+        // Assert
+        expect((await homePage.reviewSlideBox(0)).width).toBeGreaterThanOrEqual(
+          reviewCardMinWidth,
+        );
+      });
+
+      test('The arrows sit on the track edges, centred on the track', async ({
+        homePage,
+      }) => {
+        // Act
+        const track = (await homePage.reviewsTrack.boundingBox())!;
+        const prev = (await homePage.reviewsPrevButton.boundingBox())!;
+        const next = (await homePage.reviewsNextButton.boundingBox())!;
+
+        // Assert - soft, so all three report even if one fails
+        const trackMiddle = track.y + track.height / 2;
+        expect
+          .soft(Math.abs(prev.y + prev.height / 2 - trackMiddle))
+          .toBeLessThan(1);
+        expect.soft(prev.x).toBeLessThan(track.x + track.width / 2);
+        expect.soft(next.x).toBeGreaterThan(track.x + track.width / 2);
+      });
+    });
+
+    test.describe('phone width', () => {
+      test.use({ viewport: viewports.mobile });
+
+      test('A press made as the page loads still lands', async ({
+        homePage,
+      }) => {
+        // React replays a click made while the page hydrates, a moment before
+        // the carousel switches to its wrap-around layout. It is a race, so a
+        // few early clicks. Each one used to leave the last review current with
+        // the first still on screen
+        const attempts = 4;
+        for (let attempt = 0; attempt < attempts; attempt++) {
+          // Arrange - the click comes as soon as the button can take it
+          await homePage.page.goto(routes.home, { waitUntil: 'commit' });
+
+          // Act
+          await homePage.reviewsPrevButton.click();
+
+          // Assert
+          const last = (await homePage.reviewSlides.count()) - 1;
+          await expect.poll(() => homePage.currentReviewIndex()).toBe(last);
+          await homePage.waitForReviewsToSettle();
+          expect(await homePage.centredReviewIndex()).toBe(last);
+          await expect
+            .poll(() => homePage.currentReviewIsInMiddleSlot())
+            .toBe(true);
+        }
+      });
+
+      test('The arrows sit in the row under the track', async ({
+        homePage,
+      }) => {
+        // Act
+        const track = (await homePage.reviewsTrack.boundingBox())!;
+        const prev = (await homePage.reviewsPrevButton.boundingBox())!;
+        const next = (await homePage.reviewsNextButton.boundingBox())!;
+
+        // Assert - soft, so both report even if one fails
+        expect.soft(prev.y).toBeGreaterThanOrEqual(track.y + track.height);
+        expect.soft(next.y).toBeGreaterThanOrEqual(track.y + track.height);
+      });
+    });
+  },
+);
+
+// T5.7: the carousel moves on by itself. A fake clock jumps over each interval,
+// so a test does not wait out each interval. The clock is installed after the page
+// has loaded and then runs on in real time, so scrolling and the settle still work
+test.describe(
+  'Homepage - reviews autoplay',
+  { tag: ['@homepage', '@responsive'] },
+  () => {
+    test.use({ viewport: viewports.mobile });
+
+    // The root says whether the timer is running or held (data-autoplay). A test
+    // waits for the state it needs, then two frames so React has started or
+    // cleared the timer, before the clock jumps
+    async function waitForAutoplay(
+      homePage: HomePage,
+      state: 'running' | 'held',
+    ) {
+      await expect(homePage.reviewsRoot).toHaveAttribute(
+        'data-autoplay',
+        state,
+      );
+      await homePage.waitForFrames();
+    }
+
+    // The carousel in view, with its timer running and the mouse out of the way
+    async function startAutoplay(homePage: HomePage) {
+      await homePage.page.clock.install();
+      await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+      await homePage.waitForReviewsWindow();
+      await homePage.waitForReviewsInView();
+      await waitForAutoplay(homePage, 'running');
+    }
+
+    async function jumpOneInterval(homePage: HomePage) {
+      await homePage.page.clock.fastForward(AUTOPLAY_INTERVAL_MS);
+    }
+
+    test('Moves on by itself, one review at a time', async ({ homePage }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.centredReviewIndex()).toBe(1);
+
+      // And again, once that move has settled
+      await expect
+        .poll(() => homePage.currentReviewIsInMiddleSlot())
+        .toBe(true);
+      await jumpOneInterval(homePage);
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(2);
+    });
+
+    test('Wraps forward from the last review to the first', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await startAutoplay(homePage);
+      const last = (await homePage.reviewSlides.count()) - 1;
+
+      // Act - on to the last review, one settled move at a time
+      for (let review = 1; review <= last; review++) {
+        await jumpOneInterval(homePage);
+        await expect.poll(() => homePage.currentReviewIndex()).toBe(review);
+        await homePage.waitForReviewsToSettle();
+        await expect
+          .poll(() => homePage.currentReviewIsInMiddleSlot())
+          .toBe(true);
+      }
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(0);
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.centredReviewIndex()).toBe(0);
+    });
+
+    test('Pause holds it, and play sets it going again', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act
+      await homePage.reviewsPauseButton.click();
+      await waitForAutoplay(homePage, 'held');
+      await jumpOneInterval(homePage);
+      await jumpOneInterval(homePage);
+
+      // Assert - still on the first review
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.currentReviewIndex()).toBe(0);
+      expect(await homePage.centredReviewIndex()).toBe(0);
+
+      // Act
+      await homePage.reviewsPlayButton.click();
+      await waitForAutoplay(homePage, 'running');
+      await jumpOneInterval(homePage);
+
+      // Assert
+      await expect.poll(() => homePage.currentReviewIndex()).toBe(1);
+    });
+
+    // The only autoplay test on the real clock. A fake clock hid the bug where
+    // a mouse resting over the carousel (where scrolling to it leaves the cursor)
+    // held autoplay for good
+    test('Starts by itself in real time, with a mouse resting over it', async ({
+      homePage,
+    }) => {
+      // Arrange
+      await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+      await homePage.waitForReviewsWindow();
+
+      // Act
+      await homePage.reviewsTrack.hover();
+
+      // Assert - within a couple of intervals, on its own
+      await expect
+        .poll(() => homePage.currentReviewIndex(), {
+          timeout: 3 * AUTOPLAY_INTERVAL_MS,
+        })
+        .toBe(1);
+    });
+
+    test('Using the carousel stops it for good', async ({ homePage }) => {
+      // Arrange
+      await startAutoplay(homePage);
+
+      // Act
+      await homePage.reviewsNextButton.click();
+      await waitForAutoplay(homePage, 'held');
+      await jumpOneInterval(homePage);
+      await jumpOneInterval(homePage);
+
+      // Assert - it stays on the review the visitor chose, and offers play
+      await homePage.waitForReviewsToSettle();
+      expect(await homePage.currentReviewIndex()).toBe(1);
+      await expect(homePage.reviewsPlayButton).toBeVisible();
+    });
+
+    test.describe('with reduced motion', () => {
+      test.use(reducedMotion);
+
+      test('Stays still and has no pause button', async ({ homePage }) => {
+        // Arrange
+        await homePage.page.clock.install();
+        await homePage.reviewsNextButton.scrollIntoViewIfNeeded();
+        await homePage.waitForReviewsInView();
+
+        // Act
+        await jumpOneInterval(homePage);
+        await homePage.waitForReviewsToSettle();
+
+        // Assert
+        expect(await homePage.currentReviewIndex()).toBe(0);
+        await expect(homePage.reviewsPauseButton).toHaveCount(0);
+        await expect(homePage.reviewsPlayButton).toHaveCount(0);
+      });
+    });
   },
 );

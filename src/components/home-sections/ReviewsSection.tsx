@@ -26,8 +26,9 @@ export function ReviewsSection() {
         <p className="text-muted text-sm">{REVIEWS_SECTION_SUBHEADING}</p>
       </div>
 
-      {/* Wider from lg so the carousel fills more of a desktop screen */}
-      <div className="w-full max-w-2xl lg:max-w-4xl">
+      {/* Bleeds into the section padding so the track runs edge to edge, and
+          the side cards and arrows have room. Mirrors SectionWrapper's padding */}
+      <div className="-mx-4 self-stretch sm:-mx-6 lg:-mx-8">
         <ReviewsCarousel>
           {reviews.map((review) => (
             <ReviewCard key={review.id} review={review} />

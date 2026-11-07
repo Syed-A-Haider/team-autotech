@@ -72,6 +72,17 @@ Concise plain prose, no tables. Cover:
 - Do not change a shared type (for example the `ServiceSection` union) without flagging it in Stage 1.
 - Delegate codebase searches to the Explore agent instead of reading many files yourself.
 
+## Working efficiently
+
+A long ticket (T5.7 took about 50 minutes) loses most of its time to repeated gate runs and bugs only a real browser shows. Apply by default.
+
+- **Probe the browser first.** For scroll, snap, hydration, hover or focus work, try the idea in a throwaway Playwright script on Chromium and WebKit before writing tests. jsdom cannot show these bugs (T5.7 had three).
+- **Iterate narrowly.** While working: one Vitest file, and Playwright with `--project=chromium --grep`. Run the whole suite on both browsers once, after the last source change and right before committing. Build once, at the same point.
+- **Extras are opt-in.** Mutation checks, bundle-size baselines (stash and rebuild) and doc rewrites happen only when asked, or once at the end. Do doc edits in one pass.
+- **Wait for state, not time.** Tests wait on something observable (a `data-*` attribute, a settled scroll), never a fixed number of frames or timeouts. A fixed wait was flaky on WebKit.
+- **No shell heredocs for files or scripts.** Quotes break them on this machine. Write the file with the Write tool and run it. Back a file up before a script changes it, and restore it in `finally`.
+- **Windows paths in scripts.** Use `C:/...` in Node, not Git Bash's `/c/...`, which Node reads as a drive-relative path and writes into a stray `C:\c`. Delete throwaway scripts and stop servers by PID when done.
+
 ## Review loop
 
 - Haider checks the PR diff and the Vercel preview, then asks for targeted fixes.

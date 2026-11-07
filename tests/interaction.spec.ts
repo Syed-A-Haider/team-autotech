@@ -19,6 +19,7 @@ const desktopPressTargets: Target[] = [
   { name: 'service card', locate: (home) => home.firstServiceLink },
   { name: 'footer social icon', locate: (home) => home.footerSocialLink },
   { name: 'WhatsApp widget', locate: (home) => home.whatsAppWidget },
+  { name: 'reviews next arrow', locate: (home) => home.reviewsNextButton },
 ];
 
 const phonePressTargets: Target[] = [
@@ -26,6 +27,7 @@ const phonePressTargets: Target[] = [
   { name: 'hero call button', locate: (home) => home.heroCallLink },
   { name: 'service card', locate: (home) => home.firstServiceLink },
   { name: 'WhatsApp widget', locate: (home) => home.whatsAppWidget },
+  { name: 'reviews next arrow', locate: (home) => home.reviewsNextButton },
 ];
 
 // Nav items that draw an underline from their own hover
