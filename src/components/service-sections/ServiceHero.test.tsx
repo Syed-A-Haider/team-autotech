@@ -5,7 +5,7 @@ import { Gauge } from 'lucide-react';
 import { ServiceHero } from './ServiceHero';
 import type { Service } from '@/types/service';
 import type { CategoryTheme } from '@/lib/service-themes';
-import { TEL_MOBILE_LINK } from '@/lib/constants';
+import { TEL_LANDLINE_LINK } from '@/lib/constants';
 
 const mockService: Service = {
   slug: 'stage-1-tuning',
@@ -47,7 +47,7 @@ describe('ServiceHero', () => {
     render(<ServiceHero service={mockService} theme={mockTheme} />);
     expect(screen.getByRole('link', { name: /call now/i })).toHaveAttribute(
       'href',
-      TEL_MOBILE_LINK,
+      TEL_LANDLINE_LINK,
     );
   });
 });

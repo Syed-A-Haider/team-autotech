@@ -14,6 +14,7 @@ Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned
 | Ticket  | PR       | Merged | Notes                                                               |
 | ------- | -------- | ------ | ------------------------------------------------------------------- |
 | T6 plan | with #25 | TBC    | Docs only: this report, briefs `T6.1` to `T6.6` and `T6-content.md` |
+| T6.1    | TBC      | TBC    | Landline on the five primary Call buttons, 311 Vitest, no e2e added |
 
 Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, T6.4, T6.5, T5.12, T6.6, T6.7, T6.8, T6.9, T6.10, T6.11, T6.12, T6.13, T6.14. Scope per ticket is in the Remaining table of `status.md`.
 
@@ -30,6 +31,11 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 | AI copy follows a written standard with a Vitest guard, and a review tracker. Emissions pages go last and use lawful-work wording only | A real local business: invented prices, accreditations, guarantees or emissions-removal wording are a legal and trust risk. The standard is in `tickets/T6.6.md`                                             | Opus plan                    |
 | Mechanical / Customisation entries go last in the array                                                                                | Dropdown column order is the order of first appearance in the data                                                                                                                                           | Opus plan                    |
 
+## Gotchas found while building
+
+- T6.1: the header button's `min-w-70` still holds. Measured at 1280px with it lifted, the landline text is 271.4px in Inter and 276.4px (Chromium) or 276.5px (WebKit) in the fallback font, so under 280px. The desktop layout-shift guard alone proves nothing while `min-w-70` fixes the box, so measure the natural width when the button text changes
+- T6.1: the WhatsApp-stays-mobile test passes before any code change, so it was proven red once by pointing `WHATSAPP_NUMBER` at the landline temporarily (restored)
+
 ## Gotchas found while planning
 
 - The noindex unit test (`services/[slug]/page.test.ts`) has `if (!comingSoon) return;`, so it will pass without testing anything once every page is live. T6.3 rewrites it with a fixture
@@ -42,7 +48,7 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 
 ## Open questions
 
-Haider answered on 2026-11-07 (Syd can still correct): the Shop label as planned (T6.4), the landline answered in hours and also on service-page "Call now" (T6.1), emissions wording at the default (T6.12), AI pages indexable on going live, and Haider picks the Mechanical hero photo (T6.5).
+Haider answered on 2026-11-07 (Syd can still correct): the Shop label as planned (T6.4), the landline also on service-page "Call now" (T6.1; out of hours the landline redirects to the mobile, so no call is lost), emissions wording at the default (T6.12), AI pages indexable on going live, and Haider picks the Mechanical hero photo (T6.5).
 
 Haider also confirmed the five unsourced claims already live (Authorised Ghost Immobiliser II Installer, backed by our guarantee, family-run, genuine manufacturer-grade tools, insurance-approved trackers), so they stay as they are. Syd can still correct them in T6.14.
 

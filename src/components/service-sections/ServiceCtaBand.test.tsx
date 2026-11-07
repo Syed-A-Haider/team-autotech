@@ -5,7 +5,7 @@ import { Gauge } from 'lucide-react';
 import { ServiceCtaBand, CTA_PITCH } from './ServiceCtaBand';
 import { COMING_SOON_BADGE } from './ComingSoonPanel';
 import type { Service } from '@/types/service';
-import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
+import { TEL_LANDLINE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 
 const mockService: Service = {
   slug: 'stage-1-tuning',
@@ -28,7 +28,7 @@ describe('ServiceCtaBand', () => {
     render(<ServiceCtaBand service={mockService} />);
     expect(screen.getByRole('link', { name: /call us/i })).toHaveAttribute(
       'href',
-      TEL_MOBILE_LINK,
+      TEL_LANDLINE_LINK,
     );
   });
 

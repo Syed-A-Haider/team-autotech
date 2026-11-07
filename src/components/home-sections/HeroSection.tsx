@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Phone } from 'lucide-react';
 import { LinkButton } from '../ui/LinkButton';
-import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
+import { TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 
 export const HERO_HEADLINE =
   'Vehicle Remapping, Auto Electrical & Tuning Specialists in Nelson';
@@ -45,7 +45,7 @@ export function HeroSection() {
 
         {/* Mobile Only - replaces CTA in navbar */}
         <LinkButton
-          href={TEL_MOBILE_LINK}
+          href={TEL_LANDLINE_LINK}
           variant="primary"
           size="md"
           className={CALL_BUTTON_STYLES}
@@ -53,7 +53,7 @@ export function HeroSection() {
           <Phone aria-hidden="true" size={16} />
           <span>
             Get a Quote
-            <span className={CALL_NUMBER_STYLES}>: {PHONE_MOBILE}</span>
+            <span className={CALL_NUMBER_STYLES}>: {PHONE_LANDLINE}</span>
           </span>
         </LinkButton>
       </div>

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { EnquiryBand } from './EnquiryBand';
 import { CALL_LABEL, WHATSAPP_LABEL } from './ContactLinks';
-import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
+import { TEL_LANDLINE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 
 const TITLE = 'Interested in Remapping?';
 const PITCH = 'Get in touch for a free quote.';
@@ -27,7 +27,7 @@ describe('EnquiryBand', () => {
       screen.getByRole('link', {
         name: new RegExp(CALL_LABEL),
       }),
-    ).toHaveAttribute('href', TEL_MOBILE_LINK);
+    ).toHaveAttribute('href', TEL_LANDLINE_LINK);
   });
 
   it('Renders a WhatsApp link that opens in a new tab', () => {

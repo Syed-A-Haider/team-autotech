@@ -8,7 +8,8 @@ export const siteConfig = {
 } as const;
 
 // Business Contact Details
-// Used in Navbar, Footer, ContactLinks
+// The landline is on every primary Call button (Navbar, HeroSection, MobileMenu,
+// ContactLinks, ServiceHero). The mobile is for WhatsApp and the Footer mobile row
 
 export const PHONE_LANDLINE = '01282 787576';
 export const PHONE_MOBILE = '07515 007688';

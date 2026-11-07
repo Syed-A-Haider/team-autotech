@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Gauge } from 'lucide-react';
 import { Navbar } from './Navbar';
-import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
+import { TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
 import userEvent from '@testing-library/user-event';
 
@@ -48,9 +48,9 @@ describe('Navbar', () => {
   it('Renders the CTA with the phone number and correct href', () => {
     render(<Navbar categories={mockCategories} />);
     const cta = screen.getByRole('link', {
-      name: new RegExp(`Get a Quote.*${PHONE_MOBILE}`),
+      name: new RegExp(`Get a Quote.*${PHONE_LANDLINE}`),
     });
-    expect(cta).toHaveAttribute('href', TEL_MOBILE_LINK);
+    expect(cta).toHaveAttribute('href', TEL_LANDLINE_LINK);
   });
 
   it('Renders the mobile menu button', () => {

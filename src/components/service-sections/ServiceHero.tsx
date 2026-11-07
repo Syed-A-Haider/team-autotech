@@ -5,7 +5,7 @@ import type { Service } from '@/types/service';
 import type { CategoryTheme } from '@/lib/service-themes';
 import { LinkButton } from '../ui/LinkButton';
 import { SectionWrapper } from '../ui/SectionWrapper';
-import { TEL_MOBILE_LINK } from '@/lib/constants';
+import { TEL_LANDLINE_LINK } from '@/lib/constants';
 
 interface ServiceHeroProps {
   service: Service;
@@ -51,7 +51,7 @@ export function ServiceHero({ service, theme }: ServiceHeroProps) {
           </p>
         )}
         <LinkButton
-          href={TEL_MOBILE_LINK}
+          href={TEL_LANDLINE_LINK}
           variant="primary"
           size="md"
           className="hero-in-4 sheen-once mt-6 lg:hidden"

@@ -57,6 +57,7 @@ Flat named exports:
 - `PHONE_LANDLINE`, `PHONE_MOBILE`, `EMAIL`, `ADDRESS`
 - `WHATSAPP_NUMBER`, `WHATSAPP_LINK`
 - `TEL_MOBILE_LINK`, `TEL_LANDLINE_LINK`, `MAILTO_LINK`
+- Every primary Call button (header, hero, mobile menu, `ContactLinks`, service hero) uses `PHONE_LANDLINE` and `TEL_LANDLINE_LINK` (T6.1). The mobile is for WhatsApp (`WHATSAPP_NUMBER`) and the Footer "(Mobile)" row only. Out of hours the landline redirects to the mobile
 - `OPENING_HOURS`, `SOCIAL_LINKS`, `GOOGLE_PROFILE_LINK`
 - `YEARS_EXPERIENCE` (15, "15+ years" approved by Syd). Used by `AboutSnippet` and the About page. `WhyChooseUsSection` still hardcodes it (follow-up)
 - `MAPS_EMBED_SRC`, `MAPS_DIRECTIONS_LINK`, both derived from `ADDRESS`

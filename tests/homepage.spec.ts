@@ -2,7 +2,7 @@ import { whyChooseUsItems } from '@/components/home-sections/WhyChooseUsSection'
 import { AUTOPLAY_INTERVAL_MS } from '@/components/home-sections/ReviewsCarousel';
 import {
   MAPS_DIRECTIONS_LINK,
-  PHONE_MOBILE,
+  PHONE_LANDLINE,
   siteConfig,
 } from '@/lib/constants';
 import { test, expect } from './fixtures';
@@ -186,7 +186,7 @@ test.describe(
       test('Shows the phone number', async ({ homePage }) => {
         // Assert
         await expect(homePage.heroCallLink).toBeVisible();
-        await expect(homePage.heroCallLink).toContainText(PHONE_MOBILE, {
+        await expect(homePage.heroCallLink).toContainText(PHONE_LANDLINE, {
           useInnerText: true,
         });
       });

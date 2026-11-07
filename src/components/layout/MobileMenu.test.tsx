@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
+import { TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 
 const mockCategories: MobileMenuCategories = {
   'Remap / Tuning': [{ slug: 'stage-1-tuning', title: 'Stage 1 Tuning' }],
@@ -138,5 +139,16 @@ describe('MobileMenu', () => {
 
     expect(screen.getByText(/Get a Quote/i)).toBeInTheDocument();
     expect(screen.queryByText(/whatsapp/i)).not.toBeInTheDocument();
+  });
+
+  it('Dials the landline from the menu call button', async () => {
+    const user = userEvent.setup();
+    render(<MobileMenu categories={mockCategories} />);
+
+    await user.click(screen.getByRole('button', { name: 'Open menu' }));
+
+    const cta = screen.getByRole('link', { name: /Get a Quote/i });
+    expect(cta).toHaveAttribute('href', TEL_LANDLINE_LINK);
+    expect(cta).toHaveTextContent(PHONE_LANDLINE);
   });
 });

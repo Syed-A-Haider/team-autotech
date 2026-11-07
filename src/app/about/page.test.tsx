@@ -20,7 +20,7 @@ import { getAllServices, groupServicesByCategory } from '@/lib/services';
 import {
   ADDRESS,
   OPENING_HOURS,
-  TEL_MOBILE_LINK,
+  TEL_LANDLINE_LINK,
   MAPS_DIRECTIONS_LINK,
   WHATSAPP_LINK,
 } from '@/lib/constants';
@@ -105,11 +105,11 @@ describe('AboutPage', () => {
     expect(numbered).toHaveLength(0);
   });
 
-  it('Links to directions, the mobile number and WhatsApp', () => {
+  it('Links to directions, the landline and WhatsApp', () => {
     render(<AboutPage />);
     const hrefs = allLinkHrefs();
     expect(hrefs).toContain(MAPS_DIRECTIONS_LINK);
-    expect(hrefs).toContain(TEL_MOBILE_LINK);
+    expect(hrefs).toContain(TEL_LANDLINE_LINK);
     expect(hrefs).toContain(WHATSAPP_LINK);
   });
 
