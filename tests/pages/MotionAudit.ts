@@ -134,6 +134,44 @@ export class MotionAudit {
     });
   }
 
+  // The reviews carousel's depth effect (T5.8) rides each slide's own pass across
+  // the track, so its timelines have the track as their source, not the page.
+  // revealAudit does not see them (their timeline is named, not view()), so this
+  // checks them instead. All animations on every slide, its card, stars and
+  // pseudo-elements:
+  //   total: how many there are
+  //   onTrack: driven by a timeline whose source is the track
+  //   live: with a running timeline (currentTime not null)
+  //   held: whose fill keeps an end state after the range (should be none)
+  async carouselTimelineAudit(trackLabel: string): Promise<{
+    total: number;
+    onTrack: number;
+    live: number;
+    held: number;
+  }> {
+    return this.page.evaluate((label) => {
+      type Timeline = { currentTime: unknown; source: Element | null };
+      const track = document.querySelector(`[aria-label="${label}"]`);
+      const animations = [...(track?.children ?? [])].flatMap((slide) =>
+        slide.getAnimations({ subtree: true }),
+      );
+      const timelineOf = (animation: Animation) =>
+        animation.timeline as unknown as Timeline | null;
+      return {
+        total: animations.length,
+        onTrack: animations.filter(
+          (animation) => timelineOf(animation)?.source === track,
+        ).length,
+        live: animations.filter(
+          (animation) => timelineOf(animation)?.currentTime != null,
+        ).length,
+        held: animations.filter((animation) =>
+          /forwards|both/.test(animation.effect?.getTiming().fill ?? ''),
+        ).length,
+      };
+    }, trackLabel);
+  }
+
   // The last h2 in main: far below the fold on a long page
   private lastHeading() {
     return this.page.locator('main h2').last();

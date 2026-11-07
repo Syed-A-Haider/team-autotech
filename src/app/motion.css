@@ -413,6 +413,237 @@
   }
 }
 
+/* carousel-depth (T5.8): put on a reviews carousel slide. The slide declares a
+   timeline for its own pass across the track (view-timeline, inline axis) and
+   the card inside, the slide's hover tint and the card's two overlays follow it.
+   The slide itself is NEVER transformed, so its box, snap point and click area
+   stay put. Progress is the slide's pass across the track: 50% is centred, 0%
+   and 100% are the two ends. Every neighbour rests between 2% and 11.5% (or
+   88.5% and 98%) on all screen widths, so the keyframes hold the side look from
+   0% to 12% and the centre look from 48% to 52%, and the ramps lie between. If
+   --slide or --gap change, check the 768px neighbour (11.2%) is still on the
+   plateau. The range is the full cover range with fill 'backwards' only: past
+   the end the slide is off screen, so there is no after-phase to see. The
+   timeline name must NOT contain "view": revealAudit finds page reveals by that
+   word and would count every card and star as a broken one.
+   Scale is anchored on the inner edge: shrunk by --depth-scale and shifted by
+   half the lost width towards the centre, so the next card keeps its peek on a
+   phone. From lg the slide also gets perspective and a tilt: perspective only
+   reaches direct children, so it is on the slide and not the track. The card
+   turns its face towards the centre (rotate: y is negative on the right).
+   Dim is an overlay in the background colour on the card's ::after, not
+   opacity, which the faded-element guard would flag on every neighbour. The
+   accent ring is the card's ::before. Order matters: a transformed child
+   paints above an earlier ::before, so the dim is ::after to sit over the stars */
+@keyframes depth-card {
+  0%,
+  12% {
+    scale: var(--depth-scale);
+    translate: calc((1 - var(--depth-scale)) * -50%) 0;
+    rotate: y calc(var(--tilt) * -1);
+  }
+
+  48%,
+  52% {
+    scale: none;
+    translate: none;
+    rotate: none;
+  }
+
+  88%,
+  100% {
+    scale: var(--depth-scale);
+    translate: calc((1 - var(--depth-scale)) * 50%) 0;
+    rotate: y var(--tilt);
+  }
+}
+
+@keyframes depth-dim {
+  0%,
+  12%,
+  88%,
+  100% {
+    opacity: var(--depth-dim);
+  }
+
+  48%,
+  52% {
+    opacity: 0;
+  }
+}
+
+@keyframes depth-ring {
+  0%,
+  12%,
+  88%,
+  100% {
+    opacity: 0;
+  }
+
+  48%,
+  52% {
+    opacity: 1;
+  }
+}
+
+@utility carousel-depth {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      --tilt: 0deg;
+      view-timeline: --slide-pass inline;
+
+      /* The neighbour hover tint (it only exists on a neighbour) */
+      &::after {
+        animation: depth-card linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > * {
+        position: relative;
+        animation: depth-card linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > *::before,
+      & > *::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      & > *::before {
+        border: 2px solid var(--accent);
+        animation: depth-ring linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > *::after {
+        background: var(--background);
+        animation: depth-dim linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      @media (min-width: 64rem) {
+        --tilt: var(--depth-tilt);
+        perspective: var(--depth-perspective);
+      }
+    }
+  }
+}
+
+/* star-pop (T5.8): put on the row of stars inside a review card in a
+   carousel-depth slide. Each star is small on a side card and grows to full size
+   as the card nears the centre, one after another: star n holds --star-rest
+   until 12 + 6 (n - 1) percent of the slide's pass, is full from 24 + 6 (n - 1)
+   and mirrors that on the other side, so star 1 pops first from either
+   direction. One keyframes per star because animation-delay does nothing on a
+   scroll timeline and a shifted range would make the order follow the direction
+   of travel. Outside a slide the timeline name does not resolve: no effect */
+@keyframes star-pop-1 {
+  0%,
+  12%,
+  88%,
+  100% {
+    scale: var(--star-rest);
+  }
+
+  24%,
+  76% {
+    scale: none;
+  }
+}
+
+@keyframes star-pop-2 {
+  0%,
+  18%,
+  82%,
+  100% {
+    scale: var(--star-rest);
+  }
+
+  30%,
+  70% {
+    scale: none;
+  }
+}
+
+@keyframes star-pop-3 {
+  0%,
+  24%,
+  76%,
+  100% {
+    scale: var(--star-rest);
+  }
+
+  36%,
+  64% {
+    scale: none;
+  }
+}
+
+@keyframes star-pop-4 {
+  0%,
+  30%,
+  70%,
+  100% {
+    scale: var(--star-rest);
+  }
+
+  42%,
+  58% {
+    scale: none;
+  }
+}
+
+@keyframes star-pop-5 {
+  0%,
+  36%,
+  64%,
+  100% {
+    scale: var(--star-rest);
+  }
+
+  48%,
+  52% {
+    scale: none;
+  }
+}
+
+@utility star-pop {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* The shorthand resets animation-timeline, so it is set after it */
+      & > svg:nth-of-type(1) {
+        animation: star-pop-1 linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > svg:nth-of-type(2) {
+        animation: star-pop-2 linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > svg:nth-of-type(3) {
+        animation: star-pop-3 linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > svg:nth-of-type(4) {
+        animation: star-pop-4 linear backwards;
+        animation-timeline: --slide-pass;
+      }
+
+      & > svg:nth-of-type(5) {
+        animation: star-pop-5 linear backwards;
+        animation-timeline: --slide-pass;
+      }
+    }
+  }
+}
+
 /* Print: show the finished page, nothing mid-animation */
 @media print {
   *,

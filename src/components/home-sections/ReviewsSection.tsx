@@ -19,7 +19,7 @@ export function ReviewsSection() {
   return (
     <SectionWrapper className="flex flex-col items-center gap-6 py-12 sm:py-16 lg:gap-8">
       {/* Heading + Subtitle */}
-      <div className="flex flex-col items-center gap-2 text-center">
+      <div className="reveal flex flex-col items-center gap-2 text-center">
         <h2 className="text-foreground text-2xl font-semibold sm:text-3xl">
           {REVIEWS_SECTION_HEADING}
         </h2>
@@ -36,14 +36,18 @@ export function ReviewsSection() {
         </ReviewsCarousel>
       </div>
       {/* lg size from the desktop breakpoint, to match the larger card */}
-      <LinkButton
-        href={GOOGLE_PROFILE_LINK}
-        variant="primary"
-        external
-        className="lg:px-7 lg:py-3.5 lg:text-lg"
-      >
-        See all our reviews on Google
-      </LinkButton>
+      {/* The wrapper reveals, the button keeps its own press and sheen. A grid,
+          so the inline button adds no line-box height */}
+      <div className="reveal grid">
+        <LinkButton
+          href={GOOGLE_PROFILE_LINK}
+          variant="primary"
+          external
+          className="lg:px-7 lg:py-3.5 lg:text-lg"
+        >
+          See all our reviews on Google
+        </LinkButton>
+      </div>
     </SectionWrapper>
   );
 }

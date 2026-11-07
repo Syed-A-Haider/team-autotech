@@ -56,6 +56,11 @@
   --hero-rise-y: 2rem; /* how far a hero step rises, more than a scroll reveal */
   --hero-step: 200ms; /* delay between hero text steps */
   --page-enter-from: 0.6; /* where the page fade starts, never 0 (LCP) */
+  --depth-scale: 0.9; /* how small a side review card is */
+  --depth-dim: 0.45; /* how much background colour is laid over a side card */
+  --depth-tilt: 8deg; /* how far a side card turns towards the centre (lg up) */
+  --depth-perspective: 1200px; /* how strong the tilt looks (lg up) */
+  --star-rest: 0.6; /* how small the stars are on a side card */
 }
 
 /* The sticky Navbar is h-16 plus a 1px border. Anchor jumps stop below it */
