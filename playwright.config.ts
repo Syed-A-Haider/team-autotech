@@ -10,7 +10,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000',
   },
-  // WebKit is the stand-in for Safari. Firefox joins in T6.1
+  // WebKit is the stand-in for Safari. Firefox joins in T7.1
   projects: [
     { name: 'chromium', use: { browserName: 'chromium' } },
     { name: 'webkit', use: { browserName: 'webkit' } },
