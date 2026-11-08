@@ -59,6 +59,7 @@ Flat named exports:
 - `TEL_MOBILE_LINK`, `TEL_LANDLINE_LINK`, `MAILTO_LINK`
 - Every primary Call button (header, hero, mobile menu, `ContactLinks`, service hero) uses `PHONE_LANDLINE` and `TEL_LANDLINE_LINK` (T6.1). The mobile is for WhatsApp (`WHATSAPP_NUMBER`) and the Footer "(Mobile)" row only. Out of hours the landline redirects to the mobile
 - `OPENING_HOURS`, `SOCIAL_LINKS`, `GOOGLE_PROFILE_LINK`
+- Old WordPress URLs: to add a redirect, add the old slug to `SERVICE_SOURCES` in `lib/redirects.ts` (an alias under its service) or an entry to `ABOUT_REDIRECTS`. Lowercase, no trailing slash. Never list shop, account or WordPress system URLs. A new service needs its root-slug entry (a Vitest guard checks)
 - `YEARS_EXPERIENCE` (15, "15+ years" approved by Syd). Used by `AboutSnippet` and the About page. `WhyChooseUsSection` still hardcodes it (follow-up)
 - `MAPS_EMBED_SRC`, `MAPS_DIRECTIONS_LINK`, both derived from `ADDRESS`
 

@@ -4,12 +4,13 @@ Static Next.js App Router site on Vercel. Written from the project plan; check t
 
 ## Routes and rendering
 
-| Route              | Rendering                      | Notes                                                                                                                                                  |
-| ------------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `/`                | Static                         | Home                                                                                                                                                   |
-| `/about`           | Static                         | T4.1                                                                                                                                                   |
-| `/services/[slug]` | Static, `generateStaticParams` | All 15 service pages                                                                                                                                   |
-| Unmatched URLs     | Static                         | `app/not-found.tsx`, built as `/_not-found`. HTTP 404, `noindex` added by Next. Unknown slugs are stopped by `dynamicParams = false` and land here too |
+| Route              | Rendering                      | Notes                                                                                                                                                                                                             |
+| ------------------ | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                | Static                         | Home                                                                                                                                                                                                              |
+| `/about`           | Static                         | T4.1                                                                                                                                                                                                              |
+| `/services/[slug]` | Static, `generateStaticParams` | All 15 service pages                                                                                                                                                                                              |
+| Old WordPress URLs | 308 platform redirect          | `lib/redirects.ts` (plain data), read by `next.config.ts` `redirects()` (T6.2). Vercel serves them from the routes manifest, so the site is still fully static. Shop and account URLs are deliberately not listed |
+| Unmatched URLs     | Static                         | `app/not-found.tsx`, built as `/_not-found`. HTTP 404, `noindex` added by Next. Unknown slugs are stopped by `dynamicParams = false` and land here too                                                            |
 
 - No API routes and no dynamic rendering anywhere. `export const dynamic = 'error'` on `about` and `services/[slug]` makes the build fail if a page ever turns dynamic.
 - Categories are data, not folders. They drive the nav and the page theme, not the URL.
@@ -40,7 +41,7 @@ src/
                         ServiceCtaBand, RelatedServices, ServiceSections,
                         ProseSection, FeatureSection, StepsSection, SpecBand, FaqSection,
                         VideoSection, VideoEmbed (Client)
-  lib/        services.ts, service-themes.ts, reviews.ts, constants.ts, routes.ts (serviceHref)
+  lib/        services.ts, service-themes.ts, reviews.ts, constants.ts, routes.ts (serviceHref), redirects.ts (old WordPress URLs, T6.2)
   types/      service.ts, review.ts
 public/images/            logo.jpg (placeholder), hero-background.jpg, services/ (category heroes), videos/ (posters)
 public/reviews/           review photos
