@@ -693,6 +693,68 @@
   }
 }
 
+/* reveal-stagger-entry (T5.11): put on the Footer's column grid. Same rise as
+   reveal-stagger, but on the entry range (the element's own height, done when
+   its bottom edge reaches the window bottom). A cover range cannot finish at
+   the very bottom of a page, where the footer always ends. Safe for columns of
+   about 120px or more. Its own block, not a modifier, so two rules setting
+   & > * never depend on CSS order. Rule: --entry-reveal-end plus 5 x
+   --entry-stagger must be 100% or less */
+@utility reveal-stagger-entry {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      & > * {
+        animation: reveal-up linear backwards;
+        animation-timeline: view();
+        animation-range: entry calc(var(--i) * var(--entry-stagger)) entry
+          calc(var(--entry-reveal-end) + var(--i) * var(--entry-stagger));
+      }
+
+      & > :nth-child(1) {
+        --i: 0;
+      }
+
+      & > :nth-child(2) {
+        --i: 1;
+      }
+
+      & > :nth-child(3) {
+        --i: 2;
+      }
+
+      & > :nth-child(4) {
+        --i: 3;
+      }
+
+      & > :nth-child(5) {
+        --i: 4;
+      }
+
+      & > :nth-child(n + 6) {
+        --i: 5;
+      }
+    }
+  }
+}
+
+/* pop-once (T5.11): put on the coming-soon chip. It grows from --pop-scale and
+   turns from --pop-rotate to rest once at load, after --pop-delay. Timed, so
+   only the reduced-motion guard. Scale and rotate are their own properties, so
+   they compose with the chip's -skew-x-12. No opacity: never invisible */
+@keyframes pop-settle {
+  from {
+    scale: var(--pop-scale);
+    rotate: var(--pop-rotate);
+  }
+}
+
+@utility pop-once {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: pop-settle var(--motion-slow) var(--ease-settle) var(--pop-delay)
+      backwards;
+  }
+}
+
 /* Print: show the finished page, nothing mid-animation */
 @media print {
   *,

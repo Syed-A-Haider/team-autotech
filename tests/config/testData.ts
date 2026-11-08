@@ -103,3 +103,6 @@ export const tabletViewport = { width: 768, height: 900 } as const;
 
 // The first lg width: side slides have the least room here (T5.9)
 export const lgViewport = { width: 1024, height: 800 } as const;
+
+// Tall enough that the 404 cannot scroll, so its Footer must finish unscrolled (T5.11)
+export const tallViewport = { width: 1280, height: 1400 } as const;

@@ -1,5 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { routes } from '../config/testData';
+import { RELATED_SERVICES_HEADING } from '@/components/service-sections/RelatedServices';
+import { CALL_LABEL } from '@/components/ui/ContactLinks';
 
 // No auto-navigation on construction — slug varies per test,
 // unlike HomePage which always goes to the same URL.
@@ -121,5 +123,41 @@ export class ServicePage {
   // transition cannot stand in for the answer's motion
   async faqAnswerAnimationCount(index: number): Promise<number> {
     return this.faqAnswer(index).evaluate((el) => el.getAnimations().length);
+  }
+
+  // Related Services (T5.11): the section found by its heading
+  relatedSection(): Locator {
+    return this.page.locator('main section', {
+      has: this.page.getByRole('heading', {
+        level: 2,
+        name: RELATED_SERVICES_HEADING,
+      }),
+    });
+  }
+
+  // The closing EnquiryBand (coming-soon panel or live CTA), found by its
+  // Call button
+  band(): Locator {
+    return this.page.locator('main section', {
+      has: this.page.getByRole('link', { name: CALL_LABEL }),
+    });
+  }
+
+  // The contact buttons' wrapper, and the pitch that sits above it
+  bandContactRow(): Locator {
+    return this.band().getByRole('link', { name: CALL_LABEL }).locator('..');
+  }
+
+  bandPitch(): Locator {
+    return this.bandContactRow().locator('..').locator(':scope > p').last();
+  }
+
+  // The slanted coming-soon chip, and the upright text inside it
+  bandChip(): Locator {
+    return this.band().locator('p').first().locator(':scope > span');
+  }
+
+  bandChipText(): Locator {
+    return this.bandChip().locator(':scope > span');
   }
 }

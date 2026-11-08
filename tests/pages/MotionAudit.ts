@@ -90,7 +90,7 @@ export class MotionAudit {
     });
   }
 
-  // Scroll reveals in main, read from the browser (no class names).
+  // Scroll reveals in main and footer, read from the browser (no class names).
   // subjects: elements driven by a scroll (view) timeline.
   // detached: subjects below the fold with no live animation on the page scroll.
   //   An overflow-hidden ancestor would capture the timeline, so call this
@@ -104,7 +104,9 @@ export class MotionAudit {
     return this.page.evaluate(() => {
       type Timeline = { currentTime: unknown; source: Element | null };
       const scroller = document.scrollingElement;
-      const subjects = [...document.querySelectorAll('main *')].filter((el) =>
+      const subjects = [
+        ...document.querySelectorAll('main *, footer *'),
+      ].filter((el) =>
         getComputedStyle(el)
           .getPropertyValue('animation-timeline')
           .includes('view'),
@@ -247,7 +249,7 @@ export class MotionAudit {
     );
   }
 
-  // Elements in main whose fill keeps an end state after the animation. A timed
+  // Elements in main and footer whose fill keeps an end state after the animation. A timed
   // effect that holds its fill would block hover and trap fixed children.
   // One exception (T5.10): a fixed element on a scroll() timeline, the progress
   // bar, which has no children and no hover and must stay full during an
@@ -255,17 +257,19 @@ export class MotionAudit {
   async heldFillCount(): Promise<number> {
     return this.page.evaluate(
       () =>
-        [...document.querySelectorAll('main, main *')].filter((el) => {
-          const style = getComputedStyle(el);
-          const isProgressBar =
-            style.position === 'fixed' &&
-            style.getPropertyValue('animation-timeline').includes('scroll(');
-          return (
-            !isProgressBar &&
-            style.animationName !== 'none' &&
-            /forwards|both/.test(style.animationFillMode)
-          );
-        }).length,
+        [...document.querySelectorAll('main, main *, footer, footer *')].filter(
+          (el) => {
+            const style = getComputedStyle(el);
+            const isProgressBar =
+              style.position === 'fixed' &&
+              style.getPropertyValue('animation-timeline').includes('scroll(');
+            return (
+              !isProgressBar &&
+              style.animationName !== 'none' &&
+              /forwards|both/.test(style.animationFillMode)
+            );
+          },
+        ).length,
     );
   }
 
@@ -291,9 +295,95 @@ export class MotionAudit {
       );
   }
 
+  // The Footer's column grid (T5.11): the parent of the Footer nav
+  footerGrid(): Locator {
+    return this.page
+      .getByRole('contentinfo')
+      .getByRole('navigation', { name: 'Footer' })
+      .locator('..');
+  }
+
+  // The copyright line under the grid
+  footerCopyright(): Locator {
+    return this.page.getByRole('contentinfo').getByText('All rights reserved');
+  }
+
+  // Put the element's top edge so that this fraction of its own height has
+  // entered the window from the bottom (0 = just touching, 1 = bottom edge on
+  // the window bottom). This is the progress of an `entry` range
+  async scrollEntryTo(target: Locator, fraction: number): Promise<void> {
+    await target.evaluate((el, entry) => {
+      const box = el.getBoundingClientRect();
+      const top = box.top + window.scrollY;
+      window.scrollTo(0, top + entry * box.height - window.innerHeight);
+    }, fraction);
+  }
+
+  // For each link in this scope: does the link itself, or its parent, ride a
+  // scroll (view) timeline? The reveal belongs on the parent
+  async cardTimelines(
+    scope: Locator,
+  ): Promise<{ own: boolean; parent: boolean }[]> {
+    return scope.getByRole('link').evaluateAll((cards) => {
+      const onViewTimeline = (el: Element) =>
+        getComputedStyle(el)
+          .getPropertyValue('animation-timeline')
+          .includes('view');
+      return cards.map((card) => ({
+        own: onViewTimeline(card),
+        parent: onViewTimeline(card.parentElement as Element),
+      }));
+    });
+  }
+
+  // How many elements ride a scroll (view) timeline in this scope, the scope
+  // itself included
+  async scrollSubjectCount(scope: Locator): Promise<number> {
+    return scope.evaluate(
+      (root) =>
+        [root, ...root.querySelectorAll('*')].filter((el) =>
+          getComputedStyle(el)
+            .getPropertyValue('animation-timeline')
+            .includes('view'),
+        ).length,
+    );
+  }
+
   // The element's own animation name, as the browser computes it ('none' if none)
   async animationName(target: Locator): Promise<string> {
     return target.evaluate((el) => getComputedStyle(el).animationName);
+  }
+
+  // The element's animation iteration count and delay (in seconds), as computed
+  async animationTiming(
+    target: Locator,
+  ): Promise<{ iterations: string; delay: number }> {
+    return target.evaluate((el) => {
+      const style = getComputedStyle(el);
+      const raw = style.animationDelay;
+      return {
+        iterations: style.animationIterationCount,
+        delay: raw.endsWith('ms') ? parseFloat(raw) / 1000 : parseFloat(raw),
+      };
+    });
+  }
+
+  // The scale and rotate an element's animation starts from. A timed effect has
+  // finished by the time a test looks, so a paused, undelayed clone shows its
+  // first keyframe, resolved by the browser
+  async animationStartLook(
+    target: Locator,
+  ): Promise<{ scale: string; rotate: string }> {
+    return target.evaluate((el) => {
+      const clone = el.cloneNode(false) as HTMLElement;
+      clone.style.animationDelay = '0s';
+      clone.style.animationPlayState = 'paused';
+      clone.style.animationFillMode = 'both';
+      el.after(clone);
+      const { scale, rotate } = getComputedStyle(clone);
+      clone.remove();
+      return { scale, rotate };
+    });
   }
 
   // The element's animation delay in seconds (the build may write ms or s)

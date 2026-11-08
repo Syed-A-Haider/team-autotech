@@ -15,14 +15,17 @@ const BAND_GLOW_STYLES = clsx(
   'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
 );
 
-// Slanted solid chip, the first thing seen in the band. The text is skewed back upright
+// Slanted solid chip, the first thing seen in the band. The text is skewed back upright.
+// pop-once: it pops into place once at load (scale and rotate, never opacity)
 const BADGE_CHIP_STYLES =
-  'bg-accent inline-block -skew-x-12 px-5 py-2 sm:px-7 sm:py-2.5';
+  'pop-once bg-accent inline-block -skew-x-12 px-5 py-2 sm:px-7 sm:py-2.5';
 const BADGE_TEXT_STYLES =
   'text-background inline-block skew-x-12 text-base font-extrabold tracking-widest uppercase sm:text-xl';
 
-// Stacked full-width on mobile, one centred row from sm
-const CONTACT_LINKS_STYLES = 'mt-8 flex-col sm:flex-row sm:justify-center';
+// Stacked full-width on mobile, one centred row from sm. reveal: the row rises
+// as one, the buttons keep their own press and sheen
+const CONTACT_LINKS_STYLES =
+  'reveal mt-8 flex-col sm:flex-row sm:justify-center';
 
 // Shared closing band: stripe heading, pitch and the contact buttons.
 // Powers both ComingSoonPanel and ServiceCtaBand.
@@ -41,7 +44,7 @@ export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
             </p>
           )}
           <SectionHeading title={title} align="center" />
-          <p className="text-muted mx-auto mt-4 max-w-prose text-lg text-pretty">
+          <p className="reveal text-muted mx-auto mt-4 max-w-prose text-lg text-pretty">
             {pitch}
           </p>
           <ContactLinks className={CONTACT_LINKS_STYLES} />

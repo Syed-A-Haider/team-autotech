@@ -17,7 +17,6 @@ import {
 // call button is hidden from lg, and the phone run already proves the rest
 test.use({ viewport: viewports.mobile });
 
-// Pages that reveal on scroll (the 404 has none yet)
 const revealPages = [
   { name: 'home', path: routes.home },
   { name: 'about', path: routes.about },
@@ -25,9 +24,8 @@ const revealPages = [
     name: slug,
     path: routes.service(slug),
   })),
+  { name: 'not found', path: routes.unknownPage },
 ];
-
-const pages = [...revealPages, { name: 'not found', path: routes.unknownPage }];
 
 // A sampled opacity can sit a hair under its start value on the first frame
 const OPACITY_TOLERANCE = 0.01;
@@ -49,7 +47,7 @@ for (const [size, viewport] of sizes) {
   test.describe(`Motion guards, ${size}`, () => {
     test.use({ viewport });
 
-    for (const { name, path } of pages) {
+    for (const { name, path } of revealPages) {
       test(
         `${name}: nothing is left faded after scrolling to the bottom`,
         { tag: '@motion' },
@@ -90,7 +88,7 @@ for (const [size, viewport] of sizes) {
 
 // Phone only (see the note at the top)
 test.describe('Motion guards, timed effects', () => {
-  for (const { name, path } of pages) {
+  for (const { name, path } of revealPages) {
     test(
       `${name}: no timed effect holds its end state`,
       { tag: '@motion' },
@@ -401,7 +399,7 @@ for (const [size, viewport] of sizes) {
   test.describe(`Motion guards, reduced motion, ${size}`, () => {
     test.use({ ...reducedMotion, viewport });
 
-    for (const { name, path } of pages) {
+    for (const { name, path } of revealPages) {
       test(
         `${name}: nothing moves, fades or transitions`,
         { tag: '@motion' },
@@ -444,7 +442,7 @@ for (const [size, viewport] of sizes) {
     test.use({ javaScriptEnabled: false, viewport });
 
     // Scroll first: a reveal below the fold is correctly hidden until it is reached
-    for (const { name, path } of pages) {
+    for (const { name, path } of revealPages) {
       test(
         `${name}: all content is visible after scrolling`,
         { tag: '@motion' },
