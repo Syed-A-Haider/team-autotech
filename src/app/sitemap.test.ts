@@ -15,7 +15,6 @@ function makeService(slug: string, status?: Service['status']): Service {
     title: slug,
     category: 'Programming',
     shortDescription: 'Fixture',
-    body: 'Fixture',
     icon: Wrench,
     status,
   };

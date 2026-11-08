@@ -12,7 +12,6 @@ const mockService: Service = {
   title: 'Stage 1 Tuning',
   category: 'Remap / Tuning',
   shortDescription: 'Performance remapping for increased power and torque',
-  body: 'Placeholder content.',
   icon: Gauge,
 };
 

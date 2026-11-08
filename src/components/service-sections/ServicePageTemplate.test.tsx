@@ -11,7 +11,6 @@ const mockService: Service = {
   title: 'Stage 1 Tuning',
   category: 'Remap / Tuning',
   shortDescription: 'Performance remapping.',
-  body: 'Placeholder content.',
   icon: Gauge,
 };
 
@@ -106,7 +105,6 @@ describe('ServicePageTemplate', () => {
         title: 'DPF / EGR Solutions',
         category: 'Remap / Tuning',
         shortDescription: 'Diagnostics.',
-        body: 'Placeholder content.',
         icon: Filter,
       },
     ];

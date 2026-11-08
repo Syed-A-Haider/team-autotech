@@ -7,7 +7,6 @@ export interface Service {
   title: string;
   category: Category;
   shortDescription: string; // Used on ServiceCard
-  body: string;
   icon: LucideIcon;
   popular?: boolean; // Highlights this service on cards
   sections?: ServiceSection[];

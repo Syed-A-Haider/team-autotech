@@ -13,7 +13,6 @@ function makeService(status?: Service['status']): Service {
     title: 'Fixture Service',
     category: 'Programming',
     shortDescription: 'Fixture',
-    body: 'Fixture',
     icon: Wrench,
     status,
   };
