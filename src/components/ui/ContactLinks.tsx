@@ -1,7 +1,11 @@
 import clsx from 'clsx';
 import { Phone, MessageCircle, type LucideIcon } from 'lucide-react';
 import { LinkButton, type ButtonVariant } from './LinkButton';
-import { PHONE_MOBILE, TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
+import {
+  PHONE_LANDLINE,
+  TEL_LANDLINE_LINK,
+  WHATSAPP_LINK,
+} from '@/lib/constants';
 
 export const CALL_LABEL = 'Call us';
 export const WHATSAPP_LABEL = 'WhatsApp';
@@ -26,8 +30,8 @@ const CALL_NUMBER_STYLES = 'hidden sm:inline';
 const CHANNELS: ContactChannel[] = [
   {
     label: CALL_LABEL,
-    detail: PHONE_MOBILE,
-    href: TEL_MOBILE_LINK,
+    detail: PHONE_LANDLINE,
+    href: TEL_LANDLINE_LINK,
     Icon: Phone,
     variant: 'primary',
   },

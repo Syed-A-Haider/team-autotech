@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ChevronDown, Phone } from 'lucide-react';
 import { LinkButton } from '../ui/LinkButton';
 import { ServicesDropdown } from './ServicesDropdown';
-import { siteConfig, TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
+import { siteConfig, TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
 import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
 
@@ -25,7 +25,7 @@ const servicesButtonClasses = clsx(
 );
 
 // The call button sits at the right edge, so any change in its width moves its
-// left edge. Its text is about 4px narrower in Inter (272px) than in the fallback
+// left edge. Its text is about 5px narrower in Inter (271px) than in the fallback
 // font (276px), which shifted the button when Inter loaded (CLS on desktop).
 // A minimum width above both (280px) keeps the box the same size in either font
 const callButtonClasses = 'min-w-70';
@@ -85,13 +85,13 @@ export function Navbar({ categories }: NavbarProps) {
 
           {/* Direct link to phone calls */}
           <LinkButton
-            href={TEL_MOBILE_LINK}
+            href={TEL_LANDLINE_LINK}
             variant="primary"
             size="md"
             className={callButtonClasses}
           >
             <Phone aria-hidden="true" size={16} />
-            Get a Quote: {PHONE_MOBILE}
+            Get a Quote: {PHONE_LANDLINE}
           </LinkButton>
         </div>
 

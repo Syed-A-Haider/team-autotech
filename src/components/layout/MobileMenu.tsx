@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import { LinkButton } from '../ui/LinkButton';
-import { TEL_MOBILE_LINK, PHONE_MOBILE } from '@/lib/constants';
+import { TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 import { serviceHref } from '@/lib/routes';
 import clsx from 'clsx';
 
@@ -141,7 +141,7 @@ export function MobileMenu({ categories }: MobileMenuProps) {
 
           {/* Direct link to call */}
           <LinkButton
-            href={TEL_MOBILE_LINK}
+            href={TEL_LANDLINE_LINK}
             variant="primary"
             size="md"
             className="mt-6"
@@ -149,7 +149,7 @@ export function MobileMenu({ categories }: MobileMenuProps) {
             <Phone aria-hidden="true" size={16} />
             <span>
               Get a Quote
-              <span className={CALL_NUMBER_STYLES}>: {PHONE_MOBILE}</span>
+              <span className={CALL_NUMBER_STYLES}>: {PHONE_LANDLINE}</span>
             </span>
           </LinkButton>
         </nav>

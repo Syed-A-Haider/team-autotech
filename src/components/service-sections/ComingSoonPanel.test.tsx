@@ -9,7 +9,7 @@ import {
   COMING_SOON_PITCH,
 } from './ComingSoonPanel';
 import type { Service } from '@/types/service';
-import { TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
+import { TEL_LANDLINE_LINK, WHATSAPP_LINK } from '@/lib/constants';
 
 const mockService: Service = {
   slug: 'stage-1-tuning',
@@ -32,7 +32,7 @@ describe('ComingSoonPanel', () => {
     render(<ComingSoonPanel service={mockService} />);
     expect(screen.getByRole('link', { name: /call us/i })).toHaveAttribute(
       'href',
-      TEL_MOBILE_LINK,
+      TEL_LANDLINE_LINK,
     );
   });
 

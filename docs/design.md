@@ -62,7 +62,7 @@ The accent hex is provisional until Syd supplies the final logo (the current `pu
 ## Closing bands
 
 - `EnquiryBand` is the shared closing band: stripe heading (no number), radial glow, optional skewed `badge` chip (solid accent, large, `text-background`: the first thing seen in the band), centred pitch, then `ContactLinks` (below). It powers `ComingSoonPanel` (badge "Coming soon") and `ServiceCtaBand` (no badge)
-- `ui/ContactLinks` renders the band's buttons: Call (primary) and WhatsApp (secondary), `lg`, all hrefs from `constants.ts`. The consumer sets layout through `className` (the band stacks them full width on mobile and centres one row from `sm`). The Call button shows the mobile number as text from `sm` up, for desktop visitors with no dialler, and hides it on phones where the button is tapped. No email button, by decision: the audience and Syd hardly use it, and the address stays in the Footer. It adds no motifs of its own, the band supplies the theme
+- `ui/ContactLinks` renders the band's buttons: Call (primary) and WhatsApp (secondary), `lg`, all hrefs from `constants.ts`. The consumer sets layout through `className` (the band stacks them full width on mobile and centres one row from `sm`). The Call button dials the landline and shows it as text from `sm` up, for desktop visitors with no dialler, and hides it on phones where the button is tapped. No email button, by decision: the audience and Syd hardly use it, and the address stays in the Footer. It adds no motifs of its own, the band supplies the theme
 - `RelatedServices` uses the same centred stripe heading, with no glow. All closing sections use `py-16 lg:py-24`
 - No motion on any of them until T5. The band never renders an `h1`, and it shows no opening hours or pricing
 

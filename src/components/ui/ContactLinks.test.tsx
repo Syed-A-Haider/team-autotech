@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ContactLinks, CALL_LABEL, WHATSAPP_LABEL } from './ContactLinks';
-import { PHONE_MOBILE, TEL_MOBILE_LINK, WHATSAPP_LINK } from '@/lib/constants';
+import {
+  PHONE_LANDLINE,
+  TEL_LANDLINE_LINK,
+  TEL_MOBILE_LINK,
+  WHATSAPP_LINK,
+  WHATSAPP_NUMBER,
+} from '@/lib/constants';
 
 describe('ContactLinks', () => {
   it('Renders exactly two links: Call and WhatsApp', () => {
@@ -9,17 +15,27 @@ describe('ContactLinks', () => {
     expect(screen.getAllByRole('link')).toHaveLength(2);
   });
 
-  it('Links Call to the mobile number', () => {
+  it('Links Call to the landline', () => {
     render(<ContactLinks />);
     const link = screen.getByRole('link', { name: new RegExp(CALL_LABEL) });
-    expect(link).toHaveAttribute('href', TEL_MOBILE_LINK);
+    expect(link).toHaveAttribute('href', TEL_LANDLINE_LINK);
   });
 
   it('Puts the number in the Call link, hidden below the sm breakpoint', () => {
     render(<ContactLinks />);
-    const number = screen.getByText(new RegExp(PHONE_MOBILE));
-    expect(number.closest('a')).toHaveAttribute('href', TEL_MOBILE_LINK);
+    const number = screen.getByText(new RegExp(PHONE_LANDLINE));
+    expect(number.closest('a')).toHaveAttribute('href', TEL_LANDLINE_LINK);
     expect(number).toHaveClass('hidden', 'sm:inline');
+  });
+
+  // A landline has no WhatsApp, so the chat stays on the mobile number
+  it('WhatsApp still opens a chat with the mobile number', () => {
+    render(<ContactLinks />);
+    const link = screen.getByRole('link', {
+      name: new RegExp(WHATSAPP_LABEL),
+    });
+    expect(link).toHaveAttribute('href', WHATSAPP_LINK);
+    expect(TEL_MOBILE_LINK).toBe(`tel:+${WHATSAPP_NUMBER}`);
   });
 
   it('Opens WhatsApp in a new tab, safely', () => {
