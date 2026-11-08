@@ -11,7 +11,6 @@ const mockRelatedServices: Service[] = [
     title: 'DPF / EGR Solutions',
     category: 'Remap / Tuning',
     shortDescription: 'Diagnostics and solutions.',
-    body: 'Placeholder content.',
     icon: Filter,
   },
   {
@@ -19,7 +18,6 @@ const mockRelatedServices: Service[] = [
     title: 'Tuning Freaks Bootmod',
     category: 'Remap / Tuning',
     shortDescription: 'Bootmod3 tuning.',
-    body: 'Placeholder content.',
     icon: Cpu,
   },
 ];

@@ -63,6 +63,8 @@ export const featureGridSlug = 'stage-1-tuning';
 export const stepsSlug = 'scorpion-x-series-immobiliser';
 export const videoSlug = 'ghost-immobiliser-ii';
 export const comingSoonSlug = 'dpf-egr-solutions';
+// First page of the fifth category, so its hatch motif is checked (T6.5)
+export const mechanicalSlug = 'vehicle-maintenance';
 
 export const pageTitle = 'Team AutoTech';
 

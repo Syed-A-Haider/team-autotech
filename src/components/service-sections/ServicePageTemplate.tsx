@@ -14,7 +14,7 @@ interface ServicePageTemplateProps {
   children: ReactNode;
 }
 
-// Shared shell for all 15 service pages.
+// Shared shell for every service page.
 // Hero sits outside the divider - the photo is already a clear break.
 // ServiceCtaBand only renders for 'live' services.
 // The progress bar is fixed, so its place in the markup does not matter

@@ -20,7 +20,6 @@ const mockCategories: ServiceCategories = {
       title: 'Stage 1 Tuning',
       category: 'Remap / Tuning',
       shortDescription: 'Performance remapping',
-      body: 'Placeholder',
       icon: Gauge,
       popular: true,
     },

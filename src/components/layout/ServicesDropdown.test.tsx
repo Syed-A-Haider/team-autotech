@@ -4,6 +4,7 @@ import { describe, it, expect } from 'vitest';
 import { Gauge, ShieldCheck } from 'lucide-react';
 import { ServicesDropdown } from './ServicesDropdown';
 import type { ServiceCategories } from '@/types/service';
+import { groupServicesByCategory } from '@/lib/services';
 
 // Use mock services for testing purposes
 const mockCategories: ServiceCategories = {
@@ -13,7 +14,6 @@ const mockCategories: ServiceCategories = {
       title: 'Stage 1 Tuning',
       category: 'Remap / Tuning',
       shortDescription: 'Performance remapping',
-      body: 'Placeholder',
       icon: Gauge,
       popular: true,
     },
@@ -24,7 +24,6 @@ const mockCategories: ServiceCategories = {
       title: 'Ghost Immobiliser II',
       category: 'Auto Security',
       shortDescription: 'CAN bus immobiliser',
-      body: 'Placeholder',
       icon: ShieldCheck,
     },
   ],
@@ -63,5 +62,19 @@ describe('ServicesDropdown', () => {
     expect(
       screen.getByRole('link', { name: /Ghost Immobiliser II/ }),
     ).not.toHaveTextContent('Popular');
+  });
+
+  it('Renders five category headings in data order, Mechanical last', () => {
+    render(<ServicesDropdown categories={groupServicesByCategory()} />);
+    const headings = screen
+      .getAllByRole('heading', { level: 3 })
+      .map((heading) => heading.textContent);
+    expect(headings).toEqual([
+      'Remap / Tuning',
+      'Programming',
+      'Auto Security',
+      'Auto Electrical',
+      'Mechanical / Customisation',
+    ]);
   });
 });

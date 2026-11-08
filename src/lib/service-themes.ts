@@ -41,4 +41,13 @@ export const CATEGORY_THEMES = {
     motifClassName:
       'bg-[repeating-linear-gradient(180deg,transparent_0px,transparent_5px,color-mix(in_srgb,var(--color-foreground)_5%,transparent)_6px)]',
   },
+  // Placeholder photo until Haider supplies /images/services/mechanical.jpg
+  // (500 KB or less), then swap it in here
+  'Mechanical / Customisation': {
+    eyebrow: 'Mechanical & Customisation',
+    heroImage: '/images/hero-background.jpg',
+    overlayClassName: SCRIM,
+    motifClassName:
+      'bg-[repeating-linear-gradient(45deg,transparent_0px,transparent_7px,color-mix(in_srgb,var(--color-foreground)_5%,transparent)_8px)]',
+  },
 } satisfies Record<Category, CategoryTheme>;

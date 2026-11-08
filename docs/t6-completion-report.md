@@ -1,6 +1,6 @@
 # T6 completion report (Syd's change requests)
 
-Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned 2026-11-07 by an Opus planning agent from Syd's requests, checked against the code. T6.1 to T6.4 are built (T6.4 is in its PR). The rest are planned.
+Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned 2026-11-07 by an Opus planning agent from Syd's requests, checked against the code. T6.1 to T6.5 are built (T6.5 is in its PR). The rest are planned.
 
 ## Summary
 
@@ -8,20 +8,21 @@ Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned
 - **Syd's requests:** a "Shop (inactive)" item at the top, five new pages (AdBlue Solutions, XHP Gearbox Map, Fleet Trackers, Road Angel Dashcam, Component Protection Removal), a new Mechanical / Customisation category (Vehicle Maintenance, MOT Preparation, CT Carbon Official Installer, Body Panel Repair and Paint), the landline on every big primary Call button, and AI-generated copy for every coming-soon page
 - **Content is no longer a blocker.** Syd chose AI-drafted copy and will review it at the end (T6.14). Layouts may vary per service, using the existing blocks
 - **Done so far:** T6.1 put the landline on the primary Call buttons (WhatsApp and the Footer mobile row keep the mobile). T6.2 added 27 permanent redirects from old WordPress slugs, so old links no longer 404. T6.3 added `/sitemap.xml` (home, About and live services only, so each content batch joins it by itself) and `/robots.txt`, rewrote the noindex test with fixtures so it cannot pass vacuously, and added `docs/search-console.md`, the owner checklist (Syd adds a DNS TXT record, Haider verifies and submits the sitemap). T6.4 added a non-clickable "Shop, coming soon" label after About in the nav and the mobile menu. Together they cover the urgent live-site gaps: working old links, the right phone number and a way for Google to find the pages
-- **Still to do:** T5.11 (calm closing bands), T6.5 (fifth category and nine new coming-soon services), T5.12 (motion polish), T6.6 (AI content standard and copy guard), T6.7 to T6.12 (AI-drafted copy for every coming-soon page, in six batches), T6.13 (small clean-up) and T6.14 (Syd's review). Waiting on Syd: the emissions question (not blocking), his review of all AI copy, a final logo, the video poster and Business Profile owner access
+- **Still to do:** T5.11 (calm closing bands, now after T6.5), T5.12 (motion polish), T6.6 (AI content standard and copy guard), T6.7 to T6.12 (AI-drafted copy for every coming-soon page, in six batches), T6.13 (small clean-up) and T6.14 (Syd's review). Waiting on Syd: the emissions question (not blocking), his review of all AI copy, a final logo, the video poster and Business Profile owner access
 - **Result when finished:** 24 services in 5 categories, all live, a Shop label, the landline on Call, old URLs redirected, a sitemap
 
 ## Timeline
 
-| Ticket  | PR       | Merged | Notes                                                                                                                                                 |
-| ------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T6 plan | with #25 | TBC    | Docs only: this report, briefs `T6.1` to `T6.6` and `T6-content.md`                                                                                   |
-| T6.1    | TBC      | Yes    | Landline on the five primary Call buttons, 311 Vitest, no e2e added                                                                                   |
-| T6.2    | #28      | Yes    | 27 permanent redirects from old WordPress slugs, 320 Vitest, 57 `@redirects` e2e (Chromium)                                                           |
-| T6.3    | #29      | Yes    | `sitemap.xml` (live pages only) and `robots.txt`, noindex test rewritten, owner checklist (done 2026-11-08), 331 Vitest, 8 `@indexing` e2e (Chromium) |
-| T6.4    | TBC      | TBC    | `ShopLabel` (muted "Shop" and an outlined "Coming soon" pill, plain text) in the nav and mobile menu, 337 Vitest, 3 `Shop label` e2e per browser      |
+| Ticket  | PR       | Merged | Notes                                                                                                                                                                                                                                                                   |
+| ------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T6 plan | with #25 | TBC    | Docs only: this report, briefs `T6.1` to `T6.6` and `T6-content.md`                                                                                                                                                                                                     |
+| T6.1    | TBC      | Yes    | Landline on the five primary Call buttons, 311 Vitest, no e2e added                                                                                                                                                                                                     |
+| T6.2    | #28      | Yes    | 27 permanent redirects from old WordPress slugs, 320 Vitest, 57 `@redirects` e2e (Chromium)                                                                                                                                                                             |
+| T6.3    | #29      | Yes    | `sitemap.xml` (live pages only) and `robots.txt`, noindex test rewritten, owner checklist (done 2026-11-08), 331 Vitest, 8 `@indexing` e2e (Chromium)                                                                                                                   |
+| T6.4    | #30      | Yes    | `ShopLabel` (muted "Shop" and an outlined "Coming soon" pill, plain text) in the nav and mobile menu, 337 Vitest, 3 `Shop label` e2e per browser                                                                                                                        |
+| T6.5    | #31      | TBC    | Fifth category and nine coming-soon services (24 in 5), five-column dropdown (subgrid), five-card About grid, `Service.body` removed, placeholder hero photo, 338 Vitest, 740 Playwright passed and 100 skipped (both browsers, run against `pnpm build && pnpm start`) |
 
-Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, T6.4, T6.5, T5.12, T6.6, T6.7, T6.8, T6.9, T6.10, T6.11, T6.12, T6.13, T6.14. Scope per ticket is in the Remaining table of `status.md`.
+Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T6.4, T6.5, T5.11 (moved after T6.5 by Haider, 2026-11-08), T5.12, T6.6, T6.7, T6.8, T6.9, T6.10, T6.11, T6.12, T6.13, T6.14. Scope per ticket is in the Remaining table of `status.md`.
 
 ## Decisions
 
@@ -71,6 +72,6 @@ Still waiting on Syd, see `status.md`: what the emissions services involve (not 
 
 ## Follow-ups (not in any T6 ticket)
 
-- `Service.body` is never rendered. T6.5 may remove it (a shared-type change)
+- `Service.body` was never rendered. Removed in T6.5 (first commit)
 - `RelatedServices` takes the first three in array order, so Stage 1 Tuning shows on every Remap page. A choice, not a bug
 - WhatsApp prefill wording, brand-name casing, accent contrast and the map facade stay as listed in `status.md`

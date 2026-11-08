@@ -21,6 +21,15 @@ import {
   Zap,
   Fuel,
   Timer,
+  Droplet,
+  Cog,
+  LockOpen,
+  Truck,
+  Cctv,
+  Wrench,
+  ClipboardCheck,
+  Layers,
+  SprayCan,
 } from 'lucide-react';
 
 // Not exported: read through the getters. To add a service, copy an entry and use a unique slug.
@@ -31,7 +40,6 @@ const services: Service[] = [
     title: 'Stage 1 Tuning',
     category: 'Remap / Tuning',
     shortDescription: 'Performance remapping for increased power and torque.',
-    body: 'Placeholder content.',
     icon: Gauge,
     popular: true,
     // Copy staged from the old site (docs/content/stage-1-tuning.md).
@@ -136,15 +144,20 @@ const services: Service[] = [
     title: 'DPF / EGR Solutions',
     category: 'Remap / Tuning',
     shortDescription: 'DPF and EGR solutions from Team Autotech.',
-    body: 'Placeholder content.',
     icon: Filter,
+  },
+  {
+    slug: 'adblue-solutions',
+    title: 'AdBlue Solutions',
+    category: 'Remap / Tuning',
+    shortDescription: 'AdBlue solutions from Team Autotech.',
+    icon: Droplet,
   },
   {
     slug: 'engine-management-error-code-delete',
     title: 'Engine Management Error Code Delete',
     category: 'Remap / Tuning',
     shortDescription: 'Engine management error code delete from Team Autotech.',
-    body: 'Placeholder content.',
     icon: Eraser,
   },
   {
@@ -152,8 +165,14 @@ const services: Service[] = [
     title: 'Tuning Freaks Bootmod',
     category: 'Remap / Tuning',
     shortDescription: 'Tuning Freaks Bootmod from Team Autotech.',
-    body: 'Placeholder content.',
     icon: Cpu,
+  },
+  {
+    slug: 'xhp-gearbox-map',
+    title: 'XHP Gearbox Map',
+    category: 'Remap / Tuning',
+    shortDescription: 'XHP gearbox map from Team Autotech.',
+    icon: Cog,
   },
 
   // Programming
@@ -162,7 +181,6 @@ const services: Service[] = [
     title: 'BMW Programming',
     category: 'Programming',
     shortDescription: 'BMW programming from Team Autotech.',
-    body: 'Placeholder content.',
     icon: KeyRound,
   },
   {
@@ -170,7 +188,6 @@ const services: Service[] = [
     title: 'Mercedes Programming',
     category: 'Programming',
     shortDescription: 'Mercedes programming from Team Autotech.',
-    body: 'Placeholder content.',
     icon: KeySquare,
   },
   {
@@ -178,8 +195,14 @@ const services: Service[] = [
     title: 'VAG Programming',
     category: 'Programming',
     shortDescription: 'VAG programming for Audi, Seat, Skoda and VW.',
-    body: 'Placeholder content.',
     icon: Key,
+  },
+  {
+    slug: 'component-protection-removal',
+    title: 'Component Protection Removal',
+    category: 'Programming',
+    shortDescription: 'Component protection removal from Team Autotech.',
+    icon: LockOpen,
   },
 
   // Auto Security — Immobilisers
@@ -189,7 +212,6 @@ const services: Service[] = [
     category: 'Auto Security',
     shortDescription:
       'The most advanced immobiliser, using the latest technology to fight car theft.',
-    body: 'Placeholder content — real copy to come from Ghost Immobiliser II page.',
     icon: ShieldCheck,
     popular: true,
     // Copy staged from the old site (docs/content/ghost-immobiliser-ii.md).
@@ -245,7 +267,6 @@ const services: Service[] = [
     category: 'Auto Security',
     shortDescription:
       'Market-leading immobiliser that stops key cloning and key coding attacks.',
-    body: 'Placeholder content — real copy to come from Scorpion X Series page.',
     icon: ShieldAlert,
     // Copy staged from the old site (docs/content/scorpion-x-series-immobiliser.md).
     // Step text comes from the carousel images. Live so the PR preview can be tested.
@@ -324,7 +345,6 @@ const services: Service[] = [
     title: 'Spectre Immobiliser',
     category: 'Auto Security',
     shortDescription: 'Advanced vehicle immobiliser system.',
-    body: 'Placeholder content.',
     icon: Lock,
   },
 
@@ -334,8 +354,14 @@ const services: Service[] = [
     title: 'Scorpion Trackers',
     category: 'Auto Security',
     shortDescription: 'Insurance-approved GPS tracking systems.',
-    body: 'Placeholder content.',
     icon: MapPin,
+  },
+  {
+    slug: 'fleet-trackers',
+    title: 'Fleet Trackers',
+    category: 'Auto Security',
+    shortDescription: 'Fleet trackers from Team Autotech.',
+    icon: Truck,
   },
 
   // Auto Electrical Services
@@ -344,7 +370,6 @@ const services: Service[] = [
     title: 'Car Audio Installation',
     category: 'Auto Electrical',
     shortDescription: 'Professional car audio system installation.',
-    body: 'Placeholder content.',
     icon: Volume2,
   },
   {
@@ -352,15 +377,20 @@ const services: Service[] = [
     title: 'Dashcam Installation',
     category: 'Auto Electrical',
     shortDescription: 'Dashcam installation from Team Autotech.',
-    body: 'Placeholder content.',
     icon: Camera,
+  },
+  {
+    slug: 'road-angel-dashcam',
+    title: 'Road Angel Dashcam',
+    category: 'Auto Electrical',
+    shortDescription: 'Road Angel dashcam from Team Autotech.',
+    icon: Cctv,
   },
   {
     slug: 'parking-sensor-installation',
     title: 'Parking Sensor Installation',
     category: 'Auto Electrical',
     shortDescription: 'Parking sensor installation from Team Autotech.',
-    body: 'Placeholder content.',
     icon: Radar,
   },
   {
@@ -368,8 +398,37 @@ const services: Service[] = [
     title: 'Reverse Camera Installation',
     category: 'Auto Electrical',
     shortDescription: 'Reverse camera installation from Team Autotech.',
-    body: 'Placeholder content.',
     icon: Video,
+  },
+
+  // Mechanical / Customisation
+  {
+    slug: 'vehicle-maintenance',
+    title: 'Vehicle Maintenance',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'Vehicle maintenance from Team Autotech.',
+    icon: Wrench,
+  },
+  {
+    slug: 'mot-preparation',
+    title: 'MOT Preparation',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'MOT preparation from Team Autotech.',
+    icon: ClipboardCheck,
+  },
+  {
+    slug: 'ct-carbon-official-installer',
+    title: 'CT Carbon Official Installer',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'CT Carbon official installer.',
+    icon: Layers,
+  },
+  {
+    slug: 'body-panel-repair-and-paint',
+    title: 'Body Panel Repair and Paint',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'Body panel repair and paint from Team Autotech.',
+    icon: SprayCan,
   },
 ];
 

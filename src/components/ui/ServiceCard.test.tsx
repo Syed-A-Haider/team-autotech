@@ -10,7 +10,6 @@ const mockService: Service = {
   title: 'Stage 1 Tuning',
   category: 'Remap / Tuning',
   shortDescription: 'Unlock more power and torque from your engine.',
-  body: 'Placeholder body copy.',
   icon: Wrench,
 };
 

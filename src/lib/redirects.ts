@@ -29,6 +29,17 @@ const SERVICE_SOURCES: Record<string, string[]> = {
   'dashcam-installation': ['dashcam'],
   'parking-sensor-installation': ['parking-sensors'],
   'reverse-camera-installation': ['reverse-camera'],
+  // New pages (T6.5), not old URLs. The guard test wants a root redirect for
+  // every service, so each one only gets its own slug
+  'adblue-solutions': [],
+  'xhp-gearbox-map': [],
+  'component-protection-removal': [],
+  'fleet-trackers': [],
+  'road-angel-dashcam': [],
+  'vehicle-maintenance': [],
+  'mot-preparation': [],
+  'ct-carbon-official-installer': [],
+  'body-panel-repair-and-paint': [],
 };
 
 const SERVICE_REDIRECTS: OldUrlRedirect[] = Object.entries(
