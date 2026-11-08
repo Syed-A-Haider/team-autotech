@@ -49,10 +49,15 @@ The accent hex is provisional until Syd supplies the final logo (the current `pu
 - Text on `bg-accent` uses `text-background`. `foreground` on accent is about 3.1:1 and fails AA
 - `SectionHeading`, `SectionShell` and `EnquiryBand` live in `ui/` (moved from `service-sections/` at T4.1, when About became a second consumer). `GLOW_STYLES` lives in `SectionHeading` and is shared. It is a gradient, never a filter
 
+## Services dropdown (T6.5)
+
+- Five columns from `lg`: `grid-cols-5` with `gap-x-5 p-6` at `lg` and `xl:gap-x-8 xl:p-8` (a column is about 173px at 1024 and 186px at 1280). The panel is a two-row grid (`grid-rows-[auto_1fr]`) and each column is `row-span-2 grid grid-rows-subgrid`, so the five lists start level even though the "Mechanical / Customisation" heading always wraps to two lines (the h3 is `self-end`). No new motif in the nav: motifs belong to service sections. Known cosmetic: "Ghost Immobiliser II" breaks onto three lines at 1024.
+- Category hero themes: four photos plus the fifth (Mechanical / Customisation) with a 45deg hatch motif at `foreground` 5%. Its photo is a placeholder (`hero-background.jpg`) until Haider supplies `mechanical.jpg`.
+
 ## About page
 
 - Deliberately not the numbered service-page look: no faded numbers, glows or alternating split. Un-numbered `SectionHeading` stripe headings inside `SectionWrapper` (the `RelatedServices` pattern), surface panels with the racing stripe, `py-16 lg:py-24`
-- Who We Are: text beside a facts panel (`YEARS_EXPERIENCE` stat plus three highlights from approved copy). What We Do: four category cards, every service a link (icon plus title, the `ServicesDropdown` row style, no coming-soon marker). Find Us: address as text, hours, and a Get Directions button (its heading uses `stripe={false}` because the panel has its own stripe). The phone number lives in the Footer and the closing band, the email address in the Footer only
+- Who We Are: text beside a facts panel (`YEARS_EXPERIENCE` stat plus three highlights from approved copy). What We Do: five category cards on a six-column grid (3 then 2 from `lg`, on `sm` the last card spans both columns so none sits alone; spans are a literal list in `about/page.tsx`), every service a link (icon plus title, the `ServicesDropdown` row style, no coming-soon marker). Find Us: address as text, hours, and a Get Directions button (its heading uses `stripe={false}` because the panel has its own stripe). The phone number lives in the Footer and the closing band, the email address in the Footer only
 - `SectionShell` is now used only by `ServiceSections`. It stays in `ui/`
 
 ## 404 page

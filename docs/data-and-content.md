@@ -6,7 +6,7 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 
 ## Service model (`types/service.ts`)
 
-- `Service`: `slug` (unique id), `title`, `category`, `shortDescription`, `body`, `icon` (`LucideIcon`), `popular?`
+- `Service`: `slug` (unique id), `title`, `category`, `shortDescription`, `icon` (`LucideIcon`), `popular?`
 - Added in T3.1: `sections?` (array of `ServiceSection`), `status?`, `heroImage?`
 - `Category`: a string union. Read it from the types file. Do not retype category names by hand
 - `ServiceSection`: a discriminated union on `type`. Read it from the types file before building any block
@@ -21,20 +21,21 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
   - `groupServicesByCategory()`
   - `getFeaturedServices()`, which maps an explicit ordered slug list for the homepage grid
   - `getRelatedServices(service, limit = 3)`, same-category cross-links for the page footer
-- 15 services across 4 categories: tuning (4), programming (3), auto security (4), auto electrical (4). Take the exact category strings from `types/service.ts`; earlier drafts used both "Auto Electrical" and "Auto Electrical Services"
+- 24 services across 5 categories (T6.5): tuning (6), programming (4), auto security (5), auto electrical (5), mechanical / customisation (4). Column order is the order of first appearance in `services.ts`. The nine added in T6.5 are coming-soon with one-line titles only. `Service.body` was removed in T6.5 (it was never rendered). Take the exact category strings from `types/service.ts`; earlier drafts used both "Auto Electrical" and "Auto Electrical Services"
 - Add a service by copying an existing entry, using a unique slug and an existing category
 - The homepage grid order is deliberate and separate from `popular`
 
 ## `lib/service-themes.ts`
 
 - `CATEGORY_THEMES` is a `Record<Category, CategoryTheme>` using `satisfies`, so a missing category fails to compile
+- The fifth theme (Mechanical / Customisation) has a 45deg hatch motif and a PLACEHOLDER hero image (`/images/hero-background.jpg`). Swap it for `/images/services/mechanical.jpg` (Haider's photo, 500 KB or less) in `service-themes.ts`
 - `CategoryTheme` fields: `eyebrow`, `heroImage`, `overlayClassName`, `motifClassName`
 - All values are literal Tailwind class strings. Single accent colour. Category identity comes from the hero, not from colour
 - No test for this file: `satisfies` already proves completeness
 
 ## Section content (T3.4 onward)
 
-- A page's body is its `sections` array. Content tickets are data edits only. Three services are live (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series); the other 12 have no source copy. T6 (planned 2026-11-07) adds nine services and a fifth category (24 in 5, see T6.5) and writes AI-drafted copy for every coming-soon page in batches (T6.7 to T6.12, brief in `docs/tickets/T6-content.md`)
+- A page's body is its `sections` array. Content tickets are data edits only. Three services are live (Stage 1 Tuning, Ghost Immobiliser II, Scorpion X Series); the other 12 have no source copy. T6 (planned 2026-11-07) adds nine services and a fifth category (24 in 5, done in T6.5) and writes AI-drafted copy for every coming-soon page in batches (T6.7 to T6.12, brief in `docs/tickets/T6-content.md`)
 - `ServiceSections` plans layout and numbering and wraps each block in `ui/SectionShell`, which owns the wrapper, the optional `title` `h2` and the spacing. Blocks render only their inner content, so spacing and title style change in one place
 - A live service with no `sections` falls back to `ComingSoonPanel`. The `video` type renders `VideoSection`: a local poster (`public/images/videos/<slug>.jpg`, 16:9, at least 1280x720, no baked-in play button) and a play button. `videoId` is the bare 11-character id, not a URL. The `title` names the player and the renderer shows it as the `h2`. A missing poster file renders a broken box and the build does not catch it, so check the file exists. Ghost Immobiliser II is the worked example
 - `Feature` has no image field, so the `alternating` layout is text-only
