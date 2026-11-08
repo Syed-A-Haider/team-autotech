@@ -67,8 +67,9 @@ export function Footer() {
   return (
     <footer className="border-border bg-surface border-t">
       <SectionWrapper>
-        {/* Mobile-first: 2 columns by default, 4 from lg up */}
-        <div className="grid grid-cols-2 gap-6 py-8 sm:gap-8 sm:py-10 lg:grid-cols-4">
+        {/* Mobile-first: 2 columns by default, 4 from lg up. The columns rise in
+            turn on the entry range, so they finish at the bottom of any page */}
+        <div className="reveal-stagger-entry grid grid-cols-2 gap-6 py-8 sm:gap-8 sm:py-10 lg:grid-cols-4">
           {/* Brand */}
           <div>
             <p className="text-foreground text-lg font-semibold">

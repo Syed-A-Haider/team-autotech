@@ -59,9 +59,10 @@ export const metadata: Metadata = {
 const LEAD_STYLES = 'text-foreground text-lg leading-relaxed sm:text-xl';
 const BODY_STYLES = 'text-muted leading-relaxed';
 // Racing stripe on the top edge, drawn with CSS only, as in FeatureSection.
-// overflow-clip, not hidden: hidden would capture the Find Us heading's reveal
+// overflow-clip, not hidden: hidden would capture the Find Us heading's reveal.
+// reveal: each panel rises once, plain (no stagger, no side slide)
 const PANEL_STYLES =
-  'bg-surface border-border relative overflow-clip rounded-lg border before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
+  'reveal bg-surface border-border relative overflow-clip rounded-lg border before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
 // Five cards on a six-column grid: 3 then 2 on desktop, and on tablet the
 // last card spans both columns so none sits alone. Literal strings for Tailwind
 const CATEGORY_CARD_SPANS = [

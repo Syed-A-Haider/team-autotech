@@ -21,9 +21,13 @@ export function RelatedServices({ relatedServices }: RelatedServicesProps) {
         align="center"
         className="mx-auto mb-12 max-w-3xl"
       />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="reveal-stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {relatedServices.map((service) => (
-          <ServiceCard key={service.slug} service={service} />
+          // The wrapper takes the reveal, the card keeps lift and press. Its own
+          // grid stretches the card to the row height
+          <div key={service.slug} className="grid">
+            <ServiceCard service={service} />
+          </div>
         ))}
       </div>
     </SectionWrapper>
