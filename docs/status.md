@@ -1,6 +1,6 @@
 # Status
 
-Last updated: 2026-11-07, after T6.1. Next tickets: T6.2, then T6.3, T5.11 and the rest in the order in Remaining.
+Last updated: 2026-11-08, after T6.2. Next tickets: T6.3, then T5.11 and the rest in the order in Remaining.
 
 T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.11 and T5.12).
 
@@ -59,9 +59,11 @@ teamautotech.co.uk is live on this site. The old WordPress site crashed, so the 
 
 - T6.1: Landline on the primary Call buttons (Syd's request), supersedes the T4.3 "Call is the mobile" decision. The header "Get a Quote", the homepage hero, the mobile menu button, Call in `ContactLinks` (so every closing band) and the service-page "Call now" now dial `TEL_LANDLINE_LINK` and, where a number shows, show `PHONE_LANDLINE` (still `hidden sm:inline`). WhatsApp, `WhatsAppWidget` and the Footer "(Mobile)" row keep the mobile. Out of hours the landline redirects to the mobile (Haider), so no call is lost. No new constants, types or components, only imports changed. Nine existing test files flipped to the landline (approved in Stage 1), plus a MobileMenu landline test and a `ContactLinks` test that WhatsApp still uses the mobile (proven red once with a temporary `WHATSAPP_NUMBER`). The header `min-w-70` still holds: measured at 1280px with it lifted, the text is 271.4px in Inter and 276.4px (Chromium) or 276.5px (WebKit) in the fallback font, under 280px. 311 Vitest, 596 Playwright passed and 16 skipped (both browsers, no e2e added). See `t6-completion-report.md`
 
+- T6.2: Redirects for old WordPress URLs. New `lib/redirects.ts` (plain data: `OLD_URL_REDIRECTS`, built from a `SERVICE_SOURCES` record of slug to aliases plus `ABOUT_REDIRECTS`), read by `next.config.ts` `redirects()` through a relative import, with `permanent: true` added once (308). 27 redirects: the three confirmed old URLs, each service slug at the root, a few short aliases (`/dpf-egr`, `/bootmod`, `/dashcam` and so on), and `/about-us`, `/contact`, `/contact-us` to `/about`. Only the three are confirmed, the rest are invented plausible slugs (Haider approved, the Wayback CDX was offline). Shop, account, WordPress system URLs and old category pages stay a 404. A trailing slash costs two 308 hops (Next's built-in rule runs first), matching ignores case and query strings are kept. Destinations may be coming-soon pages. The site is still fully static (redirects live in the routes manifest). New `@redirects` spec (57 per project, Chromium only) and a Vitest suite (format, duplicates, destinations exist, no chains, no source shadows a route in `src/app` or `public`, no shop paths, config wiring). 320 Vitest, 653 Playwright passed and 73 skipped (both browsers, run against `pnpm build && pnpm start`). See `t6-completion-report.md`
+
 ## Next
 
-- T6.2 (redirects for old WordPress URLs, urgent, Stage 1 first). Then T6.3, then T5.11 (Closing bands, About, 404 and Footer). T5.11 Stage 1 is COMPLETE and approved (2026-11-07): the full spec is in `docs/tickets/T5.11.md`, go straight to Stage 2 and do not repeat the review. T5.12 now waits for T6.5 so its final pass covers the final nav and themes. Each ticket is implemented from its brief, then raised as its own PR for manual testing
+- T6.3 (sitemap, robots, noindex test rewrite, Search Console checklist, Stage 1 first). Then T5.11 (Closing bands, About, 404 and Footer). T5.11 Stage 1 is COMPLETE and approved (2026-11-07): the full spec is in `docs/tickets/T5.11.md`, go straight to Stage 2 and do not repeat the review. T5.12 now waits for T6.5 so its final pass covers the final nav and themes. Each ticket is implemented from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
@@ -69,7 +71,6 @@ Phases still to come: 5 motion and wow factor (T5.x, finishing), 6 Syd's change 
 
 | Ticket  | Scope                                                                                                                                                    |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T6.2    | Redirects for old WordPress URLs (urgent, the domain is live). Shop and account URLs stay a 404                                                          |
 | T6.3    | Sitemap, robots, noindex test rewrite, Search Console checklist                                                                                          |
 | T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                                                        |
 | T6.4    | Shop (inactive): a non-clickable "Shop, coming soon" label in the top nav and the mobile menu                                                            |
@@ -99,7 +100,7 @@ Technical:
 - Brand casing differs: "Team AutoTech" (layout title, tests) vs "Team Autotech" (`siteConfig`, Footer, logo alt, About h1). Unify later
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - There is no `/services` page, by decision (T4.2). Services are reached from the Navbar, the homepage Popular grid (`#services`, 6 cards) and the About page. The Footer links Home, About and two services only. `/services` is a normal 404, with no redirect
-- Old WordPress URLs (shop, basket, checkout, my-account, old product slugs) 404 now that the domain is live. T6.2 maps the ones with a real equivalent. Shop and account URLs stay a 404 by decision
+- Old WordPress shop, basket, checkout, my-account and product URLs stay a 404 by decision. T6.2 redirects the service and about slugs, but only three old URLs are confirmed (`/stage-1-tuning`, `/ghost-immobiliser-ii`, `/scorpion-x-series-immobiliser`). The rest are invented, plausible slugs (Haider approved). Grow the list from the Search Console 404 report (T6.3) and Vercel 404 logs
 - About page copy is placeholder (generated from site facts, "15+ years" approved). It is public already, Syd reviews it in T6.14. The homepage claims "Authorised Ghost Immobiliser II Installer", "backed by our guarantee", "family-run" and "genuine manufacturer-grade tools" are confirmed true (Haider, 2026-11-07). `WhyChooseUsSection` still hardcodes "15 years" (T6.13)
 - WhatsApp prefill reads "Hi, How can we help?" (`WHATSAPP_LINK`). That is the customer's message, so it sounds like the business speaking. Unconfirmed with Syd, not changed in T4.3. Reword it in `constants.ts` once he agrees
 - Follow-up from T3.10: `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval). The other T3.10 follow-up, no `focus-visible` style on `ServiceCard`, was closed in T5.4
