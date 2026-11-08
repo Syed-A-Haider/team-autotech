@@ -11,8 +11,11 @@ Static Next.js App Router site on Vercel. Written from the project plan; check t
 | `/services/[slug]` | Static, `generateStaticParams` | All 15 service pages                                                                                                                                                                                              |
 | Old WordPress URLs | 308 platform redirect          | `lib/redirects.ts` (plain data), read by `next.config.ts` `redirects()` (T6.2). Vercel serves them from the routes manifest, so the site is still fully static. Shop and account URLs are deliberately not listed |
 | Unmatched URLs     | Static                         | `app/not-found.tsx`, built as `/_not-found`. HTTP 404, `noindex` added by Next. Unknown slugs are stopped by `dynamicParams = false` and land here too                                                            |
+| `/sitemap.xml`     | Static metadata route          | `app/sitemap.ts` (T6.3): home, About and `live` services only, absolute URLs on `siteConfig.url`. Follows `status`, so a service joins it the moment it goes live                                                 |
+| `/robots.txt`      | Static metadata route          | `app/robots.ts` (T6.3): allow all, no disallow, points at the sitemap                                                                                                                                             |
 
-- No API routes and no dynamic rendering anywhere. `export const dynamic = 'error'` on `about` and `services/[slug]` makes the build fail if a page ever turns dynamic.
+- No API routes and no dynamic rendering anywhere. The sitemap and robots files are static metadata routes, not API routes. `export const dynamic = 'error'` on `about`, `services/[slug]`, `sitemap.ts` and `robots.ts` makes the build fail if any of them ever turns dynamic.
+- Why the sitemap and robots exist (T6.3): the live site replaced a crashed WordPress site, so Google has no map of it and learns of pages slowly by following links. The sitemap lists the pages worth indexing, and every later content batch (T6.7 to T6.12) is listed with no code change. Coming-soon pages stay out because they are `noindex`, and a noindex URL in a sitemap sends Google a conflicting signal. Do not export anything else from `sitemap.ts` or `robots.ts`: Next re-exports named exports as route config.
 - Categories are data, not folders. They drive the nav and the page theme, not the URL.
 - No `/services` index (by decision) and no breadcrumbs. The Navbar mega-menu and the homepage Popular grid cover navigation. `/services` is a normal 404.
 - Contact is `tel:`, WhatsApp and `mailto:` links only. No form, no backend.
@@ -24,6 +27,8 @@ src/
   app/
     layout.tsx            root layout (Navbar, WhatsAppWidget, Footer, <main>)
     page.tsx              home
+    sitemap.ts            /sitemap.xml, live pages only (T6.3)
+    robots.ts             /robots.txt, allow all and the sitemap link (T6.3)
     globals.css           @theme design tokens, motion tokens
     motion.css            reusable motion blocks (T5), imported by globals.css
     about/page.tsx             static About page, copy in exported constants (T4.1)
