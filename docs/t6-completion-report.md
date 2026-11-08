@@ -1,21 +1,24 @@
 # T6 completion report (Syd's change requests)
 
-Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned 2026-11-07 by an Opus planning agent from Syd's requests, checked against the code. No T6 ticket is built yet.
+Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned 2026-11-07 by an Opus planning agent from Syd's requests, checked against the code. T6.1 to T6.3 are built (T6.3 is in PR #29). The rest are planned.
 
 ## Summary
 
 - **Why T6 exists:** the old WordPress site crashed, so teamautotech.co.uk went live on this site early. Syd reviewed it earlier than planned and sent change requests. The old T6 (audits) is now T7, and the deferred shop is Phase 8. The old T6.3 (domain connection) is gone
 - **Syd's requests:** a "Shop (inactive)" item at the top, five new pages (AdBlue Solutions, XHP Gearbox Map, Fleet Trackers, Road Angel Dashcam, Component Protection Removal), a new Mechanical / Customisation category (Vehicle Maintenance, MOT Preparation, CT Carbon Official Installer, Body Panel Repair and Paint), the landline on every big primary Call button, and AI-generated copy for every coming-soon page
 - **Content is no longer a blocker.** Syd chose AI-drafted copy and will review it at the end (T6.14). Layouts may vary per service, using the existing blocks
+- **Done so far:** T6.1 put the landline on the primary Call buttons (WhatsApp and the Footer mobile row keep the mobile). T6.2 added 27 permanent redirects from old WordPress slugs, so old links no longer 404. T6.3 added `/sitemap.xml` (home, About and live services only, so each content batch joins it by itself) and `/robots.txt`, rewrote the noindex test with fixtures so it cannot pass vacuously, and added `docs/search-console.md`, the owner checklist (Syd adds a DNS TXT record, Haider verifies and submits the sitemap). Together they cover the urgent live-site gaps: working old links, the right phone number and a way for Google to find the pages
+- **Still to do:** T5.11 (calm closing bands), T6.4 (Shop label), T6.5 (fifth category and nine new coming-soon services), T5.12 (motion polish), T6.6 (AI content standard and copy guard), T6.7 to T6.12 (AI-drafted copy for every coming-soon page, in six batches), T6.13 (small clean-up) and T6.14 (Syd's review). Waiting on Syd: the emissions question (not blocking), his review of all AI copy, a final logo, the video poster and Business Profile owner access
 - **Result when finished:** 24 services in 5 categories, all live, a Shop label, the landline on Call, old URLs redirected, a sitemap
 
 ## Timeline
 
-| Ticket  | PR       | Merged | Notes                                                                                       |
-| ------- | -------- | ------ | ------------------------------------------------------------------------------------------- |
-| T6 plan | with #25 | TBC    | Docs only: this report, briefs `T6.1` to `T6.6` and `T6-content.md`                         |
-| T6.1    | TBC      | Yes    | Landline on the five primary Call buttons, 311 Vitest, no e2e added                         |
-| T6.2    | TBC      | TBC    | 27 permanent redirects from old WordPress slugs, 320 Vitest, 57 `@redirects` e2e (Chromium) |
+| Ticket  | PR       | Merged | Notes                                                                                                                               |
+| ------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| T6 plan | with #25 | TBC    | Docs only: this report, briefs `T6.1` to `T6.6` and `T6-content.md`                                                                 |
+| T6.1    | TBC      | Yes    | Landline on the five primary Call buttons, 311 Vitest, no e2e added                                                                 |
+| T6.2    | #28      | Yes    | 27 permanent redirects from old WordPress slugs, 320 Vitest, 57 `@redirects` e2e (Chromium)                                         |
+| T6.3    | TBC      | TBC    | `sitemap.xml` (live pages only) and `robots.txt`, noindex test rewritten, owner checklist, 331 Vitest, 8 `@indexing` e2e (Chromium) |
 
 Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, T6.4, T6.5, T5.12, T6.6, T6.7, T6.8, T6.9, T6.10, T6.11, T6.12, T6.13, T6.14. Scope per ticket is in the Remaining table of `status.md`.
 
@@ -35,6 +38,8 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 
 ## Gotchas found while building
 
+- T6.3: `sitemap.ts` and `robots.ts` must export only the default function and `dynamic`. Next re-exports every named export from these files as route config. Both build static (○) with `dynamic = 'error'`
+- T6.3: a rule about a service status needs a fixture, not real data, or it goes vacuous once every page is live. `vi.mock('@/lib/services', { spy: true })` keeps the real getters and `mockReturnValueOnce` swaps one call. The sitemap lists the production origin even on localhost, so the e2e test compares each `<loc>` to `siteConfig.url` plus the path and requests the path
 - T6.2: `next.config.ts` imports `./src/lib/redirects` with a relative path and no extension. That works on Next 16's default config loader (confirmed by `pnpm build` and `.next/routes-manifest.json`). The `@/` alias is not used there. `redirects.ts` must never import `services.ts` (icons) or anything with an alias
 - T6.2: with `trailingSlash` unset, Next adds its own `/x/` to `/x` 308 rule before ours, so sources must have no trailing slash and `/x/` takes two hops. `www` to apex is Vercel domain config
 - T6.2: a redirect runs before pages and `public/`, so a source that equals a real route would hide it. The Vitest guard reads the top-level folders of `src/app` and `public` (plus a reserved list), so a future route such as a Phase 8 `app/shop` fails the test
@@ -45,7 +50,6 @@ Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T5.11, 
 
 ## Gotchas found while planning
 
-- The noindex unit test (`services/[slug]/page.test.ts`) has `if (!comingSoon) return;`, so it will pass without testing anything once every page is live. T6.3 rewrites it with a fixture
 - `tests/config/testData.ts` `comingSoonSlug` (DPF / EGR) feeds the service motion tests. It stops being coming-soon in T6.12, after which `ComingSoonPanel` is covered by Vitest only (needs approval)
 - Feature `alternating` and `list` and the spec band are on no live page yet (T5.10 checked them with temporary data). The first content PR that uses each adds a permanent e2e slug
 - The five-column dropdown is about 153px per column at 1024px, and the About category cards (four across) need a five-card plan so none sits alone

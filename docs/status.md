@@ -1,10 +1,10 @@
 # Status
 
-Last updated: 2026-11-08, after T6.2. Next tickets: T6.3, then T5.11 and the rest in the order in Remaining.
+Last updated: 2026-11-08, after T6.3. Next tickets: T5.11 and the rest in the order in Remaining.
 
 T3 is complete. History and decisions: `docs/t3-completion-report.md`. T4 is complete, tracked in `docs/t4-completion-report.md`. T5 (motion) is in progress, tracked in `docs/t5-completion-report.md`, with one brief per ticket in `docs/tickets/` (T5.11 and T5.12).
 
-T6 (Syd's change requests, planned 2026-11-07) is tracked in `docs/t6-completion-report.md`, with briefs `T6.2.md` to `T6.6.md` and `T6-content.md` (T6.7 to T6.14) in `docs/tickets/`. The old T6 (audits) is now T7, and the deferred shop is Phase 8.
+T6 (Syd's change requests, planned 2026-11-07) is tracked in `docs/t6-completion-report.md`, with briefs `T6.4.md` to `T6.6.md` and `T6-content.md` (T6.7 to T6.14) in `docs/tickets/`. The old T6 (audits) is now T7, and the deferred shop is Phase 8.
 
 ## Live site
 
@@ -61,9 +61,11 @@ teamautotech.co.uk is live on this site. The old WordPress site crashed, so the 
 
 - T6.2: Redirects for old WordPress URLs. New `lib/redirects.ts` (plain data: `OLD_URL_REDIRECTS`, built from a `SERVICE_SOURCES` record of slug to aliases plus `ABOUT_REDIRECTS`), read by `next.config.ts` `redirects()` through a relative import, with `permanent: true` added once (308). 27 redirects: the three confirmed old URLs, each service slug at the root, a few short aliases (`/dpf-egr`, `/bootmod`, `/dashcam` and so on), and `/about-us`, `/contact`, `/contact-us` to `/about`. Only the three are confirmed, the rest are invented plausible slugs (Haider approved, the Wayback CDX was offline). Shop, account, WordPress system URLs and old category pages stay a 404. A trailing slash costs two 308 hops (Next's built-in rule runs first), matching ignores case and query strings are kept. Destinations may be coming-soon pages. The site is still fully static (redirects live in the routes manifest). New `@redirects` spec (57 per project, Chromium only) and a Vitest suite (format, duplicates, destinations exist, no chains, no source shadows a route in `src/app` or `public`, no shop paths, config wiring). 320 Vitest, 653 Playwright passed and 73 skipped (both browsers, run against `pnpm build && pnpm start`). See `t6-completion-report.md`
 
+- T6.3: Sitemap and robots. New `app/sitemap.ts` (`/sitemap.xml`: home, About and every `live` service, absolute URLs on `siteConfig.url`, no invented `lastModified`, `changeFrequency` or `priority`) and `app/robots.ts` (`/robots.txt`: allow all, no disallow, points at the sitemap). Both are static (○ in the build) and carry `dynamic = 'error'`. **Why:** the old WordPress site crashed and this site went live in its place on the same domain (only the DNS changed). Google already knows the domain, so the risk is lower than a new launch, but it still holds the old WordPress URLs and has no list of the new pages. The sitemap tells it which pages to index, and it follows `status`, so each content batch (T6.7 to T6.12) joins it with no code change. Coming-soon pages stay out (they are `noindex`, and listing one sends Google a conflicting signal). The noindex unit test (`services/[slug]/page.test.ts`) now uses a fixture so it cannot pass vacuously once every page is live (Haider approved), with two new cases: no status means noindex, and live means no robots rule. First `vi.mock(..., { spy: true })` in the repo. New `docs/search-console.md`: the owner checklist (verify the domain with a DNS TXT, submit the sitemap, watch the 404 report, set the Business Profile link). No visitor-facing change, by decision (no "browse all services" link). 331 Vitest, 661 Playwright passed and 81 skipped (both browsers, run against `pnpm build && pnpm start`). See `t6-completion-report.md`
+
 ## Next
 
-- T6.3 (sitemap, robots, noindex test rewrite, Search Console checklist, Stage 1 first). Then T5.11 (Closing bands, About, 404 and Footer). T5.11 Stage 1 is COMPLETE and approved (2026-11-07): the full spec is in `docs/tickets/T5.11.md`, go straight to Stage 2 and do not repeat the review. T5.12 now waits for T6.5 so its final pass covers the final nav and themes. Each ticket is implemented from its brief, then raised as its own PR for manual testing
+- T5.11 (Closing bands, About, 404 and Footer). T5.11 Stage 1 is COMPLETE and approved (2026-11-07): the full spec is in `docs/tickets/T5.11.md`, go straight to Stage 2 and do not repeat the review. T5.12 now waits for T6.5 so its final pass covers the final nav and themes. Each ticket is implemented from its brief, then raised as its own PR for manual testing
 
 ## Remaining
 
@@ -71,7 +73,6 @@ Phases still to come: 5 motion and wow factor (T5.x, finishing), 6 Syd's change 
 
 | Ticket  | Scope                                                                                                                                                    |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T6.3    | Sitemap, robots, noindex test rewrite, Search Console checklist                                                                                          |
 | T5.11   | Closing bands, Related Services, About (calm), 404 (calm), Footer                                                                                        |
 | T6.4    | Shop (inactive): a non-clickable "Shop, coming soon" label in the top nav and the mobile menu                                                            |
 | T6.5    | Fifth category (Mechanical / Customisation), nine new services as coming-soon, five-column dropdown, About five-card layout                              |
@@ -100,7 +101,7 @@ Technical:
 - Brand casing differs: "Team AutoTech" (layout title, tests) vs "Team Autotech" (`siteConfig`, Footer, logo alt, About h1). Unify later
 - `constants.ts` has a note that the address may need to read "Unit 4 - 12 Wenning Street". Confirm with Syd before changing
 - There is no `/services` page, by decision (T4.2). Services are reached from the Navbar, the homepage Popular grid (`#services`, 6 cards) and the About page. The Footer links Home, About and two services only. `/services` is a normal 404, with no redirect
-- Old WordPress shop, basket, checkout, my-account and product URLs stay a 404 by decision. T6.2 redirects the service and about slugs, but only three old URLs are confirmed (`/stage-1-tuning`, `/ghost-immobiliser-ii`, `/scorpion-x-series-immobiliser`). The rest are invented, plausible slugs (Haider approved). Grow the list from the Search Console 404 report (T6.3) and Vercel 404 logs
+- Old WordPress shop, basket, checkout, my-account and product URLs stay a 404 by decision. T6.2 redirects the service and about slugs, but only three old URLs are confirmed (`/stage-1-tuning`, `/ghost-immobiliser-ii`, `/scorpion-x-series-immobiliser`). The rest are invented, plausible slugs (Haider approved). Grow the list from the Search Console 404 report (checklist in `search-console.md`) and Vercel 404 logs
 - About page copy is placeholder (generated from site facts, "15+ years" approved). It is public already, Syd reviews it in T6.14. The homepage claims "Authorised Ghost Immobiliser II Installer", "backed by our guarantee", "family-run" and "genuine manufacturer-grade tools" are confirmed true (Haider, 2026-11-07). `WhyChooseUsSection` still hardcodes "15 years" (T6.13)
 - WhatsApp prefill reads "Hi, How can we help?" (`WHATSAPP_LINK`). That is the customer's message, so it sounds like the business speaking. Unconfirmed with Syd, not changed in T4.3. Reword it in `constants.ts` once he agrees
 - Follow-up from T3.10: `CTA_PITCH` uses a hyphen where a dash or comma belongs ("quote - pricing", copy change, needs approval). The other T3.10 follow-up, no `focus-visible` style on `ServiceCard`, was closed in T5.4
@@ -130,4 +131,4 @@ Waiting on Syd:
 - His review of all AI-drafted and placeholder copy (T6.14), tracked in `docs/content/_review.md`: the three live pages and their placeholder FAQs, About, the homepage claims and every new page
 - Ghost Immobiliser II video: confirm id `hT3xBns4wmw` is right, and supply a 16:9 poster image (replaces the placeholder at the same path) and final title and caption. The video is Syd's own and embedding is allowed
 - Final logo file. `public/images/logo.jpg` is a placeholder: it has a black bar behind it that must be removed. The final logo unblocks the favicon and confirms the real accent hex
-- Google Business Profile owner access (also needed to set the website link, T6.3)
+- Google Business Profile owner access (also needed to set the website link). The Search Console and Business Profile steps are in `search-console.md`: Syd adds one DNS TXT record, Haider verifies and submits the sitemap

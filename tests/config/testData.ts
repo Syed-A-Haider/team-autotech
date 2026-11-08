@@ -13,6 +13,15 @@ export const routes = {
 
 export const unknownServiceSlug = 'not-a-real-service';
 
+// Paths the sitemap must list: home, About and every live service. A function,
+// so the list follows the data as each content batch goes live (T6.7 to T6.12)
+export function getIndexablePaths(): string[] {
+  const livePaths = getAllServices()
+    .filter((service) => service.status === 'live')
+    .map((service) => routes.service(service.slug));
+  return [routes.home, routes.about, ...livePaths];
+}
+
 // Every live page shape (prose and FAQ, video, steps only) plus a coming-soon one
 export const motionServiceSlugs = [
   'stage-1-tuning',
