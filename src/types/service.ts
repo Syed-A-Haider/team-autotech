@@ -17,7 +17,11 @@ export interface Service {
 // Category can be one of these
 // When adding a new category, add its title here.
 export type Category =
-  'Remap / Tuning' | 'Programming' | 'Auto Security' | 'Auto Electrical';
+  | 'Remap / Tuning'
+  | 'Programming'
+  | 'Auto Security'
+  | 'Auto Electrical'
+  | 'Mechanical / Customisation';
 
 // Dictionary between service categories and services
 export type ServiceCategories = Record<string, Service[]>;

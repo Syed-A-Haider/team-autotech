@@ -21,14 +21,14 @@ import {
 export const dynamic = 'error';
 
 export const ABOUT_META_TITLE = 'About';
-export const ABOUT_META_DESCRIPTION = `About ${siteConfig.name}: remapping, ECU programming, vehicle security and auto electrical specialists in Nelson, Lancashire.`;
+export const ABOUT_META_DESCRIPTION = `About ${siteConfig.name}: remapping, ECU programming, vehicle security, auto electrical, mechanical and customisation specialists in Nelson, Lancashire.`;
 export const ABOUT_PAGE_TITLE = `About ${siteConfig.name}`;
 export const ABOUT_PAGE_SUBTITLE =
-  'Remapping, ECU programming, vehicle security and auto electrical specialists in Nelson, Lancashire.';
+  'Remapping, ECU programming, vehicle security, auto electrical, mechanical and customisation specialists in Nelson, Lancashire.';
 
 export const ABOUT_INTRO_HEADING = 'Who We Are';
 export const ABOUT_INTRO_BODY: readonly string[] = [
-  `${siteConfig.name} is based in Nelson, Lancashire. We look after remapping and tuning, ECU programming, vehicle security and auto electrical work.`,
+  `${siteConfig.name} is based in Nelson, Lancashire. We look after remapping and tuning, ECU programming, vehicle security, and auto electrical, mechanical and customisation work.`,
   `With more than ${YEARS_EXPERIENCE} years of experience, we use genuine Alientech tools, not cheap and dangerous clones. We keep all our hardware up to date and offer a brilliant after-sales service.`,
 ];
 export const ABOUT_EXPERIENCE_STAT = `${YEARS_EXPERIENCE}+`;
@@ -62,6 +62,15 @@ const BODY_STYLES = 'text-muted leading-relaxed';
 // overflow-clip, not hidden: hidden would capture the Find Us heading's reveal
 const PANEL_STYLES =
   'bg-surface border-border relative overflow-clip rounded-lg border before:absolute before:top-0 before:left-6 before:h-1 before:w-10 before:-skew-x-12 before:bg-accent';
+// Five cards on a six-column grid: 3 then 2 on desktop, and on tablet the
+// last card spans both columns so none sits alone. Literal strings for Tailwind
+const CATEGORY_CARD_SPANS = [
+  'lg:col-span-2',
+  'lg:col-span-2',
+  'lg:col-span-2',
+  'lg:col-span-3',
+  'sm:col-span-2 lg:col-span-3',
+];
 const SERVICE_LINK_STYLES =
   'group text-foreground hover:bg-background hover:text-accent flex items-start gap-2 rounded-md px-2 py-2 text-sm motion-safe:transition-colors focus-visible:ring-accent focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none';
 
@@ -122,9 +131,16 @@ export default function AboutPage() {
             align="center"
             className="mx-auto mb-12 max-w-3xl"
           />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map(([category, categoryServices]) => (
-              <div key={category} className={clsx(PANEL_STYLES, 'p-6')}>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
+            {categories.map(([category, categoryServices], index) => (
+              <div
+                key={category}
+                className={clsx(
+                  PANEL_STYLES,
+                  'p-6',
+                  CATEGORY_CARD_SPANS[index],
+                )}
+              >
                 <h3 className="text-foreground text-lg font-semibold">
                   {category}
                 </h3>

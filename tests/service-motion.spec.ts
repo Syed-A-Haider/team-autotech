@@ -3,6 +3,7 @@ import { test, expect } from './fixtures';
 import {
   comingSoonSlug,
   featureGridSlug,
+  mechanicalSlug,
   getSectionTitle,
   routes,
   stepsSlug,
@@ -26,7 +27,7 @@ const PART_WAY = 0.85;
 const DONE = 0.3;
 
 // Pages that show the hero and the bar: a live one and a coming-soon one
-const heroPages = [featureGridSlug, comingSoonSlug];
+const heroPages = [featureGridSlug, comingSoonSlug, mechanicalSlug];
 
 for (const [size, viewport] of sizes) {
   test.describe(`Service motion, hero, ${size}`, () => {
@@ -66,21 +67,23 @@ for (const [size, viewport] of sizes) {
       },
     );
 
-    test(
-      'the motif settles over the hero and the photo is left alone',
-      { tag: '@motion' },
-      async ({ servicePage, motionAudit }) => {
-        await servicePage.goto(featureGridSlug);
+    for (const slug of heroPages) {
+      test(
+        `${slug}: the motif settles over the hero and the photo is left alone`,
+        { tag: '@motion' },
+        async ({ servicePage, motionAudit }) => {
+          await servicePage.goto(slug);
 
-        expect
-          .soft(await motionAudit.animationName(servicePage.heroMotif()))
-          .toContain('hero-zoom');
-        expect
-          .soft(await motionAudit.animationName(servicePage.heroImage()))
-          .toBe('none');
-        await expect.soft(servicePage.heroMotif()).toHaveCSS('scale', 'none');
-      },
-    );
+          expect
+            .soft(await motionAudit.animationName(servicePage.heroMotif()))
+            .toContain('hero-zoom');
+          expect
+            .soft(await motionAudit.animationName(servicePage.heroImage()))
+            .toBe('none');
+          await expect.soft(servicePage.heroMotif()).toHaveCSS('scale', 'none');
+        },
+      );
+    }
   });
 }
 

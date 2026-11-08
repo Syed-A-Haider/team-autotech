@@ -30,11 +30,13 @@ export function ServicesDropdown({ categories }: ServicesDropdownProps) {
 
   return (
     <div className={dropdownPanelClasses}>
-      <div className="border-border bg-surface grid grid-cols-4 gap-8 rounded-xl border p-8 shadow-xl">
+      {/* Five columns. Rows are shared (subgrid) so the lists start level even
+          when one heading wraps to two lines. Tighter at lg, roomier from xl */}
+      <div className="border-border bg-surface grid grid-cols-5 grid-rows-[auto_1fr] gap-x-5 gap-y-3 rounded-xl border p-6 shadow-xl xl:gap-x-8 xl:p-8">
         {/* Map each category to a title and list of services */}
         {Object.entries(categories).map(([category, services]) => (
-          <div key={category}>
-            <h3 className="text-muted mb-3 text-xs font-semibold tracking-wide uppercase">
+          <div key={category} className="row-span-2 grid grid-rows-subgrid">
+            <h3 className="text-muted self-end text-xs font-semibold tracking-wide uppercase">
               {category}
             </h3>
 

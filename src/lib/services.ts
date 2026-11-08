@@ -21,6 +21,15 @@ import {
   Zap,
   Fuel,
   Timer,
+  Droplet,
+  Cog,
+  LockOpen,
+  Truck,
+  Cctv,
+  Wrench,
+  ClipboardCheck,
+  Layers,
+  SprayCan,
 } from 'lucide-react';
 
 // Not exported: read through the getters. To add a service, copy an entry and use a unique slug.
@@ -138,6 +147,13 @@ const services: Service[] = [
     icon: Filter,
   },
   {
+    slug: 'adblue-solutions',
+    title: 'AdBlue Solutions',
+    category: 'Remap / Tuning',
+    shortDescription: 'AdBlue solutions from Team Autotech.',
+    icon: Droplet,
+  },
+  {
     slug: 'engine-management-error-code-delete',
     title: 'Engine Management Error Code Delete',
     category: 'Remap / Tuning',
@@ -150,6 +166,13 @@ const services: Service[] = [
     category: 'Remap / Tuning',
     shortDescription: 'Tuning Freaks Bootmod from Team Autotech.',
     icon: Cpu,
+  },
+  {
+    slug: 'xhp-gearbox-map',
+    title: 'XHP Gearbox Map',
+    category: 'Remap / Tuning',
+    shortDescription: 'XHP gearbox map from Team Autotech.',
+    icon: Cog,
   },
 
   // Programming
@@ -173,6 +196,13 @@ const services: Service[] = [
     category: 'Programming',
     shortDescription: 'VAG programming for Audi, Seat, Skoda and VW.',
     icon: Key,
+  },
+  {
+    slug: 'component-protection-removal',
+    title: 'Component Protection Removal',
+    category: 'Programming',
+    shortDescription: 'Component protection removal from Team Autotech.',
+    icon: LockOpen,
   },
 
   // Auto Security — Immobilisers
@@ -326,6 +356,13 @@ const services: Service[] = [
     shortDescription: 'Insurance-approved GPS tracking systems.',
     icon: MapPin,
   },
+  {
+    slug: 'fleet-trackers',
+    title: 'Fleet Trackers',
+    category: 'Auto Security',
+    shortDescription: 'Fleet trackers from Team Autotech.',
+    icon: Truck,
+  },
 
   // Auto Electrical Services
   {
@@ -343,6 +380,13 @@ const services: Service[] = [
     icon: Camera,
   },
   {
+    slug: 'road-angel-dashcam',
+    title: 'Road Angel Dashcam',
+    category: 'Auto Electrical',
+    shortDescription: 'Road Angel dashcam from Team Autotech.',
+    icon: Cctv,
+  },
+  {
     slug: 'parking-sensor-installation',
     title: 'Parking Sensor Installation',
     category: 'Auto Electrical',
@@ -355,6 +399,36 @@ const services: Service[] = [
     category: 'Auto Electrical',
     shortDescription: 'Reverse camera installation from Team Autotech.',
     icon: Video,
+  },
+
+  // Mechanical / Customisation
+  {
+    slug: 'vehicle-maintenance',
+    title: 'Vehicle Maintenance',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'Vehicle maintenance from Team Autotech.',
+    icon: Wrench,
+  },
+  {
+    slug: 'mot-preparation',
+    title: 'MOT Preparation',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'MOT preparation from Team Autotech.',
+    icon: ClipboardCheck,
+  },
+  {
+    slug: 'ct-carbon-official-installer',
+    title: 'CT Carbon Official Installer',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'CT Carbon official installer.',
+    icon: Layers,
+  },
+  {
+    slug: 'body-panel-repair-and-paint',
+    title: 'Body Panel Repair and Paint',
+    category: 'Mechanical / Customisation',
+    shortDescription: 'Body panel repair and paint from Team Autotech.',
+    icon: SprayCan,
   },
 ];
 

@@ -3,7 +3,7 @@
 export const siteConfig = {
   name: 'Team Autotech',
   description:
-    'Vehicle remapping, ECU tuning, security immobilisers, GPS trackers and auto electrical installations in Nelson, Lancashire.',
+    'Vehicle remapping, ECU tuning, security immobilisers, GPS trackers, auto electrical installations, mechanical work and customisation in Nelson, Lancashire.',
   url: 'https://teamautotech.co.uk',
 } as const;
 
