@@ -2,7 +2,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
-import { TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
+import {
+  TEL_LANDLINE_LINK,
+  PHONE_LANDLINE,
+  SHOP_LABEL,
+  SHOP_TAG,
+  SHOP_TAG_SR,
+} from '@/lib/constants';
 
 const mockCategories: MobileMenuCategories = {
   'Remap / Tuning': [{ slug: 'stage-1-tuning', title: 'Stage 1 Tuning' }],
@@ -51,6 +57,24 @@ describe('MobileMenu', () => {
     );
     expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'About' })).toBeInTheDocument();
+  });
+
+  it('Renders the Shop label after About, as plain text', async () => {
+    const user = userEvent.setup();
+    render(<MobileMenu categories={mockCategories} />);
+
+    await user.click(screen.getByRole('button', { name: 'Open menu' }));
+
+    const shop = screen.getByText(SHOP_LABEL);
+    const about = screen.getByRole('link', { name: 'About' });
+
+    expect(shop).toHaveTextContent(`${SHOP_LABEL}${SHOP_TAG_SR}`);
+    expect(screen.getByText(SHOP_TAG)).toHaveAttribute('aria-hidden', 'true');
+    expect(about.compareDocumentPosition(shop)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(screen.queryByRole('link', { name: /shop/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /shop/i })).toBeNull();
   });
 
   it('Renders every category as an accordion summary', async () => {

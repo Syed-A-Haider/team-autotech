@@ -42,3 +42,10 @@ export const MAPS_DIRECTIONS_LINK = `https://www.google.com/maps/dir/?api=1&dest
 
 // Quoted on the home and About pages. Update here only
 export const YEARS_EXPERIENCE = 15;
+
+// "Shop" nav label (T6.4). The shop is Phase 8, so for now it is a status, not a link.
+// Shared by Navbar (Server) and MobileMenu (Client). The suffix is the screen
+// reader text, so "Shop" is read once as "Shop (coming soon)"
+export const SHOP_LABEL = 'Shop';
+export const SHOP_TAG = 'Coming soon';
+export const SHOP_TAG_SR = ` (${SHOP_TAG.toLowerCase()})`;

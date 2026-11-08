@@ -1,7 +1,7 @@
 import type { Locator } from '@playwright/test';
 import { test, expect } from './fixtures';
 import type { HomePage } from './pages/HomePage';
-import { viewports } from './config/testData';
+import { lgViewport, viewports } from './config/testData';
 
 // T5.4: press, lift, sheen, nav underline and the WhatsApp pulse.
 // Every check reads computed style (the element or its ::before / ::after) or
@@ -289,6 +289,57 @@ test.describe('Nav underline', { tag: '@interaction' }, () => {
     expect(
       await interactionAudit.style(homePage.navServicesButton, 'cursor'),
     ).toBe('pointer');
+  });
+});
+
+// T6.4: the Shop label is a status, so it must feel inert and never be faded
+test.describe('Shop label', { tag: '@interaction' }, () => {
+  test.use({ viewport: viewports.desktop });
+
+  test('shows a default cursor and is not see-through', async ({
+    homePage,
+    interactionAudit,
+  }) => {
+    // Assert - opacity is read here because the page-wide faded guard
+    // only scans main and footer, never the header
+    const shop = homePage.navShopLabel;
+    expect(await interactionAudit.style(shop, 'cursor')).toBe('default');
+    expect(await interactionAudit.style(shop, 'opacity')).toBe('1');
+  });
+
+  test('Tab skips it, going from About to the call button', async ({
+    homePage,
+    interactionAudit,
+    browserName,
+  }) => {
+    // Safari's default is that Tab skips links, so WebKit never lands on the
+    // call link and the order cannot be read there
+    test.skip(browserName === 'webkit', 'WebKit Tab does not stop on links');
+
+    // Arrange
+    await interactionAudit.focusByKeyboard(homePage.navAboutLink);
+
+    // Act
+    await homePage.page.keyboard.press('Tab');
+
+    // Assert
+    await expect(homePage.headerCallLink).toBeFocused();
+  });
+
+  test('fits before the call button at the narrowest desktop width', async ({
+    homePage,
+  }) => {
+    // Arrange
+    await homePage.page.setViewportSize(lgViewport);
+
+    // Act
+    const shop = await homePage.navShopLabel.boundingBox();
+    const call = await homePage.headerCallLink.boundingBox();
+
+    // Assert - the label ends before the button starts, so nothing wraps or overlaps
+    expect(shop).not.toBeNull();
+    expect(call).not.toBeNull();
+    expect(shop!.x + shop!.width).toBeLessThanOrEqual(call!.x);
   });
 });
 
