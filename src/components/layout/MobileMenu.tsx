@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import { LinkButton } from '../ui/LinkButton';
+import { ShopLabel } from './ShopLabel';
 import { TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 import { serviceHref } from '@/lib/routes';
 import clsx from 'clsx';
@@ -27,6 +28,9 @@ interface MobileMenuProps {
 // Shared by Home and About
 const topLevelLinkClasses =
   'border-border text-foreground border-b py-3 text-base font-medium';
+
+// Same row look as the links above, without text-foreground (ShopLabel is muted)
+const shopRowClasses = 'border-border border-b py-3 text-base font-medium';
 
 // A phone dials on a tap, so the number is only text from sm up (tablets)
 const CALL_NUMBER_STYLES = 'hidden sm:inline';
@@ -138,6 +142,9 @@ export function MobileMenu({ categories }: MobileMenuProps) {
           <Link href="/about" onClick={close} className={topLevelLinkClasses}>
             About
           </Link>
+
+          {/* Shop is coming (Phase 8): a status, not a link */}
+          <ShopLabel className={shopRowClasses} />
 
           {/* Direct link to call */}
           <LinkButton

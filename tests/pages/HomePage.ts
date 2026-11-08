@@ -22,6 +22,7 @@ import {
 } from '@/components/home-sections/ReviewsCarousel';
 import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
 import { WHATSAPP_WIDGET_LABEL } from '@/components/layout/WhatsAppWidget';
+import { SHOP_LABEL } from '@/lib/constants';
 import {
   callButtonLabel,
   footerSocialLabel,
@@ -72,6 +73,8 @@ export class HomePage {
   readonly aboutCtaLink: Locator;
   readonly navAboutLink: Locator;
   readonly navServicesButton: Locator;
+  // The "Shop, coming soon" status in the Main nav (plain text, not a link)
+  readonly navShopLabel: Locator;
   // First row of the Services dropdown (hidden until the button is hovered)
   readonly navDropdownLink: Locator;
   // Header call button on desktop, hidden below lg
@@ -140,6 +143,7 @@ export class HomePage {
     this.navServicesButton = mainNav.getByRole('button', {
       name: navLabels.services,
     });
+    this.navShopLabel = mainNav.getByText(SHOP_LABEL);
     this.navDropdownLink = mainNav.getByRole('link').first();
     this.headerCallLink = page
       .getByRole('banner')

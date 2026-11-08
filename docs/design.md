@@ -36,6 +36,7 @@ The accent hex is provisional until Syd supplies the final logo (the current `pu
 - `PageHero`: flat text banner for simple pages
 - `HeroSection`: full-bleed homepage hero. Fixed height so the services grid stays visible
 - `ServiceHero`: themed, image-backed hero for service pages. Do not extend `PageHero` for this
+- `layout/ShopLabel` (T6.4): the "Shop" status after About in the desktop nav and the mobile menu. Plain text, never a link or button: no role, no `tabindex`, `cursor-default`, no `press`, no `underline-draw`, no hover. Muted token text (never `opacity-*`) with an outlined "Coming soon" pill in the shape of the dropdown's "Popular" tag, but muted, because accent would look clickable. The pill is `aria-hidden` and a `sr-only` " (coming soon)" follows the label, so a screen reader reads "Shop (coming soon)" once. Copy is `SHOP_LABEL`, `SHOP_TAG` and `SHOP_TAG_SR` in `constants.ts`. At 1024px the nav ends 32px before the call button, so it fits with no `min-w`. When the shop ships (Phase 8) the label becomes a link and drops the pill
 
 ## Service page sections
 

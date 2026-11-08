@@ -35,7 +35,7 @@ src/
     not-found.tsx              branded 404 for unmatched URLs and notFound() (T4.2)
     services/[slug]/page.tsx   generateStaticParams, generateMetadata
   components/
-    layout/    Navbar, MobileMenu (Client), ServicesDropdown, ServicesDropdownLink (Client, blurs on click), Footer, WhatsAppWidget
+    layout/    Navbar, MobileMenu (Client), ShopLabel, ServicesDropdown, ServicesDropdownLink (Client, blurs on click), Footer, WhatsAppWidget
     ui/        LinkButton, ServiceCard, PageHero, SectionWrapper, ContactLine, ReviewCard,
                PageTransition, SectionHeading, SectionShell, EnquiryBand, ContactLinks,
                ScrollProgress (decorative bar, rendered by ServicePageTemplate, T5.10)
@@ -93,7 +93,7 @@ Page structure is data, the same way page content is. Three axes of variation, a
 
 ## Deferred (Phase 8)
 
-Shop, basket, Stripe checkout, Neon Postgres via Vercel Marketplace, Prisma. `AddToBasketButton` will be a Client Component importing `buttonVariantStyles` and `buttonSizeStyles` from `LinkButton`.
+Shop, basket, Stripe checkout, Neon Postgres via Vercel Marketplace, Prisma. `AddToBasketButton` will be a Client Component importing `buttonVariantStyles` and `buttonSizeStyles` from `LinkButton`. Until then the nav shows a non-clickable `ShopLabel` (T6.4). When the shop ships, it becomes a link to the new route (replace `ShopLabel` in `Navbar` and `MobileMenu`). The T6.2 redirects test lists `/shop` among the paths that must stay a 404 (`KEPT_404_PREFIXES`), so revisit that list in the same ticket.
 
 ## Domain
 

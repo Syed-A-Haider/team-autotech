@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { ChevronDown, Phone } from 'lucide-react';
 import { LinkButton } from '../ui/LinkButton';
 import { ServicesDropdown } from './ServicesDropdown';
+import { ShopLabel } from './ShopLabel';
 import { siteConfig, TEL_LANDLINE_LINK, PHONE_LANDLINE } from '@/lib/constants';
 import type { ServiceCategories } from '@/types/service';
 import { MobileMenu, type MobileMenuCategories } from './MobileMenu';
@@ -81,6 +82,9 @@ export function Navbar({ categories }: NavbarProps) {
             <Link href="/about" className={navItemClasses}>
               About
             </Link>
+
+            {/* Shop is coming (Phase 8): a status, not a link */}
+            <ShopLabel className="text-sm font-medium" />
           </nav>
 
           {/* Direct link to phone calls */}
