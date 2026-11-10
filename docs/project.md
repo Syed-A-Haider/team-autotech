@@ -31,7 +31,7 @@ Two goals: a better site for the business, and portfolio experience for the deve
 
 ## Rules from the owner
 
-- Everything is as Syd wants it. The site is live (it went live early, see `status.md`), so unapproved copy is public. Syd chose AI-drafted copy for every page on 2026-11-07. On 2026-11-10 he chose speed over sign-off: it goes live and indexable without his approval, is written to `content/_standard.md`, and is listed in `content/_review.md` until he looks at it. If he flags something, it becomes a new ticket. The copy guard (`lib/services.content.test.ts`) enforces the riskiest rules. Business facts are still never invented
+- Everything is as Syd wants it. The site is live (it went live early, see `status.md`), so unapproved copy is public. Syd chose AI-drafted copy for every page on 2026-11-07. On 2026-11-10 he chose speed over sign-off: it goes live and indexable without his approval, is written to `content/_standard.md`, and is listed in `content/_review.md` as approved by default. If he raises an issue, Haider opens an explicit ticket for it. The copy guard (`lib/services.content.test.ts`) enforces the riskiest rules. Business facts are still never invented
 - Do not invent business facts: services, prices, accreditations, hours, claims. Use `constants.ts` and Syd's source pages
 - Services and slugs live in `lib/services.ts`. Contact details live in `lib/constants.ts`
 

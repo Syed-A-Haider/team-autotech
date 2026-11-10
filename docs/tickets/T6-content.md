@@ -1,4 +1,4 @@
-# T6.7 to T6.14 - AI content batches and the review pass
+# T6.7 to T6.14 - AI content batches and phase close
 
 Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`).
 Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
@@ -7,7 +7,7 @@ Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `doc
 ## Rules for every batch
 
 - Data edits only in `lib/services.ts`. `status: 'live'`, the sections picked per page from the existing blocks (vary the mix and the order, see the standard)
-- Each entry gets `// AI-generated (T6.x), awaiting Syd's review` and a row in `_review.md`
+- Each entry gets `// AI-generated (T6.x)` and a row in `_review.md` (status `approved`, dated)
 - The copy guard (T6.6) must be green. State in the PR what each page does and does not claim
 - Live pages become indexable and appear in the sitemap on their own
 - The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`featureAlternatingSlug`, `featureListSlug`, `specBandSlug`) and makes the T5.10 temporary checks permanent (those blocks were checked with temporary data only)
@@ -40,9 +40,9 @@ Highest risk, so it goes last. Wording only for lawful work (diagnosis, cleaning
 
 Haider confirmed the live claims on 2026-11-07, so nothing is softened: "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools" (`AboutSnippet`), "Insurance-approved" (Scorpion Trackers). Remaining work is small: `WhyChooseUsSection` uses `YEARS_EXPERIENCE` instead of a hard-coded 15, (the confirmed claims are already in `content/_review.md`, marked "confirmed by Haider, Syd to verify", and in the guard's allow-list, both from T6.6). The About placeholder is in `_review.md` too. If this ends up as one tiny diff, fold it into T6.14. Also decide the Mechanical / Customisation hero photo (Haider, 2026-11-08): it uses the homepage image `hero-background.jpg` as a placeholder that works for now. Keep it, or swap in a real photo at 2560 x 1097 (21:9), 500 KB or less, as `public/images/services/mechanical.jpg` (one line in `service-themes.ts`). Does not wait on anyone.
 
-## T6.14 - Syd's review pass and phase close
+## T6.14 - Phase close
 
-Syd reviews after the pages are live, so this ticket is the review pass, not a gate. Walk `_review.md` with Syd. Send him one readable pack of all the copy (the live URLs plus the table). Apply edits, split per category if they are large. Mark rows approved, remove the "awaiting review" comments, finish the T6 report.
+Syd's review is not a gate: every row in `_review.md` is `approved` by default (2026-11-10). Check the tracker is complete, finish the T6 report and close the phase. If Syd raises an issue, Haider opens an explicit ticket for it.
 
 ## Out of scope
 

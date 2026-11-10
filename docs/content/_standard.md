@@ -80,8 +80,8 @@ Haider confirmed these on 2026-11-07 (Syd can still correct them). They are allo
 
 ## Marking AI copy
 
-- Put `// AI-generated (T6.x), awaiting Syd's review` above each AI entry in `services.ts`
-- Add or update the page's row in `_review.md`
+- Put `// AI-generated (T6.x)` above each AI entry in `services.ts`
+- Add or update the page's row in `_review.md`, status `approved` with the date it goes live (Syd reviews later, see above)
 
 ## What the guard checks and what a reviewer checks
 

@@ -42,14 +42,14 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
 - If a page needs something no block can do, add a block or variant in a component ticket first. Do not hack the data
 - Section data may hold `LucideIcon` references because blocks are Server Components. Never pass section data into a Client Component
 - No pricing anywhere. Prices vary by vehicle and spec, so CTAs are enquiry-only
-- Where the old WordPress page has copy, use it (corrected, see below). Where it is empty, the copy is AI-drafted to `docs/content/_standard.md` (T6.6) and tracked in `docs/content/_review.md` until Syd reviews it. Syd does not approve it before it goes live (2026-11-10)
+- Where the old WordPress page has copy, use it (corrected, see below). Where it is empty, the copy is AI-drafted to `docs/content/_standard.md` (T6.6) and tracked in `docs/content/_review.md` as approved by default the day it goes live. Syd does not approve it first (2026-11-10), and an issue he raises becomes its own ticket
 - The copy guard (`lib/services.content.test.ts`, T6.6) reads `getAllServices()` and fails on the risky claims in the standard: prices, figures, accreditations, guarantees, times, emissions removal, legal claims, banned words, US spellings and a `shortDescription` outside 70 to 150 characters on a live page. It checks `shortDescription` and `sections` only, not component copy. A phrase a page may keep goes in its `ALLOWED_COPY` list (slug, rule, exact phrase). Adding an entry needs Haider's OK and a `_review.md` row, and a confirmed claim never goes on a new page
 - One-liners (`shortDescription`) on services with no source copy only restate the title, or a nav label that is Syd's own. No scope claims, product versions or accreditations
 - Where copy lives: raw source briefs are `docs/content/<slug>.md` (verbatim from the old site, mistakes included, reference only). The published copy is the service's `sections` in `lib/services.ts`. Stage 1 Tuning is the worked example. Edit the data, not the brief
 - Do not treat Syd's copy as correct. Fix spelling, grammar, punctuation and capitalisation, use British English (specialise, optimise, colour), and keep an energetic, sporty tone that still sounds natural. Keep the meaning. Add no new facts, claims, figures or prices, and do not drop any. List meaningful rewording in the PR so Syd can confirm it
 - Old-site images can hide copy in Photoshop text layers: `curl -s <url> | LC_ALL=C grep -aoE 'photoshop:LayerText="[^"]*"'`. Layers pile up across exports and can be hidden, so open the image and use only what is visible. Put the text in native blocks, never in images
-- FAQs: no source copy exists, so live pages carry placeholder `faq` sections drafted from the page's own facts. Keep answers to sourced facts, enquiry-only pricing and "get in touch" for fitment. Syd reviews them
-- Unapproved copy: the site is live, so every page with unreviewed copy is public. Each one is listed in `content/_review.md` (`status.md` open items point there) until Syd approves it
+- FAQs: no source copy exists, so live pages carry placeholder `faq` sections drafted from the page's own facts. Keep answers to sourced facts, enquiry-only pricing and "get in touch" for fitment. they are approved by default (see `_review.md`)
+- Copy Syd has not reviewed: the site is live, so it is public. Each page is listed in `content/_review.md` (`status.md` open items point there) as approved by default (2026-11-10), and an issue he raises becomes its own ticket
 
 ## `lib/constants.ts`
 

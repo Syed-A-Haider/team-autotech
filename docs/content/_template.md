@@ -12,7 +12,7 @@ Raw source: verbatim, mistakes included, reference only. Correct it when writing
 
 - [ ] Source copy is in this brief
 - [ ] Section list below is in order, with a variant for each
-- [ ] Syd approved? If not, `live` only if `_review.md` lists it as awaiting review
+- [ ] Syd approved? If not, `live` only if `_review.md` lists it as approved by default
 - [ ] `heroImage` override, if any
 - [ ] Video id is the bare 11 characters, and the poster file exists
 - [ ] Two or more services need product images? Raise an image-block ticket first

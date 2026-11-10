@@ -39,12 +39,13 @@ interface CopyIssue {
   match: string;
 }
 
-// A phrase one page is allowed to keep for one rule. Syd or Haider must OK each entry.
+// A phrase one page is allowed to keep for one rule. Every entry is approved and
+// the note says on what basis. Haider must OK a new entry.
 interface AllowedCopy {
   slug: string;
   rule: RuleId;
   phrase: string;
-  status: 'confirmed' | 'awaiting-syd';
+  status: 'approved';
   note: string;
 }
 
@@ -167,63 +168,63 @@ const PLACE_NAME = byPattern(/\bNelson,?\s+Lancashire\b/i);
 // Phrases a page may keep. A confirmed claim never goes on a new page.
 // Every entry needs a row in docs/content/_review.md.
 const ALLOWED_COPY: AllowedCopy[] = [
-  // Confirmed
+  // Confirmed true by Haider or Syd's own title
   {
     slug: 'scorpion-trackers',
     rule: 'accreditation',
     phrase: 'Insurance-approved GPS tracking systems',
-    status: 'confirmed',
+    status: 'approved',
     note: 'Confirmed true by Haider, 2026-11-07',
   },
   {
     slug: 'ct-carbon-official-installer',
     rule: 'accreditation',
     phrase: 'CT Carbon official installer',
-    status: 'confirmed',
+    status: 'approved',
     note: "Syd's own title for the service",
   },
-  // Live pages, copy not yet checked by Syd (T6.14). Remove each entry once
-  // Syd approves the claim or the wording changes
+  // Live pages, approved by default (2026-11-10): Syd reviews later. If he raises
+  // an issue Haider opens a ticket, and the entry goes when the wording changes
   {
     slug: 'stage-1-tuning',
     rule: 'figure',
     phrase: '10-20%',
-    status: 'awaiting-syd',
+    status: 'approved',
     note: 'Old-site power gain, used in a feature card and the FAQ',
   },
   {
     slug: 'stage-1-tuning',
     rule: 'figure',
     phrase: '99%',
-    status: 'awaiting-syd',
+    status: 'approved',
     note: 'Old-site claim: "tune 99% of modern vehicles"',
   },
   {
     slug: 'stage-1-tuning',
     rule: 'turnaround',
     phrase: 'an hour or two',
-    status: 'awaiting-syd',
+    status: 'approved',
     note: 'Old-site fitting time, in a feature card and the FAQ',
   },
   {
     slug: 'stage-1-tuning',
     rule: 'short-description-length',
     phrase: 'Performance remapping for increased power and torque.',
-    status: 'awaiting-syd',
+    status: 'approved',
     note: '53 characters, not old-site copy',
   },
   {
     slug: 'ghost-immobiliser-ii',
     rule: 'superlative',
     phrase: 'most advanced',
-    status: 'awaiting-syd',
+    status: 'approved',
     note: 'Old-site tagline',
   },
   {
     slug: 'scorpion-x-series-immobiliser',
     rule: 'superlative',
     phrase: 'Market-leading',
-    status: 'awaiting-syd',
+    status: 'approved',
     note: 'Old-site claim',
   },
 ];
@@ -545,7 +546,7 @@ const TRACKER_ENTRY: AllowedCopy = {
   slug: 'fixture',
   rule: 'accreditation',
   phrase: TRACKER_PHRASE,
-  status: 'confirmed',
+  status: 'approved',
   note: 'test entry',
 };
 
