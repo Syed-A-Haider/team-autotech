@@ -3,7 +3,7 @@
 slug: <slug>
 category: <exact Category from types/service.ts> (<nav group>)
 source: <old-site URL> | Syd, <date>, <email / WhatsApp>
-status: coming-soon | live (unapproved, listed in status.md) | live (approved <date>)
+status: coming-soon | live (unapproved, listed in _review.md) | live (approved <date>)
 hero-image: category default | public/images/services/<file>.jpg (1920x1080+, dark, no text, subject in right third)
 
 Raw source: verbatim, mistakes included, reference only. Correct it when writing the data (see `data-and-content.md`). Edit the data, not this brief.
@@ -12,7 +12,7 @@ Raw source: verbatim, mistakes included, reference only. Correct it when writing
 
 - [ ] Source copy is in this brief
 - [ ] Section list below is in order, with a variant for each
-- [ ] Syd approved? If not, `live` only if `status.md` open items lists it as awaiting approval
+- [ ] Syd approved? If not, `live` only if `_review.md` lists it as approved by default
 - [ ] `heroImage` override, if any
 - [ ] Video id is the bare 11 characters, and the poster file exists
 - [ ] Two or more services need product images? Raise an image-block ticket first
@@ -47,7 +47,7 @@ caption: <optional>
 
 ## FAQ source
 
-Syd's own Q&As | none: placeholder drafted from this page's facts, listed in `status.md`
+Syd's own Q&As | none: placeholder drafted from this page's facts, listed in `_review.md`
 
 ## Not mapped (reference only)
 
