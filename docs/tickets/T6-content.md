@@ -1,8 +1,8 @@
 # T6.7 to T6.14 - AI content batches and the review pass
 
 Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`).
-Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). Syd chose AI-written copy for every page on 2026-11-07 and will review it at the end. Content is no longer a blocker.
-Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `docs/data-and-content.md`.
+Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
+Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `docs/data-and-content.md`. The copy guard is `src/lib/services.content.test.ts`: a new allow-list entry needs Haider's OK and a `_review.md` row.
 
 ## Rules for every batch
 
@@ -18,7 +18,7 @@ Lowest legal risk, so it sets the pattern. Add a `testData` slug for the first l
 
 ## T6.8 - Auto Security (Spectre, Scorpion Trackers, Fleet Trackers)
 
-Haider confirmed "Insurance-approved GPS tracking systems" (the existing Scorpion Trackers one-liner), so it stays and the copy guard allows that phrase. Do not extend it: no Thatcham, subscription or recovery claims. Depends on T6.7.
+Haider confirmed "Insurance-approved GPS tracking systems" (the existing Scorpion Trackers one-liner), so it stays and the copy guard already allows that phrase (T6.6). Do not extend it: no Thatcham, subscription or recovery claims. Depends on T6.7.
 
 ## T6.9 - Auto Electrical (Car Audio, Dashcam, Parking Sensors, Reverse Camera, Road Angel Dashcam)
 
@@ -26,7 +26,7 @@ No product specs, no insurance-discount claims. Add `featureAlternatingSlug` if 
 
 ## T6.10 - Mechanical / Customisation (Vehicle Maintenance, MOT Preparation, CT Carbon Official Installer, Body Panel Repair and Paint)
 
-MOT Preparation must not suggest Team Autotech is a test centre. "Official installer" appears only as Syd's own title. No paint or warranty claims. Add `specBandSlug` if first used. Depends on T6.5.
+MOT Preparation must not suggest Team Autotech is a test centre. "Official installer" appears only as Syd's own title (the guard allows "CT Carbon official installer", T6.6). No paint or warranty claims. Add `specBandSlug` if first used. Depends on T6.5.
 
 ## T6.11 - Remap / Tuning, performance (Tuning Freaks Bootmod, XHP Gearbox Map)
 
@@ -38,11 +38,11 @@ Highest risk, so it goes last. Wording only for lawful work (diagnosis, cleaning
 
 ## T6.13 - Confirmed claims, the hard-coded years and the Mechanical hero photo
 
-Haider confirmed the live claims on 2026-11-07, so nothing is softened: "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools" (`AboutSnippet`), "Insurance-approved" (Scorpion Trackers). Remaining work is small: `WhyChooseUsSection` uses `YEARS_EXPERIENCE` instead of a hard-coded 15, and the confirmed claims are listed in `content/_review.md` (marked "confirmed by Haider, Syd to verify") so Syd sees them in T6.14. The About placeholder is reviewed in T6.14. If this ends up as one tiny diff, fold it into T6.14. Also decide the Mechanical / Customisation hero photo (Haider, 2026-11-08): it uses the homepage image `hero-background.jpg` as a placeholder that works for now. Keep it, or swap in a real photo at 2560 x 1097 (21:9), 500 KB or less, as `public/images/services/mechanical.jpg` (one line in `service-themes.ts`). Does not wait on anyone.
+Haider confirmed the live claims on 2026-11-07, so nothing is softened: "Authorised Ghost Immobiliser II Installer" and "backed by our guarantee" (`WhyChooseUsSection`), "family-run" and "genuine manufacturer-grade tools" (`AboutSnippet`), "Insurance-approved" (Scorpion Trackers). Remaining work is small: `WhyChooseUsSection` uses `YEARS_EXPERIENCE` instead of a hard-coded 15, (the confirmed claims are already in `content/_review.md`, marked "confirmed by Haider, Syd to verify", and in the guard's allow-list, both from T6.6). The About placeholder is in `_review.md` too. If this ends up as one tiny diff, fold it into T6.14. Also decide the Mechanical / Customisation hero photo (Haider, 2026-11-08): it uses the homepage image `hero-background.jpg` as a placeholder that works for now. Keep it, or swap in a real photo at 2560 x 1097 (21:9), 500 KB or less, as `public/images/services/mechanical.jpg` (one line in `service-themes.ts`). Does not wait on anyone.
 
 ## T6.14 - Syd's review pass and phase close
 
-Walk `_review.md` with Syd. Send him one readable pack of all the copy (the live URLs plus the table). Apply edits, split per category if they are large. Mark rows approved, remove the "awaiting review" comments, finish the T6 report.
+Syd reviews after the pages are live, so this ticket is the review pass, not a gate. Walk `_review.md` with Syd. Send him one readable pack of all the copy (the live URLs plus the table). Apply edits, split per category if they are large. Mark rows approved, remove the "awaiting review" comments, finish the T6 report.
 
 ## Out of scope
 
