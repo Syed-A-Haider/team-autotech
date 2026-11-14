@@ -707,28 +707,267 @@ const services: Service[] = [
       },
     ],
   },
+  // AI-generated (T6.8)
   {
     slug: 'spectre-immobiliser',
     title: 'Spectre Immobiliser',
     category: 'Auto Security',
-    shortDescription: 'Advanced vehicle immobiliser system.',
+    shortDescription:
+      'Spectre immobiliser fitting, an extra layer of security on top of what your car came with.',
     icon: Lock,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Another Layer of Security',
+        body: [
+          'An immobiliser stops a car being driven until it has been disarmed. Add one to the security your car already has and a thief has one more problem to solve before they can drive away.',
+          'Spectre is one of the immobilisers we fit. Tell us about your car and we will say whether it suits.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Why Add an Immobiliser',
+        layout: 'grid',
+        features: [
+          {
+            icon: Lock,
+            title: 'A Second Line of Defence',
+            description:
+              'It works alongside the security your car already has, so there is more between your car and a thief.',
+          },
+          {
+            icon: ShieldCheck,
+            title: 'Chosen for Your Car',
+            description:
+              'We look at your vehicle before we fit anything, so what goes in suits the car.',
+          },
+          {
+            icon: MessageCircle,
+            title: 'More Than One Option',
+            description:
+              'We also fit Ghost Immobiliser II and Scorpion X Series. Ask us which suits you.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Spectre Immobiliser Questions',
+        items: [
+          {
+            question: 'Will Spectre fit my car?',
+            answer:
+              'It depends on the make, the model and the year. Call or WhatsApp with your details and we will tell you.',
+          },
+          {
+            question: 'Which immobiliser should I choose?',
+            answer:
+              'That depends on your car and how you use it. We fit Ghost Immobiliser II, Scorpion X Series and Spectre, and we will talk you through them.',
+          },
+          {
+            question: 'What do you need from me?',
+            answer:
+              'Your make, model and year. When you book in, bring every key you have.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
 
   // Auto Security — GPS Trackers
+  // AI-generated (T6.8)
   {
     slug: 'scorpion-trackers',
     title: 'Scorpion Trackers',
     category: 'Auto Security',
-    shortDescription: 'Insurance-approved GPS tracking systems.',
+    shortDescription:
+      'Insurance-approved GPS tracking systems from Scorpion, fitted to your vehicle by Team Autotech.',
     icon: MapPin,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'GPS Tracking for Your Vehicle',
+        body: [
+          'A GPS tracker is a unit fitted to your vehicle that uses GPS to keep track of where it is.',
+          'Scorpion trackers are the tracking systems we fit. Tell us about your vehicle and we will say which one suits.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Reasons to Fit a Tracker',
+        layout: 'list',
+        features: [
+          {
+            icon: MapPin,
+            title: 'Know Where It Is',
+            description:
+              'A tracker keeps track of where your vehicle is, so you are not left guessing.',
+          },
+          {
+            icon: Wrench,
+            title: 'Fitted and Checked',
+            description:
+              'We fit the tracker and check it with you before you leave.',
+          },
+          {
+            icon: Truck,
+            title: 'Running Several Vehicles?',
+            description:
+              'Take a look at our Fleet Trackers page, or ask us about your vehicles.',
+          },
+          {
+            icon: MessageCircle,
+            title: 'Unsure Which to Choose?',
+            description:
+              'Tell us about your vehicle and we will point you to what suits it.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Pair It With an Immobiliser',
+        body: [
+          'An immobiliser and a tracker do different jobs. Pairing them adds another layer of protection to your vehicle.',
+          'We fit Ghost Immobiliser II, Scorpion X Series and Spectre, so ask us about a tracker and an immobiliser together.',
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Scorpion Tracker FAQs',
+        items: [
+          {
+            question: 'Can a tracker be fitted to my vehicle?',
+            answer:
+              'It depends on the vehicle. Call or WhatsApp with your details and we will confirm.',
+          },
+          {
+            question: 'Can I have a tracker and an immobiliser?',
+            answer:
+              'Yes. They do different jobs, and pairing them adds another layer of protection.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and whether you use it for work.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.8)
   {
     slug: 'fleet-trackers',
     title: 'Fleet Trackers',
     category: 'Auto Security',
-    shortDescription: 'Fleet trackers from Team Autotech.',
+    shortDescription:
+      'GPS tracker fitting for business fleets, helping you keep track of where your vehicles are.',
     icon: Truck,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Tracking for Your Business Vehicles',
+        body: [
+          'A fleet is any group of vehicles you run for work. A GPS tracker fitted to each one helps you keep track of where they are.',
+          'We fit trackers to business vehicles. Tell us what you run and we will say what suits.',
+          'Only have one vehicle to protect? See our Scorpion Trackers page.',
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'Getting Your Fleet Fitted',
+        steps: [
+          {
+            title: 'Tell Us About Your Fleet',
+            description:
+              'Call or WhatsApp with how many vehicles you run, and their makes and models.',
+          },
+          {
+            title: 'We Confirm What Suits',
+            description:
+              'We look at your vehicles and tell you what we can fit to each one.',
+          },
+          {
+            title: 'Book the Vehicles In',
+            description:
+              'Choose times that suit your business and bring the vehicles to us.',
+          },
+          {
+            title: 'Fitted and Checked',
+            description:
+              'We fit the trackers and check them with you before the vehicles go back to work.',
+          },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'When Fleet Tracking Helps',
+        layout: 'list',
+        features: [
+          {
+            icon: Truck,
+            title: 'Several Vehicles on the Road',
+            description:
+              'The more vehicles you run, the harder it is to know where each one is. A tracker on each helps.',
+          },
+          {
+            icon: PackagePlus,
+            title: 'Adding to Your Fleet',
+            description:
+              'Bringing in another vehicle? Ask us about fitting a tracker to it.',
+          },
+          {
+            icon: ShieldCheck,
+            title: 'Extra Security',
+            description:
+              'Pair a tracker with an immobiliser for another layer of protection. We fit both.',
+          },
+          {
+            icon: CarFront,
+            title: 'Just One Vehicle?',
+            description:
+              'Take a look at our Scorpion Trackers page, or ask us about your vehicle.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Fleet Tracker FAQs',
+        items: [
+          {
+            question: 'Can you fit trackers to all our vehicles?',
+            answer:
+              'It depends on the makes, models and years. Send us the details and we will confirm.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'How many vehicles you run, and the make, model and year of each.',
+          },
+          {
+            question: 'Can you fit immobilisers too?',
+            answer:
+              'Yes. We fit Ghost Immobiliser II, Scorpion X Series and Spectre. Ask us which suits your vehicles.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
 
   // Auto Electrical Services

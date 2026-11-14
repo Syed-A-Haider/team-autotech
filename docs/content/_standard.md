@@ -85,15 +85,15 @@ Haider confirmed these on 2026-11-07 (Syd can still correct them). They are allo
 
 ## What the guard checks and what a reviewer checks
 
-| The guard (fails the test)                                                                    | A reviewer (in the PR)                                                   |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `£` and GBP, a number with %, hp, bhp, PS, kW, Nm, lb-ft, mpg or mph                          | MPG, power or speed claims with no number ("much faster", "better MPG")  |
-| approved, accredited, certified, official, authorised, Thatcham, guarantee, warranty          | Reliability promises ("it will not affect your car")                     |
-| same day, a number of hours, days or weeks, "an hour", "while you wait"                       | Structure: paragraph, feature, step and FAQ counts, the pricing answer   |
-| DPF, EGR or AdBlue within 6 words of remove, delete, disable, bypass or blank, or "off" after | Whether each fact is true and generic enough                             |
-| MOT pass, road legal, emissions compliant                                                     | The `// AI-generated` comment and the `_review.md` row                   |
-| The banned words and the em dash, superlatives, US spellings, "Nelson, Lancashire" twice      | Component copy (homepage, About) and `reviews.ts`, which the guard skips |
-| `shortDescription` outside 70 to 150 characters on a live page                                |                                                                          |
+| The guard (fails the test)                                                                    | A reviewer (in the PR)                                                                               |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `£` and GBP, a number with %, hp, bhp, PS, kW, Nm, lb-ft, mpg or mph                          | MPG, power or speed claims with no number ("much faster", "better MPG")                              |
+| approved, accredited, certified, official, authorised, Thatcham, guarantee, warranty          | Reliability promises ("it will not affect your car")                                                 |
+| same day, a number of hours, days or weeks, "an hour", "while you wait"                       | Structure: paragraph, feature, step and FAQ counts, the pricing answer                               |
+| DPF, EGR or AdBlue within 6 words of remove, delete, disable, bypass or blank, or "off" after | Whether each fact is true and generic enough                                                         |
+| MOT pass, road legal, emissions compliant                                                     | The `// AI-generated` comment and the `_review.md` row                                               |
+| The banned words and the em dash, superlatives, US spellings, "Nelson, Lancashire" twice      | Component copy (homepage, About) and `reviews.ts`, which the guard skips                             |
+| `shortDescription` outside 70 to 150 characters on a live page                                | An allow-listed phrase is not repeated in the body (the guard blanks it on every string of its page) |
 
 A new allow-list entry in the test needs Haider's written OK and a row in `_review.md`. A confirmed claim is never added for a new page.
 
