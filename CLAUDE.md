@@ -24,6 +24,7 @@ Static Next.js 16 (App Router) + React 19 (React Compiler) + TypeScript + Tailwi
 - Tests first (TDD). Never edit or delete a test to make it pass without asking.
 - Stay inside the ticket. No new dependencies without asking. Flag changes to shared types (e.g. the `ServiceSection` union). List unrelated issues as follow-ups.
 - Tickets are two-stage: a design review with no code, then wait for Haider's approval before implementing.
+- Adding or publishing a page changes the sitemap (`src/app/sitemap.ts`). A service joins it by itself when `status: 'live'`. Any other new `page.tsx` (such as `/contact`) must be added to `sitemap.ts` by hand, and `sitemap.test.ts` fails until it is. A new redirect source goes in `lib/redirects.ts`.
 - Commit messages: `T#.# - Description`. Renames go in a separate commit.
 - Never merge and never push to `main`. Haider reviews and merges.
 
