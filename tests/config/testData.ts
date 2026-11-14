@@ -22,11 +22,12 @@ export function getIndexablePaths(): string[] {
   return [routes.home, routes.about, ...livePaths];
 }
 
-// Every live page shape (prose and FAQ, video, steps only) plus a coming-soon one
+// Every live page shape (prose and FAQ, video, steps only, feature list) plus a coming-soon one
 export const motionServiceSlugs = [
   'stage-1-tuning',
   'ghost-immobiliser-ii',
   'scorpion-x-series-immobiliser',
+  'bmw-programming',
   'dpf-egr-solutions',
 ] as const;
 
@@ -60,6 +61,8 @@ export function getSectionTitle(
 
 // One live page per block under test (T5.10)
 export const featureGridSlug = 'stage-1-tuning';
+// First live page with a feature list block (T6.7)
+export const featureListSlug = 'bmw-programming';
 export const stepsSlug = 'scorpion-x-series-immobiliser';
 export const videoSlug = 'ghost-immobiliser-ii';
 export const comingSoonSlug = 'dpf-egr-solutions';
