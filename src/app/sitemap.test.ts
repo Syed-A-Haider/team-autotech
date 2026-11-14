@@ -1,3 +1,5 @@
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, it, expect, vi } from 'vitest';
 import { Wrench } from 'lucide-react';
 import sitemap from './sitemap';
@@ -75,5 +77,49 @@ describe('sitemap', () => {
     for (const entry of sitemap()) {
       expect(Object.keys(entry)).toEqual(['url']);
     }
+  });
+});
+
+// Services join the sitemap through their status, but every other page is
+// listed by hand in sitemap.ts. This fails when a new page.tsx is not listed,
+// so a new route cannot go live and stay invisible to Google.
+const APP_DIR = join(process.cwd(), 'src', 'app');
+// The only dynamic route: one page per live service, listed from the data
+const SERVICE_ROUTE = 'services/[slug]';
+
+// "about/page.tsx" gives "about", the root "page.tsx" gives ""
+function folderOf(pageFile: string): string {
+  return pageFile.replace(/\\/g, '/').replace(/\/?page\.tsx$/, '');
+}
+
+function pageFolders(): string[] {
+  return (readdirSync(APP_DIR, { recursive: true }) as string[])
+    .filter((file) => /(^|[\\/])page\.tsx$/.test(file))
+    .map(folderOf);
+}
+
+describe('sitemap covers every page', () => {
+  it('Finds the pages it checks', () => {
+    expect(pageFolders()).toEqual(expect.arrayContaining(['', 'about']));
+  });
+
+  it('Lists every static page.tsx route', () => {
+    const urls = sitemap().map((entry) => entry.url);
+    const staticFolders = pageFolders().filter((f) => !f.includes('['));
+
+    for (const folder of staticFolders) {
+      expect(urls, `/${folder} is missing from sitemap.ts`).toContain(
+        `${siteConfig.url}/${folder}`,
+      );
+    }
+  });
+
+  it('Has no dynamic route other than the service pages', () => {
+    const dynamicFolders = pageFolders().filter((f) => f.includes('['));
+
+    expect(
+      dynamicFolders.filter((folder) => folder !== SERVICE_ROUTE),
+      'a new dynamic route needs its own source in sitemap.ts',
+    ).toEqual([]);
   });
 });

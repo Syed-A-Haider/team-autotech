@@ -1,7 +1,7 @@
-# T6.7 to T6.14 - AI content batches and phase close
+# T6.8 to T6.14 - AI content batches and phase close
 
 Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`).
-Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
+Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). T6.7 (Programming) is done and sets the pattern: four pages, each a different block mix. Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
 Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `docs/data-and-content.md`. The copy guard is `src/lib/services.content.test.ts`: a new allow-list entry needs Haider's OK and a `_review.md` row.
 
 ## Rules for every batch
@@ -10,19 +10,16 @@ Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `doc
 - Each entry gets `// AI-generated (T6.x)` and a row in `_review.md` (status `approved`, dated)
 - The copy guard (T6.6) must be green. State in the PR what each page does and does not claim
 - Live pages become indexable and appear in the sitemap on their own
-- The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`featureAlternatingSlug`, `featureListSlug`, `specBandSlug`) and makes the T5.10 temporary checks permanent (those blocks were checked with temporary data only)
-
-## T6.7 - Programming (BMW, Mercedes, VAG, Component Protection Removal)
-
-Lowest legal risk, so it sets the pattern. Add a `testData` slug for the first live feature `list`.
+- The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`featureAlternatingSlug`, `specBandSlug`) and makes the T5.10 temporary checks permanent (those blocks were checked with temporary data only). `featureListSlug` was added in T6.7
+- Going live adds the page to the sitemap by itself. Do not add a service to `sitemap.ts` by hand
 
 ## T6.8 - Auto Security (Spectre, Scorpion Trackers, Fleet Trackers)
 
-Haider confirmed "Insurance-approved GPS tracking systems" (the existing Scorpion Trackers one-liner), so it stays and the copy guard already allows that phrase (T6.6). Do not extend it: no Thatcham, subscription or recovery claims. Depends on T6.7.
+Haider confirmed "Insurance-approved GPS tracking systems" (the existing Scorpion Trackers one-liner), so it stays and the copy guard already allows that phrase (T6.6). Do not extend it: no Thatcham, subscription or recovery claims. Depends on T6.7 (done).
 
 ## T6.9 - Auto Electrical (Car Audio, Dashcam, Parking Sensors, Reverse Camera, Road Angel Dashcam)
 
-No product specs, no insurance-discount claims. Add `featureAlternatingSlug` if first used. Depends on T6.7.
+No product specs, no insurance-discount claims. Add `featureAlternatingSlug` if first used. Depends on T6.7 (done).
 
 ## T6.10 - Mechanical / Customisation (Vehicle Maintenance, MOT Preparation, CT Carbon Official Installer, Body Panel Repair and Paint)
 
@@ -30,7 +27,7 @@ MOT Preparation must not suggest Team Autotech is a test centre. "Official insta
 
 ## T6.11 - Remap / Tuning, performance (Tuning Freaks Bootmod, XHP Gearbox Map)
 
-No power, torque or shift-time figures, no "warranty-safe". A general line advising customers to tell their insurer about modifications is allowed. Depends on T6.7.
+No power, torque or shift-time figures, no "warranty-safe". A general line advising customers to tell their insurer about modifications is allowed. Depends on T6.7 (done).
 
 ## T6.12 - Remap / Tuning, emissions and diagnostics (DPF / EGR Solutions, AdBlue Solutions, Engine Management Error Code Delete)
 

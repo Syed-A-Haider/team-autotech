@@ -3,6 +3,7 @@ import { test, expect } from './fixtures';
 import {
   comingSoonSlug,
   featureGridSlug,
+  featureListSlug,
   mechanicalSlug,
   getSectionTitle,
   routes,
@@ -193,6 +194,22 @@ for (const [size, viewport] of sizes) {
         expect.soft(await motionAudit.ridesScroll(list)).toBe(false);
         expect.soft(cards.length).toBeGreaterThan(0);
         expect.soft(cards.every((rides) => rides)).toBe(true);
+      },
+    );
+
+    test(
+      'feature list rows rise in turn through their list',
+      { tag: '@motion' },
+      async ({ servicePage, motionAudit }) => {
+        await servicePage.goto(featureListSlug);
+        const list = servicePage.featureList(
+          getSectionTitle(featureListSlug, 'feature'),
+        );
+        const rows = await motionAudit.childrenRideScroll(list);
+
+        expect.soft(await motionAudit.ridesScroll(list)).toBe(false);
+        expect.soft(rows.length).toBeGreaterThan(0);
+        expect.soft(rows.every((rides) => rides)).toBe(true);
       },
     );
 

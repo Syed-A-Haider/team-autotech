@@ -63,6 +63,15 @@ Concise plain prose, no tables. Cover:
 - Open items
 - Follow-ups: anything noticed but deliberately not touched
 
+## New page checklist
+
+Any ticket that adds a page or makes one visible:
+
+- **Sitemap:** `src/app/sitemap.ts` is what tells Google about the page. A service page needs only `status: 'live'` in `lib/services.ts`, and it is listed by itself. Any other new route (a new `page.tsx`) must be added to the array in `sitemap.ts`. `sitemap.test.ts` fails if a static `page.tsx` is missing or a new dynamic route appears, so a page cannot ship unlisted. Coming-soon pages stay out (they are `noindex`)
+- **Indexing test:** `getIndexablePaths()` in `tests/config/testData.ts` feeds `indexing.spec.ts`. It follows the data for services, so a new static route is added there too
+- **Redirects:** an old URL that should land on the page goes in `lib/redirects.ts`
+- **Navigation:** the Navbar, the Footer or the About page link to it if visitors should find it (there is no `/services` index, by decision)
+
 ## Scope rules
 
 - Stay inside the ticket. Do not refactor, rename or research unrelated code.

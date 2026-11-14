@@ -101,4 +101,5 @@ A new allow-list entry in the test needs Haider's written OK and a row in `_revi
 
 - [ ] `pnpm test:unit src/lib/services.content.test.ts` is green
 - [ ] Each page has the `// AI-generated` comment and a `_review.md` row
+- [ ] Each page has `status: 'live'` (that alone adds it to the sitemap and `getIndexablePaths()`, see the New page checklist in `workflow.md`)
 - [ ] The PR says what each page claims and what it deliberately does not

@@ -14,6 +14,11 @@ function absoluteUrl(path: string): string {
 // noindex URL in a sitemap sends Google a conflicting signal. Entries carry no
 // lastModified, changeFrequency or priority: there is no real date to give
 // and Google ignores the other two.
+//
+// ADDING A PAGE? Services list themselves: set `status: 'live'` in
+// lib/services.ts and nothing here changes. Any other page (a new page.tsx
+// such as /contact) must be added to the array below by hand. sitemap.test.ts
+// fails if a static page.tsx is missing, or if a new dynamic route appears.
 export default function sitemap(): MetadataRoute.Sitemap {
   const liveServices = getAllServices().filter(
     (service) => service.status === 'live',
