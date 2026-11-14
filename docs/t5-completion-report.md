@@ -22,6 +22,8 @@ Complete: T5.1 to T5.12 (12 of 12). Phase 5 is closed.
 - **Proven:** the production CSS keeps the new syntax, reduced motion starts no animation, the guards fail when a reveal is captured or missing, and the reveals behave the same in both engines
 - **Next:** Phase 6 (T6.6 onwards). Hand checks on the PR preview (Android Chrome, desktop Firefox) stay with Haider
 
+- **Service lead-in (T5.13, after the phase closed):** the first section under a service hero now plays in after the hero (`lead-in-N`, `lead-draw-N`, timed rise plus a 2rem scroll reveal on one element). Fixes the heading and prose sitting finished or part-faded while the hero animated. Tests in `service-motion.spec.ts`, see `design.md`
+
 ## Timeline
 
 | Ticket | PR      | Merged     | What it delivered                                                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -38,6 +40,7 @@ Complete: T5.1 to T5.12 (12 of 12). Phase 5 is closed.
 | T5.10  | #25     | 2026-11-07 | `pop-in` and `scroll-progress` blocks, `--pop-scale`, hero order and motif settle, block reveals on Steps, Feature, SpecBand, Prose and Video, `ui/ScrollProgress` (`z-20`), card `overflow-clip`, `service-motion.spec.ts` (37 per browser), `MotionAudit` and `ServicePage` helpers, `heldFillCount` exception, `trackHeroFrames` reused on service pages as it was, T5.10 brief deleted                                               |
 | T5.11  | #32     | 2026-11-08 | `reveal-stagger-entry` and `pop-once` blocks, four tokens (`--entry-reveal-end`, `--entry-stagger`, `--pop-rotate`, `--pop-delay`), Footer, Related Services, EnquiryBand and About panel reveals, the coming-soon chip pop, `closing-motion.spec.ts` (24 per browser), `MotionAudit` Footer scans and helpers, `AboutPage` and `ServicePage` locators, `tallViewport`, T5.11 brief deleted (the Stage 1 docs went in #26)               |
 | T5.12  | this PR | TBC        | No code change. Same-session metrics against a fresh T4.5 build, a pace walk at three widths on two engines plus reduced motion, the `PageTransition` decision (keep), the docs turned into the final reference, T5.12 brief deleted. Android Chrome and Firefox are Haider's hand checks                                                                                                                                                |
+| T5.13  | TBC     | TBC        | After the phase closed: `lead-in-N`, `lead-draw-N`, `--lead-span`, the `lead` prop on four components, 17 new `@motion` tests per browser and three `MotionAudit` helpers                                                                                                                                                                                                                                                                |
 
 ## Current state
 

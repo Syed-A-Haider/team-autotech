@@ -9,6 +9,8 @@ interface SectionShellProps {
   title?: string;
   number?: number;
   layout: SectionLayout;
+  // The first section under a service hero (T5.13)
+  lead?: boolean;
   className?: string;
   children: ReactNode;
 }
@@ -57,6 +59,7 @@ export function SectionShell({
   title,
   number,
   layout,
+  lead,
   className,
   children,
 }: SectionShellProps) {
@@ -77,6 +80,7 @@ export function SectionShell({
             title={title}
             number={number}
             align={styles.align}
+            lead={lead}
             className={styles.header}
           />
         )}

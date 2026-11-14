@@ -64,6 +64,16 @@ export class ServicePage {
     );
   }
 
+  // The first section under the hero (the hero is a div, not a section)
+  firstSection(): Locator {
+    return this.page.locator('main section').first();
+  }
+
+  // The section after it
+  secondSection(): Locator {
+    return this.page.locator('main section').nth(1);
+  }
+
   // A numbered section, found by its h2
   section(title: string): Locator {
     return this.page.locator('main section', {

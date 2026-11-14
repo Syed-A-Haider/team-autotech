@@ -40,6 +40,7 @@
   --reveal-x: 1.5rem; /* how far a side slide travels */
   --reveal-end: 30%; /* how much of its pass up the screen a reveal covers */
   --stagger: 3%; /* extra scroll between neighbours in a staggered group */
+  --lead-span: 2rem; /* how far the first section under a hero scrolls in before its scroll reveal is done. Anything already further on screen at load plays its timed rise instead */
   --press-scale: 0.97; /* how far a pressed button or card shrinks */
   --lift-y: 0.25rem; /* how far a hovered card rises */
   --sheen: color-mix(

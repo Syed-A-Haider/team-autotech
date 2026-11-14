@@ -104,6 +104,10 @@ export const viewports = {
 // edge, and no tilt yet. Not in `viewports`, so the page-wide loops stay as they are
 export const tabletViewport = { width: 768, height: 900 } as const;
 
+// A phone on its side: the first section under a service hero starts below the
+// window, so it must stay hidden until it is scrolled to (T5.13)
+export const shortViewport = { width: 812, height: 375 } as const;
+
 // The first lg width: side slides have the least room here (T5.9)
 export const lgViewport = { width: 1024, height: 800 } as const;
 
