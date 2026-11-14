@@ -23,8 +23,7 @@ Running summary. Rewrite it at the end of each T6 ticket, do not append. Planned
 | T6.5    | #31      | TBC    | Fifth category and nine coming-soon services (24 in 5), five-column dropdown (subgrid), five-card About grid, `Service.body` removed, placeholder hero photo, 338 Vitest, 740 Playwright passed and 100 skipped (both browsers, run against `pnpm build && pnpm start`) |
 | T6.6    | TBC      | TBC    | AI content standard (`_standard.md`), review tracker (`_review.md`), copy guard test (`services.content.test.ts`, 143 tests), `_requests.md` deleted. 481 Vitest, no e2e (no page or route changed)                                                                     |
 | T6.7    | TBC      | TBC    | Four Programming pages live (AI copy, own block mix each), first live feature `list` (`featureListSlug`, permanent e2e, `bmw-programming` in `motionServiceSlugs`), sitemap coverage test, New page checklist in `workflow.md`                                          |
-
-| T6.8 | TBC | TBC | Three Auto Security pages live (AI copy, own block mix each, no `alternating` or `specband`, so no new e2e slug), `architecture.md` route table no longer says "All 15 service pages". 484 Vitest, no test changed |
+| T6.8    | #37      | TBC    | Three Auto Security pages live (AI copy, own block mix each, no `alternating` or `specband`, so no new e2e slug), `architecture.md` route table no longer says "All 15 service pages". 484 Vitest, no test changed                                                      |
 
 Planned order (dependency first, then value and risk): T6.1, T6.2, T6.3, T6.4, T6.5, T5.11 (moved after T6.5 by Haider, 2026-11-08), T5.12 (done 2026-11-10), T6.6, T6.7, T6.8, T6.9, T6.10, T6.11, T6.12, T6.13, T6.14. Scope per ticket is in the Remaining table of `status.md`.
 
