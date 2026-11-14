@@ -7,6 +7,8 @@ interface SectionHeadingProps {
   number?: number;
   align: HeadingAlign;
   stripe?: boolean;
+  // The first section under a service hero: plays in after the hero (T5.13)
+  lead?: boolean;
   className?: string;
 }
 
@@ -29,47 +31,52 @@ const STRIPE_ALIGN: Record<HeadingAlign, string> = {
 // Faded race number. Normal Inter only, so no italic. A fill, not a text
 // stroke: the variable font's overlapping contours show through a stroke
 const NUMBER_STYLES =
-  'reveal text-accent/25 block text-6xl leading-none font-black tabular-nums lg:text-8xl';
+  'text-accent/25 block text-6xl leading-none font-black tabular-nums lg:text-8xl';
 
 // Short slanted accent bar, the racing stripe. first:mt-0 drops the gap when
 // there is no number above it
 export const STRIPE_STYLES =
   'mt-4 first:mt-0 block h-1 w-12 -skew-x-12 bg-accent';
 
-// The stripe above the h2, drawn out on scroll. STRIPE_STYLES stays plain
-// because the 404 reuses it
-const HEADING_STRIPE_STYLES = clsx(STRIPE_STYLES, 'stripe-draw');
-
 const HEADING_STYLES =
-  'reveal text-foreground text-3xl font-bold tracking-tight text-balance sm:text-4xl';
+  'text-foreground text-3xl font-bold tracking-tight text-balance sm:text-4xl';
 
 // Gradient, not blur or filter: a filter would trap fixed children
 export const GLOW_STYLES =
   'pointer-events-none absolute -z-10 size-[36rem] rounded-full bg-radial from-accent/10 to-transparent to-70%';
 
 // Decorative number and stripe above the section h2. stripe={false} drops the
-// stripe when a parent panel already has one. Each part reveals as it scrolls in
+// stripe when a parent panel already has one. Each part reveals as it scrolls
+// in, or with lead plays in at hero step 5 (lead-in, lead-draw), then hands over
+// to the scroll reveal. STRIPE_STYLES stays plain because the 404 reuses it
 export function SectionHeading({
   title,
   number,
   align,
   stripe = true,
+  lead = false,
   className,
 }: SectionHeadingProps) {
+  const rise = lead ? 'lead-in-5' : 'reveal';
+
   return (
     <div className={clsx(ALIGN_STYLES[align], className)}>
       {number !== undefined && (
-        <span aria-hidden="true" className={NUMBER_STYLES}>
+        <span aria-hidden="true" className={clsx(NUMBER_STYLES, rise)}>
           {String(number).padStart(SECTION_NUMBER_DIGITS, '0')}
         </span>
       )}
       {stripe && (
         <span
           aria-hidden="true"
-          className={clsx(HEADING_STRIPE_STYLES, STRIPE_ALIGN[align])}
+          className={clsx(
+            STRIPE_STYLES,
+            lead ? 'lead-draw-5' : 'stripe-draw',
+            STRIPE_ALIGN[align],
+          )}
         />
       )}
-      <h2 className={clsx(HEADING_STYLES, stripe && 'mt-4')}>{title}</h2>
+      <h2 className={clsx(HEADING_STYLES, rise, stripe && 'mt-4')}>{title}</h2>
     </div>
   );
 }

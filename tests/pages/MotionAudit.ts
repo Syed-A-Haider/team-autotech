@@ -581,6 +581,102 @@ export class MotionAudit {
     });
   }
 
+  // Animated elements in this scope (the scope included) that are not at rest:
+  // faded, shifted or scaled. Zero once a load-in has finished. Elements with
+  // no animation are skipped (a glow keeps its own centring translate), and so
+  // is anything whose top is in the last 2.5rem of the window: that is the
+  // hand-over zone, where the scroll reveal holds an element that is only just
+  // coming into view
+  async unsettledCount(scope: Locator): Promise<number> {
+    const handOverPx = 40;
+    return scope.evaluate(
+      (root, handOver) =>
+        [root, ...root.querySelectorAll('*')].filter((el) => {
+          const style = getComputedStyle(el);
+          const animated = style.animationName !== 'none';
+          const inHandOver =
+            el.getBoundingClientRect().top > window.innerHeight - handOver;
+          return (
+            animated &&
+            !inHandOver &&
+            (Number(style.opacity) < 1 ||
+              style.translate !== 'none' ||
+              style.scale !== 'none')
+          );
+        }).length,
+      handOverPx,
+    );
+  }
+
+  // Every animation on the element, in list order: its name, delay (seconds)
+  // and timeline. Stays readable after a timed animation has finished
+  async animationLayers(
+    target: Locator,
+  ): Promise<{ names: string[]; delays: number[]; timelines: string[] }> {
+    return target.evaluate((el) => {
+      const style = getComputedStyle(el);
+      const split = (value: string) =>
+        value.split(/,(?![^(]*\))/).map((s) => s.trim());
+      const seconds = (raw: string) =>
+        raw.endsWith('ms') ? parseFloat(raw) / 1000 : parseFloat(raw);
+      return {
+        names: split(style.animationName),
+        delays: split(style.animationDelay).map(seconds),
+        timelines: split(style.getPropertyValue('animation-timeline')),
+      };
+    });
+  }
+
+  // Call before goto. Samples the first section's h2 on every frame from first
+  // paint, for two and a half seconds after it exists (T5.13)
+  async trackLeadFrames() {
+    await this.page.addInitScript(() => {
+      const WINDOW_MS = 2500;
+      const frames = {
+        done: false,
+        firstOpacity: -1,
+        lastOpacity: -1,
+        maxScrollY: 0,
+      };
+      (window as unknown as { __lead: typeof frames }).__lead = frames;
+      let startedAt = -1;
+
+      const sample = (now: number) => {
+        const h2 = document.querySelector('main section h2');
+        if (!h2) return requestAnimationFrame(sample);
+        if (startedAt < 0) startedAt = now;
+        const opacity = Number(getComputedStyle(h2).opacity);
+        if (frames.firstOpacity < 0) frames.firstOpacity = opacity;
+        frames.lastOpacity = opacity;
+        frames.maxScrollY = Math.max(frames.maxScrollY, window.scrollY);
+        if (now - startedAt < WINDOW_MS) requestAnimationFrame(sample);
+        else frames.done = true;
+      };
+      requestAnimationFrame(sample);
+    });
+  }
+
+  async leadFrames(): Promise<{
+    done: boolean;
+    firstOpacity: number;
+    lastOpacity: number;
+    maxScrollY: number;
+  }> {
+    return this.page.evaluate(
+      () =>
+        (
+          window as unknown as {
+            __lead: {
+              done: boolean;
+              firstOpacity: number;
+              lastOpacity: number;
+              maxScrollY: number;
+            };
+          }
+        ).__lead,
+    );
+  }
+
   async heroFrames(): Promise<HeroFrames> {
     return this.page.evaluate(
       () => (window as unknown as { __hero: HeroFrames }).__hero,

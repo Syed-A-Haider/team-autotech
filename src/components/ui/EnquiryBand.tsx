@@ -7,6 +7,8 @@ interface EnquiryBandProps {
   title: string;
   pitch: string;
   badge?: string;
+  // The first section under a service hero (the coming-soon panel, T5.13)
+  lead?: boolean;
 }
 
 // Centred behind the heading, inside the section's isolate
@@ -22,15 +24,19 @@ const BADGE_CHIP_STYLES =
 const BADGE_TEXT_STYLES =
   'text-background inline-block skew-x-12 text-base font-extrabold tracking-widest uppercase sm:text-xl';
 
-// Stacked full-width on mobile, one centred row from sm. reveal: the row rises
-// as one, the buttons keep their own press and sheen
-const CONTACT_LINKS_STYLES =
-  'reveal mt-8 flex-col sm:flex-row sm:justify-center';
+// Stacked full-width on mobile, one centred row from sm. The row rises as one
+// (reveal, or lead-in-7 under a hero), the buttons keep their own press and sheen
+const CONTACT_LINKS_STYLES = 'mt-8 flex-col sm:flex-row sm:justify-center';
 
 // Shared closing band: stripe heading, pitch and the contact buttons.
 // Powers both ComingSoonPanel and ServiceCtaBand.
 // overflow-clip, not hidden: hidden would capture the heading's scroll reveal
-export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
+export function EnquiryBand({
+  title,
+  pitch,
+  badge,
+  lead = false,
+}: EnquiryBandProps) {
   return (
     <section className="relative isolate overflow-clip">
       <SectionWrapper as="div" className="relative py-16 lg:py-24">
@@ -43,11 +49,21 @@ export function EnquiryBand({ title, pitch, badge }: EnquiryBandProps) {
               </span>
             </p>
           )}
-          <SectionHeading title={title} align="center" />
-          <p className="reveal text-muted mx-auto mt-4 max-w-prose text-lg text-pretty">
+          <SectionHeading title={title} align="center" lead={lead} />
+          <p
+            className={clsx(
+              lead ? 'lead-in-6' : 'reveal',
+              'text-muted mx-auto mt-4 max-w-prose text-lg text-pretty',
+            )}
+          >
             {pitch}
           </p>
-          <ContactLinks className={CONTACT_LINKS_STYLES} />
+          <ContactLinks
+            className={clsx(
+              CONTACT_LINKS_STYLES,
+              lead ? 'lead-in-7' : 'reveal',
+            )}
+          />
         </div>
       </SectionWrapper>
     </section>

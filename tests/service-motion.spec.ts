@@ -7,6 +7,7 @@ import {
   mechanicalSlug,
   getSectionTitle,
   routes,
+  shortViewport,
   stepsSlug,
   videoSlug,
   viewports,
@@ -427,3 +428,155 @@ for (const [size, viewport] of sizes) {
     );
   });
 }
+
+// Lead-in (T5.13): the first section under the hero plays in by itself at
+// load, one step after the hero text, then hands over to the scroll reveal.
+// Later sections keep the scroll reveal alone
+const leadSlugs = [featureGridSlug, comingSoonSlug];
+
+for (const [size, viewport] of sizes) {
+  test.describe(`Service motion, lead-in, ${size}`, () => {
+    test.use({ viewport });
+
+    for (const slug of leadSlugs) {
+      test(
+        `${slug}: the first section is at rest once its load-in ends, with no scroll`,
+        { tag: '@motion' },
+        async ({ page, servicePage, motionAudit }) => {
+          await servicePage.goto(slug);
+
+          await expect
+            .poll(() => motionAudit.unsettledCount(servicePage.firstSection()))
+            .toBe(0);
+          expect(await page.evaluate(() => window.scrollY)).toBe(0);
+        },
+      );
+
+      test(
+        `${slug}: the first section continues the hero steps and ends on the scroll reveal`,
+        { tag: '@motion' },
+        async ({ servicePage, motionAudit, interactionAudit }) => {
+          await servicePage.goto(slug);
+          const step = await interactionAudit.durationToken('--hero-step');
+          const h2 = servicePage
+            .firstSection()
+            .getByRole('heading', { level: 2 });
+          const isComingSoon = slug === comingSoonSlug;
+          // Heading step 5, then the body one step later (a coming-soon band
+          // has a contact row one step after the pitch)
+          const parts = isComingSoon
+            ? [
+                { target: h2, steps: 4 },
+                { target: servicePage.bandPitch(), steps: 5 },
+                { target: servicePage.bandContactRow(), steps: 6 },
+              ]
+            : [
+                { target: h2, steps: 4 },
+                { target: servicePage.proseBlock(), steps: 5 },
+              ];
+
+          for (const { target, steps } of parts) {
+            const layers = await motionAudit.animationLayers(target);
+            expect.soft(layers.names[0]).toContain('hero-rise');
+            expect.soft(layers.delays[0]).toBeCloseTo(step * steps, 3);
+            // The scroll reveal is listed last, so it wins where it applies
+            expect.soft(layers.timelines.at(-1)).toContain('view');
+          }
+        },
+      );
+
+      test(
+        `${slug}: the heading starts hidden and plays in without any scroll`,
+        { tag: '@motion' },
+        async ({ servicePage, motionAudit }) => {
+          await motionAudit.trackLeadFrames();
+          await servicePage.goto(slug);
+          await expect
+            .poll(async () => (await motionAudit.leadFrames()).done)
+            .toBe(true);
+
+          const frames = await motionAudit.leadFrames();
+          expect.soft(frames.firstOpacity).toBeLessThan(1);
+          expect.soft(frames.lastOpacity).toBe(1);
+          expect.soft(frames.maxScrollY).toBe(0);
+        },
+      );
+    }
+
+    test(
+      'a later section keeps the scroll reveal alone',
+      { tag: '@motion' },
+      async ({ servicePage, motionAudit }) => {
+        await servicePage.goto(featureGridSlug);
+        const h2 = servicePage
+          .secondSection()
+          .getByRole('heading', { level: 2 });
+        const layers = await motionAudit.animationLayers(h2);
+
+        expect.soft(layers.names).toHaveLength(1);
+        expect.soft(layers.timelines.join()).toContain('view');
+      },
+    );
+
+    test(
+      'a client-side move to another service plays the lead-in again',
+      { tag: '@motion' },
+      async ({ page, servicePage, motionAudit }) => {
+        await servicePage.goto(featureGridSlug);
+        await servicePage.relatedSection().getByRole('link').first().click();
+        await expect(page).toHaveURL(/\/services\/(?!stage-1-tuning)/);
+
+        await expect
+          .poll(() => motionAudit.unsettledCount(servicePage.firstSection()))
+          .toBe(0);
+        expect(await page.evaluate(() => window.scrollY)).toBe(0);
+      },
+    );
+  });
+}
+
+// A phone on its side: the first section starts below the window, so the
+// timed rise plays unseen and the scroll reveal still shows it as it arrives
+test.describe('Service motion, lead-in, short window', () => {
+  test.use({ viewport: shortViewport });
+
+  test(
+    'the first section stays hidden at load, then reveals as it scrolls in',
+    { tag: '@motion' },
+    async ({ page, servicePage, motionAudit }) => {
+      await motionAudit.trackHeroFrames();
+      await servicePage.goto(featureGridSlug);
+      await expect
+        .poll(async () => (await motionAudit.heroFrames()).done)
+        .toBe(true);
+      const h2 = servicePage.firstSection().getByRole('heading', { level: 2 });
+
+      await expect(h2).toHaveCSS('opacity', '0');
+
+      // 16px of the heading is in: part-way through the 2rem reveal. Jump, so
+      // a smooth scroll cannot carry it past the reveal while it is read
+      await h2.evaluate((el, visible) => {
+        // The held reveal shifts the box, so take its translate off first
+        const shift = parseFloat(getComputedStyle(el).translate.split(' ')[1]);
+        const top =
+          el.getBoundingClientRect().top - (shift || 0) + window.scrollY;
+        window.scrollTo({
+          top: top - (window.innerHeight - visible),
+          behavior: 'instant',
+        });
+      }, 16);
+      await expect
+        .poll(async () =>
+          Number(await h2.evaluate((el) => getComputedStyle(el).opacity)),
+        )
+        .toBeGreaterThan(0);
+      expect(
+        Number(await h2.evaluate((el) => getComputedStyle(el).opacity)),
+      ).toBeLessThan(1);
+
+      await motionAudit.scrollTopTo(h2, 0.5);
+      await expect(h2).toHaveCSS('opacity', '1');
+      expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    },
+  );
+});

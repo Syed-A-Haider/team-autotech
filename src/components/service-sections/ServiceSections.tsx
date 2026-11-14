@@ -49,10 +49,10 @@ function planSections(sections: ServiceSection[]): PlannedSection[] {
 }
 
 // switch (not a lookup map) so TS narrows each case and checks exhaustiveness
-function renderBlock(section: ServiceSection): ReactNode {
+function renderBlock(section: ServiceSection, lead: boolean): ReactNode {
   switch (section.type) {
     case 'prose':
-      return <ProseSection section={section} />;
+      return <ProseSection section={section} lead={lead} />;
     case 'feature':
       return <FeatureSection section={section} />;
     case 'steps':
@@ -76,7 +76,9 @@ export function ServiceSections({ sections }: ServiceSectionsProps) {
   return (
     <>
       {planSections(sections).map(({ section, number, layout }, index) => {
-        const block = renderBlock(section);
+        // The first section sits under the hero, so it plays in after it
+        const lead = index === 0;
+        const block = renderBlock(section, lead);
         if (!block) return null;
 
         return (
@@ -85,6 +87,7 @@ export function ServiceSections({ sections }: ServiceSectionsProps) {
             title={section.title}
             number={number}
             layout={layout}
+            lead={lead}
           >
             {block}
           </SectionShell>

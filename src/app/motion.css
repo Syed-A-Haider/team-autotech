@@ -391,6 +391,54 @@
   }
 }
 
+/* lead-in-N, lead-draw-N (T5.13): for the first section under a service hero,
+   and nothing else. It rises (lead-in) or draws (lead-draw) at hero step N, so
+   the section continues the hero's order instead of sitting there finished
+   while the hero plays. Two animations on one element: the timed one first,
+   the scroll reveal last, so the scroll one wins wherever it applies. The
+   scroll range is only --lead-span long, so anything more than that on screen
+   at load is already past it (no fill after) and the timed rise shows. Anything
+   below the window is held hidden by the scroll one (backwards fill) until it
+   scrolls in, with the timed one finished unseen. Without animation-timeline
+   only the timed one exists and plays at load. Not for any other section: they
+   keep reveal alone */
+@utility lead-in-* {
+  @media (prefers-reduced-motion: no-preference) {
+    --lead-delay: calc((--value(integer) - 1) * var(--hero-step));
+    animation: hero-rise var(--hero-duration) var(--ease-settle)
+      var(--lead-delay) backwards;
+
+    @supports (animation-timeline: view()) {
+      animation:
+        hero-rise var(--hero-duration) var(--ease-settle) var(--lead-delay)
+          backwards,
+        reveal-up linear backwards;
+      animation-timeline: auto, view();
+      animation-range:
+        normal,
+        cover 0% cover var(--lead-span);
+    }
+  }
+}
+
+@utility lead-draw-* {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: stripe-grow var(--hero-duration) var(--ease-settle)
+      calc((--value(integer) - 1) * var(--hero-step)) backwards;
+
+    @supports (animation-timeline: view()) {
+      animation:
+        stripe-grow var(--hero-duration) var(--ease-settle)
+          calc((--value(integer) - 1) * var(--hero-step)) backwards,
+        stripe-grow linear backwards;
+      animation-timeline: auto, view();
+      animation-range:
+        normal,
+        cover 0% cover var(--lead-span);
+    }
+  }
+}
+
 /* sheen-once: one light sweep when the page loads. Needs sheen on the same
    element, which draws the band. It waits for its own hero-in-N to land (the
    --hero-delay plus one --hero-duration), then crosses once, linear, and rests

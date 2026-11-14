@@ -18,6 +18,7 @@ export function ComingSoonPanel({ service }: ComingSoonPanelProps) {
       title={`${COMING_SOON_HEADING_PREFIX} ${service.title}`}
       pitch={COMING_SOON_PITCH}
       badge={COMING_SOON_BADGE}
+      lead
     />
   );
 }
