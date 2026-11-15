@@ -1,9 +1,7 @@
 import { COMING_SOON_BADGE } from '@/components/service-sections/ComingSoonPanel';
-import { WHATSAPP_LABEL, CALL_LABEL } from '@/components/ui/ContactLinks';
 import { groupServicesByCategory } from '@/lib/services';
 import { test, expect } from './fixtures';
 import {
-  comingSoonSlug,
   featureGridSlug,
   footerSocialLabel,
   routes,
@@ -12,7 +10,8 @@ import {
 } from './config/testData';
 
 // Closing motion (T5.11): the Footer columns, Related Services, the closing
-// EnquiryBand with its coming-soon chip, the About panels and the 404.
+// EnquiryBand, the About panels and the 404. The coming-soon chip has no browser
+// test since T6.12 (no coming-soon service is left), Vitest covers it.
 // Reads computed style, never a class name. Page-wide guards (faded, sideways,
 // held fills, reduced motion, JavaScript off) run for the 404 in motion.spec.ts
 test.use({ viewport: viewports.mobile });
@@ -136,82 +135,6 @@ test.describe('Closing motion, 404', () => {
     );
   });
 });
-
-for (const [size, viewport] of sizes) {
-  test.describe(`Closing motion, coming-soon band, ${size}`, () => {
-    test.use({ viewport });
-
-    test(
-      'the chip pops once at load, after --pop-delay, from --pop-scale and --pop-rotate',
-      { tag: '@motion' },
-      async ({ servicePage, motionAudit, interactionAudit }) => {
-        await servicePage.goto(comingSoonSlug);
-        const chip = servicePage.bandChip();
-        const timing = await motionAudit.animationTiming(chip);
-        const start = await motionAudit.animationStartLook(chip);
-
-        expect.soft(await motionAudit.animationName(chip)).toBe('pop-settle');
-        expect.soft(timing.iterations).toBe('1');
-        expect
-          .soft(timing.delay)
-          .toBeCloseTo(await interactionAudit.durationToken('--pop-delay'), 3);
-        expect
-          .soft(Number(start.scale))
-          .toBe(await interactionAudit.token('--pop-scale'));
-        expect
-          .soft(parseFloat(start.rotate))
-          .toBe(await interactionAudit.token('--pop-rotate'));
-      },
-    );
-
-    test(
-      'the chip ends at rest and keeps its skew, and its text never animates',
-      { tag: '@motion' },
-      async ({ servicePage, motionAudit }) => {
-        await servicePage.goto(comingSoonSlug);
-        const chip = servicePage.bandChip();
-
-        // Once finished, scale and rotate let go. Skew is a transform, kept
-        await expect(chip).toHaveCSS('scale', 'none', { timeout: 10_000 });
-        await expect(chip).toHaveCSS('rotate', 'none');
-        await expect(chip).not.toHaveCSS('transform', 'none');
-        expect(
-          await motionAudit.animationName(servicePage.bandChipText()),
-        ).toBe('none');
-      },
-    );
-
-    test(
-      'the pitch and contact row ride, the Call and WhatsApp buttons do not',
-      { tag: '@motion' },
-      async ({ servicePage, motionAudit }) => {
-        await servicePage.goto(comingSoonSlug);
-        const band = servicePage.band();
-
-        expect
-          .soft(await motionAudit.ridesScroll(servicePage.bandPitch()))
-          .toBe(true);
-        expect
-          .soft(await motionAudit.ridesScroll(servicePage.bandContactRow()))
-          .toBe(true);
-        expect
-          .soft(
-            await motionAudit.ridesScroll(
-              band.getByRole('link', { name: CALL_LABEL }),
-            ),
-          )
-          .toBe(false);
-        expect
-          .soft(
-            await motionAudit.ridesScroll(
-              band.getByRole('link', { name: WHATSAPP_LABEL }),
-            ),
-          )
-          .toBe(false);
-      },
-    );
-  });
-}
 
 for (const [size, viewport] of sizes) {
   test.describe(`Closing motion, live page, ${size}`, () => {

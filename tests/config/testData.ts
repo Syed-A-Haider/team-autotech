@@ -22,14 +22,15 @@ export function getIndexablePaths(): string[] {
   return [routes.home, routes.about, ...livePaths];
 }
 
-// Every live page shape (prose and FAQ, video, steps only, feature list, feature alternating) plus a coming-soon one
+// Every live page shape (prose and FAQ, video, steps only, feature list, feature
+// alternating) plus the fifth category. No coming-soon service is left (T6.12)
 export const motionServiceSlugs = [
   'stage-1-tuning',
   'ghost-immobiliser-ii',
   'scorpion-x-series-immobiliser',
   'bmw-programming',
   'dashcam-installation',
-  'dpf-egr-solutions',
+  'vehicle-maintenance',
 ] as const;
 
 // Long page with a closing band and related services, far below the fold
@@ -68,7 +69,6 @@ export const featureListSlug = 'bmw-programming';
 export const featureAlternatingSlug = 'dashcam-installation';
 export const stepsSlug = 'scorpion-x-series-immobiliser';
 export const videoSlug = 'ghost-immobiliser-ii';
-export const comingSoonSlug = 'dpf-egr-solutions';
 // First page of the fifth category, so its hatch motif is checked (T6.5)
 export const mechanicalSlug = 'vehicle-maintenance';
 
