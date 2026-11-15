@@ -18,7 +18,7 @@ import {
 // Service page motion (T5.10): the hero load-in, the block reveals and the
 // scroll progress bar. Reads computed style, never a class name. The page-wide
 // guards (faded, sideways, layout shift, held fills, reduced motion, JS off)
-// already run over four service pages in motion.spec.ts.
+// already run over the six `motionServiceSlugs` pages in motion.spec.ts.
 // Phone size by default (the hero call button and the mobile menu are phone only)
 test.use({ viewport: viewports.mobile });
 
