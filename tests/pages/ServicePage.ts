@@ -106,6 +106,11 @@ export class ServicePage {
     return this.section(title).getByRole('list');
   }
 
+  // One card of a feature block, by position
+  featureItem(title: string, index: number): Locator {
+    return this.featureList(title).locator(':scope > li').nth(index);
+  }
+
   // The reveal wrapper around the player: the figure's first child
   videoWrapper(): Locator {
     return this.page.locator('main figure').locator(':scope > div').first();

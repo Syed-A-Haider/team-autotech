@@ -22,12 +22,13 @@ export function getIndexablePaths(): string[] {
   return [routes.home, routes.about, ...livePaths];
 }
 
-// Every live page shape (prose and FAQ, video, steps only, feature list) plus a coming-soon one
+// Every live page shape (prose and FAQ, video, steps only, feature list, feature alternating) plus a coming-soon one
 export const motionServiceSlugs = [
   'stage-1-tuning',
   'ghost-immobiliser-ii',
   'scorpion-x-series-immobiliser',
   'bmw-programming',
+  'dashcam-installation',
   'dpf-egr-solutions',
 ] as const;
 
@@ -63,6 +64,8 @@ export function getSectionTitle(
 export const featureGridSlug = 'stage-1-tuning';
 // First live page with a feature list block (T6.7)
 export const featureListSlug = 'bmw-programming';
+// First live page with a feature alternating block (T6.9)
+export const featureAlternatingSlug = 'dashcam-installation';
 export const stepsSlug = 'scorpion-x-series-immobiliser';
 export const videoSlug = 'ghost-immobiliser-ii';
 export const comingSoonSlug = 'dpf-egr-solutions';
@@ -107,6 +110,9 @@ export const tabletViewport = { width: 768, height: 900 } as const;
 // A phone on its side: the first section under a service hero starts below the
 // window, so it must stay hidden until it is scrolled to (T5.13)
 export const shortViewport = { width: 812, height: 375 } as const;
+
+// The first sm width: alternating cards start to slide from their own side here (T6.9)
+export const smViewport = { width: 640, height: 800 } as const;
 
 // The first lg width: side slides have the least room here (T5.9)
 export const lgViewport = { width: 1024, height: 800 } as const;

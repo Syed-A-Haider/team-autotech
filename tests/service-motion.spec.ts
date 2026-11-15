@@ -2,12 +2,15 @@ import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
 import { test, expect } from './fixtures';
 import {
   comingSoonSlug,
+  featureAlternatingSlug,
   featureGridSlug,
   featureListSlug,
+  lgViewport,
   mechanicalSlug,
   getSectionTitle,
   routes,
   shortViewport,
+  smViewport,
   stepsSlug,
   videoSlug,
   viewports,
@@ -215,6 +218,22 @@ for (const [size, viewport] of sizes) {
     );
 
     test(
+      'feature alternating cards each reveal on their own, the list does not',
+      { tag: '@motion' },
+      async ({ servicePage, motionAudit }) => {
+        await servicePage.goto(featureAlternatingSlug);
+        const list = servicePage.featureList(
+          getSectionTitle(featureAlternatingSlug, 'feature'),
+        );
+        const cards = await motionAudit.childrenRideScroll(list);
+
+        expect.soft(await motionAudit.ridesScroll(list)).toBe(false);
+        expect.soft(cards.length).toBeGreaterThan(0);
+        expect.soft(cards.every((rides) => rides)).toBe(true);
+      },
+    );
+
+    test(
       'steps rise in turn and each badge pops in, keeping its skew',
       { tag: '@motion' },
       async ({ servicePage, motionAudit }) => {
@@ -280,6 +299,90 @@ for (const [size, viewport] of sizes) {
           )
           .toBe(false);
         await expect.soft(page.locator('main iframe')).toHaveCount(0);
+      },
+    );
+  });
+}
+
+// Alternating cards (T6.9): a phone just rises, from sm each card slides in
+// from its own side, so the first sits left and the second right
+for (const viewport of [viewports.mobile, smViewport, viewports.desktop]) {
+  test.describe(`Service motion, alternating cards, ${viewport.width}px`, () => {
+    test.use({ viewport });
+    const slides = viewport.width >= smViewport.width;
+
+    test(
+      slides
+        ? 'cards slide in from their own side'
+        : 'cards rise, with no sideways move',
+      { tag: '@motion' },
+      async ({ servicePage, motionAudit }) => {
+        const title = getSectionTitle(featureAlternatingSlug, 'feature');
+        await servicePage.goto(featureAlternatingSlug);
+        const first = servicePage.featureItem(title, 0);
+        const second = servicePage.featureItem(title, 1);
+
+        // Arrange and act: read each card while it is part-way, because it
+        // is back at 0 once the next one is scrolled to
+        await motionAudit.scrollTopTo(first, PART_WAY);
+        await expect
+          .poll(async () => {
+            const { x, y } = await motionAudit.revealOffset(first);
+            return slides ? x : y;
+          })
+          .not.toBe(0);
+        const firstOffset = await motionAudit.revealOffset(first);
+        await motionAudit.scrollTopTo(second, PART_WAY);
+        await expect
+          .poll(async () => {
+            const { x, y } = await motionAudit.revealOffset(second);
+            return slides ? x : y;
+          })
+          .not.toBe(0);
+        const secondOffset = await motionAudit.revealOffset(second);
+
+        // Assert: the first comes from the left, the second from the right
+        if (slides) {
+          expect.soft(firstOffset.x).toBeLessThan(0);
+          expect.soft(firstOffset.y).toBe(0);
+          expect.soft(secondOffset.x).toBeGreaterThan(0);
+          expect.soft(secondOffset.y).toBe(0);
+        } else {
+          expect.soft(firstOffset.x).toBe(0);
+          expect.soft(firstOffset.y).toBeGreaterThan(0);
+          expect.soft(secondOffset.x).toBe(0);
+          expect.soft(secondOffset.y).toBeGreaterThan(0);
+        }
+      },
+    );
+  });
+}
+
+// While the cards slide, nothing may push the page wider. 640 is where the
+// slide starts and a card is nearly full width, so it is the likeliest to overflow
+for (const viewport of [
+  viewports.mobile,
+  smViewport,
+  lgViewport,
+  viewports.desktop,
+]) {
+  test.describe(`Service motion, alternating slides, ${viewport.width}px`, () => {
+    test.use({ viewport });
+
+    test(
+      'does not scroll sideways while the cards are part-way',
+      { tag: '@motion' },
+      async ({ servicePage, motionAudit }) => {
+        const title = getSectionTitle(featureAlternatingSlug, 'feature');
+        await servicePage.goto(featureAlternatingSlug);
+
+        for (const index of [0, 1, 2]) {
+          await motionAudit.scrollTopTo(
+            servicePage.featureItem(title, index),
+            PART_WAY,
+          );
+          expect.soft(await motionAudit.horizontalOverflow()).toBe(0);
+        }
       },
     );
   });
