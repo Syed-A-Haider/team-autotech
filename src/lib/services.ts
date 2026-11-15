@@ -37,6 +37,10 @@ import {
   CarFront,
   TriangleAlert,
   Replace,
+  Speaker,
+  Cable,
+  Eye,
+  ParkingCircle,
 } from 'lucide-react';
 
 // Not exported: read through the getters. To add a service, copy an entry and use a unique slug.
@@ -971,40 +975,431 @@ const services: Service[] = [
   },
 
   // Auto Electrical Services
+  // AI-generated (T6.9)
   {
     slug: 'car-audio-installation',
     title: 'Car Audio Installation',
     category: 'Auto Electrical',
-    shortDescription: 'Professional car audio system installation.',
+    shortDescription:
+      'Car audio installation for a better sound in your car, with the system planned around it.',
     icon: Volume2,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Better Sound for Your Car',
+        body: [
+          'Factory car audio is built to a standard, and plenty of drivers want more from it. An upgrade is a chance to get more out of the music you play on every drive.',
+          'Every car is different, so we plan the system around yours. Tell us what you want from it and we will say what we can fit.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'What We Can Fit',
+        layout: 'grid',
+        features: [
+          {
+            icon: Speaker,
+            title: 'Speakers',
+            description:
+              'Replace tired factory speakers with a set chosen to suit your car.',
+          },
+          {
+            icon: Zap,
+            title: 'Amplifiers',
+            description:
+              'Add an amplifier to drive your speakers, depending on your vehicle.',
+          },
+          {
+            icon: Volume2,
+            title: 'Subwoofers',
+            description:
+              'Add a subwoofer for the low end of your music, fitted to suit your boot space.',
+          },
+          {
+            icon: Cable,
+            title: 'Tidy Wiring',
+            description:
+              'Cables are routed neatly and secured, so the install is tidy as well as capable.',
+          },
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Tell Us What You Want',
+            description:
+              'Call or WhatsApp with your make, model and year, and what you want from your sound.',
+          },
+          {
+            title: 'We Plan the System',
+            description:
+              'We look at your car and tell you what we can fit and what suits it.',
+          },
+          {
+            title: 'Book Your Car In',
+            description:
+              'Choose a time that suits you and bring the car to us.',
+          },
+          {
+            title: 'Fitted and Checked',
+            description:
+              'We fit the system and check it with you before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Car Audio FAQs',
+        items: [
+          {
+            question: 'Can you upgrade my factory system?',
+            answer:
+              'It depends on the vehicle. Call or WhatsApp with your make, model and year and we will confirm.',
+          },
+          {
+            question: 'Can I add a subwoofer or an amplifier on its own?',
+            answer:
+              'It depends on your vehicle. Tell us what you have in mind and we will say what is possible.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and what you want from the system.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.9)
   {
     slug: 'dashcam-installation',
     title: 'Dashcam Installation',
     category: 'Auto Electrical',
-    shortDescription: 'Dashcam installation from Team Autotech.',
+    shortDescription:
+      'Dashcam installation, with the camera placed where it suits you and the cable kept tidy.',
     icon: Camera,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Dashcams Fitted Neatly',
+        body: [
+          'A dashcam records the road as you drive. Plenty of drivers fit one for a record of their journeys and for peace of mind.',
+          'We fit dashcams to suit you and your car, front, rear or both, with the cable routed neatly out of the way.',
+          'We supply and fit Road Angel dashcams too. See our Road Angel Dashcam page.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Why Have It Fitted',
+        layout: 'alternating',
+        features: [
+          {
+            icon: Eye,
+            title: 'Placed Where It Suits You',
+            description:
+              'We agree the position with you before we fit the camera.',
+          },
+          {
+            icon: Cable,
+            title: 'Cable Kept Tidy',
+            description:
+              'The cable is routed and tucked away, so nothing trails across the cabin.',
+          },
+          {
+            icon: Wrench,
+            title: 'Fitted and Checked',
+            description:
+              'We check the dashcam with you before you leave, so you know how it works.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Dashcam FAQs',
+        items: [
+          {
+            question: 'Can you fit a front and a rear camera?',
+            answer:
+              'Yes. We can fit front, rear or both, depending on your car. Tell us what you have in mind.',
+          },
+          {
+            question: 'How will the dashcam be powered?',
+            answer:
+              'We can fit it in the way that suits you and your car. Tell us what you would like and we will talk it through.',
+          },
+          {
+            question: 'Do you fit Road Angel dashcams?',
+            answer:
+              'Yes. We supply and fit Road Angel dashcams. See our Road Angel Dashcam page.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and whether you want a front camera, a rear camera or both.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.9)
   {
     slug: 'road-angel-dashcam',
     title: 'Road Angel Dashcam',
     category: 'Auto Electrical',
-    shortDescription: 'Road Angel dashcam from Team Autotech.',
+    shortDescription:
+      'Road Angel dashcams supplied and fitted by Team Autotech, with the cable tidied away.',
     icon: Cctv,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Road Angel Dashcams',
+        body: [
+          'A Road Angel dashcam records the road as you drive. We supply and fit them, so you get the camera and the fitting from one place.',
+          'Not sure a Road Angel is right for you? Tell us how you drive and we will talk you through it. We fit other dashcams too, so see our Dashcam Installation page.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Having a Road Angel Fitted',
+        layout: 'list',
+        features: [
+          {
+            icon: Cctv,
+            title: 'Camera and Fitting Together',
+            description:
+              'We supply the dashcam and fit it, so there is one job to book.',
+          },
+          {
+            icon: MessageCircle,
+            title: 'Not Sure Which to Choose?',
+            description:
+              'Tell us about your car and how you drive, and we will point you to what suits.',
+          },
+          {
+            icon: Cable,
+            title: 'Fitted Neatly',
+            description:
+              'The cable is routed and tucked away, with the camera placed where you want it.',
+          },
+          {
+            icon: Camera,
+            title: 'Other Dashcams',
+            description: 'Want a different make? We fit other dashcams too.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Road Angel Dashcam FAQs',
+        items: [
+          {
+            question: 'Do you supply the dashcam as well as fit it?',
+            answer: 'Yes. We supply Road Angel dashcams and fit them.',
+          },
+          {
+            question: 'Which Road Angel should I choose?',
+            answer:
+              'Tell us about your car and how you drive, and we will recommend one.',
+          },
+          {
+            question: 'Do you fit other dashcams?',
+            answer:
+              'Yes. See our Dashcam Installation page, or ask us about yours.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.9)
   {
     slug: 'parking-sensor-installation',
     title: 'Parking Sensor Installation',
     category: 'Auto Electrical',
-    shortDescription: 'Parking sensor installation from Team Autotech.',
+    shortDescription:
+      'Parking sensor fitting, so your car warns you as you get close to something while you park.',
     icon: Radar,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Parking Sensors for Your Car',
+        body: [
+          'Parking sensors warn you as you get close to something, which helps in tight spaces. If your car did not come with them, we can add them.',
+          'We fit sensors to the front, the rear or both, depending on your vehicle. Ask us about yours.',
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'Getting Sensors Fitted',
+        steps: [
+          {
+            title: 'Tell Us About Your Car',
+            description:
+              'Call or WhatsApp with your make, model and year, and where you want the sensors.',
+          },
+          {
+            title: 'We Agree Where They Go',
+            description:
+              'We confirm what we can fit to your car, front, rear or both.',
+          },
+          {
+            title: 'Fitted to Your Car',
+            description: 'Bring the car to us and we fit the sensors.',
+          },
+          {
+            title: 'Checked With You',
+            description:
+              'We check the sensors with you before you leave, so you know how they warn you.',
+          },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Why Fit Parking Sensors',
+        layout: 'grid',
+        features: [
+          {
+            icon: ParkingCircle,
+            title: 'Easier in Tight Spaces',
+            description:
+              'A warning as you get close to something takes some of the guesswork out of parking.',
+          },
+          {
+            icon: CarFront,
+            title: 'Front, Rear or Both',
+            description:
+              'Choose where you want them, depending on your vehicle.',
+          },
+          {
+            icon: Video,
+            title: 'Pair Them With a Camera',
+            description:
+              'Add a reverse camera too. See our Reverse Camera Installation page.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Parking Sensor FAQs',
+        items: [
+          {
+            question:
+              'Can sensors be added to a car that did not come with them?',
+            answer:
+              'It depends on the vehicle. Call or WhatsApp with your details and we will confirm.',
+          },
+          {
+            question: 'Can I have them at the front, the rear or both?',
+            answer:
+              'Any of them, depending on your vehicle. Tell us what you want and we will say what is possible.',
+          },
+          {
+            question: 'Do you fit reverse cameras too?',
+            answer:
+              'Yes. See our Reverse Camera Installation page, or ask us about both together.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.9)
   {
     slug: 'reverse-camera-installation',
     title: 'Reverse Camera Installation',
     category: 'Auto Electrical',
-    shortDescription: 'Reverse camera installation from Team Autotech.',
+    shortDescription:
+      'Reverse camera fitting, so you can see what is behind your car as you reverse into a space.',
     icon: Video,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'See Behind You',
+        body: [
+          'A reverse camera shows the view behind your car on a screen as you reverse. It makes tight spaces and tricky manoeuvres easier to judge.',
+          "Where the car supports it, we can show the picture on the car's own screen. Tell us your make, model and year and we will confirm.",
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Tell Us About Your Car',
+            description:
+              'Call or WhatsApp with your make, model and year, and we will say what we can fit.',
+          },
+          {
+            title: 'Fitted to Your Car',
+            description: 'Bring the car to us and we fit the camera.',
+          },
+          {
+            title: 'Checked With You',
+            description:
+              'We check the picture with you before you leave, so you know how it works.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Pair It With Parking Sensors',
+        body: [
+          'A camera shows you what is behind the car. Parking sensors warn you as you get close to something. They work well together, and we fit both.',
+          'See our Parking Sensor Installation page, or ask us about both together.',
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Reverse Camera FAQs',
+        items: [
+          {
+            question: "Can it use my car's own screen?",
+            answer:
+              'Where the car supports it, yes. Call or WhatsApp with your make, model and year and we will confirm.',
+          },
+          {
+            question: 'Do you fit parking sensors too?',
+            answer:
+              'Yes. See our Parking Sensor Installation page, or ask us about both together.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and whether your car has a screen the camera could use.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
 
   // Mechanical / Customisation

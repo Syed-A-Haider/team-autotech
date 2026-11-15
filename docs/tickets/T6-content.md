@@ -1,4 +1,4 @@
-# T6.9 to T6.14 - AI content batches and phase close
+# T6.10 to T6.14 - AI content batches and phase close
 
 Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`).
 Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). T6.7 (Programming) and T6.8 (Auto Security) are done and set the pattern: each page a different block mix. Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
@@ -10,12 +10,8 @@ Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `doc
 - Each entry gets `// AI-generated (T6.x)` and a row in `_review.md` (status `approved`, dated)
 - The copy guard (T6.6) must be green. State in the PR what each page does and does not claim
 - Live pages become indexable and appear in the sitemap on their own
-- The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`featureAlternatingSlug`, `specBandSlug`) and makes the T5.10 temporary checks permanent (those blocks were checked with temporary data only). `featureListSlug` was added in T6.7
+- The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`specBandSlug`) and makes the T5.10 temporary checks permanent (the spec band was checked with temporary data only). `featureListSlug` was added in T6.7 and `featureAlternatingSlug` in T6.9
 - Going live adds the page to the sitemap by itself. Do not add a service to `sitemap.ts` by hand
-
-## T6.9 - Auto Electrical (Car Audio, Dashcam, Parking Sensors, Reverse Camera, Road Angel Dashcam)
-
-No product specs, no insurance-discount claims. Add `featureAlternatingSlug` if first used. Depends on T6.7 (done).
 
 ## T6.10 - Mechanical / Customisation (Vehicle Maintenance, MOT Preparation, CT Carbon Official Installer, Body Panel Repair and Paint)
 
