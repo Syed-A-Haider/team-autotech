@@ -1403,33 +1403,364 @@ const services: Service[] = [
   },
 
   // Mechanical / Customisation
+  // AI-generated (T6.10)
   {
     slug: 'vehicle-maintenance',
     title: 'Vehicle Maintenance',
     category: 'Mechanical / Customisation',
-    shortDescription: 'Vehicle maintenance from Team Autotech.',
+    shortDescription:
+      'Servicing, routine maintenance and repairs at our workshop, to keep your car on the road.',
     icon: Wrench,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Looking After Your Car',
+        body: [
+          'A car that is looked after is easier to live with. Regular maintenance helps you spot small problems before they turn into big ones.',
+          'We look after cars at our workshop, from routine servicing to repairs. Tell us about yours and we will talk you through what it needs.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'What We Can Look After',
+        layout: 'grid',
+        features: [
+          {
+            icon: Wrench,
+            title: 'Servicing',
+            description:
+              'Routine servicing to keep your car running as it should.',
+          },
+          {
+            icon: Droplet,
+            title: 'Oil and Filters',
+            description:
+              'Oil and filter changes, depending on what your vehicle needs.',
+          },
+          {
+            icon: Cog,
+            title: 'Brakes',
+            description:
+              'Brake checks and repairs, so the car stops the way you expect.',
+          },
+          {
+            icon: CircuitBoard,
+            title: 'Fault Finding',
+            description:
+              'Warning light on? We can look into it and tell you what we find.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Getting Your Car Looked At',
+        body: [
+          'Call or WhatsApp with your make, model and year, and tell us what you would like looked at. If something feels wrong, describe it as best you can.',
+          'We tell you what we find and agree any work with you before we start.',
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Vehicle Maintenance FAQs',
+        items: [
+          {
+            question: 'What does vehicle maintenance include?',
+            answer:
+              'It can include servicing, oil and filter changes, brakes and fault finding, depending on your vehicle. Ask us about yours.',
+          },
+          {
+            question: 'Can you get my car ready for its MOT?',
+            answer:
+              'Yes. See our MOT Preparation page, or ask us about it when you get in touch.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and what you would like us to look at.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.10)
   {
     slug: 'mot-preparation',
     title: 'MOT Preparation',
     category: 'Mechanical / Customisation',
-    shortDescription: 'MOT preparation from Team Autotech.',
+    shortDescription:
+      'Pre-MOT checks and repairs at our workshop, so your car is ready before it goes for its test.',
     icon: ClipboardCheck,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Get Ready for Your MOT',
+        body: [
+          'An MOT can bring up problems you did not know about. Getting the car checked beforehand gives you the chance to put them right first.',
+          'We are not an MOT test centre. We get your car ready, and you book the test with a test centre of your choice.',
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Tell Us When It Is Due',
+            description:
+              'Call or WhatsApp with your make, model and year, and when your MOT is due.',
+          },
+          {
+            title: 'Bring the Car In',
+            description: 'Bring the car to our workshop.',
+          },
+          {
+            title: 'We Check It Over and Agree the Work',
+            description:
+              'We look the car over and tell you what we find. We agree any work with you before we start.',
+          },
+          {
+            title: 'Ready for Your Test',
+            description:
+              'Once the work is done, the car is ready for you to take to your test centre.',
+          },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Why Prepare Before the Test',
+        layout: 'alternating',
+        features: [
+          {
+            icon: ClipboardCheck,
+            title: 'Checked Before Your Test',
+            description:
+              'We check the car over, so problems come to light before the test.',
+          },
+          {
+            icon: MessageCircle,
+            title: 'Work Agreed First',
+            description:
+              'We tell you what we find and agree the work with you before we start.',
+          },
+          {
+            icon: TriangleAlert,
+            title: 'Your Last Advisories Looked At',
+            description:
+              'Got advisories from your last MOT? We can look at those too.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'MOT Preparation FAQs',
+        items: [
+          {
+            question: 'Do you carry out the MOT test?',
+            answer:
+              'No. We are not an MOT test centre. We get your car ready, then you book the test with a test centre of your choice.',
+          },
+          {
+            question: 'Will my car pass its test?',
+            answer:
+              'We cannot promise a result, because the test centre carries out the test. We check the car over and put right what we find beforehand.',
+          },
+          {
+            question: 'Can you look at the advisories from my last MOT?',
+            answer:
+              'Yes. Bring the paperwork or tell us what they were, and we will take a look.',
+          },
+          {
+            question: 'What details do you need?',
+            answer: 'Your make, model and year, and when your MOT is due.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.10)
   {
     slug: 'ct-carbon-official-installer',
     title: 'CT Carbon Official Installer',
     category: 'Mechanical / Customisation',
-    shortDescription: 'CT Carbon official installer.',
+    shortDescription:
+      'As a CT Carbon official installer, we fit CT Carbon parts to your car at our workshop.',
     icon: Layers,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'CT Carbon Parts, Fitted',
+        body: [
+          'CT Carbon makes carbon fibre parts for cars. Plenty of drivers add them to change the look of their car.',
+          'We fit CT Carbon parts at our workshop, so the fitting is done by people who work on cars every day.',
+          'Tell us about your car and the parts you have in mind, and we will talk it through.',
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Tell Us About Your Car and the Parts',
+            description:
+              'Call or WhatsApp with your make, model and year, and the parts you want fitted.',
+          },
+          {
+            title: 'Bring the Car In',
+            description: 'Bring the car to our workshop.',
+          },
+          {
+            title: 'Fitted and Checked With You',
+            description:
+              'We fit the parts and go through the finished job with you before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'CT Carbon FAQs',
+        items: [
+          {
+            question: 'Which parts can you fit?',
+            answer:
+              'It depends on your vehicle. Call or WhatsApp with your details and we will confirm.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and the parts you would like fitted.',
+          },
+          {
+            question: 'Can you fit anything else at the same time?',
+            answer:
+              'Ask us. For bodywork, see our Body Panel Repair and Paint page.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.10)
   {
     slug: 'body-panel-repair-and-paint',
     title: 'Body Panel Repair and Paint',
     category: 'Mechanical / Customisation',
-    shortDescription: 'Body panel repair and paint from Team Autotech.',
+    shortDescription:
+      'Body panel repair and paint for dents, scratches and scuffs, depending on the damage.',
     icon: SprayCan,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Damage Put Right',
+        body: [
+          'A dent, a scratch or a scuffed panel can spoil the look of a car. We repair body panels and paint them, so the repair is finished properly.',
+          'What can be done depends on the damage. Send us photos or bring the car in, and we will tell you what we can do.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'What We Can Repair',
+        layout: 'list',
+        features: [
+          {
+            icon: Wrench,
+            title: 'Dents',
+            description: 'Dents in body panels, depending on the damage.',
+          },
+          {
+            icon: SprayCan,
+            title: 'Scratches and Scuffs',
+            description:
+              'Scratches and scuffs on the paintwork, put right and painted.',
+          },
+          {
+            icon: CarFront,
+            title: 'Damaged Panels',
+            description:
+              'Damaged body panels, repaired where the damage allows.',
+          },
+          {
+            icon: Layers,
+            title: 'Painted to Finish the Repair',
+            description:
+              'Once the panel is repaired, we paint it to finish the job.',
+          },
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How It Works',
+        steps: [
+          {
+            title: 'Send Us Photos',
+            description:
+              'Message us on WhatsApp with photos of the damage, and your make, model and year.',
+          },
+          {
+            title: 'We Take a Look',
+            description:
+              'We tell you what we can do. We may need to see the car in person.',
+          },
+          {
+            title: 'Repaired and Painted',
+            description:
+              'Bring the car to our workshop and we repair and paint the panel.',
+          },
+          {
+            title: 'Checked With You',
+            description:
+              'We go through the finished repair with you before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Body Panel Repair FAQs',
+        items: [
+          {
+            question: 'What damage can you repair?',
+            answer:
+              'Dents, scratches, scuffs and damaged panels, depending on the damage. Send us photos and we will say what is possible.',
+          },
+          {
+            question: 'Can I send photos first?',
+            answer:
+              'Yes. Photos on WhatsApp help, though we may still need to see the car.',
+          },
+          {
+            question: 'Do I need to bring the car in?',
+            answer:
+              'For the repair, yes. Bring the car to our workshop once we have agreed the work.',
+          },
+          {
+            question: 'What details do you need?',
+            answer:
+              'Your make, model and year, and photos of the damage if you can.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
 ];
 

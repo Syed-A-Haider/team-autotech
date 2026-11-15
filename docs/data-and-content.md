@@ -21,7 +21,7 @@ For exact types, read `src/types/service.ts`. Do not copy shapes from this doc.
   - `groupServicesByCategory()`
   - `getFeaturedServices()`, which maps an explicit ordered slug list for the homepage grid
   - `getRelatedServices(service, limit = 3)`, same-category cross-links for the page footer
-- 24 services across 5 categories (T6.5): tuning (6), programming (4), auto security (5), auto electrical (5), mechanical / customisation (4). Column order is the order of first appearance in `services.ts`. The nine added in T6.5 are coming-soon with one-line titles only. `Service.body` was removed in T6.5 (it was never rendered). Take the exact category strings from `types/service.ts`; earlier drafts used both "Auto Electrical" and "Auto Electrical Services"
+- 24 services across 5 categories (T6.5): tuning (6), programming (4), auto security (5), auto electrical (5), mechanical / customisation (4). Column order is the order of first appearance in `services.ts`. The nine added in T6.5 started coming-soon with one-line titles only. T6.7 to T6.10 made 19 of the 24 live, five tuning pages are still coming-soon. `Service.body` was removed in T6.5 (it was never rendered). Take the exact category strings from `types/service.ts`; earlier drafts used both "Auto Electrical" and "Auto Electrical Services"
 - Add a service by copying an existing entry, using a unique slug and an existing category
 - The homepage grid order is deliberate and separate from `popular`
 
