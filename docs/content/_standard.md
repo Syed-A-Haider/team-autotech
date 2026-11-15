@@ -76,7 +76,7 @@ Haider confirmed these on 2026-11-07 (Syd can still correct them). They are allo
 
 - Emissions pages (DPF / EGR, AdBlue, Error Code Delete, T6.12): wording for lawful work only (diagnosis, cleaning, regeneration, sensor and fault repair, software fault-finding)
 - MOT Preparation must not suggest Team Autotech is a test centre
-- Coming-soon one-liners restate the title until their batch rewrites them
+- No coming-soon one-liners remain (T6.12 was the last batch). A new service that starts coming-soon restates its title until its content is written
 
 ## Marking AI copy
 

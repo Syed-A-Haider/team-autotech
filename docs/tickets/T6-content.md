@@ -1,6 +1,6 @@
-# T6.12 to T6.14 - AI content batches and phase close
+# T6.13 to T6.14 - Clean-up and phase close
 
-Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`).
+Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`). The AI content batches (T6.7 to T6.12) are done, the rules below stay as the record of how they were written.
 Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). T6.7 (Programming) and T6.8 (Auto Security) are done and set the pattern: each page a different block mix. Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
 Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `docs/data-and-content.md`. The copy guard is `src/lib/services.content.test.ts`: a new allow-list entry needs Haider's OK and a `_review.md` row.
 
@@ -12,10 +12,6 @@ Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `doc
 - Live pages become indexable and appear in the sitemap on their own
 - The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`specBandSlug`) and makes the T5.10 temporary checks permanent (the spec band was checked with temporary data only). `featureListSlug` was added in T6.7 and `featureAlternatingSlug` in T6.9. T6.10 did not use the spec band: its facts (`constants.ts`) are business-wide, so use it only on a page where they belong
 - Going live adds the page to the sitemap by itself. Do not add a service to `sitemap.ts` by hand
-
-## T6.12 - Remap / Tuning, emissions and diagnostics (DPF / EGR Solutions, AdBlue Solutions, Engine Management Error Code Delete)
-
-Highest risk, so it goes last. Wording only for lawful work (diagnosis, cleaning, regeneration, sensor and fault repair, software fault-finding). No removal, delete or "MOT pass" wording unless Syd states otherwise in writing. Haider chose the default (2026-11-07): lawful-work wording only, so this no longer waits on Syd. If Syd later says otherwise, change it in his review pass. This is the last coming-soon batch, so it also replaces `comingSoonSlug` and the coming-soon entry in `motionServiceSlugs` in `testData.ts` (needs Haider's approval), and `testing.md` records that `ComingSoonPanel` is then covered by Vitest only.
 
 ## T6.13 - Confirmed claims, the hard-coded years and the Mechanical hero photo
 
