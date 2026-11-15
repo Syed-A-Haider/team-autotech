@@ -171,19 +171,214 @@ const services: Service[] = [
     shortDescription: 'Engine management error code delete from Team Autotech.',
     icon: Eraser,
   },
+  // AI-generated (T6.11)
   {
     slug: 'tuning-freaks-bootmod',
     title: 'Tuning Freaks Bootmod',
     category: 'Remap / Tuning',
-    shortDescription: 'Tuning Freaks Bootmod from Team Autotech.',
+    shortDescription:
+      'Tuning Freaks Bootmod engine tuning, set up by our team at the workshop to suit your car.',
     icon: Cpu,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'What Is Bootmod?',
+        body: [
+          "Bootmod is engine tuning from Tuning Freaks. It changes how your engine is controlled through the car's software, so there is no need for major mechanical work.",
+          'Drivers choose it for a more engaging drive, with sharper response and a car that feels more alive. What you get depends on your car and how it is set up, so we talk it through with you first.',
+          'We set it up here at the workshop. Call or WhatsApp with your make, model and year and we will tell you what is possible on your car.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'Why Drivers Choose Bootmod',
+        layout: 'alternating',
+        features: [
+          {
+            icon: SlidersHorizontal,
+            title: 'Looked at for Your Car',
+            description:
+              'We look at your car and what you want from it before we set anything up.',
+          },
+          {
+            icon: Cpu,
+            title: 'Done Through Software',
+            description:
+              "The changes are made through the car's software, so there is no major mechanical work.",
+          },
+          {
+            icon: Cog,
+            title: 'Can Go With a Gearbox Map',
+            description:
+              'If your car has an automatic gearbox, a gearbox map can go with it, depending on your car. See our XHP Gearbox Map page.',
+          },
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How a Bootmod Job Runs',
+        steps: [
+          {
+            title: 'Tell Us About Your Car',
+            description:
+              'Call or WhatsApp with your make, model and year, and what you want from the car.',
+          },
+          {
+            title: 'We Confirm What Is Possible',
+            description:
+              'We tell you whether Bootmod suits your car before you book.',
+          },
+          {
+            title: 'Book Your Car In',
+            description:
+              'Pick a time that suits you and bring the car to our workshop.',
+          },
+          {
+            title: 'Set Up and Checked',
+            description:
+              'We carry out the work and go through it with you before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Bootmod Questions',
+        items: [
+          {
+            question: 'Will Bootmod work on my car?',
+            answer:
+              'It depends on your make, model and year. Call or WhatsApp with your details and we will tell you.',
+          },
+          {
+            question: 'Do I need to bring my car in?',
+            answer:
+              'Yes. We carry out the work at our workshop, so you book your car in with us.',
+          },
+          {
+            question: 'Can I have a gearbox map as well?',
+            answer:
+              'Depending on your car, yes. See our XHP Gearbox Map page, or ask us about yours.',
+          },
+          {
+            question: 'Should I tell my insurer?',
+            answer:
+              'We advise you to tell your insurer about any modification to your car.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.11)
   {
     slug: 'xhp-gearbox-map',
     title: 'XHP Gearbox Map',
     category: 'Remap / Tuning',
-    shortDescription: 'XHP gearbox map from Team Autotech.',
+    shortDescription:
+      'XHP gearbox map for automatic gearboxes, set up by our team at the workshop to suit your car.',
     icon: Cog,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'What Is an XHP Gearbox Map?',
+        body: [
+          'An automatic gearbox is run by software, and that software decides when and how it changes gear. An XHP gearbox map changes it, so the gearbox behaves differently when you drive.',
+          'Which cars and gearboxes it suits depends on your vehicle, so ask us about yours. We set it up here at the workshop.',
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'Getting Your Gearbox Mapped',
+        steps: [
+          {
+            title: 'Tell Us About Your Car',
+            description:
+              'Call or WhatsApp with your make, model and year, and what you want from the gearbox.',
+          },
+          {
+            title: 'We Confirm and Book You In',
+            description:
+              'We tell you whether it suits your car, then agree a time that suits you.',
+          },
+          {
+            title: 'Mapped and Checked',
+            description:
+              'We carry out the work at our workshop and go through it with you before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'What a Gearbox Map Can Change',
+        layout: 'list',
+        features: [
+          {
+            icon: Cog,
+            title: 'How It Changes Gear',
+            description:
+              'The way the gearbox picks and changes gear can be adjusted, depending on your car.',
+          },
+          {
+            icon: Gauge,
+            title: 'Response to Your Driving',
+            description:
+              'How the gearbox responds can be set up around the way you drive, depending on your car.',
+          },
+          {
+            icon: SlidersHorizontal,
+            title: 'Set Up to Suit You',
+            description:
+              'We talk through how you drive and what you want before we set anything up.',
+          },
+          {
+            icon: MessageCircle,
+            title: 'Not Sure?',
+            description:
+              'Tell us what you are after and we will say what is possible on your car.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Good to Know',
+        body: [
+          'A gearbox map is often paired with an engine tune. If you are thinking about both, see our Tuning Freaks Bootmod page, or ask us what suits your car.',
+          'We advise you to tell your insurer about any modification to your car.',
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'XHP Gearbox Map FAQs',
+        items: [
+          {
+            question: 'Will it work on my car?',
+            answer:
+              'It depends on your car and its gearbox. Call or WhatsApp with your make, model and year and we will tell you.',
+          },
+          {
+            question: 'Can I have it with an engine tune?',
+            answer:
+              'Often, yes, depending on your car. See our Tuning Freaks Bootmod page, or ask us about yours.',
+          },
+          {
+            question: 'What do you need from me?',
+            answer:
+              'Your make, model and year, and what you want from the gearbox. Then we book your car in at the workshop.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
 
   // Programming

@@ -1,4 +1,4 @@
-# T6.11 to T6.14 - AI content batches and phase close
+# T6.12 to T6.14 - AI content batches and phase close
 
 Status: planned. One section per ticket. Delete each section when its PR merges (allowed by `workflow.md`).
 Depends on: T6.5 (the pages exist), T6.6 (the standard and the guard). T6.7 (Programming) and T6.8 (Auto Security) are done and set the pattern: each page a different block mix. Syd chose AI-written copy for every page on 2026-11-07. On 2026-11-10 he said not to wait for his approval: pages go live as written and he reviews afterwards, and anything he flags becomes a new ticket. Content is no longer a blocker.
@@ -12,10 +12,6 @@ Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `doc
 - Live pages become indexable and appear in the sitemap on their own
 - The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`specBandSlug`) and makes the T5.10 temporary checks permanent (the spec band was checked with temporary data only). `featureListSlug` was added in T6.7 and `featureAlternatingSlug` in T6.9. T6.10 did not use the spec band: its facts (`constants.ts`) are business-wide, so use it only on a page where they belong
 - Going live adds the page to the sitemap by itself. Do not add a service to `sitemap.ts` by hand
-
-## T6.11 - Remap / Tuning, performance (Tuning Freaks Bootmod, XHP Gearbox Map)
-
-No power, torque or shift-time figures, no "warranty-safe". A general line advising customers to tell their insurer about modifications is allowed. Depends on T6.7 (done).
 
 ## T6.12 - Remap / Tuning, emissions and diagnostics (DPF / EGR Solutions, AdBlue Solutions, Engine Management Error Code Delete)
 
