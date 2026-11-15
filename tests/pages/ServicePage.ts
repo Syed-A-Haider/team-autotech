@@ -166,13 +166,4 @@ export class ServicePage {
   bandPitch(): Locator {
     return this.bandContactRow().locator('..').locator(':scope > p').last();
   }
-
-  // The slanted coming-soon chip, and the upright text inside it
-  bandChip(): Locator {
-    return this.band().locator('p').first().locator(':scope > span');
-  }
-
-  bandChipText(): Locator {
-    return this.bandChip().locator(':scope > span');
-  }
 }

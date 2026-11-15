@@ -1,7 +1,6 @@
 import { MENU_TOGGLE_OPEN_LABEL } from '@/components/layout/MobileMenu';
 import { test, expect } from './fixtures';
 import {
-  comingSoonSlug,
   featureAlternatingSlug,
   featureGridSlug,
   featureListSlug,
@@ -31,8 +30,8 @@ const reducedMotion = { contextOptions: { reducedMotion: 'reduce' } } as const;
 const PART_WAY = 0.85;
 const DONE = 0.3;
 
-// Pages that show the hero and the bar: a live one and a coming-soon one
-const heroPages = [featureGridSlug, comingSoonSlug, mechanicalSlug];
+// Pages that show the hero and the bar: three themes
+const heroPages = [featureGridSlug, featureAlternatingSlug, mechanicalSlug];
 
 for (const [size, viewport] of sizes) {
   test.describe(`Service motion, hero, ${size}`, () => {
@@ -535,7 +534,7 @@ for (const [size, viewport] of sizes) {
 // Lead-in (T5.13): the first section under the hero plays in by itself at
 // load, one step after the hero text, then hands over to the scroll reveal.
 // Later sections keep the scroll reveal alone
-const leadSlugs = [featureGridSlug, comingSoonSlug];
+const leadSlugs = [featureGridSlug, featureListSlug];
 
 for (const [size, viewport] of sizes) {
   test.describe(`Service motion, lead-in, ${size}`, () => {
@@ -564,19 +563,11 @@ for (const [size, viewport] of sizes) {
           const h2 = servicePage
             .firstSection()
             .getByRole('heading', { level: 2 });
-          const isComingSoon = slug === comingSoonSlug;
-          // Heading step 5, then the body one step later (a coming-soon band
-          // has a contact row one step after the pitch)
-          const parts = isComingSoon
-            ? [
-                { target: h2, steps: 4 },
-                { target: servicePage.bandPitch(), steps: 5 },
-                { target: servicePage.bandContactRow(), steps: 6 },
-              ]
-            : [
-                { target: h2, steps: 4 },
-                { target: servicePage.proseBlock(), steps: 5 },
-              ];
+          // Heading step 5, then the body one step later
+          const parts = [
+            { target: h2, steps: 4 },
+            { target: servicePage.proseBlock(), steps: 5 },
+          ];
 
           for (const { target, steps } of parts) {
             const layers = await motionAudit.animationLayers(target);

@@ -150,26 +150,315 @@ const services: Service[] = [
       },
     ],
   },
+  // AI-generated (T6.12)
   {
     slug: 'dpf-egr-solutions',
     title: 'DPF / EGR Solutions',
     category: 'Remap / Tuning',
-    shortDescription: 'DPF and EGR solutions from Team Autotech.',
+    shortDescription:
+      'DPF and EGR diagnosis, cleaning and regeneration, plus sensor and fault repair at our workshop.',
     icon: Filter,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Warning Lights, Lost Power and Limp Mode',
+        body: [
+          'A diesel particulate filter (DPF) traps soot from the exhaust. An exhaust gas recirculation (EGR) valve feeds some exhaust gas back into the engine. Both can clog or fault over time, and when they do, your car tells you.',
+          'You might see a warning light, notice a loss of power or find the car drops into limp mode. Regular short journeys, a faulty sensor or a sticking valve are common causes, and each needs a different fix.',
+          'We find out what is going on before we touch anything. Call or WhatsApp with your make, model and year and a description of the symptoms, and we will tell you how we can help.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'What We Can Help With',
+        layout: 'grid',
+        features: [
+          {
+            icon: TriangleAlert,
+            title: 'Warning Light Diagnosis',
+            description:
+              'We read the fault codes and test the system to find what is behind the light, depending on your vehicle.',
+          },
+          {
+            icon: Zap,
+            title: 'Regeneration',
+            description:
+              'Where a filter is clogged with soot, a regeneration can help, depending on your vehicle and its condition.',
+          },
+          {
+            icon: Filter,
+            title: 'Cleaning',
+            description:
+              'Where cleaning is the answer, we can clean the DPF or EGR parts, depending on your vehicle.',
+          },
+          {
+            icon: CircuitBoard,
+            title: 'Sensor and Valve Faults',
+            description:
+              'A faulty sensor or valve can cause the same symptoms as a clogged filter. We trace the fault and repair or replace what needs it.',
+          },
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'How a DPF or EGR Job Runs',
+        steps: [
+          {
+            title: 'Tell Us What Is Happening',
+            description:
+              'Call or WhatsApp with your make, model and year, and what the car is doing.',
+          },
+          {
+            title: 'We Confirm How We Can Help',
+            description:
+              'We tell you what we can do for your vehicle before you book.',
+          },
+          {
+            title: 'Book Your Vehicle In',
+            description:
+              'Pick a time that suits you and bring the vehicle to our workshop.',
+          },
+          {
+            title: 'Diagnosed, Fixed and Checked',
+            description:
+              'We find the cause, carry out the work and go through it with you before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Good to Know',
+        body: [
+          'Short, slow journeys give a DPF little chance to clear itself, so a longer run at a steady speed now and then can help. If a warning light comes on, have it looked at sooner rather than later, as a small fault can turn into a bigger one.',
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'DPF and EGR Questions',
+        items: [
+          {
+            question: 'My warning light is on. What should I do?',
+            answer:
+              'Call or WhatsApp with your make, model and year and what the car is doing. We will tell you how we can help and book you in for diagnosis.',
+          },
+          {
+            question: 'Can you clean a clogged DPF?',
+            answer:
+              'Depending on your vehicle and the fault, cleaning or a regeneration can be the answer. We diagnose first, so we only do what your vehicle needs.',
+          },
+          {
+            question: 'Could it be a sensor and not the filter?',
+            answer:
+              'Yes. A faulty sensor or valve can cause similar symptoms, which is why we find the cause before we fix anything.',
+          },
+          {
+            question: 'Do I need to bring my vehicle in?',
+            answer:
+              'Yes. We carry out the work at our workshop, so you book your vehicle in with us.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.12)
   {
     slug: 'adblue-solutions',
     title: 'AdBlue Solutions',
     category: 'Remap / Tuning',
-    shortDescription: 'AdBlue solutions from Team Autotech.',
+    shortDescription:
+      'AdBlue warning lights and system faults diagnosed and repaired by our team at the workshop.',
     icon: Droplet,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'When Your AdBlue System Plays Up',
+        body: [
+          'Many modern diesel vehicles use AdBlue, a fluid added to the exhaust to cut emissions. The system has a tank, a pump and sensors, and a fault in any of them can bring up a warning on the dash.',
+          'On some vehicles the warning counts down, and the engine may not restart if it is ignored. If you see an AdBlue message, do not leave it. Call or WhatsApp and we will tell you what we can do.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'How We Help',
+        layout: 'alternating',
+        features: [
+          {
+            icon: Eye,
+            title: 'Warning Messages Read',
+            description:
+              'We read what the system is reporting, so we know where to start.',
+          },
+          {
+            icon: Wrench,
+            title: 'Faults Traced',
+            description:
+              'We test the system to trace the fault, from the sensors to the pump, depending on your vehicle.',
+          },
+          {
+            icon: Replace,
+            title: 'Repaired and Checked',
+            description:
+              'We repair or replace the faulty part where needed, then check the system once the work is done.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Looking After Your AdBlue System',
+        body: [
+          'Top up when your vehicle asks you to, and use the correct fluid for your vehicle. Do not wait until the tank is empty.',
+          'If the warning comes back after a top up, or the system reports a fault, get in touch. We will look at it with you.',
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'AdBlue Questions',
+        items: [
+          {
+            question: 'What does the AdBlue warning mean?',
+            answer:
+              'It can mean the level is low or that the system has a fault. Call or WhatsApp with your make, model and year and what the message says, and we will tell you what we can do.',
+          },
+          {
+            question: 'Can you find out why it is showing?',
+            answer:
+              'Yes. We read the system and test it to trace the cause, then repair what is at fault.',
+          },
+          {
+            question: 'Do I need to bring my vehicle in?',
+            answer:
+              'Yes. We carry out the work at our workshop, so you book your vehicle in with us.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
+  // AI-generated (T6.12)
   {
     slug: 'engine-management-error-code-delete',
     title: 'Engine Management Error Code Delete',
     category: 'Remap / Tuning',
-    shortDescription: 'Engine management error code delete from Team Autotech.',
+    shortDescription:
+      'Engine management lights diagnosed, faults traced and repaired, and codes cleared once fixed.',
     icon: Eraser,
+    status: 'live',
+    sections: [
+      {
+        type: 'prose',
+        title: 'Engine Management Light On?',
+        body: [
+          "The engine management light comes on when the car's computer stores a fault code. It can point at anything from a sensor to a wiring problem, and the code only tells you where to start looking.",
+          'We find the cause, fix it and then clear the code. Call or WhatsApp with your make, model and year and what the car is doing, and we will tell you how we can help.',
+        ],
+      },
+      {
+        type: 'feature',
+        title: 'What We Look At',
+        layout: 'list',
+        features: [
+          {
+            icon: CircuitBoard,
+            title: 'Fault Codes',
+            description:
+              'We read the stored codes to see what the car is reporting, depending on your vehicle.',
+          },
+          {
+            icon: Cable,
+            title: 'Sensors and Wiring',
+            description:
+              'A faulty sensor or a wiring problem is a common cause, so we test them before we replace anything.',
+          },
+          {
+            icon: Cpu,
+            title: 'Software Fault-Finding',
+            description:
+              'Some faults sit in the software, so we look there too, depending on your vehicle.',
+          },
+          {
+            icon: MessageCircle,
+            title: 'Not Sure?',
+            description:
+              'Tell us what the car is doing and we will say what we can do for yours.',
+          },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Clearing a Code Is Not a Fix',
+        body: [
+          'A code can be cleared, but if the fault is still there the light will come back. That is why we find and repair the cause first. Once the repair is done, we clear the stored codes and check the car again.',
+        ],
+      },
+      {
+        type: 'steps',
+        title: 'From Warning Light to Fixed',
+        steps: [
+          {
+            title: 'Tell Us What Is Happening',
+            description:
+              'Call or WhatsApp with your make, model and year, and what the car is doing.',
+          },
+          {
+            title: 'We Confirm How We Can Help',
+            description:
+              'We tell you what we can do for your vehicle before you book.',
+          },
+          {
+            title: 'Diagnosed and Repaired',
+            description:
+              'Bring the vehicle to our workshop. We trace the fault and carry out the repair.',
+          },
+          {
+            title: 'Codes Cleared and Checked',
+            description:
+              'We clear the stored codes once the fault is repaired and check the car before you leave.',
+          },
+        ],
+      },
+      {
+        type: 'faq',
+        title: 'Engine Management Questions',
+        items: [
+          {
+            question: 'Why is my engine management light on?',
+            answer:
+              'The car has stored a fault code. It can be a sensor, wiring or a software fault, so we diagnose it to find out which.',
+          },
+          {
+            question: 'Can you just clear the code?',
+            answer:
+              'We find and repair the cause first, then clear the stored codes. Clearing a code alone will not stop the light coming back if the fault is still there.',
+          },
+          {
+            question: 'Do you do software fault-finding?',
+            answer:
+              'Yes, where the fault is in the software, depending on your vehicle. Ask us about yours.',
+          },
+          {
+            question: 'Do I need to bring my vehicle in?',
+            answer:
+              'Yes. We carry out the work at our workshop, so you book your vehicle in with us.',
+          },
+          {
+            question: 'How much does it cost?',
+            answer:
+              'Pricing depends on your vehicle and spec. Call or WhatsApp for a free, no-obligation quote.',
+          },
+        ],
+      },
+    ],
   },
   // AI-generated (T6.11)
   {
