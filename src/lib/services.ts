@@ -3,11 +3,6 @@
 // Array, not a map: generateStaticParams wants an array and the list is small (<100).
 import type { Service, ServiceCategories } from '@/types/service';
 import {
-  PHONE_LANDLINE,
-  PHONE_MOBILE,
-  YEARS_EXPERIENCE,
-} from '@/lib/constants';
-import {
   Gauge,
   Filter,
   Eraser,
@@ -1427,15 +1422,6 @@ const services: Service[] = [
         ],
       },
       {
-        type: 'specband',
-        title: 'Team Autotech at a Glance',
-        specs: [
-          { label: 'Years of Experience', value: `${YEARS_EXPERIENCE}+` },
-          { label: 'Call', value: PHONE_LANDLINE },
-          { label: 'WhatsApp', value: PHONE_MOBILE },
-        ],
-      },
-      {
         type: 'feature',
         title: 'What We Can Look After',
         layout: 'grid',
@@ -1464,6 +1450,14 @@ const services: Service[] = [
             description:
               'Warning light on? We can look into it and tell you what we find.',
           },
+        ],
+      },
+      {
+        type: 'prose',
+        title: 'Getting Your Car Looked At',
+        body: [
+          'Call or WhatsApp with your make, model and year, and tell us what you would like looked at. If something feels wrong, describe it as best you can.',
+          'We tell you what we find and agree any work with you before we start.',
         ],
       },
       {

@@ -10,7 +10,7 @@ Read first: `docs/content/_standard.md` and `_review.md` (created in T6.6), `doc
 - Each entry gets `// AI-generated (T6.x)` and a row in `_review.md` (status `approved`, dated)
 - The copy guard (T6.6) must be green. State in the PR what each page does and does not claim
 - Live pages become indexable and appear in the sitemap on their own
-- Every block now has a permanent e2e slug in `tests/config/testData.ts`: `featureListSlug` (T6.7), `featureAlternatingSlug` (T6.9) and `specBandSlug` (T6.10)
+- The first live use of each block adds a permanent e2e slug in `tests/config/testData.ts` (`specBandSlug`) and makes the T5.10 temporary checks permanent (the spec band was checked with temporary data only). `featureListSlug` was added in T6.7 and `featureAlternatingSlug` in T6.9. T6.10 did not use the spec band: its facts (`constants.ts`) are business-wide, so use it only on a page where they belong
 - Going live adds the page to the sitemap by itself. Do not add a service to `sitemap.ts` by hand
 
 ## T6.11 - Remap / Tuning, performance (Tuning Freaks Bootmod, XHP Gearbox Map)

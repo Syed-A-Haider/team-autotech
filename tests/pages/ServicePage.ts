@@ -111,11 +111,6 @@ export class ServicePage {
     return this.featureList(title).locator(':scope > li').nth(index);
   }
 
-  // The spec band's definition list, found by its section title
-  specBand(title: string): Locator {
-    return this.section(title).locator('dl');
-  }
-
   // The reveal wrapper around the player: the figure's first child
   videoWrapper(): Locator {
     return this.page.locator('main figure').locator(':scope > div').first();
