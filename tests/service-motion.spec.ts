@@ -11,6 +11,7 @@ import {
   routes,
   shortViewport,
   smViewport,
+  specBandSlug,
   stepsSlug,
   videoSlug,
   viewports,
@@ -230,6 +231,22 @@ for (const [size, viewport] of sizes) {
         expect.soft(await motionAudit.ridesScroll(list)).toBe(false);
         expect.soft(cards.length).toBeGreaterThan(0);
         expect.soft(cards.every((rides) => rides)).toBe(true);
+      },
+    );
+
+    test(
+      'spec tiles rise in turn through their band, the band does not',
+      { tag: '@motion' },
+      async ({ servicePage, motionAudit }) => {
+        await servicePage.goto(specBandSlug);
+        const band = servicePage.specBand(
+          getSectionTitle(specBandSlug, 'specband'),
+        );
+        const tiles = await motionAudit.childrenRideScroll(band);
+
+        expect.soft(await motionAudit.ridesScroll(band)).toBe(false);
+        expect.soft(tiles.length).toBeGreaterThan(0);
+        expect.soft(tiles.every((rides) => rides)).toBe(true);
       },
     );
 

@@ -22,13 +22,14 @@ export function getIndexablePaths(): string[] {
   return [routes.home, routes.about, ...livePaths];
 }
 
-// Every live page shape (prose and FAQ, video, steps only, feature list, feature alternating) plus a coming-soon one
+// Every live page shape (prose and FAQ, video, steps only, feature list, feature alternating, spec band) plus a coming-soon one
 export const motionServiceSlugs = [
   'stage-1-tuning',
   'ghost-immobiliser-ii',
   'scorpion-x-series-immobiliser',
   'bmw-programming',
   'dashcam-installation',
+  'vehicle-maintenance',
   'dpf-egr-solutions',
 ] as const;
 
@@ -51,7 +52,7 @@ export function getFaqServiceSlug(): string {
 // the data. A function, so a missing block fails its own test only
 export function getSectionTitle(
   slug: string,
-  type: 'feature' | 'steps' | 'video' | 'prose',
+  type: 'feature' | 'steps' | 'video' | 'prose' | 'specband',
 ): string {
   const section = getAllServices()
     .find((service) => service.slug === slug)
@@ -66,6 +67,8 @@ export const featureGridSlug = 'stage-1-tuning';
 export const featureListSlug = 'bmw-programming';
 // First live page with a feature alternating block (T6.9)
 export const featureAlternatingSlug = 'dashcam-installation';
+// First live page with a spec band block (T6.10)
+export const specBandSlug = 'vehicle-maintenance';
 export const stepsSlug = 'scorpion-x-series-immobiliser';
 export const videoSlug = 'ghost-immobiliser-ii';
 export const comingSoonSlug = 'dpf-egr-solutions';
